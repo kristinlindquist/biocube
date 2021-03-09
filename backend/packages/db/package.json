@@ -3,25 +3,24 @@
   "version": "0.1.0",
   "main": "index.ts",
   "author": {
-    "name": "Karan Pratap Singh",
-    "email": "contact@karanpratapsingh.com",
-    "url": "https://karanpratapsingh.com"
+    "name": "Kristin Lindquist",
+    "email": "lindquist.kristin@gmail.com"
   },
   "license": "MIT",
-  "description": "Database package for full starterkit backend",
+  "description": "biocube backend",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/karanpratapsingh/fullstack-starterkit.git"
+    "url": "https://github.com/llamallamagirl/biocube"
   },
   "bugs": {
-    "url": "https://github.com/karanpratapsingh/fullstack-starterkit/issues"
+    "url": "https://github.com/llamallamagirl/biocube/issues"
   },
   "scripts": {
     "generate": "yarn prisma generate --schema=./prisma/schema.prisma",
     "introspect": "yarn prisma introspect --schema=./prisma/schema.prisma",
     "studio": "yarn prisma studio --schema=./prisma/schema.prisma",
-    "migrate:save": "yarn prisma migrate save --experimental --schema=./prisma/schema.prisma",
-    "migrate:up": "yarn prisma migrate up --experimental --schema=./prisma/schema.prisma"
+    "migrate": "yarn prisma migrate dev --name add-profile --preview-feature --schema=./prisma/schema.prisma",
+    "format": "yarn prisma format --schema=./prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "2.18.0",

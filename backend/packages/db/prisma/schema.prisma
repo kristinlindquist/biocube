@@ -9,36 +9,111 @@ datasource db {
 }
 
 model User {
-  id    String @default(cuid()) @id
-  createdAt Int
-  updatedAt Int
-  email String @unique
-  name  String
-  devices Device[]
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  devices   Device[]
+  email     String   @unique
+  name      String   @db.VarChar(255)
 }
 
 model Device {
-  id        String  @default(cuid()) @id
-  createdAt Int
-  updatedAt Int
-  userId    String
-  name      String
-  user      User   @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int
+  name      String   @db.VarChar(255)
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Stream {
-  id        String  @default(cuid()) @id
-  deviceId  String
-  createdAt Int
-  updatedAt Int
-  name      String
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   data      Datum[]
+  deviceId  Int
+  name      String   @db.VarChar(255)
 }
 
 model Datum {
-  id        String  @default(cuid()) @id
-  streamId  String
-  createdAt Int
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  stream    Stream   @relation(fields: [streamId], references: [id])
+  streamId  Int
   value     Float
-  stream    Stream @relation(fields: [streamId], references: [id])
+}
+
+model AspectOfHealth {
+  id          Int        @id @default(autoincrement())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  description String
+  maohs       CoiMaohs[]
+  name        String     @db.VarChar(255)
+}
+
+model CoiMaohs {
+  id                  Int               @id @default(autoincrement())
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  aspectOfHealth      AspectOfHealth    @relation(fields: [aspectOfHealthId], references: [id])
+  aspectOfHealthId    Int
+  conceptOfInterest   ConceptOfInterest @relation(fields: [conceptOfInterestId], references: [id])
+  conceptOfInterestId Int
+}
+
+model ConceptOfInterest {
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  description String
+  moahs       CoiMaohs[]
+  measures    MeasureCois[]
+  name        String        @db.VarChar(255)
+}
+
+model MeasureCois {
+  id                  Int               @id @default(autoincrement())
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  conceptOfInterest   ConceptOfInterest @relation(fields: [conceptOfInterestId], references: [id])
+  conceptOfInterestId Int
+  measure             Measure           @relation(fields: [measureId], references: [id])
+  measureId           Int
+}
+
+enum Validity {
+  ESTABLISHED
+  NOVEL
+}
+
+model Measure {
+  id                Int                 @id @default(autoincrement())
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  description       String
+  cois              MeasureCois[]
+  name              String              @db.VarChar(255)
+  validationStudies ValidationStudies[]
+  validity          Validity
+}
+
+model Study {
+  id                Int                 @id @default(autoincrement())
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  abstract          String
+  authors           String
+  title             String
+  validationStudies ValidationStudies[]
+}
+
+model ValidationStudies {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  measure   Measure  @relation(fields: [measureId], references: [id])
+  measureId Int
+  study     Study    @relation(fields: [studyId], references: [id])
+  studyId   Int
 }

@@ -3,32 +3,33 @@
   "version": "0.1.0",
   "main": "index.ts",
   "author": {
-    "name": "Karan Pratap Singh",
-    "email": "contact@karanpratapsingh.com",
-    "url": "https://karanpratapsingh.com"
+    "name": "Kristin Lindquist",
+    "email": "lindquist.kristin@gmail.com"
   },
   "private": true,
   "license": "MIT",
-  "description": "Full Stack starterkit backend",
+  "description": "Biocube backend",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/karanpratapsingh/fullstack-starterkit.git"
+    "url": "https://github.com/llamallamagirl/biocube"
   },
   "bugs": {
-    "url": "https://github.com/karanpratapsingh/fullstack-starterkit/issues"
+    "url": "https://github.com/llamallamagirl/biocube/issues"
   },
   "scripts": {
     "start": "yarn build && node -r ts-node/register -r tsconfig-paths/register build/index.js",
     "start:development": "yarn nodemon --exec yarn ts-node -r tsconfig-paths/register index.ts",
     "test": "yarn test:clean && yarn jest --passWithNoTests --detectOpenHandles --verbose",
     "test:clean": "yarn jest clean --passWithNoTests",
-    "generate:graphql": "yarn workspace @project-backend/graphql run generate",
-    "generate:prisma": "yarn workspace @project-backend/db run generate",
+    "generate:graphql": "dotenv -e .env  yarn workspace @project-backend/graphql run generate",
+    "generate:prisma": "dotenv -e .env yarn workspace @project-backend/db run generate",
     "postinstall": "yarn generate:prisma",
     "build": "tsc --build && yarn copy",
     "copy": "yarn copyfiles -e build/**/*.graphql **/*.graphql build",
-    "studio:prisma": "yarn workspace @project-backend/db run studio",
-    "introspect:prisma": "yarn workspace @project-backend/db run introspect"
+    "studio:prisma": "dotenv -e .env yarn workspace @project-backend/db run studio",
+    "introspect:prisma": "dotenv -e .env yarn workspace @project-backend/db run introspect",
+    "migrate:prisma": "dotenv -e .env yarn workspace @project-backend/db run migrate",
+    "format:prisma": "dotenv -e .env yarn workspace @project-backend/db run format"
   },
   "dependencies": {
     "@types/express": "4.17.11",
@@ -50,7 +51,7 @@
     "tsconfig-paths": "3.9.0"
   },
   "nodemonConfig": {
-    "ext": "js,ts,graphql",
+    "ext": "js,ts,tsx,graphql",
     "ignore": [
       "tests/**/*.test.ts",
       "docs/*"
