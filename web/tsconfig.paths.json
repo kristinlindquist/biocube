@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@web/assets": [
+        "src/assets"
+      ],
+      "@web/components": [
+        "src/components"
+      ],
+      "@web/containers": [
+        "src/containers"
+      ],
+      "@web/contexts": [
+        "src/global"
+      ],
+      "@web/providers": [
+        "src/providers"
+      ],
+      "@web/graphql": [
+        "src/graphql"
+      ],
+      "@web/types": [
+        "src/types"
+      ],
+      "@web/utils": [
+        "src/utils"
+      ]
+    }
+  }
+}

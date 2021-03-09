@@ -1,0 +1,36 @@
+{
+  "name": "@project-backend/utils",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "author": {
+    "name": "Karan Pratap Singh",
+    "email": "contact@karanpratapsingh.com",
+    "url": "https://karanpratapsingh.com"
+  },
+  "license": "MIT",
+  "description": "Utils package for full starterkit backend",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karanpratapsingh/fullstack-starterkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/karanpratapsingh/fullstack-starterkit/issues"
+  },
+  "dependencies": {
+    "@types/express": "4.17.11",
+    "@types/lodash": "4.14.168",
+    "@types/node": "14.14.32",
+    "apollo-server-express": "2.21.1",
+    "copyfiles": "2.4.1",
+    "cuid": "2.1.8",
+    "lodash": "4.17.21",
+    "typescript": "4.2.3",
+    "winston": "3.3.3"
+  },
+  "devDependencies": {
+    "jest": "26.6.3",
+    "nodemon": "2.0.7",
+    "ts-jest": "26.5.3",
+    "ts-node": "9.1.1"
+  }
+}

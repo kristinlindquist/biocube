@@ -1,0 +1,437 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/App.tsx",
+			"settings":
+			{
+				"buffer_size": 177,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": ".eslintrc.js",
+			"settings":
+			{
+				"buffer_size": 1265,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 1693,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"prettify",
+				"Preferences: Settings – Syntax Specific"
+			],
+			[
+				"Package Control:",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 199.0,
+		"history":
+		[
+			"exit",
+			"packages.install JavaImports",
+			"install JavaImports"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/kristinlindquist/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/kristinlindquist/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/kristinlindquist/rationally-api/app/utils/StringUtils.java",
+		"/Users/kristinlindquist/rationally-api/app/utils/CtUtils.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/CanonicalValueImpl.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/ClinicalEntity.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Measurement.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Intervention.java",
+		"/Users/kristinlindquist/rationally-api/app/controllers/CtGov.java",
+		"/Users/kristinlindquist/rationally-api/conf/evolutions/psql/ce.sql",
+		"/Users/kristinlindquist/rationally-api/conf/evolutions/psql/bayes.sql",
+		"/Users/kristinlindquist/rationally-api/conf/evolutions/psql/other.sql",
+		"/Users/kristinlindquist/rationallyio/containers/EntityEditor.jsx",
+		"/Users/kristinlindquist/rationallyio/components/form/AutoSave.jsx",
+		"/Users/kristinlindquist/rationally-api/app/utils/StudyUtils.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Outcome.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Treatment.java",
+		"/Users/kristinlindquist/rationallyio/containers/CvType.jsx",
+		"/Users/kristinlindquist/rationallyio/components/ui/index.jsx",
+		"/Users/kristinlindquist/rationally-api/conf/routes",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Use.java",
+		"/Users/kristinlindquist/rationally-api/app/controllers/Values.java",
+		"/Users/kristinlindquist/rationallyio/components/charts/Sunburst.jsx",
+		"/Users/kristinlindquist/rationallyio/utils/ChartUtils.jsx",
+		"/Users/kristinlindquist/rationallyio/containers/Values.jsx",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/StudyDesign.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Meta.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/untitled",
+		"/Users/kristinlindquist/rationallyio/containers/App.jsx",
+		"/Users/kristinlindquist/rationally-api/app/controllers/SWOTs.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/EvaluationCriterionScore.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Swot.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/SummaryStats.java",
+		"/Users/kristinlindquist/rationally-api/app/modules/GeneralModule.java",
+		"/Users/kristinlindquist/rationallyio/containers/SearchHome.jsx",
+		"/Users/kristinlindquist/rationallyio/containers/Graphically.jsx",
+		"/Users/kristinlindquist/rationallyio/containers/Root.jsx",
+		"/Users/kristinlindquist/rationallyio/containers/CvHome.jsx",
+		"/Users/kristinlindquist/rationallyio/components/designer/section/FlexRow.jsx",
+		"/Users/kristinlindquist/rationallyio/components/designer/section/FlexTable.jsx",
+		"/Users/kristinlindquist/rationallyio/components/designer/Section.jsx",
+		"/Users/kristinlindquist/rationallyio/utils/SelectUtils.jsx",
+		"/Users/kristinlindquist/rationallyio/components/designer/field/Select.jsx",
+		"/Users/kristinlindquist/rationallyio/components/ui/SearchBox.jsx",
+		"/Users/kristinlindquist/rationally-api/app/utils/JsonUtils.java",
+		"/Users/kristinlindquist/rationallyio/components/charts/BarChart.jsx",
+		"/Users/kristinlindquist/rationallyio/components/designer/section/LinkCitation.jsx",
+		"/Users/kristinlindquist/rationallyio/components/ui/SelectInput.jsx",
+		"/Users/kristinlindquist/rationallyio/containers/Search.jsx",
+		"/Users/kristinlindquist/rationallyio/utils/CvTypeUtils.jsx",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Value.java",
+		"/Users/kristinlindquist/rationallyio/dist/index.html",
+		"/Users/kristinlindquist/rationallyio/containers/ValueTypes.jsx",
+		"/Users/kristinlindquist/rationally-api/app/utils/EvidenceMapUtils.java",
+		"/Users/kristinlindquist/rationallyio/components/charts/EvidenceMap.jsx",
+		"/Users/kristinlindquist/rationally-api/app/utils/MinimalCvSerializer.java",
+		"/Users/kristinlindquist/rationallyio/components/charts/EvidenceMapUtils.jsx",
+		"/Users/kristinlindquist/rationallyio/dist/scss/chart.scss",
+		"/Users/kristinlindquist/rationally-api/app/utils/FormHelper.java",
+		"/Users/kristinlindquist/rationallyio/actions/value.js",
+		"/Users/kristinlindquist/rationallyio/reducers/value.js",
+		"/Users/kristinlindquist/rationally-api/app/utils/NumberUtils.java",
+		"/Users/kristinlindquist/rationallyio/components/designer/Field.jsx",
+		"/Users/kristinlindquist/rationally-api/app/models/EffectSizeType.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/TrialPhase.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/TestStatistic.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Standard.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/RouteOfAdministration.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/DesignOfExperiment.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/AdverseEvent.java",
+		"/Users/kristinlindquist/rationallyio/components/charts/Star.jsx",
+		"/Users/kristinlindquist/rationally-api/conf/evolutions/psql/untitled.sql",
+		"/Users/kristinlindquist/rationallyio/components/form/FormUtils.jsx",
+		"/Users/kristinlindquist/rationallyio/components/designer/List.jsx",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/DescriptiveContent.java",
+		"/Users/kristinlindquist/rationallyio/components/designer/Breadcrumbs.jsx",
+		"/Users/kristinlindquist/rationally-api/app/models/EffectSize.java",
+		"/Users/kristinlindquist/rationally-api/app/models/DispersionMeasureType.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/ProxyCanonicalValue.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/CanonicalValue.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/ce.sql",
+		"/Users/kristinlindquist/rationally-api/app/controllers/StudyDesigns.java",
+		"/Users/kristinlindquist/rationally-api/app/models/BaseRationallyEntity.java",
+		"/Users/kristinlindquist/rationally-api/app/models/RationallyEntity.java",
+		"/Users/kristinlindquist/rationally-api/conf/evolutions/psql/effectsizetype.sql",
+		"/Users/kristinlindquist/rationallyio/components/designer/field/AddValue.jsx",
+		"/Users/kristinlindquist/rationally-api/app/utils/ComplexEnum.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Result.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/SwotResponse.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/InclusionCriterion.java",
+		"/Users/kristinlindquist/rationally-api/app/models/DispersionMeasure.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Blinding.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Field.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Citation.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/UseCitation.java",
+		"/Users/kristinlindquist/rationallyio/components/form/ItemForm.jsx",
+		"/Users/kristinlindquist/rationally-api/app/controllers/Search.java",
+		"/Users/kristinlindquist/rationallyio/reducers/search.js",
+		"/Users/kristinlindquist/rationallyio/actions/search.js",
+		"/Users/kristinlindquist/rationally-api/conf/evolutions/psql/measurement.sql",
+		"/Users/kristinlindquist/rationally-api/conf/evolutions/default/2.sql",
+		"/Users/kristinlindquist/rationallyio/actions/studyDesign.js",
+		"/Users/kristinlindquist/rationallyio/reducers/studyDesign.js",
+		"/Users/kristinlindquist/rationally-api/app/controllers/OpenCPU.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/Method.java",
+		"/Users/kristinlindquist/rationally-api/app/utils/StatsUtils.java",
+		"/Users/kristinlindquist/rationallyR/R/proxy.R",
+		"/Users/kristinlindquist/rationallyio/reducers/researchEntity.js",
+		"/Users/kristinlindquist/rationally-api/app/utils/IdOnlySerializer.java",
+		"/Users/kristinlindquist/rationally-api/app/utils/IdNameUrlSerializer.java",
+		"/Users/kristinlindquist/rationally-api/app/utils/IdNameSerializer.java",
+		"/Users/kristinlindquist/rationallyio/containers/Header.jsx",
+		"/Users/kristinlindquist/rationallyio/dist/scss/custom-table.scss",
+		"/Users/kristinlindquist/rationallyio/containers/SmallHeader.jsx",
+		"/Users/kristinlindquist/rationallyio/containers/SmallHeader.js",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/HasCv.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/HasCanonicalValue.java",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/HasCvs.java",
+		"/Users/kristinlindquist/rationallyio/components/designer/section/CitationSection.jsx",
+		"/Users/kristinlindquist/rationally-api/app/models/sd/DiseaseOrUse.java",
+		"/Users/kristinlindquist/rationally-api/app/controllers/ResearchEntities.java",
+		"/Users/kristinlindquist/rationally-api/app/utils/ImportExecutionContext.java",
+		"/Users/kristinlindquist/rationally-api/conf/application.conf",
+		"/Users/kristinlindquist/rationallyio/components/designer/field/Template.jsx",
+		"/Users/kristinlindquist/rationally-api/app/models/Source.java",
+		"/Users/kristinlindquist/rationallyio/dist/scss/custom-utils.scss",
+		"/Users/kristinlindquist/rationally-api/app/controllers/Sources.java",
+		"/Users/kristinlindquist/rationallyio/utils/Utils.jsx"
+	],
+	"find":
+	{
+		"height": 24.0
+	},
+	"find_in_files":
+	{
+		"height": 101.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/App.tsx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 177,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								176,
+								176
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScriptReact.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": true,
+								"indentSize": 2,
+								"tabSize": 2
+							},
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": ".eslintrc.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1265,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								690,
+								690
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1693,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1544,
+								1544
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.doc":
+	{
+		"height": 0.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "phenotype.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

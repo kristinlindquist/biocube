@@ -1,0 +1,44 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    String @default(cuid()) @id
+  createdAt Int
+  updatedAt Int?
+  email String @unique
+  name  String
+  devices Device[]
+}
+
+model Device {
+  id        String  @default(cuid()) @id
+  createdAt Int
+  updatedAt Int?
+  userId    String
+  name      String
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+model Stream {
+  id        String  @default(cuid()) @id
+  deviceId  String
+  createdAt Int
+  updatedAt Int?
+  name      String
+  data      Datum[]
+}
+
+model Datum {
+  id        String  @default(cuid()) @id
+  streamId  String
+  createdAt Int
+  value     Float
+  stream    Stream @relation(fields: [streamId], references: [id])
+}

@@ -1,0 +1,50 @@
+{
+  "name": "fullstack-starterkit",
+  "version": "0.1.0",
+  "author": {
+    "name": "Karan Pratap Singh",
+    "email": "contact@karanpratapsingh.com",
+    "url": "https://karanpratapsingh.com"
+  },
+  "private": true,
+  "license": "MIT",
+  "description": "Starter kit for Full Stack projects that scales",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karanpratapsingh/fullstack-starterkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/karanpratapsingh/fullstack-starterkit/issues"
+  },
+  "scripts": {
+    "start:web": "cd web && yarn start",
+    "start:backend": "cd backend && yarn start",
+    "build:web": "cd web && yarn build",
+    "build:backend": "cd backend && yarn build",
+    "lint": "yarn eslint --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "yarn prettier --write . && yarn lint --fix",
+    "e2e": "yarn cypress open",
+    "postinstall": "cd web && yarn && cd ../backend && yarn && cd .."
+  },
+  "devDependencies": {
+    "@types/jest": "26.0.20",
+    "@typescript-eslint/eslint-plugin": "4.17.0",
+    "@typescript-eslint/parser": "4.17.0",
+    "cypress": "6.6.0",
+    "eslint": "7.21.0",
+    "eslint-import-resolver-alias": "1.1.2",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-prettier": "3.3.1",
+    "eslint-plugin-react": "7.22.0",
+    "husky": "5.1.3",
+    "pm2": "4.5.5",
+    "prettier": "2.2.1",
+    "typescript": "4.2.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint",
+      "pre-push": "yarn lint:fix"
+    }
+  }
+}

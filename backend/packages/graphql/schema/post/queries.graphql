@@ -1,0 +1,11 @@
+type Query {
+  getPost(input: GetPostInput!): GetPostResult!
+}
+
+input GetPostInput {
+  id: ID!
+}
+
+type GetPostResult {
+  post: Post
+}
