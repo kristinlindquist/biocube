@@ -26,7 +26,9 @@
     "generate:prisma": "yarn workspace @project-backend/db run generate",
     "postinstall": "yarn generate:prisma",
     "build": "tsc --build && yarn copy",
-    "copy": "yarn copyfiles -e build/**/*.graphql **/*.graphql build"
+    "copy": "yarn copyfiles -e build/**/*.graphql **/*.graphql build",
+    "studio:prisma": "yarn workspace @project-backend/db run studio",
+    "introspect:prisma": "yarn workspace @project-backend/db run introspect"
   },
   "dependencies": {
     "@types/express": "4.17.11",

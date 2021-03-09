@@ -9,8 +9,6 @@ type Device {
 
 type User {
   id: ID!
-  createdAt: Int!
-  updatedAt: Int
   email: String!
   name: String!
   devices: [Device]
