@@ -9,13 +9,12 @@ export type Scalars = {
   Float: number;
 };
 
-export type Post = {
-  __typename?: 'Post';
+export type Device = {
+  __typename?: 'Device';
   id: Scalars['ID'];
-  content?: Maybe<Scalars['String']>;
-  published: Scalars['Boolean'];
-  title: Scalars['String'];
-  author?: Maybe<User>;
+  createdAt: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 export type User = {
@@ -23,30 +22,30 @@ export type User = {
   id: Scalars['ID'];
   email: Scalars['String'];
   name: Scalars['String'];
-  posts?: Maybe<Array<Maybe<Post>>>;
+  devices?: Maybe<Array<Maybe<Device>>>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  getPost: GetPostResult;
+  getDevice: GetDeviceResult;
   getUser: GetUserResult;
 };
 
-export type QueryGetPostArgs = {
-  input: GetPostInput;
+export type QueryGetDeviceArgs = {
+  input: GetDeviceInput;
 };
 
 export type QueryGetUserArgs = {
   input: GetUserInput;
 };
 
-export type GetPostInput = {
+export type GetDeviceInput = {
   id: Scalars['ID'];
 };
 
-export type GetPostResult = {
-  __typename?: 'GetPostResult';
-  post?: Maybe<Post>;
+export type GetDeviceResult = {
+  __typename?: 'GetDeviceResult';
+  device?: Maybe<Device>;
 };
 
 export type GetUserInput = {

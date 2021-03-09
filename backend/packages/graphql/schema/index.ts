@@ -4,9 +4,9 @@ import flatten from 'lodash/flatten';
 import { mergeResolvers, mergeTypeDefs, makeExecutableSchema, loadFilesSync } from 'graphql-tools';
 
 import { userResolvers } from './user';
-import { postResolvers } from './post';
+import { deviceResolvers } from './device';
 
-const resolvers = mergeResolvers([userResolvers, postResolvers]);
+const resolvers = mergeResolvers([userResolvers, deviceResolvers]);
 
 const types = loadFilesSync(join(__dirname, './**/types.graphql'));
 const queries = loadFilesSync(join(__dirname, './**/queries.graphql'));

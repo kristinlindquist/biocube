@@ -7,7 +7,7 @@ const getUser = gql`
         id
         email
         name
-        posts {
+        devices {
           id
         }
       }

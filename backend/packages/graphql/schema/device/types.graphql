@@ -1,0 +1,8 @@
+type Device {
+  id: ID!
+  createdAt: Int!
+  updatedAt: Int
+  userId: String!
+  name: String!
+  user: User
+}

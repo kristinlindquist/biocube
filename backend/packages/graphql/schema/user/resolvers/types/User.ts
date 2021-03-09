@@ -1,15 +1,15 @@
 /**
  * User type resolvers
  */
-import { Post } from '@prisma/client';
+import { Device } from '@prisma/client';
 import { Parent, Args, Context } from '../../../../types';
 
 const User = {
-  posts: async (parent: Parent, _: Args, context: Context): Promise<Post[] | null> => {
+  devices: async (parent: Parent, _: Args, context: Context): Promise<Device[] | null> => {
     const { id } = parent;
     const { prisma } = context;
 
-    return prisma.user.findUnique({ where: { id } }).posts();
+    return prisma.user.findUnique({ where: { id } }).devices();
   }
 };
 

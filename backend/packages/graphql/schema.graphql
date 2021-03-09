@@ -1,29 +1,32 @@
-type Post {
+type Device {
   id: ID!
-  content: String
-  published: Boolean!
-  title: String!
-  author: User
+  createdAt: Int!
+  updatedAt: Int
+  userId: String!
+  name: String!
+  user: User
 }
 
 type User {
   id: ID!
+  createdAt: Int!
+  updatedAt: Int
   email: String!
   name: String!
-  posts: [Post]
+  devices: [Device]
 }
 
 type Query {
-  getPost(input: GetPostInput!): GetPostResult!
+  getDevice(input: GetDeviceInput!): GetDeviceResult!
   getUser(input: GetUserInput!): GetUserResult!
 }
 
-input GetPostInput {
+input GetDeviceInput {
   id: ID!
 }
 
-type GetPostResult {
-  post: Post
+type GetDeviceResult {
+  device: Device
 }
 
 input GetUserInput {

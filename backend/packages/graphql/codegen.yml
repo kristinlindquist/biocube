@@ -8,7 +8,7 @@ generates:
   ./types/schema.ts:
     plugins:
       - typescript
-  ../../../web/src/graphql/operations.tsx:
+  ../../../web/src/gql/operations.tsx:
     plugins:
       - typescript
       - typescript-operations

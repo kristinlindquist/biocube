@@ -4,17 +4,17 @@
  * context such as custom REST routes or testing environments
  */
 import getUser from './queries/user/getUser';
-import getPost from './queries/post/getPost';
+import getDevice from './queries/device/getDevice';
 
 const allQueries = {
   getUser,
-  getPost
+  getDevice
 };
 
 import { Context } from '../types/resolvers';
 import schema from '../schema';
 import { graphql, print, DocumentNode } from 'graphql';
-import { GetUserInput, GetUserResult, GetPostInput, GetPostResult } from '../types';
+import { GetUserInput, GetUserResult, GetDeviceInput, GetDeviceResult } from '../types';
 
 type GraphQLApiArgs = {
   context: Context;
@@ -44,8 +44,8 @@ class GraphQLApi {
     });
   }
 
-  async getPost(input: GetPostInput, context?: Context): Promise<GetPostResult> {
-    const operationName = 'getPost';
+  async getDevice(input: GetDeviceInput, context?: Context): Promise<GetDeviceResult> {
+    const operationName = 'getDevice';
     const variables = { input };
     return this.graphqlRequest({
       operationName,
