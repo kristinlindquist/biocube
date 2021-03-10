@@ -1,3 +1,6 @@
+/**
+ * NOTE: THIS IS AN AUTO-GENERATED FILE. DO NOT MODIFY DIRECTLY.
+ */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -19,7 +22,6 @@ export type Device = {
   id: Scalars['Int'];
   userId: Scalars['Int'];
   name: Scalars['String'];
-  user: User;
 };
 
 export type User = {
@@ -76,10 +78,6 @@ export type GetDeviceQuery = (
     & { device?: Maybe<(
       { __typename?: 'Device' }
       & Pick<Device, 'id' | 'userId' | 'name'>
-      & { user: (
-        { __typename?: 'User' }
-        & Pick<User, 'id'>
-      ) }
     )> }
   ) }
 );
@@ -112,9 +110,6 @@ export const GetDeviceDocument = gql`
       id
       userId
       name
-      user {
-        id
-      }
     }
   }
 }

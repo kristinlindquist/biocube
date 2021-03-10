@@ -565,6 +565,13 @@
     ts-node "^9"
     tslib "^2"
 
+"@graphql-codegen/add@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/add/-/add-2.0.2.tgz#4acbb95be9ebb859a3cebfe7132fdf49ffe06dd8"
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^1.18.2"
+    tslib "~2.0.1"
+
 "@graphql-codegen/cli@1.21.2":
   version "1.21.2"
   resolved "https://registry.npmjs.org/@graphql-codegen/cli/-/cli-1.21.2.tgz"
@@ -1652,6 +1659,16 @@ apollo-cache-control@^0.11.6:
   dependencies:
     apollo-server-env "^3.0.0"
     apollo-server-plugin-base "^0.10.4"
+
+apollo-datasource-rest@0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/apollo-datasource-rest/-/apollo-datasource-rest-0.10.0.tgz#832c035ba7dfd8e1d944de49972c1d4d58e15a31"
+  dependencies:
+    apollo-datasource "^0.7.3"
+    apollo-server-caching "^0.5.3"
+    apollo-server-env "^3.0.0"
+    apollo-server-errors "^2.4.2"
+    http-cache-semantics "^4.0.0"
 
 apollo-datasource@^0.7.3:
   version "0.7.3"
