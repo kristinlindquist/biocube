@@ -1,11 +1,8 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { GraphQLDateTime } from 'graphql-iso-date';
 
 import { Prisma } from '@backend/db';
 import { Logger } from '@backend/utils';
 import { Scalars } from './schema';
-
-export type DateTime = GraphQLDateTime;
 
 export type Parent = {
   id: Scalars['Int'];

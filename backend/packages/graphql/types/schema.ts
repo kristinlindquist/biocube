@@ -96,7 +96,7 @@ export type GetHeartRateInput = {
 
 export type GetHeartRateResult = {
   __typename?: 'GetHeartRateResult';
-  heartRate?: Maybe<HeartRate>;
+  heartRate?: Maybe<Array<Maybe<HeartRate>>>;
 };
 
 export type HeartRateSummary = {

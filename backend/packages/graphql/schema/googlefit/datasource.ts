@@ -56,8 +56,8 @@ export class GoogleFitnessAPI extends RESTDataSource {
 
   getHeartRate = async (start, end, aggregate) => {
     const data = await this.getData(
-      start,
-      end,
+      start.getTime(),
+      end.getTime(),
       'com.google.heart_rate.bpm',
       aggregate,
     );
