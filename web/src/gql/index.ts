@@ -44,7 +44,7 @@ const getApolloClient = (): ApolloClient<NormalizedCacheObject> => {
         }
 
         if (networkError) {
-          Logger.error(`[Network error]: ${networkError}`);
+          Logger.warn(`[Network error]: ${networkError}`);
         }
       }),
       link,
@@ -56,3 +56,4 @@ const getApolloClient = (): ApolloClient<NormalizedCacheObject> => {
 };
 
 export { getApolloClient };
+export * from './operations';

@@ -23,7 +23,7 @@
     "sourceMap": true,
     "removeComments": true,
     "noImplicitAny": false,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "strictFunctionTypes": true,
     "noImplicitThis": true,
     "alwaysStrict": true,

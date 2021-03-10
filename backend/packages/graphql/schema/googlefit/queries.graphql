@@ -1,10 +1,12 @@
+scalar DateTime
+
 type Query {
   getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
 }
 
 input GetHeartRateInput {
-  start: Float!
-  end: Float!
+  start: DateTime!
+  end: DateTime!
 }
 
 type GetHeartRateResult {

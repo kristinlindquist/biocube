@@ -12,6 +12,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: Date;
 };
 
 export type Query = {
@@ -55,8 +56,8 @@ export type QueryGetUserArgs = {
 
 
 export type QueryHeartRateArgs = {
-  start: Scalars['Float'];
-  end: Scalars['Float'];
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
 };
 
 
@@ -87,9 +88,10 @@ export type Device = {
   name: Scalars['String'];
 };
 
+
 export type GetHeartRateInput = {
-  start: Scalars['Float'];
-  end: Scalars['Float'];
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
 };
 
 export type GetHeartRateResult = {

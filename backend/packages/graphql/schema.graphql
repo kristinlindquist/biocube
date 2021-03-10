@@ -7,7 +7,7 @@ type Query {
   getDevice(input: GetDeviceInput!): GetDeviceResult!
   getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
   getUser(input: GetUserInput!): GetUserResult!
-  heartRate(start: Float!, end: Float!): [HeartRate]
+  heartRate(start: DateTime!, end: DateTime!): [HeartRate]
   oxygenSaturation(start: Float!, end: Float!): [OxygenSaturation]
   sleep(start: Float!, end: Float!): [Sleep]
 }
@@ -26,9 +26,11 @@ type Device {
   name: String!
 }
 
+scalar DateTime
+
 input GetHeartRateInput {
-  start: Float!
-  end: Float!
+  start: DateTime!
+  end: DateTime!
 }
 
 type GetHeartRateResult {

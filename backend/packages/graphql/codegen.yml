@@ -5,6 +5,9 @@ schema:
   - 'schema/device/**/*.graphql'
   - 'schema/user/**/*.graphql'
 documents: ["./api/queries/**/**.ts", "./api/mutations/**/**.ts"]
+config:
+  scalars:
+    DateTime: Date
 generates:
   ./schema.graphql:
     plugins:

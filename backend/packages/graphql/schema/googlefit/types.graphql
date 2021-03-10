@@ -36,6 +36,6 @@ type Query {
   activity(start: Float!, end: Float!): [Activity]
   daily(start: Float!, end: Float!): [Daily]
   oxygenSaturation(start: Float!, end: Float!): [OxygenSaturation]
-  heartRate(start: Float!, end: Float!): [HeartRate]
+  heartRate(start: DateTime!, end: DateTime!): [HeartRate]
   sleep(start: Float!, end: Float!): [Sleep]
 }

@@ -1,6 +1,5 @@
 import { ReactElement, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useQuery } from '@apollo/client';
 import { Box, Grid } from '@material-ui/core';
 
 import { Group } from 'components/Button';
@@ -8,21 +7,21 @@ import { Card } from 'components/Card';
 import { Bar, Calendar, Line } from 'components/Chart';
 import { LongDate } from 'components/Date';
 import { useDateRange } from 'contexts';
-import { unixYearRange } from 'utils';
+// import { unixYearRange } from 'utils';
 
 import {
   AggType,
   processActivity,
-  processHrStream,
+  // processHrStream,
   processHrAggregate,
 } from 'components/Chart/utils';
 
 import {
-  GET_ACTIVITY,
-  GET_DAILY,
-  GET_HEART_RATE,
-  GET_SLEEP,
-} from 'gql/queries';
+  // getActivity,
+  // getDaily,
+  useGetHeartRateQuery,
+  // getSleep
+} from 'gql';
 
 const useStyles = makeStyles(() => ({
   group: {
@@ -32,25 +31,28 @@ const useStyles = makeStyles(() => ({
 
 const MyChart = (): ReactElement => {
   const classes = useStyles();
+  const { aData, cData } = { aData: null, cData: null };
 
   const [aggType, setAggType] = useState(AggType.AVG);
   const [{ start, end }, { setDay }] = useDateRange();
 
-  const { loading, error, data } = useQuery(GET_HEART_RATE, {
-    variables: { start: start.getTime(), end: end.getTime() },
+  const { data, error, loading } = useGetHeartRateQuery({
+    variables: { input: { start, end } },
   });
 
-  const { data: sData } = useQuery(GET_SLEEP, {
-    variables: { start: start.getTime(), end: end.getTime() },
-  });
+  console.log(data);
 
-  const { data: aData } = useQuery(GET_ACTIVITY, {
-    variables: unixYearRange,
-  });
+  // const { data: sData } = useQuery(GET_SLEEP, {
+  //   variables: { start: start.getTime(), end: end.getTime() },
+  // });
 
-  const { data: cData } = useQuery(GET_DAILY, {
-    variables: unixYearRange,
-  });
+  // const { data: aData } = useQuery(GET_ACTIVITY, {
+  //   variables: unixYearRange,
+  // });
+
+  // const { data: cData } = useQuery(GET_DAILY, {
+  //   variables: unixYearRange,
+  // });
 
   return (
     <>
@@ -79,16 +81,17 @@ const MyChart = (): ReactElement => {
       <Grid item xs={12}>
         <Line
           container={Card}
-          data={[
-            {
-              id: 'Waking BPM',
-              data: processHrStream(data, sData, true, 'awake'),
-            },
-            {
-              id: 'Sleeping BPM',
-              data: processHrStream(data, sData, false, 'asleep'),
-            },
-          ]}
+          data={[]}
+          // data={[
+          //   {
+          //     id: 'Waking BPM',
+          //     data: processHrStream(data, sData, true, 'awake'),
+          //   },
+          //   {
+          //     id: 'Sleeping BPM',
+          //     data: processHrStream(data, sData, false, 'asleep'),
+          //   },
+          // ]}
           error={error ? { message: error.message } : null}
           loading={loading}
           subtitle={<LongDate date={start} />}
