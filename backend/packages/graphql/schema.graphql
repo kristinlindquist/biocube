@@ -1,12 +1,12 @@
 type Device {
   id: Int!
-  userId: Int
+  userId: Int!
   name: String!
-  user: User
+  user: User!
 }
 
 type User {
-  id: Int! 
+  id: Int!
   email: String!
   name: String!
   devices: [Device]

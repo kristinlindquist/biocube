@@ -16,15 +16,15 @@ export type Scalars = {
 
 export type Device = {
   __typename?: 'Device';
-  id: Scalars['ID'];
-  userId?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
+  userId: Scalars['Int'];
   name: Scalars['String'];
-  user?: Maybe<User>;
+  user: User;
 };
 
 export type User = {
   __typename?: 'User';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   email: Scalars['String'];
   name: Scalars['String'];
   devices?: Maybe<Array<Maybe<Device>>>;
@@ -47,7 +47,7 @@ export type QueryGetUserArgs = {
 };
 
 export type GetDeviceInput = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 export type GetDeviceResult = {
@@ -56,7 +56,7 @@ export type GetDeviceResult = {
 };
 
 export type GetUserInput = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 export type GetUserResult = {
@@ -76,10 +76,10 @@ export type GetDeviceQuery = (
     & { device?: Maybe<(
       { __typename?: 'Device' }
       & Pick<Device, 'id' | 'userId' | 'name'>
-      & { user?: Maybe<(
+      & { user: (
         { __typename?: 'User' }
         & Pick<User, 'id'>
-      )> }
+      ) }
     )> }
   ) }
 );
