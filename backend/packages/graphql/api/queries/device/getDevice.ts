@@ -7,9 +7,6 @@ const getDevice = gql`
         id
         userId
         name
-        user {
-          id
-        }
       }
     }
   }

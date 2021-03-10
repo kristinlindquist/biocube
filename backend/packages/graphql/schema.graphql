@@ -2,7 +2,6 @@ type Device {
   id: Int!
   userId: Int!
   name: String!
-  user: User!
 }
 
 type User {
