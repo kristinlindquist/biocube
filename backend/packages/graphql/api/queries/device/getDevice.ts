@@ -5,8 +5,6 @@ const getDevice = gql`
     getDevice(input: $input) {
       device {
         id
-        createdAt
-        updatedAt
         userId
         name
         user {
