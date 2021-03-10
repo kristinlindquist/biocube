@@ -1,4 +1,4 @@
-import { RESTDataSource } from 'apollo-datasource-rest';
+import { RESTDataSource, HTTPCache } from 'apollo-datasource-rest';
 
 const sleepMap = {
   1: 'awake',
@@ -29,12 +29,13 @@ export class GoogleFitnessAPI extends RESTDataSource {
   constructor() {
     super();
     this.baseURL = 'https://www.googleapis.com';
+    this.httpCache = new HTTPCache();
   }
 
   willSendRequest(request) {
     request.headers.set(
       'Authorization',
-      'Bearer ya29.a0AfH6SMBhfkxH2B8xaIHZyImJaHbbZrmdhxkWMvrcJGN1OlOTfVsAdSvRD25hm8cNkWArClaukHRDxUrqMqDJnUYnPWS4LcQD5C3PJNeduR1K2CTnWDA17BLy69Lze7hLzO9etY2gmzcOVPqYm7zOaqjg9xSd',
+      'Bearer ya29.a0AfH6SMCaCWMxI4ThF1Vyv_l68ya_eqPJVG_h3cw8XMRyRsXm4URiwFRiXlg1_SpxoCzKttVjTn0UIQetCOE2p4rnL6tnQmhHyec9KkvlCcmMQbzjLKGyZgcIV6VCogSXHFfUC4_RPuESpjXcTXFWHB9Ig9Ud',
       'Content-type',
       'application/json',
     );
