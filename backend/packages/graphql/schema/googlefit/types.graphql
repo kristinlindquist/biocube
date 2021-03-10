@@ -1,5 +1,41 @@
-type Device {
-  id: Int!
-  userId: Int!
-  name: String!
+type heartRateSummary {
+  average: Float
+  min: Float
+  max: Float
+}
+
+type Activity {
+  start: Float
+  end: Float
+  duration: Float
+  type: String
+}
+
+type Daily {
+  date: Float
+  heartRate: heartRateSummary
+}
+
+type HeartRate {
+  date: Float
+  point: Float
+}
+
+type OxygenSaturation {
+  date: Float
+  point: Float
+}
+
+type Sleep {
+  start: Float
+  end: Float
+  state: String
+}
+
+type Query {
+  activity(start: Float!, end: Float!): [Activity]
+  daily(start: Float!, end: Float!): [Daily]
+  oxygenSaturation(start: Float!, end: Float!): [OxygenSaturation]
+  heartRate(start: Float!, end: Float!): [HeartRate]
+  sleep(start: Float!, end: Float!): [Sleep]
 }

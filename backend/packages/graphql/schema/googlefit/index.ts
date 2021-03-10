@@ -1,3 +1,3 @@
-import deviceResolvers from './resolvers';
+import heartRateResolvers from './resolvers';
 
-export { deviceResolvers };
+export { heartRateResolvers };

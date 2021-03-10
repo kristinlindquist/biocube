@@ -1,22 +1,15 @@
 /**
  * NOTE: THIS IS AN AUTO-GENERATED FILE. DO NOT MODIFY DIRECTLY.
  */
-type Device {
-  id: Int!
-  userId: Int!
-  name: String!
-}
-
-type User {
-  id: Int!
-  email: String!
-  name: String!
-  devices: [Device]
-}
-
 type Query {
+  activity(start: Float!, end: Float!): [Activity]
+  daily(start: Float!, end: Float!): [Daily]
   getDevice(input: GetDeviceInput!): GetDeviceResult!
+  getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
   getUser(input: GetUserInput!): GetUserResult!
+  heartRate(start: Float!, end: Float!): [HeartRate]
+  oxygenSaturation(start: Float!, end: Float!): [OxygenSaturation]
+  sleep(start: Float!, end: Float!): [Sleep]
 }
 
 input GetDeviceInput {
@@ -27,10 +20,66 @@ type GetDeviceResult {
   device: Device
 }
 
+type Device {
+  id: Int!
+  userId: Int!
+  name: String!
+}
+
+input GetHeartRateInput {
+  start: Float!
+  end: Float!
+}
+
+type GetHeartRateResult {
+  heartRate: HeartRate
+}
+
+type heartRateSummary {
+  average: Float
+  min: Float
+  max: Float
+}
+
+type Activity {
+  start: Float
+  end: Float
+  duration: Float
+  type: String
+}
+
+type Daily {
+  date: Float
+  heartRate: heartRateSummary
+}
+
+type HeartRate {
+  date: Float
+  point: Float
+}
+
+type OxygenSaturation {
+  date: Float
+  point: Float
+}
+
+type Sleep {
+  start: Float
+  end: Float
+  state: String
+}
+
 input GetUserInput {
   id: Int!
 }
 
 type GetUserResult {
   user: User
+}
+
+type User {
+  id: Int!
+  email: String!
+  name: String!
+  devices: [Device]
 }

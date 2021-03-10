@@ -1,11 +1,12 @@
 type Query {
-  getDevice(input: GetDeviceInput!): GetDeviceResult!
+  getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
 }
 
-input GetDeviceInput {
-  id: Int!
+input GetHeartRateInput {
+  start: Float!
+  end: Float!
 }
 
-type GetDeviceResult {
-  device: Device
+type GetHeartRateResult {
+  heartRate: HeartRate
 }

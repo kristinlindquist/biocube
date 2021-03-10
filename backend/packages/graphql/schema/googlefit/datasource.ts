@@ -1,5 +1,4 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
-import { get, groupBy } from 'lodash';
 
 const sleepMap = {
   1: 'awake',
@@ -54,7 +53,7 @@ export class GoogleFitnessAPI extends RESTDataSource {
     });
   }
 
-  async getHeartRate(start, end, aggregate) {
+  getHeartRate = async (start, end, aggregate) => {
     const data = await this.getData(
       start,
       end,
