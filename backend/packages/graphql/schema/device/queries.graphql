@@ -3,7 +3,7 @@ type Query {
 }
 
 input GetDeviceInput {
-  id: ID!
+  id: Int!
 }
 
 type GetDeviceResult {

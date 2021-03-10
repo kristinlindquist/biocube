@@ -1,6 +1,6 @@
 type Device {
-  id: ID!
-  userId: Int
+  id: Int!
+  userId: Int!
   name: String!
-  user: User
+  user: User!
 }

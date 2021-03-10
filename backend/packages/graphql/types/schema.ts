@@ -14,7 +14,7 @@ export type Scalars = {
 export type Device = {
   __typename?: 'Device';
   id: Scalars['Int'];
-  userId: Scalars['Int'];
+  userId?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
   user?: Maybe<User>;
 };

@@ -17,9 +17,7 @@ export type Scalars = {
 export type Device = {
   __typename?: 'Device';
   id: Scalars['ID'];
-  createdAt: Scalars['Int'];
-  updatedAt?: Maybe<Scalars['Int']>;
-  userId: Scalars['String'];
+  userId?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
   user?: Maybe<User>;
 };
@@ -77,7 +75,7 @@ export type GetDeviceQuery = (
     { __typename?: 'GetDeviceResult' }
     & { device?: Maybe<(
       { __typename?: 'Device' }
-      & Pick<Device, 'id' | 'createdAt' | 'updatedAt' | 'userId' | 'name'>
+      & Pick<Device, 'id' | 'userId' | 'name'>
       & { user?: Maybe<(
         { __typename?: 'User' }
         & Pick<User, 'id'>
@@ -112,8 +110,6 @@ export const GetDeviceDocument = gql`
   getDevice(input: $input) {
     device {
       id
-      createdAt
-      updatedAt
       userId
       name
       user {

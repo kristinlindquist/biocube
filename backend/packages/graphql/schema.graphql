@@ -1,14 +1,12 @@
 type Device {
-  id: ID!
-  createdAt: Int!
-  updatedAt: Int
-  userId: String!
+  id: Int!
+  userId: Int
   name: String!
   user: User
 }
 
 type User {
-  id: ID!
+  id: Int! 
   email: String!
   name: String!
   devices: [Device]
@@ -20,7 +18,7 @@ type Query {
 }
 
 input GetDeviceInput {
-  id: ID!
+  id: Int!
 }
 
 type GetDeviceResult {
@@ -28,7 +26,7 @@ type GetDeviceResult {
 }
 
 input GetUserInput {
-  id: ID!
+  id: Int!
 }
 
 type GetUserResult {
