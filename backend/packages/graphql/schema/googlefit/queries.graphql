@@ -1,0 +1,11 @@
+type Query {
+  getDevice(input: GetDeviceInput!): GetDeviceResult!
+}
+
+input GetDeviceInput {
+  id: Int!
+}
+
+type GetDeviceResult {
+  device: Device
+}
