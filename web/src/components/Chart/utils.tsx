@@ -9,18 +9,18 @@ export enum AggType {
 }
 
 /**
- * Processes stream hr data along with sleep
- * TODO: generalize
+ * Processes stream data along with state data (e.g. awake/sleep)
  */
-export const processHrStream = (
-  heartRate: Array<{ date: number; point: number }> | null,
-  state: Array<{ start: number; end: number; state: string }> | null,
+export const processDataStream = (
+  data: Array<{ date: number; point: number }> | null,
+  states: Array<{ start: number; end: number; state: string }> | null,
   allowNull: boolean,
   type = 'awake',
 ): Array<{ x: string; y: number | null }> =>
-  (heartRate || []).map(({ date, point }) => {
-    const myState = state
-      ? (state.find(({ start, end }) => start < date && end > date) || {}).state
+  (data || []).map(({ date, point }) => {
+    const myState = states
+      ? (states.find(({ start, end }) => start < date && end > date) || {})
+          .state
       : null;
     return {
       x: moment(new Date(date)).format('YYYY-MM-DD HH:mm'),
@@ -32,16 +32,14 @@ export const processHrStream = (
  * Processes hr aggregate data (daily)
  * TODO: generalize
  */
-export const processHrAggregate = (
-  data: {
-    daily: Array<{
-      date: number;
-      heartRate: { average: number; min: number; max: number };
-    }> | null;
-  },
+export const processAggregate = (
+  daily: Array<{
+    date: number;
+    heartRate: { average: number; min: number; max: number };
+  }> | null,
   type: AggType,
 ): Array<{ day: string; value: number }> =>
-  (data ? data.daily : []).map(({ date, heartRate }) => ({
+  (daily || []).map(({ date, heartRate }) => ({
     day: moment(new Date(date)).format('YYYY-MM-DD'),
     value: heartRate[type],
   }));
@@ -50,15 +48,15 @@ export const processHrAggregate = (
  * Processes activity data
  * TODO: generalize
  */
-export const processActivity = (data: {
+export const processActivity = (
   activity: Array<{
     start: number;
     duration: number;
     type: string;
-  }>;
-}): Array<{ day: string }> =>
+  }>,
+): Array<{ day: string }> =>
   Object.values(
-    (data ? data.activity : [])
+    (activity || [])
       .map(({ start, duration, type }) => ({
         day: getMonthDay(new Date(start)),
         [type]: Math.round(duration / (1000 * 60)),

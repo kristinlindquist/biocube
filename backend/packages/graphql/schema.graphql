@@ -2,15 +2,12 @@
  * NOTE: THIS IS AN AUTO-GENERATED FILE. DO NOT MODIFY DIRECTLY.
  */
 type Query {
-  activity(start: Float!, end: Float!): [Activity]
-  daily(start: Float!, end: Float!): [Daily]
+  getActivity(input: GetActivityInput!): GetActivityResult!
+  getDaily(input: GetDailyInput!): GetDailyResult!
   getDevice(input: GetDeviceInput!): GetDeviceResult!
   getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
   getSleep(input: GetSleepInput!): GetSleepResult!
   getUser(input: GetUserInput!): GetUserResult!
-  heartRate(start: DateTime!, end: DateTime!): [HeartRate]
-  oxygenSaturation(start: Float!, end: Float!): [OxygenSaturation]
-  sleep(start: Float!, end: Float!): [Sleep]
 }
 
 input GetDeviceInput {
@@ -47,7 +44,25 @@ type GetSleepResult {
   sleep: [Sleep]
 }
 
-type heartRateSummary {
+input GetDailyInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+type GetDailyResult {
+  daily: [Daily]
+}
+
+input GetActivityInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+type GetActivityResult {
+  activity: [Activity]
+}
+
+type HeartRateSummary {
   average: Float
   min: Float
   max: Float
@@ -62,7 +77,7 @@ type Activity {
 
 type Daily {
   date: Float
-  heartRate: heartRateSummary
+  heartRate: HeartRateSummary
 }
 
 type HeartRate {

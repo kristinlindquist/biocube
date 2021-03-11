@@ -1,6 +1,8 @@
 scalar DateTime
 
 type Query {
+  getActivity(input: GetActivityInput!): GetActivityResult!
+  getDaily(input: GetDailyInput!): GetDailyResult!
   getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
   getSleep(input: GetSleepInput!): GetSleepResult!
 }
@@ -23,3 +25,20 @@ type GetSleepResult {
   sleep: [Sleep]
 }
 
+input GetDailyInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+type GetDailyResult {
+  daily: [Daily]
+}
+
+input GetActivityInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+type GetActivityResult {
+  activity: [Activity]
+}

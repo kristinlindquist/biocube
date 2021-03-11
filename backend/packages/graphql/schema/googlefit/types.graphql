@@ -1,4 +1,4 @@
-type heartRateSummary {
+type HeartRateSummary {
   average: Float
   min: Float
   max: Float
@@ -13,7 +13,7 @@ type Activity {
 
 type Daily {
   date: Float
-  heartRate: heartRateSummary
+  heartRate: HeartRateSummary
 }
 
 type HeartRate {
@@ -30,12 +30,4 @@ type Sleep {
   start: Float
   end: Float
   state: String
-}
-
-type Query {
-  activity(start: Float!, end: Float!): [Activity]
-  daily(start: Float!, end: Float!): [Daily]
-  oxygenSaturation(start: Float!, end: Float!): [OxygenSaturation]
-  heartRate(start: DateTime!, end: DateTime!): [HeartRate]
-  sleep(start: Float!, end: Float!): [Sleep]
 }

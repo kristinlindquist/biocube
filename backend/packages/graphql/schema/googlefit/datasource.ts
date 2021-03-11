@@ -35,13 +35,13 @@ export class GoogleFitnessAPI extends RESTDataSource {
   willSendRequest(request) {
     request.headers.set(
       'Authorization',
-      'Bearer ya29.a0AfH6SMBbZ5f2G-r7cHpWW4iM9wSPHQPUwecSjiDPQfT1KyJRhHsAgoJaThPFYG1310zeatJ2Q8uNuGxz_OJGZMJ6NnpWRJ8QJ9s_XixCvw4ZSeZEioBFurxIksZOVAfnzheYXXp98feBzSAhRiINtSNOa8Xqtw',
+      'Bearer ya29.a0AfH6SMCZ6-9-s1AakZ-bz4tAJlJ9FO5Hz4ylobD1z_6qvIzJGH7nSc4dqAu9phU1MTgdconaSt9BqEa5SlVkkStKsCe9NBurTZC0y2oK5Pc5i0n-h7rrR_On0DwOweKcxqquKni61q04eExu6AGxtWKQdWqn',
       'Content-type',
       'application/json',
     );
   }
 
-  async getData(start, end, type, aggregate) {
+  getData = async (start, end, type, aggregate) => {
     return this.post('/fitness/v1/users/me/dataset:aggregate', {
       aggregateBy: [
         {
@@ -89,10 +89,10 @@ export class GoogleFitnessAPI extends RESTDataSource {
     );
   }
 
-  async getActivity(start, end, aggregate = true) {
+  getActivity = async (start, end, aggregate = true) => {
     const data = await this.getData(
-      start,
-      end,
+      new Date(start).getTime(),
+      new Date(end).getTime(),
       'com.google.activity.segment',
       aggregate,
     );
@@ -101,13 +101,13 @@ export class GoogleFitnessAPI extends RESTDataSource {
       b.dataset[0].point.map((p) => ({
         start: p.startTimeNanos / (1000 * 1000),
         end: p.endTimeNanos / (1000 * 1000),
-        duration: p.value[1].intVal,
+        duration: (p.endTimeNanos - p.startTimeNanos) / (1000 * 1000),
         type: activityMap[p.value[0].intVal],
       })),
     );
   }
 
-  async getDaily(start, end) {
+  getDaily = async (start, end) => {
     const hrData = await this.getHeartRate(start, end, true);
 
     return hrData.map(({ date, point }) => ({

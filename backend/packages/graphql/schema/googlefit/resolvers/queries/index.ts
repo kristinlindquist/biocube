@@ -1,4 +1,6 @@
+import getActivity from './getActivity';
+import getDaily from './getDaily';
 import getHeartRate from './getHeartRate';
 import getSleep from './getSleep';
 
-export { getHeartRate, getSleep };
+export { getActivity, getDaily, getHeartRate, getSleep };

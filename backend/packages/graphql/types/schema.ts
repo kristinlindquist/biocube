@@ -17,27 +17,22 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  activity?: Maybe<Array<Maybe<Activity>>>;
-  daily?: Maybe<Array<Maybe<Daily>>>;
+  getActivity: GetActivityResult;
+  getDaily: GetDailyResult;
   getDevice: GetDeviceResult;
   getHeartRate: GetHeartRateResult;
   getSleep: GetSleepResult;
   getUser: GetUserResult;
-  heartRate?: Maybe<Array<Maybe<HeartRate>>>;
-  oxygenSaturation?: Maybe<Array<Maybe<OxygenSaturation>>>;
-  sleep?: Maybe<Array<Maybe<Sleep>>>;
 };
 
 
-export type QueryActivityArgs = {
-  start: Scalars['Float'];
-  end: Scalars['Float'];
+export type QueryGetActivityArgs = {
+  input: GetActivityInput;
 };
 
 
-export type QueryDailyArgs = {
-  start: Scalars['Float'];
-  end: Scalars['Float'];
+export type QueryGetDailyArgs = {
+  input: GetDailyInput;
 };
 
 
@@ -58,24 +53,6 @@ export type QueryGetSleepArgs = {
 
 export type QueryGetUserArgs = {
   input: GetUserInput;
-};
-
-
-export type QueryHeartRateArgs = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-};
-
-
-export type QueryOxygenSaturationArgs = {
-  start: Scalars['Float'];
-  end: Scalars['Float'];
-};
-
-
-export type QuerySleepArgs = {
-  start: Scalars['Float'];
-  end: Scalars['Float'];
 };
 
 export type GetDeviceInput = {
@@ -115,8 +92,28 @@ export type GetSleepResult = {
   sleep?: Maybe<Array<Maybe<Sleep>>>;
 };
 
+export type GetDailyInput = {
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
+};
+
+export type GetDailyResult = {
+  __typename?: 'GetDailyResult';
+  daily?: Maybe<Array<Maybe<Daily>>>;
+};
+
+export type GetActivityInput = {
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
+};
+
+export type GetActivityResult = {
+  __typename?: 'GetActivityResult';
+  activity?: Maybe<Array<Maybe<Activity>>>;
+};
+
 export type HeartRateSummary = {
-  __typename?: 'heartRateSummary';
+  __typename?: 'HeartRateSummary';
   average?: Maybe<Scalars['Float']>;
   min?: Maybe<Scalars['Float']>;
   max?: Maybe<Scalars['Float']>;

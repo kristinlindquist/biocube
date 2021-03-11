@@ -8,18 +8,18 @@ import { Bar, Calendar, Line } from 'components/Chart';
 import { LongDate } from 'components/Date';
 import { useDateRange } from 'contexts';
 import { get } from 'lodash';
-// import { unixYearRange } from 'utils';
+import { unixYearRange } from 'utils';
 
 import {
   AggType,
   processActivity,
-  processHrStream,
-  processHrAggregate,
+  processDataStream,
+  processAggregate,
 } from 'components/Chart/utils';
 
 import {
-  // getActivity,
-  // getDaily,
+  useGetActivityQuery,
+  useGetDailyQuery,
   useGetHeartRateQuery,
   useGetSleepQuery,
 } from 'gql';
@@ -32,7 +32,6 @@ const useStyles = makeStyles(() => ({
 
 const MyChart = (): ReactElement => {
   const classes = useStyles();
-  const { aData, cData } = { aData: null, cData: null };
 
   const [aggType, setAggType] = useState(AggType.AVG);
   const [{ start, end }, { setDay }] = useDateRange();
@@ -45,17 +44,17 @@ const MyChart = (): ReactElement => {
     variables: { input: { start, end } },
   });
 
-  // const { data: aData } = useQuery(GET_ACTIVITY, {
-  //   variables: unixYearRange,
-  // });
+  const { data: aData } = useGetActivityQuery({
+    variables: { input: unixYearRange },
+  });
 
-  // const { data: cData } = useQuery(GET_DAILY, {
-  //   variables: unixYearRange,
-  // });
+  const { data: dData } = useGetDailyQuery({
+    variables: { input: unixYearRange },
+  });
 
   return (
     <>
-      {cData && (
+      {dData && (
         <Grid item xs={12}>
           <Card title="BPM Calendar">
             <Box display="flex">
@@ -70,7 +69,7 @@ const MyChart = (): ReactElement => {
                 selected={aggType}
               />
               <Calendar
-                data={processHrAggregate(cData, aggType)}
+                data={processAggregate(get(dData, 'getDaily.daily'), aggType)}
                 onClick={setDay}
               />
             </Box>
@@ -83,7 +82,7 @@ const MyChart = (): ReactElement => {
           data={[
             {
               id: 'Waking BPM',
-              data: processHrStream(
+              data: processDataStream(
                 get(data, 'getHeartRate.heartRate'),
                 get(sData, 'getSleep.sleep'),
                 true,
@@ -92,7 +91,7 @@ const MyChart = (): ReactElement => {
             },
             {
               id: 'Sleeping BPM',
-              data: processHrStream(
+              data: processDataStream(
                 get(data, 'getHeartRate.heartRate'),
                 get(sData, 'getSleep.sleep'),
                 false,
@@ -109,7 +108,7 @@ const MyChart = (): ReactElement => {
       <Grid item xs={12}>
         <Bar
           container={Card}
-          data={processActivity(aData)}
+          data={processActivity(get(aData, 'getActivity.activity'))}
           error={error ? { message: error.message } : null}
           keys={['walking', 'meditation', 'spinning']}
           loading={loading}

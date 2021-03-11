@@ -20,27 +20,22 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  activity?: Maybe<Array<Maybe<Activity>>>;
-  daily?: Maybe<Array<Maybe<Daily>>>;
+  getActivity: GetActivityResult;
+  getDaily: GetDailyResult;
   getDevice: GetDeviceResult;
   getHeartRate: GetHeartRateResult;
   getSleep: GetSleepResult;
   getUser: GetUserResult;
-  heartRate?: Maybe<Array<Maybe<HeartRate>>>;
-  oxygenSaturation?: Maybe<Array<Maybe<OxygenSaturation>>>;
-  sleep?: Maybe<Array<Maybe<Sleep>>>;
 };
 
 
-export type QueryActivityArgs = {
-  start: Scalars['Float'];
-  end: Scalars['Float'];
+export type QueryGetActivityArgs = {
+  input: GetActivityInput;
 };
 
 
-export type QueryDailyArgs = {
-  start: Scalars['Float'];
-  end: Scalars['Float'];
+export type QueryGetDailyArgs = {
+  input: GetDailyInput;
 };
 
 
@@ -61,24 +56,6 @@ export type QueryGetSleepArgs = {
 
 export type QueryGetUserArgs = {
   input: GetUserInput;
-};
-
-
-export type QueryHeartRateArgs = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-};
-
-
-export type QueryOxygenSaturationArgs = {
-  start: Scalars['Float'];
-  end: Scalars['Float'];
-};
-
-
-export type QuerySleepArgs = {
-  start: Scalars['Float'];
-  end: Scalars['Float'];
 };
 
 export type GetDeviceInput = {
@@ -118,8 +95,28 @@ export type GetSleepResult = {
   sleep?: Maybe<Array<Maybe<Sleep>>>;
 };
 
+export type GetDailyInput = {
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
+};
+
+export type GetDailyResult = {
+  __typename?: 'GetDailyResult';
+  daily?: Maybe<Array<Maybe<Daily>>>;
+};
+
+export type GetActivityInput = {
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
+};
+
+export type GetActivityResult = {
+  __typename?: 'GetActivityResult';
+  activity?: Maybe<Array<Maybe<Activity>>>;
+};
+
 export type HeartRateSummary = {
-  __typename?: 'heartRateSummary';
+  __typename?: 'HeartRateSummary';
   average?: Maybe<Scalars['Float']>;
   min?: Maybe<Scalars['Float']>;
   max?: Maybe<Scalars['Float']>;
@@ -188,6 +185,42 @@ export type GetDeviceQuery = (
       { __typename?: 'Device' }
       & Pick<Device, 'id' | 'userId' | 'name'>
     )> }
+  ) }
+);
+
+export type GetActivityQueryVariables = Exact<{
+  input: GetActivityInput;
+}>;
+
+
+export type GetActivityQuery = (
+  { __typename?: 'Query' }
+  & { getActivity: (
+    { __typename?: 'GetActivityResult' }
+    & { activity?: Maybe<Array<Maybe<(
+      { __typename?: 'Activity' }
+      & Pick<Activity, 'start' | 'end' | 'duration' | 'type'>
+    )>>> }
+  ) }
+);
+
+export type GetDailyQueryVariables = Exact<{
+  input: GetDailyInput;
+}>;
+
+
+export type GetDailyQuery = (
+  { __typename?: 'Query' }
+  & { getDaily: (
+    { __typename?: 'GetDailyResult' }
+    & { daily?: Maybe<Array<Maybe<(
+      { __typename?: 'Daily' }
+      & Pick<Daily, 'date'>
+      & { heartRate?: Maybe<(
+        { __typename?: 'HeartRateSummary' }
+        & Pick<HeartRateSummary, 'average' | 'min' | 'max'>
+      )> }
+    )>>> }
   ) }
 );
 
@@ -283,6 +316,88 @@ export function useGetDeviceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetDeviceQueryHookResult = ReturnType<typeof useGetDeviceQuery>;
 export type GetDeviceLazyQueryHookResult = ReturnType<typeof useGetDeviceLazyQuery>;
 export type GetDeviceQueryResult = Apollo.QueryResult<GetDeviceQuery, GetDeviceQueryVariables>;
+export const GetActivityDocument = gql`
+    query getActivity($input: GetActivityInput!) {
+  getActivity(input: $input) {
+    activity {
+      start
+      end
+      duration
+      type
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetActivityQuery__
+ *
+ * To run a query within a React component, call `useGetActivityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActivityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetActivityQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetActivityQuery(baseOptions: Apollo.QueryHookOptions<GetActivityQuery, GetActivityQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetActivityQuery, GetActivityQueryVariables>(GetActivityDocument, options);
+      }
+export function useGetActivityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetActivityQuery, GetActivityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetActivityQuery, GetActivityQueryVariables>(GetActivityDocument, options);
+        }
+export type GetActivityQueryHookResult = ReturnType<typeof useGetActivityQuery>;
+export type GetActivityLazyQueryHookResult = ReturnType<typeof useGetActivityLazyQuery>;
+export type GetActivityQueryResult = Apollo.QueryResult<GetActivityQuery, GetActivityQueryVariables>;
+export const GetDailyDocument = gql`
+    query getDaily($input: GetDailyInput!) {
+  getDaily(input: $input) {
+    daily {
+      date
+      heartRate {
+        average
+        min
+        max
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetDailyQuery__
+ *
+ * To run a query within a React component, call `useGetDailyQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDailyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDailyQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetDailyQuery(baseOptions: Apollo.QueryHookOptions<GetDailyQuery, GetDailyQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetDailyQuery, GetDailyQueryVariables>(GetDailyDocument, options);
+      }
+export function useGetDailyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDailyQuery, GetDailyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetDailyQuery, GetDailyQueryVariables>(GetDailyDocument, options);
+        }
+export type GetDailyQueryHookResult = ReturnType<typeof useGetDailyQuery>;
+export type GetDailyLazyQueryHookResult = ReturnType<typeof useGetDailyLazyQuery>;
+export type GetDailyQueryResult = Apollo.QueryResult<GetDailyQuery, GetDailyQueryVariables>;
 export const GetHeartRateDocument = gql`
     query getHeartRate($input: GetHeartRateInput!) {
   getHeartRate(input: $input) {
