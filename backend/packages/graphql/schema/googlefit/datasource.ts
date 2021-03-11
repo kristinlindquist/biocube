@@ -70,10 +70,10 @@ export class GoogleFitnessAPI extends RESTDataSource {
     );
   }
 
-  async getSleep(start, end, aggregate) {
+  getSleep = async (start, end, aggregate) => {
     const data = await this.getData(
-      start,
-      end,
+      new Date(start).getTime(),
+      new Date(end).getTime(),
       'com.google.sleep.segment',
       aggregate,
     );

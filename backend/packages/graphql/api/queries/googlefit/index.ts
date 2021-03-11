@@ -1,3 +1,4 @@
 import getHeartRate from './getHeartRate';
+import getSleep from './getSleep';
 
-export { getHeartRate };
+export { getHeartRate, getSleep };

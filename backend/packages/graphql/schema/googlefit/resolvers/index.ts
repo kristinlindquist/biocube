@@ -1,11 +1,13 @@
-import { HeartRate } from './types';
-import { getHeartRate } from './queries';
+import { HeartRate, Sleep } from './types';
+import { getHeartRate, getSleep } from './queries';
 
 const resolvers = {
   Query: {
-    getHeartRate
+    getHeartRate,
+    getSleep
   },
-  HeartRate
+  HeartRate,
+  Sleep
 };
 
 export default resolvers;

@@ -1,3 +1,4 @@
 import HeartRate from './HeartRate';
+import Sleep from './Sleep';
 
-export { HeartRate };
+export { HeartRate, Sleep };

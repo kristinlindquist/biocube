@@ -6,6 +6,7 @@ type Query {
   daily(start: Float!, end: Float!): [Daily]
   getDevice(input: GetDeviceInput!): GetDeviceResult!
   getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
+  getSleep(input: GetSleepInput!): GetSleepResult!
   getUser(input: GetUserInput!): GetUserResult!
   heartRate(start: DateTime!, end: DateTime!): [HeartRate]
   oxygenSaturation(start: Float!, end: Float!): [OxygenSaturation]
@@ -35,6 +36,15 @@ input GetHeartRateInput {
 
 type GetHeartRateResult {
   heartRate: [HeartRate]
+}
+
+input GetSleepInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+type GetSleepResult {
+  sleep: [Sleep]
 }
 
 type heartRateSummary {

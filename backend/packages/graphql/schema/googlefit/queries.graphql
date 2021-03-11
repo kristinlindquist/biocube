@@ -2,6 +2,7 @@ scalar DateTime
 
 type Query {
   getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
+  getSleep(input: GetSleepInput!): GetSleepResult!
 }
 
 input GetHeartRateInput {
@@ -12,3 +13,13 @@ input GetHeartRateInput {
 type GetHeartRateResult {
   heartRate: [HeartRate]
 }
+
+input GetSleepInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+type GetSleepResult {
+  sleep: [Sleep]
+}
+

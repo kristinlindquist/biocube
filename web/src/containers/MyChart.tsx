@@ -21,7 +21,7 @@ import {
   // getActivity,
   // getDaily,
   useGetHeartRateQuery,
-  // getSleep
+  useGetSleepQuery,
 } from 'gql';
 
 const useStyles = makeStyles(() => ({
@@ -41,11 +41,9 @@ const MyChart = (): ReactElement => {
     variables: { input: { start, end } },
   });
 
-  console.log(data);
-
-  // const { data: sData } = useQuery(GET_SLEEP, {
-  //   variables: { start: start.getTime(), end: end.getTime() },
-  // });
+  const { data: sData } = useGetSleepQuery({
+    variables: { input: { start, end } },
+  });
 
   // const { data: aData } = useQuery(GET_ACTIVITY, {
   //   variables: unixYearRange,
@@ -87,7 +85,7 @@ const MyChart = (): ReactElement => {
               id: 'Waking BPM',
               data: processHrStream(
                 get(data, 'getHeartRate.heartRate'),
-                null,
+                get(sData, 'getSleep.sleep'),
                 true,
                 'awake',
               ),
@@ -96,7 +94,7 @@ const MyChart = (): ReactElement => {
               id: 'Sleeping BPM',
               data: processHrStream(
                 get(data, 'getHeartRate.heartRate'),
-                null,
+                get(sData, 'getSleep.sleep'),
                 false,
                 'asleep',
               ),

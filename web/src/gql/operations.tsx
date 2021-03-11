@@ -24,6 +24,7 @@ export type Query = {
   daily?: Maybe<Array<Maybe<Daily>>>;
   getDevice: GetDeviceResult;
   getHeartRate: GetHeartRateResult;
+  getSleep: GetSleepResult;
   getUser: GetUserResult;
   heartRate?: Maybe<Array<Maybe<HeartRate>>>;
   oxygenSaturation?: Maybe<Array<Maybe<OxygenSaturation>>>;
@@ -50,6 +51,11 @@ export type QueryGetDeviceArgs = {
 
 export type QueryGetHeartRateArgs = {
   input: GetHeartRateInput;
+};
+
+
+export type QueryGetSleepArgs = {
+  input: GetSleepInput;
 };
 
 
@@ -100,6 +106,16 @@ export type GetHeartRateInput = {
 export type GetHeartRateResult = {
   __typename?: 'GetHeartRateResult';
   heartRate?: Maybe<Array<Maybe<HeartRate>>>;
+};
+
+export type GetSleepInput = {
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
+};
+
+export type GetSleepResult = {
+  __typename?: 'GetSleepResult';
+  sleep?: Maybe<Array<Maybe<Sleep>>>;
 };
 
 export type HeartRateSummary = {
@@ -187,6 +203,22 @@ export type GetHeartRateQuery = (
     & { heartRate?: Maybe<Array<Maybe<(
       { __typename?: 'HeartRate' }
       & Pick<HeartRate, 'date' | 'point'>
+    )>>> }
+  ) }
+);
+
+export type GetSleepQueryVariables = Exact<{
+  input: GetSleepInput;
+}>;
+
+
+export type GetSleepQuery = (
+  { __typename?: 'Query' }
+  & { getSleep: (
+    { __typename?: 'GetSleepResult' }
+    & { sleep?: Maybe<Array<Maybe<(
+      { __typename?: 'Sleep' }
+      & Pick<Sleep, 'start' | 'end' | 'state'>
     )>>> }
   ) }
 );
@@ -289,6 +321,45 @@ export function useGetHeartRateLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type GetHeartRateQueryHookResult = ReturnType<typeof useGetHeartRateQuery>;
 export type GetHeartRateLazyQueryHookResult = ReturnType<typeof useGetHeartRateLazyQuery>;
 export type GetHeartRateQueryResult = Apollo.QueryResult<GetHeartRateQuery, GetHeartRateQueryVariables>;
+export const GetSleepDocument = gql`
+    query getSleep($input: GetSleepInput!) {
+  getSleep(input: $input) {
+    sleep {
+      start
+      end
+      state
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetSleepQuery__
+ *
+ * To run a query within a React component, call `useGetSleepQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSleepQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSleepQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetSleepQuery(baseOptions: Apollo.QueryHookOptions<GetSleepQuery, GetSleepQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSleepQuery, GetSleepQueryVariables>(GetSleepDocument, options);
+      }
+export function useGetSleepLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSleepQuery, GetSleepQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSleepQuery, GetSleepQueryVariables>(GetSleepDocument, options);
+        }
+export type GetSleepQueryHookResult = ReturnType<typeof useGetSleepQuery>;
+export type GetSleepLazyQueryHookResult = ReturnType<typeof useGetSleepLazyQuery>;
+export type GetSleepQueryResult = Apollo.QueryResult<GetSleepQuery, GetSleepQueryVariables>;
 export const GetUserDocument = gql`
     query getUser($input: GetUserInput!) {
   getUser(input: $input) {
