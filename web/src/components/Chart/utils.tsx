@@ -13,23 +13,20 @@ export enum AggType {
  * TODO: generalize
  */
 export const processHrStream = (
-  data: { heartRate: Array<{ date: number; point: number }> | null },
-  stateData: { sleep: Array<{ start: number; end: number; state: string }> },
+  heartRate: Array<{ date: number; point: number }> | null,
+  state: Array<{ start: number; end: number; state: string }> | null,
   allowNull: boolean,
   type = 'awake',
 ): Array<{ x: string; y: number | null }> =>
-  (data && data.heartRate && stateData ? data.heartRate : []).map(
-    ({ date, point }) => {
-      const sleep = (
-        stateData.sleep.find(({ start, end }) => start < date && end > date) ||
-        {}
-      ).state;
-      return {
-        x: moment(new Date(date)).format('YYYY-MM-DD HH:mm'),
-        y: sleep === type || (!sleep && allowNull) ? point : null,
-      };
-    },
-  );
+  (heartRate || []).map(({ date, point }) => {
+    const myState = state
+      ? (state.find(({ start, end }) => start < date && end > date) || {}).state
+      : null;
+    return {
+      x: moment(new Date(date)).format('YYYY-MM-DD HH:mm'),
+      y: myState === type || (!myState && allowNull) ? point : null,
+    };
+  });
 
 /**
  * Processes hr aggregate data (daily)

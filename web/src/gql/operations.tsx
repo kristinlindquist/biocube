@@ -99,7 +99,7 @@ export type GetHeartRateInput = {
 
 export type GetHeartRateResult = {
   __typename?: 'GetHeartRateResult';
-  heartRate?: Maybe<HeartRate>;
+  heartRate?: Maybe<Array<Maybe<HeartRate>>>;
 };
 
 export type HeartRateSummary = {
@@ -184,10 +184,10 @@ export type GetHeartRateQuery = (
   { __typename?: 'Query' }
   & { getHeartRate: (
     { __typename?: 'GetHeartRateResult' }
-    & { heartRate?: Maybe<(
+    & { heartRate?: Maybe<Array<Maybe<(
       { __typename?: 'HeartRate' }
       & Pick<HeartRate, 'date' | 'point'>
-    )> }
+    )>>> }
   ) }
 );
 

@@ -7,12 +7,13 @@ import { Card } from 'components/Card';
 import { Bar, Calendar, Line } from 'components/Chart';
 import { LongDate } from 'components/Date';
 import { useDateRange } from 'contexts';
+import { get } from 'lodash';
 // import { unixYearRange } from 'utils';
 
 import {
   AggType,
   processActivity,
-  // processHrStream,
+  processHrStream,
   processHrAggregate,
 } from 'components/Chart/utils';
 
@@ -81,17 +82,26 @@ const MyChart = (): ReactElement => {
       <Grid item xs={12}>
         <Line
           container={Card}
-          data={[]}
-          // data={[
-          //   {
-          //     id: 'Waking BPM',
-          //     data: processHrStream(data, sData, true, 'awake'),
-          //   },
-          //   {
-          //     id: 'Sleeping BPM',
-          //     data: processHrStream(data, sData, false, 'asleep'),
-          //   },
-          // ]}
+          data={[
+            {
+              id: 'Waking BPM',
+              data: processHrStream(
+                get(data, 'getHeartRate.heartRate'),
+                null,
+                true,
+                'awake',
+              ),
+            },
+            {
+              id: 'Sleeping BPM',
+              data: processHrStream(
+                get(data, 'getHeartRate.heartRate'),
+                null,
+                false,
+                'asleep',
+              ),
+            },
+          ]}
           error={error ? { message: error.message } : null}
           loading={loading}
           subtitle={<LongDate date={start} />}

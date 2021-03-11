@@ -6,6 +6,7 @@ schema:
   - 'schema/user/**/*.graphql'
 documents: ["./api/queries/**/**.ts", "./api/mutations/**/**.ts"]
 config:
+  useIndexSignature: true
   scalars:
     DateTime: Date
 generates:

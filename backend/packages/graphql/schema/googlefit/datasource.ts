@@ -35,7 +35,7 @@ export class GoogleFitnessAPI extends RESTDataSource {
   willSendRequest(request) {
     request.headers.set(
       'Authorization',
-      'Bearer ya29.a0AfH6SMCaCWMxI4ThF1Vyv_l68ya_eqPJVG_h3cw8XMRyRsXm4URiwFRiXlg1_SpxoCzKttVjTn0UIQetCOE2p4rnL6tnQmhHyec9KkvlCcmMQbzjLKGyZgcIV6VCogSXHFfUC4_RPuESpjXcTXFWHB9Ig9Ud',
+      'Bearer ya29.a0AfH6SMBbZ5f2G-r7cHpWW4iM9wSPHQPUwecSjiDPQfT1KyJRhHsAgoJaThPFYG1310zeatJ2Q8uNuGxz_OJGZMJ6NnpWRJ8QJ9s_XixCvw4ZSeZEioBFurxIksZOVAfnzheYXXp98feBzSAhRiINtSNOa8Xqtw',
       'Content-type',
       'application/json',
     );
@@ -56,8 +56,8 @@ export class GoogleFitnessAPI extends RESTDataSource {
 
   getHeartRate = async (start, end, aggregate) => {
     const data = await this.getData(
-      start.getTime(),
-      end.getTime(),
+      new Date(start).getTime(),
+      new Date(end).getTime(),
       'com.google.heart_rate.bpm',
       aggregate,
     );
