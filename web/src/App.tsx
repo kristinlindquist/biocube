@@ -4,6 +4,7 @@ import { ApolloProvider } from '@apollo/client';
 import { ThemeProvider } from '@material-ui/core';
 
 import Home from 'containers/Home';
+import Measures from 'containers/Measures';
 import { getApolloClient } from 'gql';
 import theme from './theme';
 
@@ -14,8 +15,11 @@ const App = (): ReactElement => (
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/">
+          <Route exact path="/">
             <Home />
+          </Route>
+          <Route path="/measures">
+            <Measures />
           </Route>
         </Switch>
       </Router>
