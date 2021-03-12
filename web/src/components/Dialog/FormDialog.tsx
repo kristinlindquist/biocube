@@ -1,5 +1,6 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ElementType, ReactElement } from 'react';
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -8,6 +9,7 @@ import {
   DialogTitle,
   TextField,
 } from '@material-ui/core';
+import { SpacingProps } from '@material-ui/system';
 
 export interface FormDialogProps {
   /**
@@ -21,7 +23,7 @@ export interface FormDialogProps {
   /**
    * open button
    */
-  openButton?: ReactNode;
+  openButton?: ElementType;
   /**
    * title
    */
@@ -33,7 +35,8 @@ const FormDialog = ({
   fields,
   openButton,
   title,
-}: FormDialogProps): ReactElement => {
+  ...props
+}: FormDialogProps & SpacingProps): ReactElement => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -47,7 +50,7 @@ const FormDialog = ({
   const OpenButton = openButton;
 
   return (
-    <>
+    <Box {...props}>
       {openButton && <OpenButton onClick={handleClickOpen} />}
       {!openButton && (
         <Button color="primary" variant="outlined">
@@ -79,7 +82,7 @@ const FormDialog = ({
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 };
 

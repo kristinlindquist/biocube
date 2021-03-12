@@ -74,15 +74,14 @@ const DataGrid = ({
     </Box>
     {allowAdds && (
       <Box display="flex">
-        <Box ml="auto">
-          <Dialog
-            openButton={Fab}
-            fields={columns.filter(
-              (c) => !noEditColumns.includes(c.id as string),
-            )}
-            title="a title"
-          />
-        </Box>
+        <Dialog
+          fields={columns.filter(
+            (c) => !noEditColumns.includes(c.id as string),
+          )}
+          ml="auto"
+          openButton={Fab}
+          title="a title"
+        />
       </Box>
     )}
   </div>

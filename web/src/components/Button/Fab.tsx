@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Fab as MaterialFab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
