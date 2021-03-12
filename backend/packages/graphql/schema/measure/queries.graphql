@@ -1,0 +1,11 @@
+type Query {
+  getMeasures(input: GetMeasuresInput!): GetMeasuresResult!
+}
+
+input GetMeasuresInput {
+  interventionId: Int
+}
+
+type GetMeasuresResult {
+  measures: [Measure]
+}

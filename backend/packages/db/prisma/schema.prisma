@@ -44,12 +44,14 @@ model Datum {
 }
 
 model AspectOfHealth {
-  id          Int        @id @default(autoincrement())
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  description String
-  maohs       CoiMaohs[]
-  name        String     @db.VarChar(255)
+  id             Int              @id @default(autoincrement())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  description    String
+  maohs          CoiMaohs[]
+  name           String           @db.VarChar(255)
+  indications    Indication[]
+  aohIndications aohIndications[]
 }
 
 model CoiMaohs {
@@ -96,6 +98,8 @@ model Measure {
   name              String              @db.VarChar(255)
   validationStudies ValidationStudies[]
   validity          Validity
+  Indication        Indication?         @relation(fields: [indicationId], references: [id])
+  indicationId      Int?
 }
 
 model Study {
@@ -116,4 +120,25 @@ model ValidationStudies {
   measureId Int
   study     Study    @relation(fields: [studyId], references: [id])
   studyId   Int
+}
+
+model Indication {
+  id              Int              @id @default(autoincrement())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  name            String           @db.VarChar(255)
+  description     String
+  aspectsOfHealth AspectOfHealth[]
+  measures        Measure[]
+  aohIndications  aohIndications[]
+}
+
+model aohIndications {
+  id               Int            @id @default(autoincrement())
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  aspectOfHealth   AspectOfHealth @relation(fields: [aspectOfHealthId], references: [id])
+  aspectOfHealthId Int
+  indication       Indication     @relation(fields: [indicationId], references: [id])
+  indicationId     Int
 }

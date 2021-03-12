@@ -66,10 +66,10 @@ const FormDialog = ({
           <DialogContentText>{content}</DialogContentText>
           {fields.map(({ id, name }) => (
             <TextField
+              fullWidth
               id={id as string}
               label={name}
               margin="dense"
-              fullWidth
             />
           ))}
         </DialogContent>

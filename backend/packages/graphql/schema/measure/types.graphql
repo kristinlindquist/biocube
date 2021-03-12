@@ -1,0 +1,18 @@
+type Measure {
+  id: Int!
+  description: String!
+  name: String!
+  coi: CoI!
+}
+
+type ConceptOfInterest {
+  id: Int!
+  description: String!
+  name: String!	
+}
+
+type AspectOfHealth {
+  id: Int!
+  description: String!
+  name: String!	
+}
