@@ -3,8 +3,16 @@ import {
   DataGrid as MaterialDataGrid,
   GridColDef,
 } from '@material-ui/data-grid';
+import { Box } from '@material-ui/core';
+
+import { FormDialog as Dialog } from 'components/Dialog';
+import { Fab } from 'components/Button';
 
 export interface DataGridProps {
+  /**
+   * allow adding
+   */
+  allowAdds?: boolean;
   /**
    * table cols
    */
@@ -14,6 +22,10 @@ export interface DataGridProps {
     name: string;
     type?: 'string' | 'number' | 'date' | 'dateTime' | 'text' | null;
   }>;
+  /**
+   * hide footer
+   */
+  hideFooter?: boolean;
   /**
    * table rows
    */
@@ -40,16 +52,40 @@ const formatColumns = (columns): GridColDef[] =>
     width: type === 'number' ? 100 : undefined,
   }));
 
+const noEditColumns = ['id'];
+
 /**
  * A data grid
  */
-const DataGrid = ({ columns, rows, ...props }: DataGridProps): ReactElement => (
-  <MaterialDataGrid
-    autoHeight
-    {...props}
-    rows={rows}
-    columns={formatColumns(columns)}
-  />
+const DataGrid = ({
+  allowAdds,
+  columns,
+  rows,
+  ...props
+}: DataGridProps): ReactElement => (
+  <div>
+    <Box mb={3}>
+      <MaterialDataGrid
+        autoHeight
+        {...props}
+        rows={rows}
+        columns={formatColumns(columns)}
+      />
+    </Box>
+    {allowAdds && (
+      <Box display="flex">
+        <Box ml="auto">
+          <Dialog
+            openButton={Fab}
+            fields={columns.filter(
+              (c) => !noEditColumns.includes(c.id as string),
+            )}
+            title="a title"
+          />
+        </Box>
+      </Box>
+    )}
+  </div>
 );
 
 export default DataGrid;

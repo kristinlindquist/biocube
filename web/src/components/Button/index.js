@@ -1,3 +1,4 @@
+import Fab from './Fab';
 import Group from './Group';
 
-export { Group };
+export { Fab, Group };
