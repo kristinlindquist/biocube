@@ -24,6 +24,7 @@ export type Query = {
   getDaily: GetDailyResult;
   getDevice: GetDeviceResult;
   getHeartRate: GetHeartRateResult;
+  getMeasures: GetMeasuresResult;
   getSleep: GetSleepResult;
   getUser: GetUserResult;
 };
@@ -46,6 +47,11 @@ export type QueryGetDeviceArgs = {
 
 export type QueryGetHeartRateArgs = {
   input: GetHeartRateInput;
+};
+
+
+export type QueryGetMeasuresArgs = {
+  input: GetMeasuresInput;
 };
 
 
@@ -155,6 +161,38 @@ export type Sleep = {
   state?: Maybe<Scalars['String']>;
 };
 
+export type GetMeasuresInput = {
+  interventionId?: Maybe<Scalars['Int']>;
+};
+
+export type GetMeasuresResult = {
+  __typename?: 'GetMeasuresResult';
+  measures?: Maybe<Array<Maybe<Measure>>>;
+};
+
+export type Measure = {
+  __typename?: 'Measure';
+  id: Scalars['Int'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+  conceptOfInterest: ConceptOfInterest;
+  aspectOfHeath: AspectOfHealth;
+};
+
+export type ConceptOfInterest = {
+  __typename?: 'ConceptOfInterest';
+  id: Scalars['Int'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type AspectOfHealth = {
+  __typename?: 'AspectOfHealth';
+  id: Scalars['Int'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type GetUserInput = {
   id: Scalars['Int'];
 };
@@ -252,6 +290,29 @@ export type GetSleepQuery = (
     & { sleep?: Maybe<Array<Maybe<(
       { __typename?: 'Sleep' }
       & Pick<Sleep, 'start' | 'end' | 'state'>
+    )>>> }
+  ) }
+);
+
+export type GetMeasuresQueryVariables = Exact<{
+  input: GetMeasuresInput;
+}>;
+
+
+export type GetMeasuresQuery = (
+  { __typename?: 'Query' }
+  & { getMeasures: (
+    { __typename?: 'GetMeasuresResult' }
+    & { measures?: Maybe<Array<Maybe<(
+      { __typename?: 'Measure' }
+      & Pick<Measure, 'id' | 'description' | 'name'>
+      & { aspectOfHeath: (
+        { __typename?: 'AspectOfHealth' }
+        & Pick<AspectOfHealth, 'id' | 'name' | 'description'>
+      ), conceptOfInterest: (
+        { __typename?: 'ConceptOfInterest' }
+        & Pick<ConceptOfInterest, 'id' | 'name' | 'description'>
+      ) }
     )>>> }
   ) }
 );
@@ -475,6 +536,55 @@ export function useGetSleepLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetSleepQueryHookResult = ReturnType<typeof useGetSleepQuery>;
 export type GetSleepLazyQueryHookResult = ReturnType<typeof useGetSleepLazyQuery>;
 export type GetSleepQueryResult = Apollo.QueryResult<GetSleepQuery, GetSleepQueryVariables>;
+export const GetMeasuresDocument = gql`
+    query getMeasures($input: GetMeasuresInput!) {
+  getMeasures(input: $input) {
+    measures {
+      id
+      aspectOfHeath {
+        id
+        name
+        description
+      }
+      conceptOfInterest {
+        id
+        name
+        description
+      }
+      description
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMeasuresQuery__
+ *
+ * To run a query within a React component, call `useGetMeasuresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMeasuresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMeasuresQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetMeasuresQuery(baseOptions: Apollo.QueryHookOptions<GetMeasuresQuery, GetMeasuresQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMeasuresQuery, GetMeasuresQueryVariables>(GetMeasuresDocument, options);
+      }
+export function useGetMeasuresLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMeasuresQuery, GetMeasuresQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMeasuresQuery, GetMeasuresQueryVariables>(GetMeasuresDocument, options);
+        }
+export type GetMeasuresQueryHookResult = ReturnType<typeof useGetMeasuresQuery>;
+export type GetMeasuresLazyQueryHookResult = ReturnType<typeof useGetMeasuresLazyQuery>;
+export type GetMeasuresQueryResult = Apollo.QueryResult<GetMeasuresQuery, GetMeasuresQueryVariables>;
 export const GetUserDocument = gql`
     query getUser($input: GetUserInput!) {
   getUser(input: $input) {

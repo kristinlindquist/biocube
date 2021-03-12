@@ -21,6 +21,7 @@ export type Query = {
   getDaily: GetDailyResult;
   getDevice: GetDeviceResult;
   getHeartRate: GetHeartRateResult;
+  getMeasures: GetMeasuresResult;
   getSleep: GetSleepResult;
   getUser: GetUserResult;
 };
@@ -43,6 +44,11 @@ export type QueryGetDeviceArgs = {
 
 export type QueryGetHeartRateArgs = {
   input: GetHeartRateInput;
+};
+
+
+export type QueryGetMeasuresArgs = {
+  input: GetMeasuresInput;
 };
 
 
@@ -150,6 +156,38 @@ export type Sleep = {
   start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
   state?: Maybe<Scalars['String']>;
+};
+
+export type GetMeasuresInput = {
+  interventionId?: Maybe<Scalars['Int']>;
+};
+
+export type GetMeasuresResult = {
+  __typename?: 'GetMeasuresResult';
+  measures?: Maybe<Array<Maybe<Measure>>>;
+};
+
+export type Measure = {
+  __typename?: 'Measure';
+  id: Scalars['Int'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+  conceptOfInterest: ConceptOfInterest;
+  aspectOfHeath: AspectOfHealth;
+};
+
+export type ConceptOfInterest = {
+  __typename?: 'ConceptOfInterest';
+  id: Scalars['Int'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type AspectOfHealth = {
+  __typename?: 'AspectOfHealth';
+  id: Scalars['Int'];
+  description: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type GetUserInput = {

@@ -1,3 +1,3 @@
-import Device from './Device';
+import Measure from './Measure';
 
-export { Device };
+export { Measure };

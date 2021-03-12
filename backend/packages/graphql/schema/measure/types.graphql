@@ -2,7 +2,8 @@ type Measure {
   id: Int!
   description: String!
   name: String!
-  coi: CoI!
+  conceptOfInterest: ConceptOfInterest!
+  aspectOfHeath: AspectOfHealth!
 }
 
 type ConceptOfInterest {

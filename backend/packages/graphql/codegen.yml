@@ -4,6 +4,7 @@ schema:
   - 'schema/googlefit/**/*.graphql'
   - 'schema/device/**/*.graphql'
   - 'schema/user/**/*.graphql'
+  - 'schema/measure/**/*.graphql'
 documents: ["./api/queries/**/**.ts", "./api/mutations/**/**.ts"]
 config:
   useIndexSignature: true

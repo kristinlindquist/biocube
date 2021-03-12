@@ -1,11 +1,11 @@
-import { Device } from './types';
-import { getDevice } from './queries';
+import { Measure } from './types';
+import { getMeasures } from './queries';
 
 const resolvers = {
   Query: {
-    getDevice
+    getMeasures
   },
-  Device
+  Measure
 };
 
 export default resolvers;
