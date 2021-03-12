@@ -98,7 +98,7 @@ type Sleep {
 }
 
 input GetMeasuresInput {
-  interventionId: Int
+  indicationId: Int
 }
 
 type GetMeasuresResult {
@@ -109,17 +109,9 @@ type Measure {
   id: Int!
   description: String!
   name: String!
-  conceptOfInterest: ConceptOfInterest!
-  aspectOfHeath: AspectOfHealth!
 }
 
-type ConceptOfInterest {
-  id: Int!
-  description: String!
-  name: String!
-}
-
-type AspectOfHealth {
+type Indication {
   id: Int!
   description: String!
   name: String!
