@@ -159,7 +159,7 @@ export type Sleep = {
 };
 
 export type GetMeasuresInput = {
-  interventionId?: Maybe<Scalars['Int']>;
+  indicationId?: Maybe<Scalars['Int']>;
 };
 
 export type GetMeasuresResult = {
@@ -172,19 +172,10 @@ export type Measure = {
   id: Scalars['Int'];
   description: Scalars['String'];
   name: Scalars['String'];
-  conceptOfInterest: ConceptOfInterest;
-  aspectOfHeath: AspectOfHealth;
 };
 
-export type ConceptOfInterest = {
-  __typename?: 'ConceptOfInterest';
-  id: Scalars['Int'];
-  description: Scalars['String'];
-  name: Scalars['String'];
-};
-
-export type AspectOfHealth = {
-  __typename?: 'AspectOfHealth';
+export type Indication = {
+  __typename?: 'Indication';
   id: Scalars['Int'];
   description: Scalars['String'];
   name: Scalars['String'];

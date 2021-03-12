@@ -7,7 +7,7 @@ import { useGetMeasuresQuery } from 'gql';
 
 const Measures = (): ReactElement => {
   const { data, error, loading } = useGetMeasuresQuery({
-    variables: { input: { interventionId: 1 } },
+    variables: { input: null },
   });
 
   return (

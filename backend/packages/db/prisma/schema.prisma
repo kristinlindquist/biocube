@@ -9,30 +9,30 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
   devices   Device[]
-  email     String   @unique
-  name      String   @db.VarChar(255)
+  email     String    @unique
+  name      String    @db.VarChar(255)
 }
 
 model Device {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
   userId    Int
-  name      String   @db.VarChar(255)
-  user      User     @relation(fields: [userId], references: [id])
+  name      String    @db.VarChar(255)
+  user      User      @relation(fields: [userId], references: [id])
 }
 
 model Stream {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
   data      Datum[]
   deviceId  Int
-  name      String   @db.VarChar(255)
+  name      String    @db.VarChar(255)
 }
 
 model Datum {
@@ -46,7 +46,7 @@ model Datum {
 model AspectOfHealth {
   id             Int              @id @default(autoincrement())
   createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  updatedAt      DateTime?        @updatedAt
   description    String
   maohs          CoiMaohs[]
   name           String           @db.VarChar(255)
@@ -57,7 +57,7 @@ model AspectOfHealth {
 model CoiMaohs {
   id                  Int               @id @default(autoincrement())
   createdAt           DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
+  updatedAt           DateTime?         @updatedAt
   aspectOfHealth      AspectOfHealth    @relation(fields: [aspectOfHealthId], references: [id])
   aspectOfHealthId    Int
   conceptOfInterest   ConceptOfInterest @relation(fields: [conceptOfInterestId], references: [id])
@@ -67,7 +67,7 @@ model CoiMaohs {
 model ConceptOfInterest {
   id          Int           @id @default(autoincrement())
   createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  updatedAt   DateTime?     @updatedAt
   description String
   moahs       CoiMaohs[]
   measures    MeasureCois[]
@@ -77,7 +77,7 @@ model ConceptOfInterest {
 model MeasureCois {
   id                  Int               @id @default(autoincrement())
   createdAt           DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
+  updatedAt           DateTime?         @updatedAt
   conceptOfInterest   ConceptOfInterest @relation(fields: [conceptOfInterestId], references: [id])
   conceptOfInterestId Int
   measure             Measure           @relation(fields: [measureId], references: [id])
@@ -92,20 +92,20 @@ enum Validity {
 model Measure {
   id                Int                 @id @default(autoincrement())
   createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  updatedAt         DateTime?           @updatedAt
   description       String
   cois              MeasureCois[]
   name              String              @db.VarChar(255)
   validationStudies ValidationStudies[]
   validity          Validity
-  Indication        Indication?         @relation(fields: [indicationId], references: [id])
+  indication        Indication?         @relation(fields: [indicationId], references: [id])
   indicationId      Int?
 }
 
 model Study {
   id                Int                 @id @default(autoincrement())
   createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  updatedAt         DateTime?           @updatedAt
   abstract          String
   authors           String
   title             String
@@ -113,19 +113,19 @@ model Study {
 }
 
 model ValidationStudies {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  measure   Measure  @relation(fields: [measureId], references: [id])
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  measure   Measure   @relation(fields: [measureId], references: [id])
   measureId Int
-  study     Study    @relation(fields: [studyId], references: [id])
+  study     Study     @relation(fields: [studyId], references: [id])
   studyId   Int
 }
 
 model Indication {
   id              Int              @id @default(autoincrement())
   createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  updatedAt       DateTime?        @updatedAt
   name            String           @db.VarChar(255)
   description     String
   aspectsOfHealth AspectOfHealth[]
@@ -136,7 +136,7 @@ model Indication {
 model aohIndications {
   id               Int            @id @default(autoincrement())
   createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  updatedAt        DateTime?      @updatedAt
   aspectOfHealth   AspectOfHealth @relation(fields: [aspectOfHealthId], references: [id])
   aspectOfHealthId Int
   indication       Indication     @relation(fields: [indicationId], references: [id])

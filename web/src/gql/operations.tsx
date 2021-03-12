@@ -162,7 +162,7 @@ export type Sleep = {
 };
 
 export type GetMeasuresInput = {
-  interventionId?: Maybe<Scalars['Int']>;
+  indicationId?: Maybe<Scalars['Int']>;
 };
 
 export type GetMeasuresResult = {
@@ -175,19 +175,10 @@ export type Measure = {
   id: Scalars['Int'];
   description: Scalars['String'];
   name: Scalars['String'];
-  conceptOfInterest: ConceptOfInterest;
-  aspectOfHeath: AspectOfHealth;
 };
 
-export type ConceptOfInterest = {
-  __typename?: 'ConceptOfInterest';
-  id: Scalars['Int'];
-  description: Scalars['String'];
-  name: Scalars['String'];
-};
-
-export type AspectOfHealth = {
-  __typename?: 'AspectOfHealth';
+export type Indication = {
+  __typename?: 'Indication';
   id: Scalars['Int'];
   description: Scalars['String'];
   name: Scalars['String'];
@@ -306,13 +297,6 @@ export type GetMeasuresQuery = (
     & { measures?: Maybe<Array<Maybe<(
       { __typename?: 'Measure' }
       & Pick<Measure, 'id' | 'description' | 'name'>
-      & { aspectOfHeath: (
-        { __typename?: 'AspectOfHealth' }
-        & Pick<AspectOfHealth, 'id' | 'name' | 'description'>
-      ), conceptOfInterest: (
-        { __typename?: 'ConceptOfInterest' }
-        & Pick<ConceptOfInterest, 'id' | 'name' | 'description'>
-      ) }
     )>>> }
   ) }
 );
@@ -541,16 +525,6 @@ export const GetMeasuresDocument = gql`
   getMeasures(input: $input) {
     measures {
       id
-      aspectOfHeath {
-        id
-        name
-        description
-      }
-      conceptOfInterest {
-        id
-        name
-        description
-      }
       description
       name
     }
