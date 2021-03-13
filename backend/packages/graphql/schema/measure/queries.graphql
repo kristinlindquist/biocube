@@ -1,11 +1,20 @@
 type Query {
-  getMeasures(input: GetMeasuresInput!): GetMeasuresResult!
+  getMeasures(input: GetMeasuresInput!): GetMeasuresResult!,
+  getMeasure(input: GetMeasureInput!): GetMeasureResult!
 }
 
 input GetMeasuresInput {
-  interventionId: Int
+  test: Boolean
 }
 
 type GetMeasuresResult {
   measures: [Measure]
+}
+
+input GetMeasureInput {
+  id: Int!
+}
+
+type GetMeasureResult {
+  measure: Measure
 }

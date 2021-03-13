@@ -6,13 +6,15 @@
 import getUser from './queries/user/getUser';
 import getDevice from './queries/device/getDevice';
 import getMeasures from './queries/measure/getMeasures';
+import getMeasure from './queries/measure/getMeasure';
 import { getHeartRate } from './queries/googlefit';
 
 const allQueries = {
   getUser,
   getDevice,
   getHeartRate,
-  getMeasures
+  getMeasures,
+  getMeasure
 };
 
 import { Context } from '../types/resolvers';
@@ -26,7 +28,9 @@ import {
   GetHeartRateInput,
   GetHeartRateResult,
   GetMeasuresInput,
-  GetMeasuresResult
+  GetMeasuresResult,
+  GetMeasureInput,
+  GetMeasureResult
 } from '../types';
 
 type GraphQLApiArgs = {
@@ -79,6 +83,16 @@ class GraphQLApi {
 
   async getMeasures(input: GetMeasuresInput, context?: Context): Promise<GetMeasuresResult> {
     const operationName = 'getMeasures';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context
+    });
+  }
+
+  async getMeasure(input: GetMeasureInput, context?: Context): Promise<GetMeasureResult> {
+    const operationName = 'getMeasure';
     const variables = { input };
     return this.graphqlRequest({
       operationName,

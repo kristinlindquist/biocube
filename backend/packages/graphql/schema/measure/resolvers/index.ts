@@ -1,9 +1,10 @@
 import { Measure } from './types';
-import { getMeasures } from './queries';
+import { getMeasures, getMeasure } from './queries';
 
 const resolvers = {
   Query: {
-    getMeasures
+    getMeasures,
+    getMeasure
   },
   Measure
 };

@@ -68,7 +68,7 @@ const DataGrid = ({
       <MaterialDataGrid
         autoHeight
         {...props}
-        rows={rows}
+        rows={rows || []}
         columns={formatColumns(columns)}
       />
     </Box>

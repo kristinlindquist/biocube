@@ -2,16 +2,15 @@ type Measure {
   id: Int!
   description: String!
   name: String!
-  # conceptOfInterest: ConceptOfInterest!
-  # aspectOfHeath: AspectOfHealth!
-  # indication: Indication!
+  conceptsOfInterest: [ConceptOfInterest!]
+  indications: [Indication!]
 }
 
-# type ConceptOfInterest {
-#   id: Int!
-#   description: String!
-#   name: String!	
-# }
+type ConceptOfInterest {
+  id: Int!
+  description: String!
+  name: String!	
+}
 
 # type AspectOfHealth {
 #   id: Int!

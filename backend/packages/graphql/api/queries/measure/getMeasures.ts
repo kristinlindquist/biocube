@@ -7,6 +7,11 @@ const getMeasures = gql`
         id
         description
         name
+	      indications {
+	      	id
+	      	name
+	      	description
+	      }
       }
     }
   }

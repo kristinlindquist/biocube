@@ -1,15 +1,22 @@
 /**
  * Measure type resolvers
  */
-import { Indication } from '@prisma/client';
+import { ConceptOfInterest, Indication } from '@prisma/client';
 import { Parent, Args, Context } from '../../../../types';
 
 const Measure = {
-  indication: async (parent: Parent, _: Args, context: Context): Promise<Indication | null> => {
+  indications: async (parent: Parent, _: Args, context: Context): Promise<Indication[] | null> => {
     const { id } = parent;
     const { prisma } = context;
 
-    return prisma.measure.findUnique({ where: { id } }).indication();
+    return prisma.measure.findUnique({ where: { id } }).indications();
+  },
+
+  conceptsOfInterest: async (parent: Parent, _: Args, context: Context): Promise<ConceptOfInterest[] | null> => {
+    const { id } = parent;
+    const { prisma } = context;
+
+    return prisma.measure.findUnique({ where: { id } }).conceptsOfInterest();
   }
 };
 

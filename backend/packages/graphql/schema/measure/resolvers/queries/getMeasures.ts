@@ -1,12 +1,13 @@
 import { Measure } from '@prisma/client';
-import { Parent, Context, GetMeasuresResult } from '../../../../types';
+import { Parent, Context, QueryGetMeasuresArgs, GetMeasuresResult } from '../../../../types';
 
-async function getMeasures(_: Parent, context: Context): Promise<GetMeasuresResult> {
+async function getMeasures(_: Parent, args: QueryGetMeasuresArgs, context: Context): Promise<GetMeasuresResult> {
 	const { prisma } = context;
-	console.log('hisfsdf');
+	const { input } = args;
+
+	console.log(input);
 
 	const measures: Measure[] = await prisma.measure.findMany();
-	console.log(measures);
 
 	return { measures };
 }

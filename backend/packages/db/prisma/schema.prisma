@@ -44,82 +44,44 @@ model Datum {
 }
 
 model AspectOfHealth {
-  id             Int              @id @default(autoincrement())
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime?        @updatedAt
-  description    String
-  maohs          CoiMaohs[]
-  name           String           @db.VarChar(255)
-  indications    Indication[]
-  aohIndications aohIndications[]
-}
-
-model CoiMaohs {
-  id                  Int               @id @default(autoincrement())
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime?         @updatedAt
-  aspectOfHealth      AspectOfHealth    @relation(fields: [aspectOfHealthId], references: [id])
-  aspectOfHealthId    Int
-  conceptOfInterest   ConceptOfInterest @relation(fields: [conceptOfInterestId], references: [id])
-  conceptOfInterestId Int
+  id                 Int                 @id @default(autoincrement())
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime?           @updatedAt
+  description        String
+  conceptsOfInterest ConceptOfInterest[]
+  name               String              @db.VarChar(255)
+  indications        Indication[]
 }
 
 model ConceptOfInterest {
-  id          Int           @id @default(autoincrement())
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime?     @updatedAt
-  description String
-  moahs       CoiMaohs[]
-  measures    MeasureCois[]
-  name        String        @db.VarChar(255)
-}
-
-model MeasureCois {
-  id                  Int               @id @default(autoincrement())
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime?         @updatedAt
-  conceptOfInterest   ConceptOfInterest @relation(fields: [conceptOfInterestId], references: [id])
-  conceptOfInterestId Int
-  measure             Measure           @relation(fields: [measureId], references: [id])
-  measureId           Int
-}
-
-enum Validity {
-  ESTABLISHED
-  NOVEL
+  id              Int              @id @default(autoincrement())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime?        @updatedAt
+  description     String
+  aspectsOfHealth AspectOfHealth[]
+  measures        Measure[]
+  name            String           @db.VarChar(255)
 }
 
 model Measure {
-  id                Int                 @id @default(autoincrement())
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime?           @updatedAt
-  description       String
-  cois              MeasureCois[]
-  name              String              @db.VarChar(255)
-  validationStudies ValidationStudies[]
-  validity          Validity
-  indication        Indication?         @relation(fields: [indicationId], references: [id])
-  indicationId      Int?
+  id                 Int                 @id @default(autoincrement())
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime?           @updatedAt
+  description        String
+  conceptsOfInterest ConceptOfInterest[]
+  name               String              @db.VarChar(255)
+  validationStudies  Study[]
+  indications        Indication[]
 }
 
 model Study {
-  id                Int                 @id @default(autoincrement())
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime?           @updatedAt
-  abstract          String
-  authors           String
-  title             String
-  validationStudies ValidationStudies[]
-}
-
-model ValidationStudies {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  measure   Measure   @relation(fields: [measureId], references: [id])
-  measureId Int
-  study     Study     @relation(fields: [studyId], references: [id])
-  studyId   Int
+  abstract  String?
+  authors   String
+  title     String
+  measures  Measure[]
 }
 
 model Indication {
@@ -130,15 +92,4 @@ model Indication {
   description     String
   aspectsOfHealth AspectOfHealth[]
   measures        Measure[]
-  aohIndications  aohIndications[]
-}
-
-model aohIndications {
-  id               Int            @id @default(autoincrement())
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime?      @updatedAt
-  aspectOfHealth   AspectOfHealth @relation(fields: [aspectOfHealthId], references: [id])
-  aspectOfHealthId Int
-  indication       Indication     @relation(fields: [indicationId], references: [id])
-  indicationId     Int
 }

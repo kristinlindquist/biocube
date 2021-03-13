@@ -6,6 +6,7 @@ type Query {
   getDaily(input: GetDailyInput!): GetDailyResult!
   getDevice(input: GetDeviceInput!): GetDeviceResult!
   getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
+  getMeasure(input: GetMeasureInput!): GetMeasureResult!
   getMeasures(input: GetMeasuresInput!): GetMeasuresResult!
   getSleep(input: GetSleepInput!): GetSleepResult!
   getUser(input: GetUserInput!): GetUserResult!
@@ -98,14 +99,30 @@ type Sleep {
 }
 
 input GetMeasuresInput {
-  indicationId: Int
+  test: Boolean
 }
 
 type GetMeasuresResult {
   measures: [Measure]
 }
 
+input GetMeasureInput {
+  id: Int!
+}
+
+type GetMeasureResult {
+  measure: Measure
+}
+
 type Measure {
+  id: Int!
+  description: String!
+  name: String!
+  conceptsOfInterest: [ConceptOfInterest]
+  indications: [Indication]
+}
+
+type ConceptOfInterest {
   id: Int!
   description: String!
   name: String!

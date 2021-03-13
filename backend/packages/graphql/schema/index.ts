@@ -5,9 +5,10 @@ import { mergeResolvers, mergeTypeDefs, makeExecutableSchema, loadFilesSync } fr
 
 import { userResolvers } from './user';
 import { deviceResolvers } from './device';
+import { measureResolvers } from './measure';
 import { heartRateResolvers } from './googlefit';
 
-const resolvers = mergeResolvers([userResolvers, deviceResolvers, heartRateResolvers]);
+const resolvers = mergeResolvers([userResolvers, deviceResolvers, heartRateResolvers, measureResolvers]);
 
 const types = loadFilesSync(join(__dirname, './**/types.graphql'));
 const queries = loadFilesSync(join(__dirname, './**/queries.graphql'));

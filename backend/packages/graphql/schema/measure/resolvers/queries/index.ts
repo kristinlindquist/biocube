@@ -1,3 +1,4 @@
 import getMeasures from './getMeasures';
+import getMeasure from './getMeasure';
 
-export { getMeasures };
+export { getMeasures, getMeasure };
