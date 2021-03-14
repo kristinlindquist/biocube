@@ -1,0 +1,17 @@
+type Mutation {
+  createMeasure(input: CreateMeasureInput!): CreateMeasureResult!,
+}
+
+input CreateMeasureInput {
+  description: String!
+  indication: IndicationInput
+  name: String!
+}
+
+input IndicationInput {
+  name: String!
+}
+
+type CreateMeasureResult {
+  measure: Measure
+}

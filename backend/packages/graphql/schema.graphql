@@ -103,8 +103,12 @@ type Mutation {
 }
 
 input CreateMeasureInput {
-  id: Int!
   description: String!
+  indication: IndicationInput
+  name: String!
+}
+
+input IndicationInput {
   name: String!
 }
 

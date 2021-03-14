@@ -20,8 +20,12 @@ export interface DataGridProps {
     id: string | number;
     flex?: number | null;
     name: string;
-    type?: 'string' | 'number' | 'date' | 'dateTime' | 'text' | null;
+    type?: 'date' | 'dateTime' | 'number' | 'select' | 'string' | 'text';
   }>;
+  /**
+   * mutation function
+   */
+  createMutation?: (input: { [key: string]: unknown }) => void;
   /**
    * hide footer
    */
@@ -48,7 +52,7 @@ const formatColumns = (columns): GridColDef[] =>
     field: id,
     flex: getFlex(type),
     headerName: name,
-    type: type === 'text' ? 'string' : type,
+    type: ['text', 'select'].includes(type) ? 'string' : type,
     width: type === 'number' ? 100 : undefined,
   }));
 
@@ -60,6 +64,7 @@ const noEditColumns = ['id'];
 const DataGrid = ({
   allowAdds,
   columns,
+  createMutation,
   rows,
   ...props
 }: DataGridProps): ReactElement => (
@@ -75,6 +80,7 @@ const DataGrid = ({
     {allowAdds && (
       <Box display="flex">
         <Dialog
+          mutation={createMutation}
           fields={columns.filter(
             (c) => !noEditColumns.includes(c.id as string),
           )}

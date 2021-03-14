@@ -10,6 +10,13 @@ import {
   TextField,
 } from '@material-ui/core';
 import { SpacingProps } from '@material-ui/system';
+import { clone, setWith, curry } from 'lodash/fp';
+
+import { Select } from 'components/Inputs';
+
+const setIn = curry((path, value, obj) =>
+  setWith(clone, path, value, clone(obj)),
+);
 
 export interface FormDialogProps {
   /**
@@ -19,7 +26,16 @@ export interface FormDialogProps {
   /**
    * fields
    */
-  fields: Array<{ [key: string]: string | number | Date }>;
+  fields: Array<{
+    id: string | number;
+    name: string;
+    options?: Array<{ label: string; value: string | number }>;
+    type?: 'date' | 'dateTime' | 'number' | 'select' | 'string' | 'text';
+  }>;
+  /**
+   * mutation function
+   */
+  mutation: (input: { [key: string]: unknown }) => void;
   /**
    * open button
    */
@@ -30,14 +46,19 @@ export interface FormDialogProps {
   title: string;
 }
 
+/**
+ * A dialog box with a form
+ */
 const FormDialog = ({
   content,
   fields,
+  mutation,
   openButton,
   title,
   ...props
 }: FormDialogProps & SpacingProps): ReactElement => {
   const [open, setOpen] = React.useState(false);
+  const [state, setState] = React.useState({});
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -48,6 +69,14 @@ const FormDialog = ({
   };
 
   const OpenButton = openButton;
+
+  const handleUpdate = () => {
+    mutation({ variables: { input: state } });
+    handleClose();
+  };
+
+  const handleChange = (id, event) =>
+    setState(setIn(state, id, event.target.value));
 
   return (
     <Box {...props}>
@@ -64,20 +93,24 @@ const FormDialog = ({
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{content}</DialogContentText>
-          {fields.map(({ id, name }) => (
-            <TextField
-              fullWidth
-              id={id as string}
-              label={name}
-              margin="dense"
-            />
+          {fields.map(({ id, name, options }) => (
+            <>
+              {options && <Select label={name} options={options} />}
+              {!options && (
+                <TextField
+                  fullWidth
+                  id={id as string}
+                  label={name}
+                  margin="dense"
+                  onChange={(event) => handleChange(id, event)}
+                />
+              )}
+            </>
           ))}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleUpdate} color="primary">
             Submit
           </Button>
         </DialogActions>

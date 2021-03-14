@@ -1,6 +1,6 @@
 import { GraphQLSchema } from 'graphql';
 import { join } from 'path';
-import flatten from 'lodash/flatten';
+import { flatten } from 'lodash';
 import { mergeResolvers, mergeTypeDefs, makeExecutableSchema, loadFilesSync } from 'graphql-tools';
 
 import { userResolvers } from './user';

@@ -3,19 +3,32 @@ import { get } from 'lodash';
 
 import { Page } from 'components/Page';
 import { DataGrid } from 'components/Table';
-import { useGetMeasuresQuery } from 'gql';
+import {
+  useCreateMeasureMutation,
+  useGetMeasuresQuery,
+  useGetIndicationsQuery,
+} from 'gql';
 
 const Measures = (): ReactElement => {
   const { data, error, loading } = useGetMeasuresQuery({
     variables: { input: { test: true } },
   });
 
+  const { iData } = useGetIndicationsQuery();
+
+  const [createMeasureMutation] = useCreateMeasureMutation();
+
   return (
     <Page error={error} loading={loading} title="Measurements">
       <DataGrid
         allowAdds
+        createMutation={createMeasureMutation}
         columns={[
-          { id: 'indication.name', name: 'Indication' },
+          {
+            id: 'indication.name',
+            name: 'Indication',
+            options: get(iData, 'getIndications.indications'),
+          },
           { id: 'name', name: 'Name', type: 'string' },
           { id: 'description', name: 'Description', type: 'text' },
         ]}

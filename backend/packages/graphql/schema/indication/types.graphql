@@ -1,0 +1,25 @@
+type Measure {
+  id: Int!
+  description: String!
+  name: String!
+  conceptsOfInterest: [ConceptOfInterest!]
+  indications: [Indication!]
+}
+
+type ConceptOfInterest {
+  id: Int!
+  description: String!
+  name: String!	
+}
+
+# type AspectOfHealth {
+#   id: Int!
+#   description: String!
+#   name: String!	
+# }
+
+type Indication {
+  id: Int!
+  description: String!
+  name: String!	
+}

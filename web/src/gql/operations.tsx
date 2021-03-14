@@ -178,8 +178,12 @@ export type MutationCreateMeasureArgs = {
 };
 
 export type CreateMeasureInput = {
-  id: Scalars['Int'];
   description: Scalars['String'];
+  indication?: Maybe<IndicationInput>;
+  name: Scalars['String'];
+};
+
+export type IndicationInput = {
   name: Scalars['String'];
 };
 
