@@ -98,6 +98,20 @@ type Sleep {
   state: String
 }
 
+type Mutation {
+  createMeasure(input: CreateMeasureInput!): CreateMeasureResult!
+}
+
+input CreateMeasureInput {
+  id: Int!
+  description: String!
+  name: String!
+}
+
+type CreateMeasureResult {
+  measure: Measure
+}
+
 input GetMeasuresInput {
   test: Boolean
 }
@@ -118,8 +132,8 @@ type Measure {
   id: Int!
   description: String!
   name: String!
-  conceptsOfInterest: [ConceptOfInterest]
-  indications: [Indication]
+  conceptsOfInterest: [ConceptOfInterest!]
+  indications: [Indication!]
 }
 
 type ConceptOfInterest {

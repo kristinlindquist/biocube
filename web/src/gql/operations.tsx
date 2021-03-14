@@ -167,6 +167,27 @@ export type Sleep = {
   state?: Maybe<Scalars['String']>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  createMeasure: CreateMeasureResult;
+};
+
+
+export type MutationCreateMeasureArgs = {
+  input: CreateMeasureInput;
+};
+
+export type CreateMeasureInput = {
+  id: Scalars['Int'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type CreateMeasureResult = {
+  __typename?: 'CreateMeasureResult';
+  measure?: Maybe<Measure>;
+};
+
 export type GetMeasuresInput = {
   test?: Maybe<Scalars['Boolean']>;
 };
@@ -190,8 +211,8 @@ export type Measure = {
   id: Scalars['Int'];
   description: Scalars['String'];
   name: Scalars['String'];
-  conceptsOfInterest?: Maybe<Array<Maybe<ConceptOfInterest>>>;
-  indications?: Maybe<Array<Maybe<Indication>>>;
+  conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
+  indications?: Maybe<Array<Indication>>;
 };
 
 export type ConceptOfInterest = {
@@ -224,6 +245,29 @@ export type User = {
   name: Scalars['String'];
   devices?: Maybe<Array<Maybe<Device>>>;
 };
+
+export type CreateMeasureMutationVariables = Exact<{
+  input: CreateMeasureInput;
+}>;
+
+
+export type CreateMeasureMutation = (
+  { __typename?: 'Mutation' }
+  & { createMeasure: (
+    { __typename?: 'CreateMeasureResult' }
+    & { measure?: Maybe<(
+      { __typename?: 'Measure' }
+      & Pick<Measure, 'id' | 'description' | 'name'>
+      & { conceptsOfInterest?: Maybe<Array<(
+        { __typename?: 'ConceptOfInterest' }
+        & Pick<ConceptOfInterest, 'name'>
+      )>>, indications?: Maybe<Array<(
+        { __typename?: 'Indication' }
+        & Pick<Indication, 'name'>
+      )>> }
+    )> }
+  ) }
+);
 
 export type GetDeviceQueryVariables = Exact<{
   input: GetDeviceInput;
@@ -321,6 +365,13 @@ export type GetMeasureQuery = (
     & { measure?: Maybe<(
       { __typename?: 'Measure' }
       & Pick<Measure, 'id' | 'description' | 'name'>
+      & { conceptsOfInterest?: Maybe<Array<(
+        { __typename?: 'ConceptOfInterest' }
+        & Pick<ConceptOfInterest, 'name'>
+      )>>, indications?: Maybe<Array<(
+        { __typename?: 'Indication' }
+        & Pick<Indication, 'name'>
+      )>> }
     )> }
   ) }
 );
@@ -337,10 +388,10 @@ export type GetMeasuresQuery = (
     & { measures?: Maybe<Array<Maybe<(
       { __typename?: 'Measure' }
       & Pick<Measure, 'id' | 'description' | 'name'>
-      & { indications?: Maybe<Array<Maybe<(
+      & { indications?: Maybe<Array<(
         { __typename?: 'Indication' }
         & Pick<Indication, 'id' | 'name' | 'description'>
-      )>>> }
+      )>> }
     )>>> }
   ) }
 );
@@ -366,6 +417,49 @@ export type GetUserQuery = (
 );
 
 
+export const CreateMeasureDocument = gql`
+    mutation createMeasure($input: CreateMeasureInput!) {
+  createMeasure(input: $input) {
+    measure {
+      id
+      conceptsOfInterest {
+        name
+      }
+      description
+      name
+      indications {
+        name
+      }
+    }
+  }
+}
+    `;
+export type CreateMeasureMutationFn = Apollo.MutationFunction<CreateMeasureMutation, CreateMeasureMutationVariables>;
+
+/**
+ * __useCreateMeasureMutation__
+ *
+ * To run a mutation, you first call `useCreateMeasureMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMeasureMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMeasureMutation, { data, loading, error }] = useCreateMeasureMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateMeasureMutation(baseOptions?: Apollo.MutationHookOptions<CreateMeasureMutation, CreateMeasureMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateMeasureMutation, CreateMeasureMutationVariables>(CreateMeasureDocument, options);
+      }
+export type CreateMeasureMutationHookResult = ReturnType<typeof useCreateMeasureMutation>;
+export type CreateMeasureMutationResult = Apollo.MutationResult<CreateMeasureMutation>;
+export type CreateMeasureMutationOptions = Apollo.BaseMutationOptions<CreateMeasureMutation, CreateMeasureMutationVariables>;
 export const GetDeviceDocument = gql`
     query getDevice($input: GetDeviceInput!) {
   getDevice(input: $input) {
@@ -569,8 +663,14 @@ export const GetMeasureDocument = gql`
   getMeasure(input: $input) {
     measure {
       id
+      conceptsOfInterest {
+        name
+      }
       description
       name
+      indications {
+        name
+      }
     }
   }
 }

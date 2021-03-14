@@ -13,14 +13,15 @@ const Measures = (): ReactElement => {
   return (
     <Page error={error} loading={loading} title="Measurements">
       <DataGrid
+        allowAdds
         columns={[
-          { id: 'indication', name: 'Indication' },
+          { id: 'indication.name', name: 'Indication' },
           { id: 'name', name: 'Name', type: 'string' },
           { id: 'description', name: 'Description', type: 'text' },
         ]}
         rows={(get(data, 'getMeasures.measures') || []).map((d) => ({
           ...d,
-          indication: (d.indications || [{}])[0].name,
+          'indication.name': (d.indications || [{}])[0].name,
         }))}
       />
     </Page>

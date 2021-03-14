@@ -164,6 +164,27 @@ export type Sleep = {
   state?: Maybe<Scalars['String']>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  createMeasure: CreateMeasureResult;
+};
+
+
+export type MutationCreateMeasureArgs = {
+  input: CreateMeasureInput;
+};
+
+export type CreateMeasureInput = {
+  id: Scalars['Int'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type CreateMeasureResult = {
+  __typename?: 'CreateMeasureResult';
+  measure?: Maybe<Measure>;
+};
+
 export type GetMeasuresInput = {
   test?: Maybe<Scalars['Boolean']>;
 };
@@ -187,8 +208,8 @@ export type Measure = {
   id: Scalars['Int'];
   description: Scalars['String'];
   name: Scalars['String'];
-  conceptsOfInterest?: Maybe<Array<Maybe<ConceptOfInterest>>>;
-  indications?: Maybe<Array<Maybe<Indication>>>;
+  conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
+  indications?: Maybe<Array<Indication>>;
 };
 
 export type ConceptOfInterest = {
