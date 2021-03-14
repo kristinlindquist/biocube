@@ -14,8 +14,8 @@ export const Default = Template.bind({});
 Default.args = {
   label: 'Select Box',
   options: [
-    { value: 'value1', label: 'Value #1' },
-    { value: 'value2', label: 'Value #2' },
-    { value: 'value3', label: 'Value #3' },
+    { id: 'value1', name: 'Value #1' },
+    { id: 'value2', name: 'Value #2' },
+    { id: 'value3', name: 'Value #3' },
   ],
 };

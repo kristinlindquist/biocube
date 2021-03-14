@@ -1,3 +1,3 @@
-import createMeasure from './createMeasure';
+import createIndication from './createIndication';
 
-export { createMeasure };
+export { createIndication };

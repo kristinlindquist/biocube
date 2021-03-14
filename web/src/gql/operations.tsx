@@ -24,6 +24,8 @@ export type Query = {
   getDaily: GetDailyResult;
   getDevice: GetDeviceResult;
   getHeartRate: GetHeartRateResult;
+  getIndication: GetIndicationResult;
+  getIndications: GetIndicationsResult;
   getMeasure: GetMeasureResult;
   getMeasures: GetMeasuresResult;
   getSleep: GetSleepResult;
@@ -48,6 +50,16 @@ export type QueryGetDeviceArgs = {
 
 export type QueryGetHeartRateArgs = {
   input: GetHeartRateInput;
+};
+
+
+export type QueryGetIndicationArgs = {
+  input: GetIndicationInput;
+};
+
+
+export type QueryGetIndicationsArgs = {
+  input: GetIndicationsInput;
 };
 
 
@@ -169,7 +181,13 @@ export type Sleep = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createIndication: CreateIndicationResult;
   createMeasure: CreateMeasureResult;
+};
+
+
+export type MutationCreateIndicationArgs = {
+  input: CreateIndicationInput;
 };
 
 
@@ -177,13 +195,58 @@ export type MutationCreateMeasureArgs = {
   input: CreateMeasureInput;
 };
 
-export type CreateMeasureInput = {
+export type CreateIndicationInput = {
   description: Scalars['String'];
   indication?: Maybe<IndicationInput>;
   name: Scalars['String'];
 };
 
 export type IndicationInput = {
+  name: Scalars['String'];
+};
+
+export type CreateIndicationResult = {
+  __typename?: 'CreateIndicationResult';
+  indication?: Maybe<Indication>;
+};
+
+export type GetIndicationsInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetIndicationsResult = {
+  __typename?: 'GetIndicationsResult';
+  indications?: Maybe<Array<Maybe<Indication>>>;
+};
+
+export type GetIndicationInput = {
+  id: Scalars['Int'];
+};
+
+export type GetIndicationResult = {
+  __typename?: 'GetIndicationResult';
+  indication?: Maybe<Indication>;
+};
+
+export type Indication = {
+  __typename?: 'Indication';
+  conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  indications?: Maybe<Array<Indication>>;
+  name: Scalars['String'];
+};
+
+export type ConceptOfInterest = {
+  __typename?: 'ConceptOfInterest';
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+export type CreateMeasureInput = {
+  description: Scalars['String'];
+  indication?: Maybe<IndicationInput>;
   name: Scalars['String'];
 };
 
@@ -219,20 +282,6 @@ export type Measure = {
   indications?: Maybe<Array<Indication>>;
 };
 
-export type ConceptOfInterest = {
-  __typename?: 'ConceptOfInterest';
-  id: Scalars['Int'];
-  description: Scalars['String'];
-  name: Scalars['String'];
-};
-
-export type Indication = {
-  __typename?: 'Indication';
-  id: Scalars['Int'];
-  description: Scalars['String'];
-  name: Scalars['String'];
-};
-
 export type GetUserInput = {
   id: Scalars['Int'];
 };
@@ -249,6 +298,22 @@ export type User = {
   name: Scalars['String'];
   devices?: Maybe<Array<Maybe<Device>>>;
 };
+
+export type CreateIndicationMutationVariables = Exact<{
+  input: CreateIndicationInput;
+}>;
+
+
+export type CreateIndicationMutation = (
+  { __typename?: 'Mutation' }
+  & { createIndication: (
+    { __typename?: 'CreateIndicationResult' }
+    & { indication?: Maybe<(
+      { __typename?: 'Indication' }
+      & Pick<Indication, 'id' | 'description' | 'name'>
+    )> }
+  ) }
+);
 
 export type CreateMeasureMutationVariables = Exact<{
   input: CreateMeasureInput;
@@ -357,6 +422,38 @@ export type GetSleepQuery = (
   ) }
 );
 
+export type GetIndicationQueryVariables = Exact<{
+  input: GetIndicationInput;
+}>;
+
+
+export type GetIndicationQuery = (
+  { __typename?: 'Query' }
+  & { getIndication: (
+    { __typename?: 'GetIndicationResult' }
+    & { indication?: Maybe<(
+      { __typename?: 'Indication' }
+      & Pick<Indication, 'id' | 'description' | 'name'>
+    )> }
+  ) }
+);
+
+export type GetIndicationsQueryVariables = Exact<{
+  input: GetIndicationsInput;
+}>;
+
+
+export type GetIndicationsQuery = (
+  { __typename?: 'Query' }
+  & { getIndications: (
+    { __typename?: 'GetIndicationsResult' }
+    & { indications?: Maybe<Array<Maybe<(
+      { __typename?: 'Indication' }
+      & Pick<Indication, 'id' | 'description' | 'name'>
+    )>>> }
+  ) }
+);
+
 export type GetMeasureQueryVariables = Exact<{
   input: GetMeasureInput;
 }>;
@@ -421,6 +518,43 @@ export type GetUserQuery = (
 );
 
 
+export const CreateIndicationDocument = gql`
+    mutation createIndication($input: CreateIndicationInput!) {
+  createIndication(input: $input) {
+    indication {
+      id
+      description
+      name
+    }
+  }
+}
+    `;
+export type CreateIndicationMutationFn = Apollo.MutationFunction<CreateIndicationMutation, CreateIndicationMutationVariables>;
+
+/**
+ * __useCreateIndicationMutation__
+ *
+ * To run a mutation, you first call `useCreateIndicationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateIndicationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createIndicationMutation, { data, loading, error }] = useCreateIndicationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateIndicationMutation(baseOptions?: Apollo.MutationHookOptions<CreateIndicationMutation, CreateIndicationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateIndicationMutation, CreateIndicationMutationVariables>(CreateIndicationDocument, options);
+      }
+export type CreateIndicationMutationHookResult = ReturnType<typeof useCreateIndicationMutation>;
+export type CreateIndicationMutationResult = Apollo.MutationResult<CreateIndicationMutation>;
+export type CreateIndicationMutationOptions = Apollo.BaseMutationOptions<CreateIndicationMutation, CreateIndicationMutationVariables>;
 export const CreateMeasureDocument = gql`
     mutation createMeasure($input: CreateMeasureInput!) {
   createMeasure(input: $input) {
@@ -662,6 +796,84 @@ export function useGetSleepLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetSleepQueryHookResult = ReturnType<typeof useGetSleepQuery>;
 export type GetSleepLazyQueryHookResult = ReturnType<typeof useGetSleepLazyQuery>;
 export type GetSleepQueryResult = Apollo.QueryResult<GetSleepQuery, GetSleepQueryVariables>;
+export const GetIndicationDocument = gql`
+    query getIndication($input: GetIndicationInput!) {
+  getIndication(input: $input) {
+    indication {
+      id
+      description
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetIndicationQuery__
+ *
+ * To run a query within a React component, call `useGetIndicationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetIndicationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetIndicationQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetIndicationQuery(baseOptions: Apollo.QueryHookOptions<GetIndicationQuery, GetIndicationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetIndicationQuery, GetIndicationQueryVariables>(GetIndicationDocument, options);
+      }
+export function useGetIndicationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetIndicationQuery, GetIndicationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetIndicationQuery, GetIndicationQueryVariables>(GetIndicationDocument, options);
+        }
+export type GetIndicationQueryHookResult = ReturnType<typeof useGetIndicationQuery>;
+export type GetIndicationLazyQueryHookResult = ReturnType<typeof useGetIndicationLazyQuery>;
+export type GetIndicationQueryResult = Apollo.QueryResult<GetIndicationQuery, GetIndicationQueryVariables>;
+export const GetIndicationsDocument = gql`
+    query getIndications($input: GetIndicationsInput!) {
+  getIndications(input: $input) {
+    indications {
+      id
+      description
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetIndicationsQuery__
+ *
+ * To run a query within a React component, call `useGetIndicationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetIndicationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetIndicationsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetIndicationsQuery(baseOptions: Apollo.QueryHookOptions<GetIndicationsQuery, GetIndicationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetIndicationsQuery, GetIndicationsQueryVariables>(GetIndicationsDocument, options);
+      }
+export function useGetIndicationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetIndicationsQuery, GetIndicationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetIndicationsQuery, GetIndicationsQueryVariables>(GetIndicationsDocument, options);
+        }
+export type GetIndicationsQueryHookResult = ReturnType<typeof useGetIndicationsQuery>;
+export type GetIndicationsLazyQueryHookResult = ReturnType<typeof useGetIndicationsLazyQuery>;
+export type GetIndicationsQueryResult = Apollo.QueryResult<GetIndicationsQuery, GetIndicationsQueryVariables>;
 export const GetMeasureDocument = gql`
     query getMeasure($input: GetMeasureInput!) {
   getMeasure(input: $input) {

@@ -1,4 +1,4 @@
-import getMeasures from './getMeasures';
-import getMeasure from './getMeasure';
+import getIndications from './getIndications';
+import getIndication from './getIndication';
 
-export { getMeasures, getMeasure };
+export { getIndications, getIndication };

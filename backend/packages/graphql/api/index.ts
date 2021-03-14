@@ -5,8 +5,8 @@
  */
 import getUser from './queries/user/getUser';
 import getDevice from './queries/device/getDevice';
-import getMeasures from './queries/measure/getMeasures';
-import getMeasure from './queries/measure/getMeasure';
+import { getMeasures, getMeasure } from './queries/measure';
+import { getIndication, getIndications } from './queries/indication';
 import { getHeartRate } from './queries/googlefit';
 
 const allQueries = {
@@ -14,7 +14,9 @@ const allQueries = {
   getDevice,
   getHeartRate,
   getMeasures,
-  getMeasure
+  getMeasure,
+  getIndication,
+  getIndications
 };
 
 import { Context } from '../types/resolvers';
@@ -30,7 +32,11 @@ import {
   GetMeasuresInput,
   GetMeasuresResult,
   GetMeasureInput,
-  GetMeasureResult
+  GetMeasureResult,
+  GetIndicationInput,
+  GetIndicationResult,
+  GetIndicationsInput,
+  GetIndicationsResult
 } from '../types';
 
 type GraphQLApiArgs = {
@@ -93,6 +99,26 @@ class GraphQLApi {
 
   async getMeasure(input: GetMeasureInput, context?: Context): Promise<GetMeasureResult> {
     const operationName = 'getMeasure';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context
+    });
+  }
+
+  async getIndication(input: GetIndicationInput, context?: Context): Promise<GetIndicationResult> {
+    const operationName = 'getIndication';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context
+    });
+  }
+
+  async getIndications(input: GetIndicationsInput, context?: Context): Promise<GetIndicationsResult> {
+    const operationName = 'getIndications';
     const variables = { input };
     return this.graphqlRequest({
       operationName,

@@ -20,6 +20,7 @@ export interface DataGridProps {
     id: string | number;
     flex?: number | null;
     name: string;
+    options?: Array<{ id: string | number; name: string }>;
     type?: 'date' | 'dateTime' | 'number' | 'select' | 'string' | 'text';
   }>;
   /**

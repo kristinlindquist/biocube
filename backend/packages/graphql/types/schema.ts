@@ -21,6 +21,8 @@ export type Query = {
   getDaily: GetDailyResult;
   getDevice: GetDeviceResult;
   getHeartRate: GetHeartRateResult;
+  getIndication: GetIndicationResult;
+  getIndications: GetIndicationsResult;
   getMeasure: GetMeasureResult;
   getMeasures: GetMeasuresResult;
   getSleep: GetSleepResult;
@@ -45,6 +47,16 @@ export type QueryGetDeviceArgs = {
 
 export type QueryGetHeartRateArgs = {
   input: GetHeartRateInput;
+};
+
+
+export type QueryGetIndicationArgs = {
+  input: GetIndicationInput;
+};
+
+
+export type QueryGetIndicationsArgs = {
+  input: GetIndicationsInput;
 };
 
 
@@ -166,7 +178,13 @@ export type Sleep = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createIndication: CreateIndicationResult;
   createMeasure: CreateMeasureResult;
+};
+
+
+export type MutationCreateIndicationArgs = {
+  input: CreateIndicationInput;
 };
 
 
@@ -174,13 +192,58 @@ export type MutationCreateMeasureArgs = {
   input: CreateMeasureInput;
 };
 
-export type CreateMeasureInput = {
+export type CreateIndicationInput = {
   description: Scalars['String'];
   indication?: Maybe<IndicationInput>;
   name: Scalars['String'];
 };
 
 export type IndicationInput = {
+  name: Scalars['String'];
+};
+
+export type CreateIndicationResult = {
+  __typename?: 'CreateIndicationResult';
+  indication?: Maybe<Indication>;
+};
+
+export type GetIndicationsInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetIndicationsResult = {
+  __typename?: 'GetIndicationsResult';
+  indications?: Maybe<Array<Maybe<Indication>>>;
+};
+
+export type GetIndicationInput = {
+  id: Scalars['Int'];
+};
+
+export type GetIndicationResult = {
+  __typename?: 'GetIndicationResult';
+  indication?: Maybe<Indication>;
+};
+
+export type Indication = {
+  __typename?: 'Indication';
+  conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  indications?: Maybe<Array<Indication>>;
+  name: Scalars['String'];
+};
+
+export type ConceptOfInterest = {
+  __typename?: 'ConceptOfInterest';
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+export type CreateMeasureInput = {
+  description: Scalars['String'];
+  indication?: Maybe<IndicationInput>;
   name: Scalars['String'];
 };
 
@@ -214,20 +277,6 @@ export type Measure = {
   name: Scalars['String'];
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   indications?: Maybe<Array<Indication>>;
-};
-
-export type ConceptOfInterest = {
-  __typename?: 'ConceptOfInterest';
-  id: Scalars['Int'];
-  description: Scalars['String'];
-  name: Scalars['String'];
-};
-
-export type Indication = {
-  __typename?: 'Indication';
-  id: Scalars['Int'];
-  description: Scalars['String'];
-  name: Scalars['String'];
 };
 
 export type GetUserInput = {

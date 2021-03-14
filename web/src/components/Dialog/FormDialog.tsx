@@ -29,7 +29,7 @@ export interface FormDialogProps {
   fields: Array<{
     id: string | number;
     name: string;
-    options?: Array<{ label: string; value: string | number }>;
+    options?: Array<{ id: string | number; name: string }>;
     type?: 'date' | 'dateTime' | 'number' | 'select' | 'string' | 'text';
   }>;
   /**

@@ -14,7 +14,7 @@ const Measures = (): ReactElement => {
     variables: { input: { test: true } },
   });
 
-  const { iData } = useGetIndicationsQuery();
+  const { data: iData } = useGetIndicationsQuery({ variables: { input: {} } });
 
   const [createMeasureMutation] = useCreateMeasureMutation();
 

@@ -1,4 +1,4 @@
-type Measure {
+type Indication {
   id: Int!
   description: String!
   name: String!

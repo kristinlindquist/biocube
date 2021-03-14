@@ -6,6 +6,8 @@ type Query {
   getDaily(input: GetDailyInput!): GetDailyResult!
   getDevice(input: GetDeviceInput!): GetDeviceResult!
   getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
+  getIndication(input: GetIndicationInput!): GetIndicationResult!
+  getIndications(input: GetIndicationsInput!): GetIndicationsResult!
   getMeasure(input: GetMeasureInput!): GetMeasureResult!
   getMeasures(input: GetMeasuresInput!): GetMeasuresResult!
   getSleep(input: GetSleepInput!): GetSleepResult!
@@ -99,16 +101,57 @@ type Sleep {
 }
 
 type Mutation {
+  createIndication(input: CreateIndicationInput!): CreateIndicationResult!
   createMeasure(input: CreateMeasureInput!): CreateMeasureResult!
 }
 
-input CreateMeasureInput {
+input CreateIndicationInput {
   description: String!
   indication: IndicationInput
   name: String!
 }
 
 input IndicationInput {
+  name: String!
+}
+
+type CreateIndicationResult {
+  indication: Indication
+}
+
+input GetIndicationsInput {
+  test: Boolean
+}
+
+type GetIndicationsResult {
+  indications: [Indication]
+}
+
+input GetIndicationInput {
+  id: Int!
+}
+
+type GetIndicationResult {
+  indication: Indication
+}
+
+type Indication {
+  conceptsOfInterest: [ConceptOfInterest!]
+  description: String!
+  id: Int!
+  indications: [Indication!]
+  name: String!
+}
+
+type ConceptOfInterest {
+  description: String!
+  id: Int!
+  name: String!
+}
+
+input CreateMeasureInput {
+  description: String!
+  indication: IndicationInput
   name: String!
 }
 
@@ -138,18 +181,6 @@ type Measure {
   name: String!
   conceptsOfInterest: [ConceptOfInterest!]
   indications: [Indication!]
-}
-
-type ConceptOfInterest {
-  id: Int!
-  description: String!
-  name: String!
-}
-
-type Indication {
-  id: Int!
-  description: String!
-  name: String!
 }
 
 input GetUserInput {

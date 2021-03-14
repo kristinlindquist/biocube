@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { FormControl, InputLabel, NativeSelect } from '@material-ui/core';
 
 export interface SelectProps {
@@ -18,13 +18,15 @@ export interface SelectProps {
   /**
    * select box options
    */
-  options: Array<{ label: string; value: string | number }>;
+  options: Array<{
+    id: string | number;
+    name: string;
+  }>;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     formControl: {
-      margin: theme.spacing(1),
       minWidth: 120,
     },
   }),
@@ -62,8 +64,8 @@ const Select = ({
         onChange={handleChange}
         value={value}>
         <option value=""> </option>
-        {options.map((o) => (
-          <option value={o.value}>{o.label}</option>
+        {options.map(({ id, name }) => (
+          <option value={id}>{name}</option>
         ))}
       </NativeSelect>
     </FormControl>

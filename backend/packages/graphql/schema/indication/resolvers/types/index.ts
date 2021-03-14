@@ -1,3 +1,3 @@
-import Measure from './Measure';
+import Indication from './Indication';
 
-export { Measure };
+export { Indication };

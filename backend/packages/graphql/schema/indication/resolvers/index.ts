@@ -1,16 +1,16 @@
-import { Measure } from './types';
-import { getMeasures, getMeasure } from './queries';
-import { createMeasure } from './mutations';
+import { Indication } from './types';
+import { getIndications, getIndication } from './queries';
+import { createIndication } from './mutations';
 
 const resolvers = {
   Query: {
-    getMeasures,
-    getMeasure
+    getIndications,
+    getIndication
   },
   Mutation: {
-    createMeasure
+    createIndication
   },
-  Measure
+  Indication
 };
 
 export default resolvers;

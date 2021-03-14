@@ -1,3 +1,3 @@
-import measureResolvers from './resolvers';
+import indicationResolvers from './resolvers';
 
-export { measureResolvers };
+export { indicationResolvers };

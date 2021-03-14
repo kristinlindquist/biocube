@@ -1,20 +1,20 @@
 type Query {
-  getMeasures(input: GetMeasuresInput!): GetMeasuresResult!,
-  getMeasure(input: GetMeasureInput!): GetMeasureResult!
+  getIndications(input: GetIndicationsInput!): GetIndicationsResult!,
+  getIndication(input: GetIndicationInput!): GetIndicationResult!
 }
 
-input GetMeasuresInput {
+input GetIndicationsInput {
   test: Boolean
 }
 
-type GetMeasuresResult {
-  measures: [Measure]
+type GetIndicationsResult {
+  indications: [Indication]
 }
 
-input GetMeasureInput {
+input GetIndicationInput {
   id: Int!
 }
 
-type GetMeasureResult {
-  measure: Measure
+type GetIndicationResult {
+  indication: Indication
 }
