@@ -202,6 +202,7 @@ export type CreateIndicationInput = {
 };
 
 export type IndicationInput = {
+  id: Scalars['Int'];
   name: Scalars['String'];
 };
 
@@ -246,7 +247,7 @@ export type ConceptOfInterest = {
 
 export type CreateMeasureInput = {
   description: Scalars['String'];
-  indication?: Maybe<IndicationInput>;
+  indications?: Maybe<Array<Maybe<IndicationInput>>>;
   name: Scalars['String'];
 };
 

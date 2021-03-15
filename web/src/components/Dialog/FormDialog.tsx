@@ -10,13 +10,9 @@ import {
   TextField,
 } from '@material-ui/core';
 import { SpacingProps } from '@material-ui/system';
-import { clone, setWith, curry } from 'lodash/fp';
+import { get } from 'lodash';
 
 import { Select } from 'components/Inputs';
-
-const setIn = curry((path, value, obj) =>
-  setWith(clone, path, value, clone(obj)),
-);
 
 export interface FormDialogProps {
   /**
@@ -30,7 +26,7 @@ export interface FormDialogProps {
     id: string | number;
     name: string;
     options?: Array<{ id: string | number; name: string }>;
-    type?: 'date' | 'dateTime' | 'number' | 'select' | 'string' | 'text';
+    type?: 'date' | 'dateTime' | 'number' | 'multiple' | 'string' | 'text';
   }>;
   /**
    * mutation function
@@ -75,8 +71,7 @@ const FormDialog = ({
     handleClose();
   };
 
-  const handleChange = (id, event) =>
-    setState(setIn(state, id, event.target.value));
+  console.log(state);
 
   return (
     <Box {...props}>
@@ -93,19 +88,30 @@ const FormDialog = ({
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{content}</DialogContentText>
-          {fields.map(({ id, name, options }) => (
-            <>
-              {options && <Select label={name} options={options} />}
+          {fields.map(({ id, name, options, type }) => (
+            <React.Fragment key={id}>
+              {options && (
+                <Select
+                  label={name}
+                  multiple={type === 'multiple'}
+                  onSelect={(selection) =>
+                    setState({ ...state, [id]: selection })
+                  }
+                  options={options}
+                />
+              )}
               {!options && (
                 <TextField
                   fullWidth
                   id={id as string}
                   label={name}
                   margin="dense"
-                  onChange={(event) => handleChange(id, event)}
+                  onChange={(e) =>
+                    setState({ ...state, [id]: get(e, 'target.value') })
+                  }
                 />
               )}
-            </>
+            </React.Fragment>
           ))}
         </DialogContent>
         <DialogActions>

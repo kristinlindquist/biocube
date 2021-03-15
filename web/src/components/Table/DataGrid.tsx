@@ -17,11 +17,11 @@ export interface DataGridProps {
    * table cols
    */
   columns: Array<{
-    id: string | number;
+    id: string;
     flex?: number | null;
     name: string;
     options?: Array<{ id: string | number; name: string }>;
-    type?: 'date' | 'dateTime' | 'number' | 'select' | 'string' | 'text';
+    type?: 'date' | 'dateTime' | 'number' | 'multiple' | 'string' | 'text';
   }>;
   /**
    * mutation function
@@ -82,9 +82,9 @@ const DataGrid = ({
       <Box display="flex">
         <Dialog
           mutation={createMutation}
-          fields={columns.filter(
-            (c) => !noEditColumns.includes(c.id as string),
-          )}
+          fields={columns
+            .filter((c) => !noEditColumns.includes(c.id as string))
+            .map((f) => ({ ...f, id: f.id.split('.')[0] }))}
           ml="auto"
           openButton={Fab}
           title="a title"

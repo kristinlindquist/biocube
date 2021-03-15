@@ -4,11 +4,12 @@ type Mutation {
 
 input CreateMeasureInput {
   description: String!
-  indication: IndicationInput
+  indications: [IndicationInput]
   name: String!
 }
 
 input IndicationInput {
+	id: Int!
   name: String!
 }
 

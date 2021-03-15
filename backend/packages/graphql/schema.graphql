@@ -112,6 +112,7 @@ input CreateIndicationInput {
 }
 
 input IndicationInput {
+  id: Int!
   name: String!
 }
 
@@ -151,7 +152,7 @@ type ConceptOfInterest {
 
 input CreateMeasureInput {
   description: String!
-  indication: IndicationInput
+  indications: [IndicationInput]
   name: String!
 }
 

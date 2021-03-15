@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 import { Page } from 'components/Page';
 import { DataGrid } from 'components/Table';
@@ -11,7 +11,7 @@ import {
 
 const Measures = (): ReactElement => {
   const { data, error, loading } = useGetMeasuresQuery({
-    variables: { input: { test: true } },
+    variables: { input: {} },
   });
 
   const { data: iData } = useGetIndicationsQuery({ variables: { input: {} } });
@@ -25,16 +25,19 @@ const Measures = (): ReactElement => {
         createMutation={createMeasureMutation}
         columns={[
           {
-            id: 'indication.name',
+            id: 'indications.name',
             name: 'Indication',
             options: get(iData, 'getIndications.indications'),
+            type: 'multiple',
           },
           { id: 'name', name: 'Name', type: 'string' },
           { id: 'description', name: 'Description', type: 'text' },
         ]}
         rows={(get(data, 'getMeasures.measures') || []).map((d) => ({
           ...d,
-          'indication.name': (d.indications || [{}])[0].name,
+          'indications.name': !isEmpty(d.indications)
+            ? d.indications[0].name
+            : null,
         }))}
       />
     </Page>
