@@ -92,6 +92,7 @@ const FormDialog = ({
             <React.Fragment key={id}>
               {options && (
                 <Select
+                  fullWidth
                   label={name}
                   multiple={type === 'multiple'}
                   onSelect={(selection) =>

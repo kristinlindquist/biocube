@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import {
   Chip,
   FormControl,
@@ -15,6 +16,10 @@ export type SelectProps = {
    * default value
    */
   defaultValue?: string;
+  /**
+   * full width?
+   */
+  fullWidth?: boolean;
   /**
    * show multiple?
    */
@@ -40,6 +45,9 @@ export type SelectProps = {
 const useStyles = makeStyles(() =>
   createStyles({
     formControl: {
+      minWidth: 120,
+    },
+    fullWidth: {
       width: '100%',
     },
     chips: {
@@ -62,6 +70,7 @@ const getSelectedOptions = (selections, options) =>
  */
 const Select = ({
   defaultValue = null,
+  fullWidth = false,
   label,
   multiple,
   onSelect = () => {},
@@ -80,7 +89,8 @@ const Select = ({
   };
 
   return (
-    <FormControl className={classes.formControl}>
+    <FormControl
+      className={clsx({ [classes.fullWidth]: fullWidth }, classes.formControl)}>
       <InputLabel shrink htmlFor={`${label}-select`}>
         {label}
       </InputLabel>
@@ -91,6 +101,7 @@ const Select = ({
           id: `${label}-select`,
         }}
         input={<Input id="select-multiple-chip" />}
+        native={!multiple}
         renderValue={(selected) => (
           <div className={classes.chips}>
             {getSelectedOptions(selected as string[], options).map(
@@ -101,7 +112,7 @@ const Select = ({
           </div>
         )}
         onChange={handleChange}
-        value={state}>
+        value={multiple ? state : state[0]}>
         <option value=""> </option>
         {options.map(({ id, name }) => (
           <option key={id} value={id}>

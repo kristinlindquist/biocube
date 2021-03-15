@@ -5,12 +5,10 @@ const createMeasure = gql`
     createMeasure(input: $input) {
     	measure {
 	      id
-	      conceptsOfInterest {
-	      	name
-	      }
 	      description
 	      name
 	      indications {
+	      	id
 	      	name
 	      }
 	    }

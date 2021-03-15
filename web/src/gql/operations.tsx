@@ -328,12 +328,9 @@ export type CreateMeasureMutation = (
     & { measure?: Maybe<(
       { __typename?: 'Measure' }
       & Pick<Measure, 'id' | 'description' | 'name'>
-      & { conceptsOfInterest?: Maybe<Array<(
-        { __typename?: 'ConceptOfInterest' }
-        & Pick<ConceptOfInterest, 'name'>
-      )>>, indications?: Maybe<Array<(
+      & { indications?: Maybe<Array<(
         { __typename?: 'Indication' }
-        & Pick<Indication, 'name'>
+        & Pick<Indication, 'id' | 'name'>
       )>> }
     )> }
   ) }
@@ -561,12 +558,10 @@ export const CreateMeasureDocument = gql`
   createMeasure(input: $input) {
     measure {
       id
-      conceptsOfInterest {
-        name
-      }
       description
       name
       indications {
+        id
         name
       }
     }
