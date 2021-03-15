@@ -228,7 +228,7 @@ export type ConceptOfInterest = {
 };
 
 export type UpsertMeasureInput = {
-  id: Scalars['Int'];
+  id?: Maybe<Scalars['Int']>;
   description: Scalars['String'];
   name: Scalars['String'];
   indications: Array<IndicationInput>;
@@ -255,7 +255,7 @@ export type GetMeasureResult = {
 };
 
 export type Measure = {
-  id: Scalars['Int'];
+  id?: Maybe<Scalars['Int']>;
   description: Scalars['String'];
   name: Scalars['String'];
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;

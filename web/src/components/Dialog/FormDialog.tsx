@@ -71,8 +71,6 @@ const FormDialog = ({
     handleClose();
   };
 
-  console.log(state);
-
   return (
     <Box {...props}>
       {openButton && <OpenButton onClick={handleClickOpen} />}

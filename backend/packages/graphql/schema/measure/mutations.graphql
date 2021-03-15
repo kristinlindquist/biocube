@@ -3,7 +3,7 @@ type Mutation {
 }
 
 input UpsertMeasureInput {
-	id: Int!
+	id: Int
   description: String!
   name: String!
   indications: [IndicationInput!]!

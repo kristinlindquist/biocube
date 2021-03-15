@@ -4,7 +4,7 @@ import { get, isEmpty } from 'lodash';
 import { Page } from 'components/Page';
 import { DataGrid } from 'components/Table';
 import {
-  upsertMeasureMutation,
+  useUpsertMeasureMutation,
   useGetMeasuresQuery,
   useGetIndicationsQuery,
 } from 'gql';
@@ -22,7 +22,7 @@ const Measures = (): ReactElement => {
     <Page error={error} loading={loading} title="Measurements">
       <DataGrid
         allowAdds
-        createMutation={upsertMeasureMutation}
+        mutation={upsertMeasureMutation}
         columns={[
           {
             id: 'indications.name',

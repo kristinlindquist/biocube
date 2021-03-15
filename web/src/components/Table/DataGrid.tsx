@@ -24,13 +24,13 @@ export interface DataGridProps {
     type?: 'date' | 'dateTime' | 'number' | 'multiple' | 'string' | 'text';
   }>;
   /**
-   * mutation function
-   */
-  createMutation?: (input: { [key: string]: unknown }) => void;
-  /**
    * hide footer
    */
   hideFooter?: boolean;
+  /**
+   * mutation function
+   */
+  mutation?: (input: { [key: string]: unknown }) => void;
   /**
    * table rows
    */
@@ -65,7 +65,7 @@ const noEditColumns = ['id'];
 const DataGrid = ({
   allowAdds,
   columns,
-  createMutation,
+  mutation,
   rows,
   ...props
 }: DataGridProps): ReactElement => (
@@ -81,7 +81,7 @@ const DataGrid = ({
     {allowAdds && (
       <Box display="flex">
         <Dialog
-          mutation={createMutation}
+          mutation={mutation}
           fields={columns
             .filter((c) => !noEditColumns.includes(c.id as string))
             .map((f) => ({ ...f, id: f.id.split('.')[0] }))}

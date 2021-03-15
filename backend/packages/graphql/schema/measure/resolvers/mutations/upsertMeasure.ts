@@ -13,13 +13,16 @@ async function upsertMeasure(
 
 	if (!measure.id) {
 		const newMeasure: Measure = await prisma.measure.create({
-			data: omit({ ...measure, indications: { connect: measure.indications.map(({ id }) => ({ id })) } }, 'id')
+			data: { ...omit(measure, 'id'), indications: { connect: measure.indications.map(({ id }) => ({ id })) } }
 		});
 		return { measure: newMeasure };
 	}
 
 	const updatedMeasure: Measure = await prisma.measure.update({
-		data: { ...measure, indications: { connect: measure.indications.map(({ id }) => ({ id })) } }
+		where: {
+			id: measure.id,
+		},
+		data: { ...omit(measure, 'id'), indications: { connect: measure.indications.map(({ id }) => ({ id })) } }
 	});
 
 	return { measure: updatedMeasure };

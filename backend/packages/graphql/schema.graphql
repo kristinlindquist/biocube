@@ -152,7 +152,7 @@ type ConceptOfInterest {
 }
 
 input UpsertMeasureInput {
-  id: Int!
+  id: Int
   description: String!
   name: String!
   indications: [IndicationInput!]!
@@ -179,7 +179,7 @@ type GetMeasureResult {
 }
 
 type Measure {
-  id: Int!
+  id: Int
   description: String!
   name: String!
   conceptsOfInterest: [ConceptOfInterest!]
