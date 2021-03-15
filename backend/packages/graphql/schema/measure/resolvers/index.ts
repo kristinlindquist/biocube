@@ -1,6 +1,6 @@
 import { Measure } from './types';
 import { getMeasures, getMeasure } from './queries';
-import { createMeasure } from './mutations';
+import { upsertMeasure } from './mutations';
 
 const resolvers = {
   Query: {
@@ -8,7 +8,7 @@ const resolvers = {
     getMeasure
   },
   Mutation: {
-    createMeasure
+    upsertMeasure
   },
   Measure
 };

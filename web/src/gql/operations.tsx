@@ -168,7 +168,7 @@ export type Sleep = {
 
 export type Mutation = {
   createIndication: CreateIndicationResult;
-  createMeasure: CreateMeasureResult;
+  upsertMeasure: UpsertMeasureResult;
 };
 
 
@@ -177,8 +177,8 @@ export type MutationCreateIndicationArgs = {
 };
 
 
-export type MutationCreateMeasureArgs = {
-  input: CreateMeasureInput;
+export type MutationUpsertMeasureArgs = {
+  input: UpsertMeasureInput;
 };
 
 export type CreateIndicationInput = {
@@ -227,13 +227,14 @@ export type ConceptOfInterest = {
   name: Scalars['String'];
 };
 
-export type CreateMeasureInput = {
+export type UpsertMeasureInput = {
+  id: Scalars['Int'];
   description: Scalars['String'];
   name: Scalars['String'];
   indications: Array<IndicationInput>;
 };
 
-export type CreateMeasureResult = {
+export type UpsertMeasureResult = {
   measure?: Maybe<Measure>;
 };
 
@@ -283,12 +284,12 @@ export type CreateIndicationMutationVariables = Exact<{
 
 export type CreateIndicationMutation = { createIndication: { indication?: Maybe<Pick<Indication, 'id' | 'description' | 'name'>> } };
 
-export type CreateMeasureMutationVariables = Exact<{
-  input: CreateMeasureInput;
+export type UpsertMeasureMutationVariables = Exact<{
+  input: UpsertMeasureInput;
 }>;
 
 
-export type CreateMeasureMutation = { createMeasure: { measure?: Maybe<(
+export type UpsertMeasureMutation = { upsertMeasure: { measure?: Maybe<(
       Pick<Measure, 'id' | 'description' | 'name'>
       & { indications?: Maybe<Array<Pick<Indication, 'id' | 'name'>>> }
     )> } };
@@ -413,9 +414,9 @@ export function useCreateIndicationMutation(baseOptions?: Apollo.MutationHookOpt
 export type CreateIndicationMutationHookResult = ReturnType<typeof useCreateIndicationMutation>;
 export type CreateIndicationMutationResult = Apollo.MutationResult<CreateIndicationMutation>;
 export type CreateIndicationMutationOptions = Apollo.BaseMutationOptions<CreateIndicationMutation, CreateIndicationMutationVariables>;
-export const CreateMeasureDocument = gql`
-    mutation createMeasure($input: CreateMeasureInput!) {
-  createMeasure(input: $input) {
+export const UpsertMeasureDocument = gql`
+    mutation upsertMeasure($input: UpsertMeasureInput!) {
+  upsertMeasure(input: $input) {
     measure {
       id
       description
@@ -428,32 +429,32 @@ export const CreateMeasureDocument = gql`
   }
 }
     `;
-export type CreateMeasureMutationFn = Apollo.MutationFunction<CreateMeasureMutation, CreateMeasureMutationVariables>;
+export type UpsertMeasureMutationFn = Apollo.MutationFunction<UpsertMeasureMutation, UpsertMeasureMutationVariables>;
 
 /**
- * __useCreateMeasureMutation__
+ * __useUpsertMeasureMutation__
  *
- * To run a mutation, you first call `useCreateMeasureMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateMeasureMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpsertMeasureMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpsertMeasureMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createMeasureMutation, { data, loading, error }] = useCreateMeasureMutation({
+ * const [upsertMeasureMutation, { data, loading, error }] = useUpsertMeasureMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useCreateMeasureMutation(baseOptions?: Apollo.MutationHookOptions<CreateMeasureMutation, CreateMeasureMutationVariables>) {
+export function useUpsertMeasureMutation(baseOptions?: Apollo.MutationHookOptions<UpsertMeasureMutation, UpsertMeasureMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateMeasureMutation, CreateMeasureMutationVariables>(CreateMeasureDocument, options);
+        return Apollo.useMutation<UpsertMeasureMutation, UpsertMeasureMutationVariables>(UpsertMeasureDocument, options);
       }
-export type CreateMeasureMutationHookResult = ReturnType<typeof useCreateMeasureMutation>;
-export type CreateMeasureMutationResult = Apollo.MutationResult<CreateMeasureMutation>;
-export type CreateMeasureMutationOptions = Apollo.BaseMutationOptions<CreateMeasureMutation, CreateMeasureMutationVariables>;
+export type UpsertMeasureMutationHookResult = ReturnType<typeof useUpsertMeasureMutation>;
+export type UpsertMeasureMutationResult = Apollo.MutationResult<UpsertMeasureMutation>;
+export type UpsertMeasureMutationOptions = Apollo.BaseMutationOptions<UpsertMeasureMutation, UpsertMeasureMutationVariables>;
 export const GetDeviceDocument = gql`
     query getDevice($input: GetDeviceInput!) {
   getDevice(input: $input) {

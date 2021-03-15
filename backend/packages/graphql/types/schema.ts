@@ -165,7 +165,7 @@ export type Sleep = {
 
 export type Mutation = {
   createIndication: CreateIndicationResult;
-  createMeasure: CreateMeasureResult;
+  upsertMeasure: UpsertMeasureResult;
 };
 
 
@@ -174,8 +174,8 @@ export type MutationCreateIndicationArgs = {
 };
 
 
-export type MutationCreateMeasureArgs = {
-  input: CreateMeasureInput;
+export type MutationUpsertMeasureArgs = {
+  input: UpsertMeasureInput;
 };
 
 export type CreateIndicationInput = {
@@ -224,13 +224,14 @@ export type ConceptOfInterest = {
   name: Scalars['String'];
 };
 
-export type CreateMeasureInput = {
+export type UpsertMeasureInput = {
+  id: Scalars['Int'];
   description: Scalars['String'];
   name: Scalars['String'];
   indications: Array<IndicationInput>;
 };
 
-export type CreateMeasureResult = {
+export type UpsertMeasureResult = {
   measure?: Maybe<Measure>;
 };
 

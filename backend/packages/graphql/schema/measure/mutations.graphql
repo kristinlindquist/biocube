@@ -1,8 +1,9 @@
 type Mutation {
-  createMeasure(input: CreateMeasureInput!): CreateMeasureResult!,
+  upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!,
 }
 
-input CreateMeasureInput {
+input UpsertMeasureInput {
+	id: Int!
   description: String!
   name: String!
   indications: [IndicationInput!]!
@@ -14,6 +15,6 @@ input IndicationInput {
   name: String!
 }
 
-type CreateMeasureResult {
+type UpsertMeasureResult {
   measure: Measure
 }

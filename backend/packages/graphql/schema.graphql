@@ -102,7 +102,7 @@ type Sleep {
 
 type Mutation {
   createIndication(input: CreateIndicationInput!): CreateIndicationResult!
-  createMeasure(input: CreateMeasureInput!): CreateMeasureResult!
+  upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
 }
 
 input CreateIndicationInput {
@@ -151,13 +151,14 @@ type ConceptOfInterest {
   name: String!
 }
 
-input CreateMeasureInput {
+input UpsertMeasureInput {
+  id: Int!
   description: String!
   name: String!
   indications: [IndicationInput!]!
 }
 
-type CreateMeasureResult {
+type UpsertMeasureResult {
   measure: Measure
 }
 

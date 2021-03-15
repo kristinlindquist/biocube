@@ -1,3 +1,3 @@
-import createMeasure from './createMeasure';
+import upsertMeasure from './upsertMeasure';
 
-export { createMeasure };
+export { upsertMeasure };
