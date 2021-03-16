@@ -24,8 +24,8 @@ const Measures = (): ReactElement => {
     update(cache, { data: { upsertMeasure } }) {
       cache.modify({
         fields: {
-          measures(existing = []) {
-            return [...existing, upsertMeasure];
+          getMeasures(existing = { measures: [] }) {
+            return { measures: [...existing.measures, upsertMeasure] };
           },
         },
       });
