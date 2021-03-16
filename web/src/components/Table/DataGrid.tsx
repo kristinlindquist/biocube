@@ -1,14 +1,15 @@
 import { ReactElement, useState } from 'react';
 import {
+  GridApi,
+  GridCellParams,
   DataGrid as MaterialDataGrid,
   GridColDef,
   GridColTypeDef,
 } from '@material-ui/data-grid';
 import { Box } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 
-import { Fab } from 'components/Button';
+import { Fab, IconButton } from 'components/Button';
 import { FormDialog as Dialog } from 'components/Dialog';
 import { undefOrTrue } from 'utils';
 
@@ -80,15 +81,50 @@ const multiple: GridColTypeDef = {
       .join(', '),
 };
 
-const formatColumns = (columns): GridColDef[] =>
-  columns.map(({ id, name, type }) => ({
+const formatColumns = (columns, mutation, deleteMutation): GridColDef[] => [
+  ...columns.map(({ id, name, type }) => ({
     field: id,
     flex: getFlex(type),
     headerName: name,
     type: ['text', 'select'].includes(type) ? 'string' : type,
     width: type === 'number' ? 100 : undefined,
     ...(type === 'multiple' ? multiple : {}),
-  }));
+  })),
+  {
+    field: '',
+    headerName: '',
+    disableClickEventBubbling: true,
+    disableColumnMenu: true,
+    renderCell: (params: GridCellParams) => {
+      const { api }: { api: GridApi } = params;
+      const id: number = params.getValue('id') as number;
+
+      const del = () => {
+        deleteMutation({ variables: { input: { id } } });
+      };
+
+      return (
+        <Box display="flex">
+          <Dialog
+            openButton={<IconButton label="Edit" size="small" />}
+            fields={columns.filter((c) => undefOrTrue(c.create))}
+            ml="auto"
+            onSubmit={mutation}
+            title="Edit"
+            values={api.getRowFromId(id)}
+          />
+          <IconButton
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={del}
+            size="small"
+          />
+        </Box>
+      );
+    },
+    width: 100,
+  },
+];
 
 /**
  * A table with column sorting and other features
@@ -111,7 +147,7 @@ const DataGrid = ({
           <MaterialDataGrid
             {...props}
             autoHeight
-            columns={formatColumns(columns)}
+            columns={formatColumns(columns, mutation, deleteMutation)}
             onRowSelected={
               allowEdits
                 ? ({ data }) =>
@@ -122,28 +158,13 @@ const DataGrid = ({
           />
         )}
       </Box>
-      {(allowAdds || editRow) && (
+      {allowAdds && (
         <Dialog
-          fields={columns.filter(
-            (c) => (editRow && undefOrTrue(c.update)) || undefOrTrue(c.create),
-          )}
+          fields={columns.filter((c) => undefOrTrue(c.create))}
           ml="auto"
+          openButton={<Fab />}
           onSubmit={mutation}
-          openButton={
-            editRow ? <Fab icon={<EditIcon />} label="edit" /> : <Fab />
-          }
-          title={editRow ? 'Edit' : 'Add'}
-          values={editRow || undefined}
-        />
-      )}
-      {(deleteMutation || editRow) && (
-        <Fab
-          icon={<DeleteIcon />}
-          label="delete"
-          position="relative"
-          onClick={() =>
-            deleteMutation({ variables: { input: { id: editRow.id } } })
-          }
+          title="Add"
         />
       )}
     </div>
