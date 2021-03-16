@@ -1,8 +1,14 @@
 import { ReactElement } from 'react';
 import { Fab as MaterialFab } from '@material-ui/core';
+import clsx from 'clsx';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 
-export interface FabProps {
+export type FabProps = {
+  /**
+   * position
+   */
+  position?: 'fixed';
   /**
    * icon
    */
@@ -11,11 +17,31 @@ export interface FabProps {
    * label
    */
   label?: string;
-}
+};
 
-const Fab = ({ icon, label = 'add', ...props }: FabProps): ReactElement => {
+const useStyles = makeStyles(() =>
+  createStyles({
+    fixed: {
+      position: 'fixed',
+      bottom: 25,
+      right: 25,
+    },
+  }),
+);
+
+const Fab = ({
+  icon,
+  label = 'add',
+  position,
+  ...props
+}: FabProps): ReactElement => {
+  const classes = useStyles();
   return (
-    <MaterialFab color="primary" {...props} aria-label={label}>
+    <MaterialFab
+      className={clsx({ [classes.fixed]: position === 'fixed' })}
+      color="primary"
+      {...props}
+      aria-label={label}>
       {icon || <AddIcon />}
     </MaterialFab>
   );

@@ -84,7 +84,7 @@ const formatColumns = (columns): GridColDef[] =>
   }));
 
 /**
- * A data grid
+ * A table with column sorting and other features
  */
 const DataGrid = ({
   allowAdds,
@@ -115,23 +115,25 @@ const DataGrid = ({
         )}
       </Box>
       {(allowAdds || editRow) && (
-        <Box display="flex">
-          <Dialog
-            fields={columns
-              .filter(
-                (c) =>
-                  (editRow && undefOrTrue(c.update)) || undefOrTrue(c.create),
-              )
-              .map((f) => ({ ...f, id: f.id.split('.')[0] }))}
-            ml="auto"
-            onSubmit={mutation}
-            openButton={
-              editRow ? <Fab icon={<EditIcon />} label="edit" /> : <Fab />
-            }
-            title={editRow ? 'Edit' : 'Add'}
-            values={editRow || undefined}
-          />
-        </Box>
+        <Dialog
+          fields={columns
+            .filter(
+              (c) =>
+                (editRow && undefOrTrue(c.update)) || undefOrTrue(c.create),
+            )
+            .map((f) => ({ ...f, id: f.id.split('.')[0] }))}
+          ml="auto"
+          onSubmit={mutation}
+          openButton={
+            editRow ? (
+              <Fab icon={<EditIcon />} label="edit" position="fixed" />
+            ) : (
+              <Fab position="fixed" />
+            )
+          }
+          title={editRow ? 'Edit' : 'Add'}
+          values={editRow || undefined}
+        />
       )}
     </div>
   );
