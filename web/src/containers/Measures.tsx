@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { get, isEmpty } from 'lodash';
+import { get } from 'lodash';
 
 import { Page } from 'components/Page';
 import { DataGrid } from 'components/Table';
@@ -10,7 +10,7 @@ import {
 } from 'gql';
 
 const Measures = (): ReactElement => {
-  const { data, error, loading } = useGetMeasuresQuery({
+  const { data, error, loading, refetch } = useGetMeasuresQuery({
     variables: { input: {} },
   });
 
@@ -22,23 +22,20 @@ const Measures = (): ReactElement => {
     <Page error={error} loading={loading} title="Measurements">
       <DataGrid
         allowAdds
+        allowEdits
         mutation={upsertMeasureMutation}
         columns={[
           {
-            id: 'indications.name',
-            name: 'Indication',
+            id: 'indications',
+            name: 'Indications',
             options: get(iData, 'getIndications.indications'),
             type: 'multiple',
           },
           { id: 'name', name: 'Name', type: 'string' },
           { id: 'description', name: 'Description', type: 'text' },
         ]}
-        rows={(get(data, 'getMeasures.measures') || []).map((d) => ({
-          ...d,
-          'indications.name': !isEmpty(d.indications)
-            ? d.indications[0].name
-            : null,
-        }))}
+        rows={get(data, 'getMeasures.measures')}
+        onMutation={refetch}
       />
     </Page>
   );

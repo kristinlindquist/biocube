@@ -4,15 +4,19 @@ import AddIcon from '@material-ui/icons/Add';
 
 export interface FabProps {
   /**
+   * icon
+   */
+  icon?: ReactElement;
+  /**
    * label
    */
-  label: string | null;
+  label?: string;
 }
 
-const Fab = ({ label, ...props }: FabProps): ReactElement => {
+const Fab = ({ icon, label = 'add', ...props }: FabProps): ReactElement => {
   return (
-    <MaterialFab color="primary" {...props} aria-label={label || 'add'}>
-      <AddIcon />
+    <MaterialFab color="primary" {...props} aria-label={label}>
+      {icon || <AddIcon />}
     </MaterialFab>
   );
 };

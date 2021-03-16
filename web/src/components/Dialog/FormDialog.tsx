@@ -1,4 +1,4 @@
-import React, { ElementType, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import {
   Box,
   Button,
@@ -9,6 +9,7 @@ import {
   DialogTitle,
   TextField,
 } from '@material-ui/core';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 import { SpacingProps } from '@material-ui/system';
 import { get } from 'lodash';
 
@@ -16,30 +17,41 @@ import { Select } from 'components/Inputs';
 
 export interface FormDialogProps {
   /**
-   * content
+   * Text content to display above the form fields.
    */
   content?: string;
   /**
-   * fields
+   * Form fields
    */
   fields: Array<{
     id: string | number;
     name: string;
     options?: Array<{ id: string | number; name: string }>;
-    type?: 'date' | 'dateTime' | 'number' | 'multiple' | 'string' | 'text';
+    type?:
+      | 'date'
+      | 'dateTime'
+      | 'element'
+      | 'number'
+      | 'multiple'
+      | 'string'
+      | 'text';
   }>;
   /**
-   * mutation function
+   * Save/update/upsert function
    */
-  mutation: (input: { [key: string]: unknown }) => void;
+  onSubmit: (input: { [key: string]: unknown }) => void;
   /**
-   * open button
+   * Button that opens dialog
    */
-  openButton?: ElementType;
+  openButton?: ReactElement;
   /**
-   * title
+   * Dialog title
    */
   title: string;
+  /**
+   * Initial form values (e.g. if editing)
+   */
+  values?: { [key: string]: unknown };
 }
 
 /**
@@ -48,13 +60,18 @@ export interface FormDialogProps {
 const FormDialog = ({
   content,
   fields,
-  mutation,
+  onSubmit,
   openButton,
   title,
+  values = {},
   ...props
 }: FormDialogProps & SpacingProps): ReactElement => {
   const [open, setOpen] = React.useState(false);
-  const [state, setState] = React.useState({});
+  const [form, setForm] = React.useState(values);
+
+  useDeepCompareEffect(() => {
+    setForm(values);
+  }, [values]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -64,37 +81,41 @@ const FormDialog = ({
     setOpen(false);
   };
 
-  const OpenButton = openButton;
+  const OpenButton = React.cloneElement(
+    openButton || (
+      <Button color="primary" variant="outlined">
+        Open
+      </Button>
+    ),
+    {
+      onClick: handleClickOpen,
+    },
+  );
 
   const handleUpdate = () => {
-    mutation({ variables: { input: state } });
+    onSubmit({ variables: { input: form } });
     handleClose();
   };
 
   return (
     <Box {...props}>
-      {openButton && <OpenButton onClick={handleClickOpen} />}
-      {!openButton && (
-        <Button color="primary" variant="outlined">
-          Open
-        </Button>
-      )}
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">{title}</DialogTitle>
+      {OpenButton}
+      <Dialog aria-labelledby="dialog-title" open={open} onClose={handleClose}>
+        <DialogTitle id="dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{content}</DialogContentText>
           {fields.map(({ id, name, options, type }) => (
             <React.Fragment key={id}>
               {options && (
                 <Select
+                  defaultValue={((form[id] || []) as Array<{
+                    id: string | number;
+                  }>).map(({ id: sId }) => sId)}
                   fullWidth
                   label={name}
                   multiple={type === 'multiple'}
                   onSelect={(selection) =>
-                    setState({ ...state, [id]: selection })
+                    setForm({ ...form, [id]: selection })
                   }
                   options={options}
                 />
@@ -106,8 +127,9 @@ const FormDialog = ({
                   label={name}
                   margin="dense"
                   onChange={(e) =>
-                    setState({ ...state, [id]: get(e, 'target.value') })
+                    setForm({ ...form, [id]: get(e, 'target.value') })
                   }
+                  value={form[id]}
                 />
               )}
             </React.Fragment>

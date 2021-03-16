@@ -1,12 +1,15 @@
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import {
   DataGrid as MaterialDataGrid,
   GridColDef,
+  GridColTypeDef,
 } from '@material-ui/data-grid';
 import { Box } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 
-import { FormDialog as Dialog } from 'components/Dialog';
 import { Fab } from 'components/Button';
+import { FormDialog as Dialog } from 'components/Dialog';
+import { undefOrTrue } from 'utils';
 
 export interface DataGridProps {
   /**
@@ -14,23 +17,40 @@ export interface DataGridProps {
    */
   allowAdds?: boolean;
   /**
+   * add column for edit
+   */
+  allowEdits?: boolean;
+  /**
    * table cols
    */
   columns: Array<{
+    create?: boolean;
     id: string;
     flex?: number | null;
     name: string;
     options?: Array<{ id: string | number; name: string }>;
-    type?: 'date' | 'dateTime' | 'number' | 'multiple' | 'string' | 'text';
+    type?:
+      | 'element'
+      | 'date'
+      | 'dateTime'
+      | 'number'
+      | 'multiple'
+      | 'string'
+      | 'text';
+    update?: boolean;
   }>;
   /**
    * hide footer
    */
   hideFooter?: boolean;
   /**
-   * mutation function
+   * Mutation function
    */
   mutation?: (input: { [key: string]: unknown }) => void;
+  /**
+   * To execute post-mutation
+   */
+  onMutation?: () => Promise;
   /**
    * table rows
    */
@@ -48,6 +68,15 @@ const getFlex = (type): number | undefined => {
   }
 };
 
+/**
+ * Handling an array / multi-select
+ */
+const multiple: GridColTypeDef = {
+  type: 'string',
+  valueFormatter: ({ value }) =>
+    (value as Array<{ name: string }>).map(({ name }) => name).join(', '),
+};
+
 const formatColumns = (columns): GridColDef[] =>
   columns.map(({ id, name, type }) => ({
     field: id,
@@ -55,43 +84,64 @@ const formatColumns = (columns): GridColDef[] =>
     headerName: name,
     type: ['text', 'select'].includes(type) ? 'string' : type,
     width: type === 'number' ? 100 : undefined,
+    ...(type === 'multiple' ? multiple : {}),
   }));
-
-const noEditColumns = ['id'];
 
 /**
  * A data grid
  */
 const DataGrid = ({
   allowAdds,
+  allowEdits,
   columns,
   mutation,
+  onMutation = () => {},
   rows,
   ...props
-}: DataGridProps): ReactElement => (
-  <div>
-    <Box mb={3}>
-      <MaterialDataGrid
-        autoHeight
-        {...props}
-        rows={rows || []}
-        columns={formatColumns(columns)}
-      />
-    </Box>
-    {allowAdds && (
-      <Box display="flex">
-        <Dialog
-          mutation={mutation}
-          fields={columns
-            .filter((c) => !noEditColumns.includes(c.id as string))
-            .map((f) => ({ ...f, id: f.id.split('.')[0] }))}
-          ml="auto"
-          openButton={Fab}
-          title="a title"
-        />
+}: DataGridProps): ReactElement => {
+  const [editRow, setEditRow] = useState(null);
+
+  return (
+    <div>
+      <Box mb={3}>
+        {rows && (
+          <MaterialDataGrid
+            {...props}
+            autoHeight
+            columns={formatColumns(columns)}
+            onRowSelected={
+              allowEdits
+                ? ({ data }) =>
+                    setEditRow(!editRow || editRow.id !== data.id ? data : null)
+                : undefined
+            }
+            rows={rows}
+          />
+        )}
       </Box>
-    )}
-  </div>
-);
+      {(allowAdds || editRow) && (
+        <Box display="flex">
+          <Dialog
+            fields={columns
+              .filter(
+                (c) =>
+                  (editRow && undefOrTrue(c.update)) || undefOrTrue(c.create),
+              )
+              .map((f) => ({ ...f, id: f.id.split('.')[0] }))}
+            ml="auto"
+            onSubmit={(input: { [key: string]: unknown }) =>
+              mutation(input).then(() => onMutation())
+            }
+            openButton={
+              editRow ? <Fab icon={<EditIcon />} label="edit" /> : <Fab />
+            }
+            title={editRow ? 'Edit' : 'Add'}
+            values={editRow || undefined}
+          />
+        </Box>
+      )}
+    </div>
+  );
+};
 
 export default DataGrid;

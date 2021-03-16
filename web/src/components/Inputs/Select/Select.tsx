@@ -28,7 +28,7 @@ export type SelectProps = {
   /**
    * default value
    */
-  defaultValue?: string;
+  defaultValue?: IdType[];
   /**
    * full width?
    */
@@ -136,7 +136,7 @@ const getOptions = (
  * A select box
  */
 const Select = ({
-  defaultValue = null,
+  defaultValue = [],
   fullWidth = false,
   label,
   multiple = false,
@@ -147,9 +147,7 @@ const Select = ({
   const classes = useStyles();
   const theme = useTheme();
   const native = !multiple;
-  const [selections, setSelections] = useState<IdType[]>(
-    [defaultValue].filter((s) => s),
-  );
+  const [selections, setSelections] = useState<IdType[]>(defaultValue);
 
   const handleChange = (event: React.ChangeEvent<{ value: any }>) => {
     const newSelections = multiple

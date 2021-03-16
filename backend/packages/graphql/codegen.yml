@@ -39,3 +39,8 @@ generates:
       - typescript
       - typescript-operations
       - typescript-react-apollo
+  ../../../web/src/gql/typed-document-nodes.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typed-document-node
