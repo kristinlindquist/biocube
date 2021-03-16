@@ -5,6 +5,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { Page } from 'components/Page';
 import { DataGrid } from 'components/Table';
 import {
+  DeleteMeasureDocument,
   GetIndicationsDocument,
   GetMeasuresDocument,
   UpsertMeasureDocument,
@@ -43,11 +44,20 @@ const Measures = (): ReactElement => {
     },
   });
 
+  const [deleteMutation] = useMutation(DeleteMeasureDocument, {
+    update(cache, { data: { deleteMeasure } }) {
+      cache.evict({
+        id: `Measure:${deleteMeasure.measure.id}`,
+      });
+    },
+  });
+
   return (
     <Page error={error} loading={loading} title="Measurements">
       <DataGrid
         allowAdds
         allowEdits
+        deleteMutation={deleteMutation}
         mutation={mutate}
         columns={[
           {

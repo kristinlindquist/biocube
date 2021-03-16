@@ -1,5 +1,6 @@
 type Mutation {
-  upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
+  upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!,
+  deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
 }
 
 input UpsertMeasureInput {
@@ -16,5 +17,13 @@ input IndicationInput {
 }
 
 type UpsertMeasureResult {
+  measure: Measure
+}
+
+input DeleteMeasureInput {
+  id: Int!
+}
+
+type DeleteMeasureResult {
   measure: Measure
 }

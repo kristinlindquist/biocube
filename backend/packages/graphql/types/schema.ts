@@ -179,12 +179,18 @@ export type Sleep = {
 export type Mutation = {
   __typename?: 'Mutation';
   createIndication: CreateIndicationResult;
+  deleteMeasure: DeleteMeasureResult;
   upsertMeasure: UpsertMeasureResult;
 };
 
 
 export type MutationCreateIndicationArgs = {
   input: CreateIndicationInput;
+};
+
+
+export type MutationDeleteMeasureArgs = {
+  input: DeleteMeasureInput;
 };
 
 
@@ -252,6 +258,15 @@ export type UpsertMeasureInput = {
 
 export type UpsertMeasureResult = {
   __typename?: 'UpsertMeasureResult';
+  measure?: Maybe<Measure>;
+};
+
+export type DeleteMeasureInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteMeasureResult = {
+  __typename?: 'DeleteMeasureResult';
   measure?: Maybe<Measure>;
 };
 

@@ -4,11 +4,11 @@ import clsx from 'clsx';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 
-export type FabProps = {
+export interface FabProps {
   /**
    * position
    */
-  position?: 'fixed';
+  position?: 'fixed' | 'relative';
   /**
    * icon
    */
@@ -17,7 +17,11 @@ export type FabProps = {
    * label
    */
   label?: string;
-};
+  /**
+   * onClick
+   */
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+}
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -38,10 +42,10 @@ const Fab = ({
   const classes = useStyles();
   return (
     <MaterialFab
+      aria-label={label}
       className={clsx({ [classes.fixed]: position === 'fixed' })}
       color="primary"
-      {...props}
-      aria-label={label}>
+      {...props}>
       {icon || <AddIcon />}
     </MaterialFab>
   );

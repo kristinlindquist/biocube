@@ -1,3 +1,4 @@
+import deleteMeasure from './deleteMeasure';
 import upsertMeasure from './upsertMeasure';
 
-export { upsertMeasure };
+export { deleteMeasure, upsertMeasure };

@@ -5,6 +5,7 @@ import {
   GridColTypeDef,
 } from '@material-ui/data-grid';
 import { Box } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
 import { Fab } from 'components/Button';
@@ -40,6 +41,10 @@ export interface DataGridProps {
     update?: boolean;
   }>;
   /**
+   * Delete mutation
+   */
+  deleteMutation?: (input: { [key: string]: unknown }) => void;
+  /**
    * hide footer
    */
   hideFooter?: boolean;
@@ -70,7 +75,9 @@ const getFlex = (type): number | undefined => {
 const multiple: GridColTypeDef = {
   type: 'string',
   valueFormatter: ({ value }) =>
-    (value as Array<{ name: string }>).map(({ name }) => name).join(', '),
+    ((value as Array<{ name: string }>) || [])
+      .map(({ name }) => name)
+      .join(', '),
 };
 
 const formatColumns = (columns): GridColDef[] =>
@@ -90,6 +97,7 @@ const DataGrid = ({
   allowAdds,
   allowEdits,
   columns,
+  deleteMutation,
   mutation,
   rows,
   ...props
@@ -126,6 +134,16 @@ const DataGrid = ({
           }
           title={editRow ? 'Edit' : 'Add'}
           values={editRow || undefined}
+        />
+      )}
+      {(deleteMutation || editRow) && (
+        <Fab
+          icon={<DeleteIcon />}
+          label="delete"
+          position="relative"
+          onClick={() =>
+            deleteMutation({ variables: { input: { id: editRow.id } } })
+          }
         />
       )}
     </div>
