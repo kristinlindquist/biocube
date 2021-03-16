@@ -32,7 +32,7 @@ const useStyles = makeStyles(() =>
 const Fab = ({
   icon,
   label = 'add',
-  position,
+  position = 'fixed',
   ...props
 }: FabProps): ReactElement => {
   const classes = useStyles();

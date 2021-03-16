@@ -116,20 +116,13 @@ const DataGrid = ({
       </Box>
       {(allowAdds || editRow) && (
         <Dialog
-          fields={columns
-            .filter(
-              (c) =>
-                (editRow && undefOrTrue(c.update)) || undefOrTrue(c.create),
-            )
-            .map((f) => ({ ...f, id: f.id.split('.')[0] }))}
+          fields={columns.filter(
+            (c) => (editRow && undefOrTrue(c.update)) || undefOrTrue(c.create),
+          )}
           ml="auto"
           onSubmit={mutation}
           openButton={
-            editRow ? (
-              <Fab icon={<EditIcon />} label="edit" position="fixed" />
-            ) : (
-              <Fab position="fixed" />
-            )
+            editRow ? <Fab icon={<EditIcon />} label="edit" /> : <Fab />
           }
           title={editRow ? 'Edit' : 'Add'}
           values={editRow || undefined}
