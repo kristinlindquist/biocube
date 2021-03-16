@@ -34,3 +34,20 @@ export interface ChartProps {
    */
   title?: string | ReactElement;
 }
+
+export type ColumnType = {
+  create?: boolean;
+  id: string;
+  flex?: number | null;
+  name: string;
+  options?: Array<{ id: string | number; name: string }>;
+  type?:
+    | 'element'
+    | 'date'
+    | 'dateTime'
+    | 'number'
+    | 'multiple'
+    | 'string'
+    | 'text';
+  update?: boolean;
+};

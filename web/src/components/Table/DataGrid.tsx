@@ -1,17 +1,18 @@
 import { ReactElement, useState } from 'react';
 import {
-  GridApi,
   GridCellParams,
   DataGrid as MaterialDataGrid,
   GridColDef,
   GridColTypeDef,
 } from '@material-ui/data-grid';
 import { Box } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
 
-import { Fab, IconButton } from 'components/Button';
+import { Fab } from 'components/Button';
 import { FormDialog as Dialog } from 'components/Dialog';
+import { ColumnType } from 'types';
 import { undefOrTrue } from 'utils';
+
+import EditCell from './EditCell';
 
 export interface DataGridProps {
   /**
@@ -25,22 +26,7 @@ export interface DataGridProps {
   /**
    * table cols
    */
-  columns: Array<{
-    create?: boolean;
-    id: string;
-    flex?: number | null;
-    name: string;
-    options?: Array<{ id: string | number; name: string }>;
-    type?:
-      | 'element'
-      | 'date'
-      | 'dateTime'
-      | 'number'
-      | 'multiple'
-      | 'string'
-      | 'text';
-    update?: boolean;
-  }>;
+  columns: ColumnType[];
   /**
    * Delete mutation
    */
@@ -65,6 +51,8 @@ const getFlex = (type): number | undefined => {
       return 1;
     case 'number':
       return undefined;
+    case 'string':
+      return 0.5;
     default:
       return 0.2;
   }
@@ -96,30 +84,15 @@ const formatColumns = (columns, mutation, deleteMutation): GridColDef[] => [
     disableClickEventBubbling: true,
     disableColumnMenu: true,
     renderCell: (params: GridCellParams) => {
-      const { api }: { api: GridApi } = params;
       const id: number = params.getValue('id') as number;
 
-      const del = () => {
-        deleteMutation({ variables: { input: { id } } });
-      };
-
       return (
-        <Box display="flex">
-          <Dialog
-            openButton={<IconButton label="Edit" size="small" />}
-            fields={columns.filter((c) => undefOrTrue(c.create))}
-            ml="auto"
-            onSubmit={mutation}
-            title="Edit"
-            values={api.getRowFromId(id)}
-          />
-          <IconButton
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={del}
-            size="small"
-          />
-        </Box>
+        <EditCell
+          columns={columns}
+          del={() => deleteMutation({ variables: { input: { id } } })}
+          mutation={mutation}
+          values={params.api.getRowFromId(id)}
+        />
       );
     },
     width: 100,
