@@ -29,16 +29,6 @@ generates:
             - ' * NOTE: THIS IS AN AUTO-GENERATED FILE. DO NOT MODIFY DIRECTLY.'
             - ' */'
       - typescript
-  ../../../web/src/gql/operations.tsx:
-    plugins:
-      - add:
-          content:
-            - '/**'
-            - ' * NOTE: THIS IS AN AUTO-GENERATED FILE. DO NOT MODIFY DIRECTLY.'
-            - ' */'
-      - typescript
-      - typescript-operations
-      - typescript-react-apollo
   ../../../web/src/gql/typed-document-nodes.ts:
     plugins:
       - typescript

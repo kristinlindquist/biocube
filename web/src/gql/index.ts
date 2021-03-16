@@ -20,6 +20,17 @@ const getApolloClient = (): ApolloClient<NormalizedCacheObject> => {
     options: { reconnect: true },
   });
 
+  const omitTypename = (key: string, value: number | string | null) =>
+    key === '__typename' ? undefined : value;
+
+  const cleanTypeName = new ApolloLink((operation, forward) => {
+    const op = operation;
+    if (op.variables) {
+      op.variables = JSON.parse(JSON.stringify(op.variables), omitTypename);
+    }
+    return forward(op);
+  });
+
   const link = split(
     ({ query }) => {
       const definition = getMainDefinition(query);
@@ -47,16 +58,14 @@ const getApolloClient = (): ApolloClient<NormalizedCacheObject> => {
           Logger.warn(`[Network error]: ${networkError}`);
         }
       }),
+      cleanTypeName,
       link,
     ]),
-    cache: new InMemoryCache({
-      addTypename: false,
-    }),
+    cache: new InMemoryCache(),
   });
 
   return client;
 };
 
 export { getApolloClient };
-// export * from './operations';
 export * from './typed-document-nodes';

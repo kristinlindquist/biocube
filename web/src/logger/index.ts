@@ -12,7 +12,11 @@ export const Logger = (() => {
   };
 
   const warn = (msg) => {
-    RollbarObj.warn(msg);
+    try {
+      RollbarObj.warn(msg);
+    } catch (e) {
+      // do nothing
+    }
   };
 
   const error = (msg) => {

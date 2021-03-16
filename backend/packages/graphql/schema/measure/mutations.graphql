@@ -1,17 +1,17 @@
 type Mutation {
-  upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!,
+  upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
 }
 
 input UpsertMeasureInput {
-	id: Int
+  id: Int
   description: String!
   name: String!
   indications: [IndicationInput!]!
 }
 
 input IndicationInput {
-	id: Int!
-	description: String!
+  id: Int!
+  description: String!
   name: String!
 }
 

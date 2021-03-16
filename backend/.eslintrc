@@ -1,0 +1,29 @@
+{
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true
+    },
+    project: "./tsconfig.json"
+  },
+  settings: {
+    react: {
+      version: "detect"
+    }
+  },
+  extends: [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb-typescript",
+    "plugin:prettier/recommended"
+  ],
+  rules: {
+    "import/prefer-default-export" : "off",
+    "object-curly-newline": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": "off",
+    "react/react-in-jsx-scope": "off",
+  },
+}

@@ -19,16 +19,12 @@ const Measures = (): ReactElement => {
     variables: { input: {} },
   });
 
+  // todo: this is painfully verbose
   const [mutate] = useMutation(UpsertMeasureDocument, {
     update(cache, { data: { upsertMeasure } }) {
-      console.log(cache);
       cache.modify({
-        id: cache.identify({
-          __typename: 'Measure',
-          id: upsertMeasure.measure.id,
-        }),
         fields: {
-          getMeasures(existingMeasures = []) {
+          measures(existing = []) {
             const upsertedMeasure = cache.writeFragment({
               data: upsertMeasure,
               fragment: gql`
@@ -40,12 +36,10 @@ const Measures = (): ReactElement => {
                 }
               `,
             });
-            console.log([...existingMeasures, upsertedMeasure]);
-            return { measures: [...existingMeasures, upsertedMeasure] };
+            return [...existing, upsertedMeasure];
           },
         },
       });
-      console.log(cache);
     },
   });
 
