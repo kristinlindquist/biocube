@@ -49,11 +49,14 @@ const getApolloClient = (): ApolloClient<NormalizedCacheObject> => {
       }),
       link,
     ]),
-    cache: new InMemoryCache({ addTypename: false }),
+    cache: new InMemoryCache({
+      addTypename: false,
+    }),
   });
 
   return client;
 };
 
 export { getApolloClient };
-export * from './operations';
+// export * from './operations';
+export * from './typed-document-nodes';

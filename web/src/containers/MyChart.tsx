@@ -1,6 +1,7 @@
 import { ReactElement, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
+import { useQuery } from '@apollo/client';
 
 import { Group } from 'components/Button';
 import { Card } from 'components/Card';
@@ -18,10 +19,10 @@ import {
 } from 'components/Chart/utils';
 
 import {
-  useGetActivityQuery,
-  useGetDailyQuery,
-  useGetHeartRateQuery,
-  useGetSleepQuery,
+  GetActivityDocument,
+  GetDailyDocument,
+  GetHeartRateDocument,
+  GetSleepDocument,
 } from 'gql';
 
 const useStyles = makeStyles(() => ({
@@ -36,19 +37,19 @@ const MyChart = (): ReactElement => {
   const [aggType, setAggType] = useState(AggType.AVG);
   const [{ start, end }, { setDay }] = useDateRange();
 
-  const { data, error, loading } = useGetHeartRateQuery({
+  const { data, error, loading } = useQuery(GetHeartRateDocument, {
     variables: { input: { start, end } },
   });
 
-  const { data: sData } = useGetSleepQuery({
+  const { data: sData } = useQuery(GetSleepDocument, {
     variables: { input: { start, end } },
   });
 
-  const { data: aData } = useGetActivityQuery({
+  const { data: aData } = useQuery(GetActivityDocument, {
     variables: { input: unixYearRange },
   });
 
-  const { data: dData } = useGetDailyQuery({
+  const { data: dData } = useQuery(GetDailyDocument, {
     variables: { input: unixYearRange },
   });
 

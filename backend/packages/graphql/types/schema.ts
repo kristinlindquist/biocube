@@ -16,6 +16,7 @@ export type Scalars = {
 };
 
 export type Query = {
+  __typename?: 'Query';
   getActivity: GetActivityResult;
   getDaily: GetDailyResult;
   getDevice: GetDeviceResult;
@@ -83,10 +84,12 @@ export type GetDeviceInput = {
 };
 
 export type GetDeviceResult = {
+  __typename?: 'GetDeviceResult';
   device?: Maybe<Device>;
 };
 
 export type Device = {
+  __typename?: 'Device';
   id: Scalars['Int'];
   userId: Scalars['Int'];
   name: Scalars['String'];
@@ -99,6 +102,7 @@ export type GetHeartRateInput = {
 };
 
 export type GetHeartRateResult = {
+  __typename?: 'GetHeartRateResult';
   heartRate?: Maybe<Array<Maybe<HeartRate>>>;
 };
 
@@ -108,6 +112,7 @@ export type GetSleepInput = {
 };
 
 export type GetSleepResult = {
+  __typename?: 'GetSleepResult';
   sleep?: Maybe<Array<Maybe<Sleep>>>;
 };
 
@@ -117,6 +122,7 @@ export type GetDailyInput = {
 };
 
 export type GetDailyResult = {
+  __typename?: 'GetDailyResult';
   daily?: Maybe<Array<Maybe<Daily>>>;
 };
 
@@ -126,16 +132,19 @@ export type GetActivityInput = {
 };
 
 export type GetActivityResult = {
+  __typename?: 'GetActivityResult';
   activity?: Maybe<Array<Maybe<Activity>>>;
 };
 
 export type HeartRateSummary = {
+  __typename?: 'HeartRateSummary';
   average?: Maybe<Scalars['Float']>;
   min?: Maybe<Scalars['Float']>;
   max?: Maybe<Scalars['Float']>;
 };
 
 export type Activity = {
+  __typename?: 'Activity';
   start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
   duration?: Maybe<Scalars['Float']>;
@@ -143,27 +152,32 @@ export type Activity = {
 };
 
 export type Daily = {
+  __typename?: 'Daily';
   date?: Maybe<Scalars['Float']>;
   heartRate?: Maybe<HeartRateSummary>;
 };
 
 export type HeartRate = {
+  __typename?: 'HeartRate';
   date?: Maybe<Scalars['Float']>;
   point?: Maybe<Scalars['Float']>;
 };
 
 export type OxygenSaturation = {
+  __typename?: 'OxygenSaturation';
   date?: Maybe<Scalars['Float']>;
   point?: Maybe<Scalars['Float']>;
 };
 
 export type Sleep = {
+  __typename?: 'Sleep';
   start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
   state?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
+  __typename?: 'Mutation';
   createIndication: CreateIndicationResult;
   upsertMeasure: UpsertMeasureResult;
 };
@@ -191,6 +205,7 @@ export type IndicationInput = {
 };
 
 export type CreateIndicationResult = {
+  __typename?: 'CreateIndicationResult';
   indication?: Maybe<Indication>;
 };
 
@@ -199,6 +214,7 @@ export type GetIndicationsInput = {
 };
 
 export type GetIndicationsResult = {
+  __typename?: 'GetIndicationsResult';
   indications?: Maybe<Array<Maybe<Indication>>>;
 };
 
@@ -207,10 +223,12 @@ export type GetIndicationInput = {
 };
 
 export type GetIndicationResult = {
+  __typename?: 'GetIndicationResult';
   indication?: Maybe<Indication>;
 };
 
 export type Indication = {
+  __typename?: 'Indication';
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   description: Scalars['String'];
   id: Scalars['Int'];
@@ -219,6 +237,7 @@ export type Indication = {
 };
 
 export type ConceptOfInterest = {
+  __typename?: 'ConceptOfInterest';
   description: Scalars['String'];
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -232,6 +251,7 @@ export type UpsertMeasureInput = {
 };
 
 export type UpsertMeasureResult = {
+  __typename?: 'UpsertMeasureResult';
   measure?: Maybe<Measure>;
 };
 
@@ -240,6 +260,7 @@ export type GetMeasuresInput = {
 };
 
 export type GetMeasuresResult = {
+  __typename?: 'GetMeasuresResult';
   measures?: Maybe<Array<Maybe<Measure>>>;
 };
 
@@ -248,10 +269,12 @@ export type GetMeasureInput = {
 };
 
 export type GetMeasureResult = {
+  __typename?: 'GetMeasureResult';
   measure?: Maybe<Measure>;
 };
 
 export type Measure = {
+  __typename?: 'Measure';
   id?: Maybe<Scalars['Int']>;
   description: Scalars['String'];
   name: Scalars['String'];
@@ -264,10 +287,12 @@ export type GetUserInput = {
 };
 
 export type GetUserResult = {
+  __typename?: 'GetUserResult';
   user?: Maybe<User>;
 };
 
 export type User = {
+  __typename?: 'User';
   id: Scalars['Int'];
   email: Scalars['String'];
   name: Scalars['String'];

@@ -9,7 +9,7 @@ schema:
 documents: ["./api/queries/**/**.ts", "./api/mutations/**/**.ts"]
 config:
   useIndexSignature: true
-  skipTypename: true
+  skipTypename: false
   scalars:
     DateTime: Date
 generates:

@@ -48,10 +48,6 @@ export interface DataGridProps {
    */
   mutation?: (input: { [key: string]: unknown }) => void;
   /**
-   * To execute post-mutation
-   */
-  onMutation?: () => Promise;
-  /**
    * table rows
    */
   rows: Array<{ [key: string]: string | number | Date }>;
@@ -95,7 +91,6 @@ const DataGrid = ({
   allowEdits,
   columns,
   mutation,
-  onMutation = () => {},
   rows,
   ...props
 }: DataGridProps): ReactElement => {
@@ -129,9 +124,7 @@ const DataGrid = ({
               )
               .map((f) => ({ ...f, id: f.id.split('.')[0] }))}
             ml="auto"
-            onSubmit={(input: { [key: string]: unknown }) =>
-              mutation(input).then(() => onMutation())
-            }
+            onSubmit={mutation}
             openButton={
               editRow ? <Fab icon={<EditIcon />} label="edit" /> : <Fab />
             }

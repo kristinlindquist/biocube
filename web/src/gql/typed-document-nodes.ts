@@ -14,6 +14,7 @@ export type Scalars = {
 };
 
 export type Query = {
+  __typename?: 'Query';
   getActivity: GetActivityResult;
   getDaily: GetDailyResult;
   getDevice: GetDeviceResult;
@@ -81,10 +82,12 @@ export type GetDeviceInput = {
 };
 
 export type GetDeviceResult = {
+  __typename?: 'GetDeviceResult';
   device?: Maybe<Device>;
 };
 
 export type Device = {
+  __typename?: 'Device';
   id: Scalars['Int'];
   userId: Scalars['Int'];
   name: Scalars['String'];
@@ -97,6 +100,7 @@ export type GetHeartRateInput = {
 };
 
 export type GetHeartRateResult = {
+  __typename?: 'GetHeartRateResult';
   heartRate?: Maybe<Array<Maybe<HeartRate>>>;
 };
 
@@ -106,6 +110,7 @@ export type GetSleepInput = {
 };
 
 export type GetSleepResult = {
+  __typename?: 'GetSleepResult';
   sleep?: Maybe<Array<Maybe<Sleep>>>;
 };
 
@@ -115,6 +120,7 @@ export type GetDailyInput = {
 };
 
 export type GetDailyResult = {
+  __typename?: 'GetDailyResult';
   daily?: Maybe<Array<Maybe<Daily>>>;
 };
 
@@ -124,16 +130,19 @@ export type GetActivityInput = {
 };
 
 export type GetActivityResult = {
+  __typename?: 'GetActivityResult';
   activity?: Maybe<Array<Maybe<Activity>>>;
 };
 
 export type HeartRateSummary = {
+  __typename?: 'HeartRateSummary';
   average?: Maybe<Scalars['Float']>;
   min?: Maybe<Scalars['Float']>;
   max?: Maybe<Scalars['Float']>;
 };
 
 export type Activity = {
+  __typename?: 'Activity';
   start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
   duration?: Maybe<Scalars['Float']>;
@@ -141,27 +150,32 @@ export type Activity = {
 };
 
 export type Daily = {
+  __typename?: 'Daily';
   date?: Maybe<Scalars['Float']>;
   heartRate?: Maybe<HeartRateSummary>;
 };
 
 export type HeartRate = {
+  __typename?: 'HeartRate';
   date?: Maybe<Scalars['Float']>;
   point?: Maybe<Scalars['Float']>;
 };
 
 export type OxygenSaturation = {
+  __typename?: 'OxygenSaturation';
   date?: Maybe<Scalars['Float']>;
   point?: Maybe<Scalars['Float']>;
 };
 
 export type Sleep = {
+  __typename?: 'Sleep';
   start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
   state?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
+  __typename?: 'Mutation';
   createIndication: CreateIndicationResult;
   upsertMeasure: UpsertMeasureResult;
 };
@@ -189,6 +203,7 @@ export type IndicationInput = {
 };
 
 export type CreateIndicationResult = {
+  __typename?: 'CreateIndicationResult';
   indication?: Maybe<Indication>;
 };
 
@@ -197,6 +212,7 @@ export type GetIndicationsInput = {
 };
 
 export type GetIndicationsResult = {
+  __typename?: 'GetIndicationsResult';
   indications?: Maybe<Array<Maybe<Indication>>>;
 };
 
@@ -205,10 +221,12 @@ export type GetIndicationInput = {
 };
 
 export type GetIndicationResult = {
+  __typename?: 'GetIndicationResult';
   indication?: Maybe<Indication>;
 };
 
 export type Indication = {
+  __typename?: 'Indication';
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   description: Scalars['String'];
   id: Scalars['Int'];
@@ -217,6 +235,7 @@ export type Indication = {
 };
 
 export type ConceptOfInterest = {
+  __typename?: 'ConceptOfInterest';
   description: Scalars['String'];
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -230,6 +249,7 @@ export type UpsertMeasureInput = {
 };
 
 export type UpsertMeasureResult = {
+  __typename?: 'UpsertMeasureResult';
   measure?: Maybe<Measure>;
 };
 
@@ -238,6 +258,7 @@ export type GetMeasuresInput = {
 };
 
 export type GetMeasuresResult = {
+  __typename?: 'GetMeasuresResult';
   measures?: Maybe<Array<Maybe<Measure>>>;
 };
 
@@ -246,10 +267,12 @@ export type GetMeasureInput = {
 };
 
 export type GetMeasureResult = {
+  __typename?: 'GetMeasureResult';
   measure?: Maybe<Measure>;
 };
 
 export type Measure = {
+  __typename?: 'Measure';
   id?: Maybe<Scalars['Int']>;
   description: Scalars['String'];
   name: Scalars['String'];
@@ -262,10 +285,12 @@ export type GetUserInput = {
 };
 
 export type GetUserResult = {
+  __typename?: 'GetUserResult';
   user?: Maybe<User>;
 };
 
 export type User = {
+  __typename?: 'User';
   id: Scalars['Int'];
   email: Scalars['String'];
   name: Scalars['String'];
@@ -277,99 +302,215 @@ export type CreateIndicationMutationVariables = Exact<{
 }>;
 
 
-export type CreateIndicationMutation = { createIndication: { indication?: Maybe<Pick<Indication, 'id' | 'description' | 'name'>> } };
+export type CreateIndicationMutation = (
+  { __typename?: 'Mutation' }
+  & { createIndication: (
+    { __typename?: 'CreateIndicationResult' }
+    & { indication?: Maybe<(
+      { __typename?: 'Indication' }
+      & Pick<Indication, 'id' | 'description' | 'name'>
+    )> }
+  ) }
+);
 
 export type UpsertMeasureMutationVariables = Exact<{
   input: UpsertMeasureInput;
 }>;
 
 
-export type UpsertMeasureMutation = { upsertMeasure: { measure?: Maybe<(
-      Pick<Measure, 'id' | 'description' | 'name'>
-      & { indications?: Maybe<Array<Pick<Indication, 'id' | 'name'>>> }
-    )> } };
+export type UpsertMeasureMutation = (
+  { __typename?: 'Mutation' }
+  & { upsertMeasure: (
+    { __typename?: 'UpsertMeasureResult' }
+    & { measure?: Maybe<(
+      { __typename?: 'Measure' }
+      & Pick<Measure, 'id' | 'description' | 'name'>
+      & { indications?: Maybe<Array<(
+        { __typename?: 'Indication' }
+        & Pick<Indication, 'id' | 'name'>
+      )>> }
+    )> }
+  ) }
+);
 
 export type GetDeviceQueryVariables = Exact<{
   input: GetDeviceInput;
 }>;
 
 
-export type GetDeviceQuery = { getDevice: { device?: Maybe<Pick<Device, 'id' | 'userId' | 'name'>> } };
+export type GetDeviceQuery = (
+  { __typename?: 'Query' }
+  & { getDevice: (
+    { __typename?: 'GetDeviceResult' }
+    & { device?: Maybe<(
+      { __typename?: 'Device' }
+      & Pick<Device, 'id' | 'userId' | 'name'>
+    )> }
+  ) }
+);
 
 export type GetActivityQueryVariables = Exact<{
   input: GetActivityInput;
 }>;
 
 
-export type GetActivityQuery = { getActivity: { activity?: Maybe<Array<Maybe<Pick<Activity, 'start' | 'end' | 'duration' | 'type'>>>> } };
+export type GetActivityQuery = (
+  { __typename?: 'Query' }
+  & { getActivity: (
+    { __typename?: 'GetActivityResult' }
+    & { activity?: Maybe<Array<Maybe<(
+      { __typename?: 'Activity' }
+      & Pick<Activity, 'start' | 'end' | 'duration' | 'type'>
+    )>>> }
+  ) }
+);
 
 export type GetDailyQueryVariables = Exact<{
   input: GetDailyInput;
 }>;
 
 
-export type GetDailyQuery = { getDaily: { daily?: Maybe<Array<Maybe<(
-      Pick<Daily, 'date'>
-      & { heartRate?: Maybe<Pick<HeartRateSummary, 'average' | 'min' | 'max'>> }
-    )>>> } };
+export type GetDailyQuery = (
+  { __typename?: 'Query' }
+  & { getDaily: (
+    { __typename?: 'GetDailyResult' }
+    & { daily?: Maybe<Array<Maybe<(
+      { __typename?: 'Daily' }
+      & Pick<Daily, 'date'>
+      & { heartRate?: Maybe<(
+        { __typename?: 'HeartRateSummary' }
+        & Pick<HeartRateSummary, 'average' | 'min' | 'max'>
+      )> }
+    )>>> }
+  ) }
+);
 
 export type GetHeartRateQueryVariables = Exact<{
   input: GetHeartRateInput;
 }>;
 
 
-export type GetHeartRateQuery = { getHeartRate: { heartRate?: Maybe<Array<Maybe<Pick<HeartRate, 'date' | 'point'>>>> } };
+export type GetHeartRateQuery = (
+  { __typename?: 'Query' }
+  & { getHeartRate: (
+    { __typename?: 'GetHeartRateResult' }
+    & { heartRate?: Maybe<Array<Maybe<(
+      { __typename?: 'HeartRate' }
+      & Pick<HeartRate, 'date' | 'point'>
+    )>>> }
+  ) }
+);
 
 export type GetSleepQueryVariables = Exact<{
   input: GetSleepInput;
 }>;
 
 
-export type GetSleepQuery = { getSleep: { sleep?: Maybe<Array<Maybe<Pick<Sleep, 'start' | 'end' | 'state'>>>> } };
+export type GetSleepQuery = (
+  { __typename?: 'Query' }
+  & { getSleep: (
+    { __typename?: 'GetSleepResult' }
+    & { sleep?: Maybe<Array<Maybe<(
+      { __typename?: 'Sleep' }
+      & Pick<Sleep, 'start' | 'end' | 'state'>
+    )>>> }
+  ) }
+);
 
 export type GetIndicationQueryVariables = Exact<{
   input: GetIndicationInput;
 }>;
 
 
-export type GetIndicationQuery = { getIndication: { indication?: Maybe<Pick<Indication, 'id' | 'description' | 'name'>> } };
+export type GetIndicationQuery = (
+  { __typename?: 'Query' }
+  & { getIndication: (
+    { __typename?: 'GetIndicationResult' }
+    & { indication?: Maybe<(
+      { __typename?: 'Indication' }
+      & Pick<Indication, 'id' | 'description' | 'name'>
+    )> }
+  ) }
+);
 
 export type GetIndicationsQueryVariables = Exact<{
   input: GetIndicationsInput;
 }>;
 
 
-export type GetIndicationsQuery = { getIndications: { indications?: Maybe<Array<Maybe<Pick<Indication, 'id' | 'description' | 'name'>>>> } };
+export type GetIndicationsQuery = (
+  { __typename?: 'Query' }
+  & { getIndications: (
+    { __typename?: 'GetIndicationsResult' }
+    & { indications?: Maybe<Array<Maybe<(
+      { __typename?: 'Indication' }
+      & Pick<Indication, 'id' | 'description' | 'name'>
+    )>>> }
+  ) }
+);
 
 export type GetMeasureQueryVariables = Exact<{
   input: GetMeasureInput;
 }>;
 
 
-export type GetMeasureQuery = { getMeasure: { measure?: Maybe<(
-      Pick<Measure, 'id' | 'description' | 'name'>
-      & { conceptsOfInterest?: Maybe<Array<Pick<ConceptOfInterest, 'name'>>>, indications?: Maybe<Array<Pick<Indication, 'name'>>> }
-    )> } };
+export type GetMeasureQuery = (
+  { __typename?: 'Query' }
+  & { getMeasure: (
+    { __typename?: 'GetMeasureResult' }
+    & { measure?: Maybe<(
+      { __typename?: 'Measure' }
+      & Pick<Measure, 'id' | 'description' | 'name'>
+      & { conceptsOfInterest?: Maybe<Array<(
+        { __typename?: 'ConceptOfInterest' }
+        & Pick<ConceptOfInterest, 'name'>
+      )>>, indications?: Maybe<Array<(
+        { __typename?: 'Indication' }
+        & Pick<Indication, 'name'>
+      )>> }
+    )> }
+  ) }
+);
 
 export type GetMeasuresQueryVariables = Exact<{
   input: GetMeasuresInput;
 }>;
 
 
-export type GetMeasuresQuery = { getMeasures: { measures?: Maybe<Array<Maybe<(
-      Pick<Measure, 'id' | 'description' | 'name'>
-      & { indications?: Maybe<Array<Pick<Indication, 'id' | 'name' | 'description'>>> }
-    )>>> } };
+export type GetMeasuresQuery = (
+  { __typename?: 'Query' }
+  & { getMeasures: (
+    { __typename?: 'GetMeasuresResult' }
+    & { measures?: Maybe<Array<Maybe<(
+      { __typename?: 'Measure' }
+      & Pick<Measure, 'id' | 'description' | 'name'>
+      & { indications?: Maybe<Array<(
+        { __typename?: 'Indication' }
+        & Pick<Indication, 'id' | 'name' | 'description'>
+      )>> }
+    )>>> }
+  ) }
+);
 
 export type GetUserQueryVariables = Exact<{
   input: GetUserInput;
 }>;
 
 
-export type GetUserQuery = { getUser: { user?: Maybe<(
-      Pick<User, 'id' | 'email' | 'name'>
-      & { devices?: Maybe<Array<Maybe<Pick<Device, 'id'>>>> }
-    )> } };
+export type GetUserQuery = (
+  { __typename?: 'Query' }
+  & { getUser: (
+    { __typename?: 'GetUserResult' }
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'email' | 'name'>
+      & { devices?: Maybe<Array<Maybe<(
+        { __typename?: 'Device' }
+        & Pick<Device, 'id'>
+      )>>> }
+    )> }
+  ) }
+);
 
 
 export const CreateIndicationDocument: DocumentNode<CreateIndicationMutation, CreateIndicationMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createIndication"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateIndicationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createIndication"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"indication"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
