@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { get } from 'lodash';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
 import { Page } from 'components/Page';
 import { DataGrid } from 'components/Table';
@@ -20,24 +20,12 @@ const Measures = (): ReactElement => {
     variables: { input: {} },
   });
 
-  // todo: this is painfully verbose
   const [mutate] = useMutation(UpsertMeasureDocument, {
     update(cache, { data: { upsertMeasure } }) {
       cache.modify({
         fields: {
           measures(existing = []) {
-            const upsertedMeasure = cache.writeFragment({
-              data: upsertMeasure,
-              fragment: gql`
-                fragment UpsertedMeasure on Measure {
-                  id
-                  description
-                  name
-                  indications
-                }
-              `,
-            });
-            return [...existing, upsertedMeasure];
+            return [...existing, upsertMeasure];
           },
         },
       });
