@@ -34,7 +34,7 @@ async function upsertMeasure(
 			},
 			data: {
 				...omit(inputMeasure, 'id'),
-				indications: { connect: indicationIds },
+				indications: { set: indicationIds },
 			},
 		});
 	}
