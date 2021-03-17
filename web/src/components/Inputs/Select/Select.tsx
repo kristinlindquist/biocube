@@ -149,12 +149,16 @@ const Select = ({
   const native = !multiple;
   const [selections, setSelections] = useState<IdType[]>(defaultValue);
 
+  const onChange = (newSelections: IdType[]) => {
+    setSelections(newSelections);
+    onSelect(getSelectedOptions(newSelections, options));
+  };
+
   const handleChange = (event: React.ChangeEvent<{ value: any }>) => {
     const newSelections = multiple
       ? uniq([...selections, event.target.value].filter((s) => s))
       : [event.target.value];
-    setSelections(newSelections);
-    onSelect(getSelectedOptions(newSelections, options));
+    onChange(newSelections);
   };
 
   return (
@@ -177,7 +181,17 @@ const Select = ({
                 <div className={classes.chips}>
                   {getSelectedOptions(selected as IdType[], options).map(
                     ({ id, name }) => (
-                      <Chip className={classes.chip} key={id} label={name} />
+                      <Chip
+                        className={classes.chip}
+                        key={id}
+                        label={name}
+                        onDelete={() =>
+                          onChange(selections.filter((s) => s !== id))
+                        }
+                        onMouseDown={(event) => {
+                          event.stopPropagation();
+                        }}
+                      />
                     ),
                   )}
                 </div>

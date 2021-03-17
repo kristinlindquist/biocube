@@ -24,10 +24,11 @@ export interface IconButtonProps {
 const IconButton = ({
   icon,
   label = 'add',
+  size,
   ...props
 }: IconButtonProps): ReactElement => (
-  <MaterialIconButton aria-label={label} color="primary" {...props}>
-    {icon || <EditIcon />}
+  <MaterialIconButton aria-label={label} color="primary" size={size} {...props}>
+    {icon || <EditIcon fontSize={size === 'small' ? size : undefined} />}
   </MaterialIconButton>
 );
 

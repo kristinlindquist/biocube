@@ -94,6 +94,7 @@ const FormDialog = ({
 
   const handleUpdate = () => {
     onSubmit({ variables: { input: form } });
+    setForm({});
     handleClose();
   };
 
@@ -126,6 +127,7 @@ const FormDialog = ({
                   id={id as string}
                   label={name}
                   margin="dense"
+                  multiline={type === 'text'}
                   onChange={(e) =>
                     setForm({ ...form, [id]: get(e, 'target.value') })
                   }

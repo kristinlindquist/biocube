@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement } from 'react';
 import {
   GridCellParams,
   DataGrid as MaterialDataGrid,
@@ -110,38 +110,28 @@ const DataGrid = ({
   mutation,
   rows,
   ...props
-}: DataGridProps): ReactElement => {
-  const [editRow, setEditRow] = useState(null);
-
-  return (
-    <div>
-      <Box mb={3}>
-        {rows && (
-          <MaterialDataGrid
-            {...props}
-            autoHeight
-            columns={formatColumns(columns, mutation, deleteMutation)}
-            onRowSelected={
-              allowEdits
-                ? ({ data }) =>
-                    setEditRow(!editRow || editRow.id !== data.id ? data : null)
-                : undefined
-            }
-            rows={rows}
-          />
-        )}
-      </Box>
-      {allowAdds && (
-        <Dialog
-          fields={columns.filter((c) => undefOrTrue(c.create))}
-          ml="auto"
-          openButton={<Fab />}
-          onSubmit={mutation}
-          title="Add"
+}: DataGridProps): ReactElement => (
+  <div>
+    <Box mb={3}>
+      {rows && (
+        <MaterialDataGrid
+          {...props}
+          autoHeight
+          columns={formatColumns(columns, mutation, deleteMutation)}
+          rows={rows}
         />
       )}
-    </div>
-  );
-};
+    </Box>
+    {allowAdds && (
+      <Dialog
+        fields={columns.filter((c) => undefOrTrue(c.create))}
+        ml="auto"
+        openButton={<Fab />}
+        onSubmit={mutation}
+        title="Add"
+      />
+    )}
+  </div>
+);
 
 export default DataGrid;
