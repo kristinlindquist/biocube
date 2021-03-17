@@ -93,3 +93,67 @@ model Indication {
   aspectsOfHealth AspectOfHealth[]
   measures        Measure[]
 }
+
+model Template {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  name      String    @db.VarChar(255)
+  pages     Page[]
+}
+
+model Page {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
+  name      String     @db.VarChar(255)
+  title     String
+  url       String     @db.VarChar(255)
+  templates Template[]
+}
+
+enum ComponentType {
+  TABLE
+}
+
+enum QueryDocumentType {
+  GetMeasuresDocument
+  GetIndicationsDocument
+}
+
+enum MutationDocumentType {
+  UpsertMeasureDocument
+  DeleteMeasureDocument
+}
+
+model Query {
+  id         Int               @id @default(autoincrement())
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime?         @updatedAt
+  document   QueryDocumentType
+  parameters Json
+  components Component[]
+}
+
+model Mutation {
+  id               Int                  @id @default(autoincrement())
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime?            @updatedAt
+  document         MutationDocumentType
+  parameters       Json
+  upsertComponents Component[]          @relation("upsertMutation")
+  deleteComponents Component[]          @relation("deleteMutation")
+}
+
+model Component {
+  id        Int           @id @default(autoincrement())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime?     @updatedAt
+  type      ComponentType
+  readId    Int?
+  upsertId  Int?
+  deleteId  Int?
+  read      Query?        @relation(fields: [readId], references: [id])
+  upsert    Mutation?     @relation("upsertMutation", fields: [upsertId], references: [id])
+  delete    Mutation?     @relation("deleteMutation", fields: [deleteId], references: [id])
+}
