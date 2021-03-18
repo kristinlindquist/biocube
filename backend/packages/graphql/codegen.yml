@@ -6,6 +6,7 @@ schema:
   - 'schema/user/**/*.graphql'
   - 'schema/measure/**/*.graphql'
   - 'schema/indication/**/*.graphql'
+  - 'schema/template/**/*.graphql'
 documents: ["./api/queries/**/**.ts", "./api/mutations/**/**.ts"]
 config:
   useIndexSignature: true

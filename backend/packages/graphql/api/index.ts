@@ -7,6 +7,7 @@ import getUser from './queries/user/getUser';
 import getDevice from './queries/device/getDevice';
 import { getMeasures, getMeasure } from './queries/measure';
 import { getIndication, getIndications } from './queries/indication';
+import { getTemplate, getTemplates } from './queries/template';
 import { getHeartRate } from './queries/googlefit';
 
 const allQueries = {
@@ -16,7 +17,9 @@ const allQueries = {
   getMeasures,
   getMeasure,
   getIndication,
-  getIndications
+  getIndications,
+  getTemplate,
+  getTemplates
 };
 
 import { Context } from '../types/resolvers';
@@ -36,7 +39,11 @@ import {
   GetIndicationInput,
   GetIndicationResult,
   GetIndicationsInput,
-  GetIndicationsResult
+  GetIndicationsResult,
+  GetTemplateInput,
+  GetTemplateResult,
+  GetTemplatesResult,
+  GetTemplatesInput
 } from '../types';
 
 type GraphQLApiArgs = {
@@ -119,6 +126,26 @@ class GraphQLApi {
 
   async getIndications(input: GetIndicationsInput, context?: Context): Promise<GetIndicationsResult> {
     const operationName = 'getIndications';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context
+    });
+  }
+
+  async getTemplates(input: GetTemplatesInput, context?: Context): Promise<GetTemplatesResult> {
+    const operationName = 'getTemplates';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context
+    });
+  }
+
+  async getTemplate(input: GetTemplateInput, context?: Context): Promise<GetTemplateResult> {
+    const operationName = 'getTemplate';
     const variables = { input };
     return this.graphqlRequest({
       operationName,

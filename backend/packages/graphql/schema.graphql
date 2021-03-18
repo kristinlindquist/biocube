@@ -2,6 +2,7 @@
  * NOTE: THIS IS AN AUTO-GENERATED FILE. DO NOT MODIFY DIRECTLY.
  */
 type Query {
+  document: QueryDocumentType!
   getActivity(input: GetActivityInput!): GetActivityResult!
   getDaily(input: GetDailyInput!): GetDailyResult!
   getDevice(input: GetDeviceInput!): GetDeviceResult!
@@ -11,7 +12,11 @@ type Query {
   getMeasure(input: GetMeasureInput!): GetMeasureResult!
   getMeasures(input: GetMeasuresInput!): GetMeasuresResult!
   getSleep(input: GetSleepInput!): GetSleepResult!
+  getTemplate(input: GetTemplateInput!): GetTemplateResult!
+  getTemplates(input: GetTemplatesInput!): GetTemplatesResult!
   getUser(input: GetUserInput!): GetUserResult!
+  id: Int!
+  parameters: JSON!
 }
 
 input GetDeviceInput {
@@ -103,7 +108,12 @@ type Sleep {
 type Mutation {
   createIndication(input: CreateIndicationInput!): CreateIndicationResult!
   deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
+  deleteTemplate(input: DeleteTemplateInput!): DeleteTemplateResult!
+  document: MutationDocumentType!
+  id: Int!
+  parameters: JSON!
   upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
+  upsertTemplate(input: UpsertTemplateInput!): UpsertTemplateResult!
 }
 
 input CreateIndicationInput {
@@ -193,6 +203,79 @@ type Measure {
   name: String!
   conceptsOfInterest: [ConceptOfInterest!]
   indications: [Indication!]
+}
+
+input UpsertTemplateInput {
+  id: Int
+  description: String!
+  name: String!
+  indications: [IndicationInput!]!
+}
+
+type UpsertTemplateResult {
+  template: Template
+}
+
+input DeleteTemplateInput {
+  id: Int!
+}
+
+type DeleteTemplateResult {
+  template: Template
+}
+
+input GetTemplatesInput {
+  test: Boolean
+}
+
+type GetTemplatesResult {
+  templates: [Template]
+}
+
+input GetTemplateInput {
+  id: Int!
+}
+
+type GetTemplateResult {
+  template: Template
+}
+
+scalar JSON
+
+type Template {
+  id: Int!
+  name: String!
+  pages: [Page!]
+}
+
+type Page {
+  id: Int!
+  name: String!
+  title: String!
+  url: String!
+  components: [Component!]
+}
+
+type Component {
+  id: Int!
+  type: ComponentType!
+  read: Query
+  upsert: Mutation
+  delete: Mutation
+}
+
+enum ComponentType {
+  TABLE
+}
+
+enum QueryDocumentType {
+  GetMeasuresDocument
+  GetIndicationsDocument
+}
+
+enum MutationDocumentType {
+  UpsertMeasureDocument
+  DeleteMeasureDocument
 }
 
 input GetUserInput {

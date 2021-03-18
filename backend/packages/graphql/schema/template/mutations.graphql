@@ -1,0 +1,29 @@
+type Mutation {
+  upsertTemplate(input: UpsertTemplateInput!): UpsertTemplateResult!,
+  deleteTemplate(input: DeleteTemplateInput!): DeleteTemplateResult!
+}
+
+input UpsertTemplateInput {
+  id: Int
+  description: String!
+  name: String!
+  indications: [IndicationInput!]!
+}
+
+input IndicationInput {
+  id: Int!
+  description: String!
+  name: String!
+}
+
+type UpsertTemplateResult {
+  template: Template
+}
+
+input DeleteTemplateInput {
+  id: Int!
+}
+
+type DeleteTemplateResult {
+  template: Template
+}

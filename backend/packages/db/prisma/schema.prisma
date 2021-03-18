@@ -103,13 +103,14 @@ model Template {
 }
 
 model Page {
-  id        Int        @id @default(autoincrement())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime?  @updatedAt
-  name      String     @db.VarChar(255)
-  title     String
-  url       String     @db.VarChar(255)
-  templates Template[]
+  id         Int         @id @default(autoincrement())
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime?   @updatedAt
+  name       String      @db.VarChar(255)
+  title      String
+  url        String      @db.VarChar(255)
+  templates  Template[]
+  components Component[]
 }
 
 enum ComponentType {
@@ -156,4 +157,5 @@ model Component {
   read      Query?        @relation(fields: [readId], references: [id])
   upsert    Mutation?     @relation("upsertMutation", fields: [upsertId], references: [id])
   delete    Mutation?     @relation("deleteMutation", fields: [deleteId], references: [id])
+  pages     Page[]
 }

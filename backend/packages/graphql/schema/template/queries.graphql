@@ -1,0 +1,20 @@
+type Query {
+  getTemplates(input: GetTemplatesInput!): GetTemplatesResult!,
+  getTemplate(input: GetTemplateInput!): GetTemplateResult!
+}
+
+input GetTemplatesInput {
+  test: Boolean
+}
+
+type GetTemplatesResult {
+  templates: [Template]
+}
+
+input GetTemplateInput {
+  id: Int!
+}
+
+type GetTemplateResult {
+  template: Template
+}

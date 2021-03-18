@@ -13,10 +13,12 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: Date;
+  JSON: any;
 };
 
 export type Query = {
   __typename?: 'Query';
+  document: QueryDocumentType;
   getActivity: GetActivityResult;
   getDaily: GetDailyResult;
   getDevice: GetDeviceResult;
@@ -26,7 +28,11 @@ export type Query = {
   getMeasure: GetMeasureResult;
   getMeasures: GetMeasuresResult;
   getSleep: GetSleepResult;
+  getTemplate: GetTemplateResult;
+  getTemplates: GetTemplatesResult;
   getUser: GetUserResult;
+  id: Scalars['Int'];
+  parameters: Scalars['JSON'];
 };
 
 
@@ -72,6 +78,16 @@ export type QueryGetMeasuresArgs = {
 
 export type QueryGetSleepArgs = {
   input: GetSleepInput;
+};
+
+
+export type QueryGetTemplateArgs = {
+  input: GetTemplateInput;
+};
+
+
+export type QueryGetTemplatesArgs = {
+  input: GetTemplatesInput;
 };
 
 
@@ -180,7 +196,12 @@ export type Mutation = {
   __typename?: 'Mutation';
   createIndication: CreateIndicationResult;
   deleteMeasure: DeleteMeasureResult;
+  deleteTemplate: DeleteTemplateResult;
+  document: MutationDocumentType;
+  id: Scalars['Int'];
+  parameters: Scalars['JSON'];
   upsertMeasure: UpsertMeasureResult;
+  upsertTemplate: UpsertTemplateResult;
 };
 
 
@@ -194,8 +215,18 @@ export type MutationDeleteMeasureArgs = {
 };
 
 
+export type MutationDeleteTemplateArgs = {
+  input: DeleteTemplateInput;
+};
+
+
 export type MutationUpsertMeasureArgs = {
   input: UpsertMeasureInput;
+};
+
+
+export type MutationUpsertTemplateArgs = {
+  input: UpsertTemplateInput;
 };
 
 export type CreateIndicationInput = {
@@ -296,6 +327,85 @@ export type Measure = {
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   indications?: Maybe<Array<Indication>>;
 };
+
+export type UpsertTemplateInput = {
+  id?: Maybe<Scalars['Int']>;
+  description: Scalars['String'];
+  name: Scalars['String'];
+  indications: Array<IndicationInput>;
+};
+
+export type UpsertTemplateResult = {
+  __typename?: 'UpsertTemplateResult';
+  template?: Maybe<Template>;
+};
+
+export type DeleteTemplateInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteTemplateResult = {
+  __typename?: 'DeleteTemplateResult';
+  template?: Maybe<Template>;
+};
+
+export type GetTemplatesInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetTemplatesResult = {
+  __typename?: 'GetTemplatesResult';
+  templates?: Maybe<Array<Maybe<Template>>>;
+};
+
+export type GetTemplateInput = {
+  id: Scalars['Int'];
+};
+
+export type GetTemplateResult = {
+  __typename?: 'GetTemplateResult';
+  template?: Maybe<Template>;
+};
+
+
+export type Template = {
+  __typename?: 'Template';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  pages?: Maybe<Array<Page>>;
+};
+
+export type Page = {
+  __typename?: 'Page';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  title: Scalars['String'];
+  url: Scalars['String'];
+  components?: Maybe<Array<Component>>;
+};
+
+export type Component = {
+  __typename?: 'Component';
+  id: Scalars['Int'];
+  type: ComponentType;
+  read?: Maybe<Query>;
+  upsert?: Maybe<Mutation>;
+  delete?: Maybe<Mutation>;
+};
+
+export enum ComponentType {
+  Table = 'TABLE'
+}
+
+export enum QueryDocumentType {
+  GetMeasuresDocument = 'GetMeasuresDocument',
+  GetIndicationsDocument = 'GetIndicationsDocument'
+}
+
+export enum MutationDocumentType {
+  UpsertMeasureDocument = 'UpsertMeasureDocument',
+  DeleteMeasureDocument = 'DeleteMeasureDocument'
+}
 
 export type GetUserInput = {
   id: Scalars['Int'];

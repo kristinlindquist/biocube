@@ -1,0 +1,49 @@
+scalar JSON
+
+type Template {
+  id: Int!
+  name: String!
+  pages: [Page!]
+}
+
+type Page {
+  id: Int!
+  name: String!
+  title: String!
+  url: String!
+  components: [Component!]
+}
+
+type Component {
+  id: Int!
+  type: ComponentType!
+  read: Query
+  upsert: Mutation
+  delete: Mutation
+}
+
+type Query {
+  id: Int!
+  document: QueryDocumentType!
+  parameters: JSON!
+}
+
+type Mutation {
+  id: Int!
+  document: MutationDocumentType!
+  parameters: JSON!
+}
+
+enum ComponentType {
+  TABLE
+}
+
+enum QueryDocumentType {
+  GetMeasuresDocument
+  GetIndicationsDocument
+}
+
+enum MutationDocumentType {
+  UpsertMeasureDocument
+  DeleteMeasureDocument
+}
