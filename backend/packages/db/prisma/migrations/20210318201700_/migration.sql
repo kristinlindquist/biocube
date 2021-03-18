@@ -13,7 +13,7 @@ CREATE TABLE "User" (
     "name" VARCHAR(255) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -23,8 +23,8 @@ CREATE TABLE "Device" (
     "name" VARCHAR(255) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
-    "id" BIGSERIAL NOT NULL,
-    "userId" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -34,8 +34,8 @@ CREATE TABLE "Stream" (
     "name" VARCHAR(255) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
-    "id" BIGSERIAL NOT NULL,
-    "deviceId" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "deviceId" INTEGER NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -44,15 +44,15 @@ CREATE TABLE "Stream" (
 CREATE TABLE "Datum" (
     "value" DOUBLE PRECISION NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "id" BIGSERIAL NOT NULL,
-    "streamId" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "streamId" INTEGER NOT NULL,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "AspectOfHealth" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "description" TEXT NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE "AspectOfHealth" (
 
 -- CreateTable
 CREATE TABLE "ConceptOfInterest" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "description" TEXT NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE "ConceptOfInterest" (
 
 -- CreateTable
 CREATE TABLE "Measure" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "description" TEXT NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE "Measure" (
 
 -- CreateTable
 CREATE TABLE "Study" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "abstract" TEXT,
@@ -97,7 +97,7 @@ CREATE TABLE "Study" (
 
 -- CreateTable
 CREATE TABLE "Indication" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "name" VARCHAR(255) NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE "Indication" (
 
 -- CreateTable
 CREATE TABLE "Template" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "name" VARCHAR(255) NOT NULL,
@@ -118,7 +118,7 @@ CREATE TABLE "Template" (
 
 -- CreateTable
 CREATE TABLE "Page" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "name" VARCHAR(255) NOT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE "Page" (
 
 -- CreateTable
 CREATE TABLE "Query" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "document" "QueryDocumentType" NOT NULL,
@@ -141,7 +141,7 @@ CREATE TABLE "Query" (
 
 -- CreateTable
 CREATE TABLE "Mutation" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "document" "MutationDocumentType" NOT NULL,
@@ -152,57 +152,57 @@ CREATE TABLE "Mutation" (
 
 -- CreateTable
 CREATE TABLE "Component" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "type" "ComponentType" NOT NULL,
-    "readId" BIGINT,
-    "upsertId" BIGINT,
-    "deleteId" BIGINT,
+    "readId" INTEGER,
+    "upsertId" INTEGER,
+    "deleteId" INTEGER,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "_AspectOfHealthToConceptOfInterest" (
-    "A" BIGINT NOT NULL,
-    "B" BIGINT NOT NULL
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_AspectOfHealthToIndication" (
-    "A" BIGINT NOT NULL,
-    "B" BIGINT NOT NULL
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_ConceptOfInterestToMeasure" (
-    "A" BIGINT NOT NULL,
-    "B" BIGINT NOT NULL
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_IndicationToMeasure" (
-    "A" BIGINT NOT NULL,
-    "B" BIGINT NOT NULL
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_MeasureToStudy" (
-    "A" BIGINT NOT NULL,
-    "B" BIGINT NOT NULL
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_PageToTemplate" (
-    "A" BIGINT NOT NULL,
-    "B" BIGINT NOT NULL
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_ComponentToPage" (
-    "A" BIGINT NOT NULL,
-    "B" BIGINT NOT NULL
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
 );
 
 -- CreateIndex

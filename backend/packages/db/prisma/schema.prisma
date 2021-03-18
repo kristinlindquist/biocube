@@ -12,7 +12,7 @@ model User {
   name      String    @db.VarChar(255)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  id        BigInt    @id @default(autoincrement()) @db.BigInt
+  id        Int    @id @default(autoincrement())
   devices   Device[]
 }
 
@@ -20,8 +20,8 @@ model Device {
   name      String    @db.VarChar(255)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  id        BigInt    @id @default(autoincrement()) @db.BigInt
-  userId    BigInt    @db.BigInt
+  id        Int    @id @default(autoincrement())
+  userId    Int
   user      User      @relation(fields: [userId], references: [id])
 }
 
@@ -29,21 +29,21 @@ model Stream {
   name      String    @db.VarChar(255)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  id        BigInt    @id @default(autoincrement()) @db.BigInt
-  deviceId  BigInt    @db.BigInt
+  id        Int    @id @default(autoincrement())
+  deviceId  Int
   data      Datum[]
 }
 
 model Datum {
   value     Float
   createdAt DateTime @default(now())
-  id        BigInt   @id @default(autoincrement()) @db.BigInt
-  streamId  BigInt   @db.BigInt
+  id        Int   @id @default(autoincrement())
+  streamId  Int
   stream    Stream   @relation(fields: [streamId], references: [id])
 }
 
 model AspectOfHealth {
-  id                 BigInt              @id @default(autoincrement()) @db.BigInt
+  id                 Int              @id @default(autoincrement())
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
   description        String
@@ -53,7 +53,7 @@ model AspectOfHealth {
 }
 
 model ConceptOfInterest {
-  id              BigInt           @id @default(autoincrement()) @db.BigInt
+  id              Int           @id @default(autoincrement())
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
   description     String
@@ -63,7 +63,7 @@ model ConceptOfInterest {
 }
 
 model Measure {
-  id                 BigInt              @id @default(autoincrement()) @db.BigInt
+  id                 Int              @id @default(autoincrement())
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
   description        String
@@ -74,7 +74,7 @@ model Measure {
 }
 
 model Study {
-  id        BigInt    @id @default(autoincrement()) @db.BigInt
+  id        Int    @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   abstract  String?
@@ -84,7 +84,7 @@ model Study {
 }
 
 model Indication {
-  id              BigInt           @id @default(autoincrement()) @db.BigInt
+  id              Int           @id @default(autoincrement())
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
   name            String           @db.VarChar(255)
@@ -94,7 +94,7 @@ model Indication {
 }
 
 model Template {
-  id        BigInt    @id @default(autoincrement()) @db.BigInt
+  id        Int    @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   name      String    @db.VarChar(255)
@@ -102,7 +102,7 @@ model Template {
 }
 
 model Page {
-  id         BigInt      @id @default(autoincrement()) @db.BigInt
+  id         Int      @id @default(autoincrement())
   createdAt  DateTime    @default(now())
   updatedAt  DateTime?   @updatedAt
   name       String      @db.VarChar(255)
@@ -112,36 +112,28 @@ model Page {
   templates  Template[]
 }
 
-model Query {
-  id         BigInt            @id @default(autoincrement()) @db.BigInt
+model DataQuery {
+  id         Int            @id @default(autoincrement())
   createdAt  DateTime          @default(now())
   updatedAt  DateTime?         @updatedAt
   document   QueryDocumentType
   parameters Json
-  components Component[]
-}
-
-model Mutation {
-  id               BigInt               @id @default(autoincrement()) @db.BigInt
-  createdAt        DateTime             @default(now())
-  updatedAt        DateTime?            @updatedAt
-  document         MutationDocumentType
-  parameters       Json
+  readComponents Component[]            @relation("readQuery")
   deleteComponents Component[]          @relation("deleteMutation")
   upsertComponents Component[]          @relation("upsertMutation")
 }
 
 model Component {
-  id        BigInt        @id @default(autoincrement()) @db.BigInt
+  id        Int        @id @default(autoincrement())
   createdAt DateTime      @default(now())
   updatedAt DateTime?     @updatedAt
   type      ComponentType
-  readId    BigInt?       @db.BigInt
-  upsertId  BigInt?       @db.BigInt
-  deleteId  BigInt?       @db.BigInt
-  delete    Mutation?     @relation("deleteMutation", fields: [deleteId], references: [id])
-  read      Query?        @relation(fields: [readId], references: [id])
-  upsert    Mutation?     @relation("upsertMutation", fields: [upsertId], references: [id])
+  readId    Int?
+  upsertId  Int?
+  deleteId  Int?
+  delete    DataQuery?     @relation("deleteMutation", fields: [deleteId], references: [id])
+  read      DataQuery?        @relation("readQuery", fields: [readId], references: [id])
+  upsert    DataQuery?     @relation("upsertMutation", fields: [upsertId], references: [id])
   pages     Page[]
 }
 
@@ -152,9 +144,6 @@ enum ComponentType {
 enum QueryDocumentType {
   GetMeasuresDocument
   GetIndicationsDocument
-}
-
-enum MutationDocumentType {
   UpsertMeasureDocument
   DeleteMeasureDocument
 }
