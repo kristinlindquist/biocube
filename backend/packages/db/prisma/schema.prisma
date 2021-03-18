@@ -1,6 +1,6 @@
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl"]
+  binaryTargets = ["native", "darwin"]
 }
 
 datasource db {
@@ -9,38 +9,38 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  devices   Device[]
   email     String    @unique
   name      String    @db.VarChar(255)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  id        Int       @id @default(autoincrement())
+  devices   Device[]
 }
 
 model Device {
-  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+  id        Int       @id @default(autoincrement())
   userId    Int
-  name      String    @db.VarChar(255)
   user      User      @relation(fields: [userId], references: [id])
 }
 
 model Stream {
-  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  data      Datum[]
+  id        Int       @id @default(autoincrement())
   deviceId  Int
-  name      String    @db.VarChar(255)
+  data      Datum[]
 }
 
 model Datum {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  stream    Stream   @relation(fields: [streamId], references: [id])
-  streamId  Int
   value     Float
+  createdAt DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  streamId  Int
+  stream    Stream   @relation(fields: [streamId], references: [id])
 }
 
 model AspectOfHealth {
@@ -48,8 +48,8 @@ model AspectOfHealth {
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
   description        String
-  conceptsOfInterest ConceptOfInterest[]
   name               String              @db.VarChar(255)
+  conceptsOfInterest ConceptOfInterest[]
   indications        Indication[]
 }
 
@@ -58,9 +58,9 @@ model ConceptOfInterest {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
   description     String
+  name            String           @db.VarChar(255)
   aspectsOfHealth AspectOfHealth[]
   measures        Measure[]
-  name            String           @db.VarChar(255)
 }
 
 model Measure {
@@ -68,10 +68,10 @@ model Measure {
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
   description        String
-  conceptsOfInterest ConceptOfInterest[]
   name               String              @db.VarChar(255)
-  validationStudies  Study[]
+  conceptsOfInterest ConceptOfInterest[]
   indications        Indication[]
+  validationStudies  Study[]
 }
 
 model Study {
@@ -109,22 +109,8 @@ model Page {
   name       String      @db.VarChar(255)
   title      String
   url        String      @db.VarChar(255)
-  templates  Template[]
   components Component[]
-}
-
-enum ComponentType {
-  TABLE
-}
-
-enum QueryDocumentType {
-  GetMeasuresDocument
-  GetIndicationsDocument
-}
-
-enum MutationDocumentType {
-  UpsertMeasureDocument
-  DeleteMeasureDocument
+  templates  Template[]
 }
 
 model Query {
@@ -142,8 +128,8 @@ model Mutation {
   updatedAt        DateTime?            @updatedAt
   document         MutationDocumentType
   parameters       Json
-  upsertComponents Component[]          @relation("upsertMutation")
   deleteComponents Component[]          @relation("deleteMutation")
+  upsertComponents Component[]          @relation("upsertMutation")
 }
 
 model Component {
@@ -154,8 +140,22 @@ model Component {
   readId    Int?
   upsertId  Int?
   deleteId  Int?
+  delete    Mutation?     @relation("deleteMutation", fields: [deleteId], references: [id])
   read      Query?        @relation(fields: [readId], references: [id])
   upsert    Mutation?     @relation("upsertMutation", fields: [upsertId], references: [id])
-  delete    Mutation?     @relation("deleteMutation", fields: [deleteId], references: [id])
   pages     Page[]
+}
+
+enum ComponentType {
+  TABLE
+}
+
+enum QueryDocumentType {
+  GetMeasuresDocument
+  GetIndicationsDocument
+}
+
+enum MutationDocumentType {
+  UpsertMeasureDocument
+  DeleteMeasureDocument
 }

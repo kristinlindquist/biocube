@@ -23,7 +23,7 @@
     "format": "yarn prisma format --schema=./prisma/schema.prisma"
   },
   "dependencies": {
-    "@prisma/client": "2.18.0",
+    "@prisma/client": "2.19.0",
     "@types/express": "4.17.11",
     "@types/lodash": "4.14.168",
     "@types/node": "14.14.32",
