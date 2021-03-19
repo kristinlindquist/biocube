@@ -6,6 +6,31 @@ const getTemplates = gql`
       templates {
         id
         name
+        pages {
+          id
+          name
+          title
+          url
+          components {
+            id
+            type
+            read {
+              id
+              document
+              parameters
+            }
+            upsert {
+              id
+              document
+              parameters
+            }
+            delete {
+              id
+              document
+              parameters
+            }
+          }
+        }
       }
     }
   }

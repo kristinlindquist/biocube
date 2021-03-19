@@ -1,20 +1,27 @@
 import { GraphQLSchema } from 'graphql';
 import { join } from 'path';
 import { flatten } from 'lodash';
-import { loadFilesSync, makeExecutableSchema, mergeResolvers, mergeTypeDefs } from 'graphql-tools';
+import {
+  loadFilesSync,
+  makeExecutableSchema,
+  mergeResolvers,
+  mergeTypeDefs,
+} from 'graphql-tools';
 
 import { deviceResolvers } from './device';
 import { heartRateResolvers } from './googlefit';
 import { indicationResolvers } from './indication';
 import { measureResolvers } from './measure';
+import { templateResolvers } from './template';
 import { userResolvers } from './user';
 
 const resolvers = mergeResolvers([
-	deviceResolvers,
-	heartRateResolvers,
-	indicationResolvers,
-	measureResolvers,
-	userResolvers
+  deviceResolvers,
+  heartRateResolvers,
+  indicationResolvers,
+  measureResolvers,
+  userResolvers,
+  templateResolvers,
 ]);
 
 const types = loadFilesSync(join(__dirname, './**/types.graphql'));

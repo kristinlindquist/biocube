@@ -12,7 +12,7 @@ model User {
   name      String    @db.VarChar(255)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  id        Int    @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   devices   Device[]
 }
 
@@ -20,7 +20,7 @@ model Device {
   name      String    @db.VarChar(255)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  id        Int    @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   userId    Int
   user      User      @relation(fields: [userId], references: [id])
 }
@@ -29,7 +29,7 @@ model Stream {
   name      String    @db.VarChar(255)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  id        Int    @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   deviceId  Int
   data      Datum[]
 }
@@ -37,13 +37,13 @@ model Stream {
 model Datum {
   value     Float
   createdAt DateTime @default(now())
-  id        Int   @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   streamId  Int
   stream    Stream   @relation(fields: [streamId], references: [id])
 }
 
 model AspectOfHealth {
-  id                 Int              @id @default(autoincrement())
+  id                 Int                 @id @default(autoincrement())
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
   description        String
@@ -53,7 +53,7 @@ model AspectOfHealth {
 }
 
 model ConceptOfInterest {
-  id              Int           @id @default(autoincrement())
+  id              Int              @id @default(autoincrement())
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
   description     String
@@ -63,7 +63,7 @@ model ConceptOfInterest {
 }
 
 model Measure {
-  id                 Int              @id @default(autoincrement())
+  id                 Int                 @id @default(autoincrement())
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
   description        String
@@ -74,7 +74,7 @@ model Measure {
 }
 
 model Study {
-  id        Int    @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   abstract  String?
@@ -84,7 +84,7 @@ model Study {
 }
 
 model Indication {
-  id              Int           @id @default(autoincrement())
+  id              Int              @id @default(autoincrement())
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
   name            String           @db.VarChar(255)
@@ -94,7 +94,7 @@ model Indication {
 }
 
 model Template {
-  id        Int    @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   name      String    @db.VarChar(255)
@@ -102,7 +102,7 @@ model Template {
 }
 
 model Page {
-  id         Int      @id @default(autoincrement())
+  id         Int         @id @default(autoincrement())
   createdAt  DateTime    @default(now())
   updatedAt  DateTime?   @updatedAt
   name       String      @db.VarChar(255)
@@ -113,27 +113,27 @@ model Page {
 }
 
 model DataQuery {
-  id         Int            @id @default(autoincrement())
-  createdAt  DateTime          @default(now())
-  updatedAt  DateTime?         @updatedAt
-  document   QueryDocumentType
-  parameters Json
-  readComponents Component[]            @relation("readQuery")
-  deleteComponents Component[]          @relation("deleteMutation")
-  upsertComponents Component[]          @relation("upsertMutation")
+  id               Int               @id @default(autoincrement())
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime?         @updatedAt
+  document         QueryDocumentType
+  parameters       Json
+  readComponents   Component[]       @relation("readQuery")
+  deleteComponents Component[]       @relation("deleteMutation")
+  upsertComponents Component[]       @relation("upsertMutation")
 }
 
 model Component {
-  id        Int        @id @default(autoincrement())
+  id        Int           @id @default(autoincrement())
   createdAt DateTime      @default(now())
   updatedAt DateTime?     @updatedAt
   type      ComponentType
   readId    Int?
   upsertId  Int?
   deleteId  Int?
-  delete    DataQuery?     @relation("deleteMutation", fields: [deleteId], references: [id])
-  read      DataQuery?        @relation("readQuery", fields: [readId], references: [id])
-  upsert    DataQuery?     @relation("upsertMutation", fields: [upsertId], references: [id])
+  delete    DataQuery?    @relation("deleteMutation", fields: [deleteId], references: [id])
+  read      DataQuery?    @relation("readQuery", fields: [readId], references: [id])
+  upsert    DataQuery?    @relation("upsertMutation", fields: [upsertId], references: [id])
   pages     Page[]
 }
 

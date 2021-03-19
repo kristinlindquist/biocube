@@ -18,7 +18,7 @@
   "scripts": {
     "generate": "yarn prisma generate --schema=./prisma/schema.prisma",
     "introspect": "yarn prisma introspect --schema=./prisma/schema.prisma",
-    "studio": "yarn prisma studio --schema=./prisma/schema.prisma",
+    "studio": "yarn prisma studio --schema=./prisma/schema.prisma --experimental",
     "migrate": "yarn prisma migrate dev --schema=./prisma/schema.prisma",
     "reset": "yarn prisma migrate reset",
     "format": "yarn prisma format --schema=./prisma/schema.prisma"

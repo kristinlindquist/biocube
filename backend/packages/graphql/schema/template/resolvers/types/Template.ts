@@ -5,11 +5,36 @@ import { Page, Template } from '@prisma/client';
 import { Parent, Args, Context } from '../../../../types';
 
 const Template = {
-  pages: async (parent: Parent, _: Args, context: Context): Promise<Page[] | null> => {
+  pages: async (
+    parent: Parent,
+    _: Args,
+    context: Context,
+  ): Promise<Page[] | null> => {
     const { id } = parent;
     const { prisma } = context;
 
-    return prisma.template.findUnique({ where: { id } }).pages();
+    const pages: Page[] = await prisma.template
+      .findUnique({ where: { id } })
+      .pages();
+
+    const parentIds = pages.map((p) => p.id);
+
+    return await context.prisma.page.findMany({
+      where: {
+        id: {
+          in: parentIds,
+        },
+      },
+      include: {
+        components: {
+          include: {
+            read: true,
+            upsert: true,
+            delete: true,
+          },
+        },
+      },
+    });
   },
 };
 
