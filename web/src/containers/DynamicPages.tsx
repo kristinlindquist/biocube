@@ -7,10 +7,14 @@ import { Page } from 'components/Page';
 import { DataGrid } from 'components/Table';
 import { JSONObject, RowType } from 'types';
 import {
-  DeleteMeasureDocument,
-  GetIndicationsDocument,
+  GetMeasureDocument,
   GetMeasuresDocument,
   UpsertMeasureDocument,
+  DeleteMeasureDocument,
+  GetIndicationDocument,
+  GetIndicationsDocument,
+  UpsertIndicationDocument,
+  DeleteIndicationDocument,
   GetTemplateDocument,
 } from 'gql';
 import { Logger } from 'logger';
@@ -42,10 +46,14 @@ export interface ComponentProps {
 }
 
 const DocumentMap = {
-  DeleteMeasureDocument,
-  GetIndicationsDocument,
+  GetMeasureDocument,
   GetMeasuresDocument,
   UpsertMeasureDocument,
+  DeleteMeasureDocument,
+  GetIndicationDocument,
+  GetIndicationsDocument,
+  UpsertIndicationDocument,
+  DeleteIndicationDocument,
 };
 
 const findNonString = (data) =>
@@ -72,27 +80,11 @@ const Component = ({
   });
 
   const [mutate] = upsert
-    ? useMutation(DocumentMap[upsert.document], {
-        update(cache, { data: { upsertMeasure } }) {
-          cache.modify({
-            fields: {
-              getMeasures(existing = { measures: [] }) {
-                return { measures: [...existing.measures, upsertMeasure] };
-              },
-            },
-          });
-        },
-      })
+    ? useMutation(DocumentMap[upsert.document])
     : [undefined];
 
   const [deleteMutation] = del
-    ? useMutation(DocumentMap[del.document], {
-        update(cache, { data: { deleteMeasure } }) {
-          cache.evict({
-            id: `Measure:${deleteMeasure.measure.id}`,
-          });
-        },
-      })
+    ? useMutation(DocumentMap[del.document])
     : [undefined];
 
   if (!data) {
@@ -114,12 +106,20 @@ const Component = ({
 };
 
 const getPages = (pages) =>
-  pages.map(({ components, title, url }) => (
-    <Route exact path={url}>
+  pages.map(({ components, id, title, url }) => (
+    <Route exact key={id} path={url}>
       <Page title={title}>
-        {(components || []).map(({ delete: del, read, upsert, type }) => (
-          <Component delete={del} read={read} type={type} upsert={upsert} />
-        ))}
+        {(components || []).map(
+          ({ id: cId, delete: del, read, upsert, type }) => (
+            <Component
+              key={`${title}-${cId}`}
+              delete={del}
+              read={read}
+              type={type}
+              upsert={upsert}
+            />
+          ),
+        )}
       </Page>
     </Route>
   ));

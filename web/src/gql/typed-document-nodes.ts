@@ -192,19 +192,20 @@ export type Sleep = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createIndication: CreateIndicationResult;
+  deleteIndication: DeleteIndicationResult;
   deleteMeasure: DeleteMeasureResult;
   deleteTemplate: DeleteTemplateResult;
   document: QueryDocumentType;
   id: Scalars['Int'];
   parameters: Scalars['JSON'];
+  upsertIndication: UpsertIndicationResult;
   upsertMeasure: UpsertMeasureResult;
   upsertTemplate: UpsertTemplateResult;
 };
 
 
-export type MutationCreateIndicationArgs = {
-  input: CreateIndicationInput;
+export type MutationDeleteIndicationArgs = {
+  input: DeleteIndicationInput;
 };
 
 
@@ -218,6 +219,11 @@ export type MutationDeleteTemplateArgs = {
 };
 
 
+export type MutationUpsertIndicationArgs = {
+  input: UpsertIndicationInput;
+};
+
+
 export type MutationUpsertMeasureArgs = {
   input: UpsertMeasureInput;
 };
@@ -227,20 +233,23 @@ export type MutationUpsertTemplateArgs = {
   input: UpsertTemplateInput;
 };
 
-export type CreateIndicationInput = {
+export type UpsertIndicationInput = {
+  id?: Maybe<Scalars['Int']>;
   description: Scalars['String'];
-  indication?: Maybe<IndicationInput>;
   name: Scalars['String'];
 };
 
-export type IndicationInput = {
-  description: Scalars['String'];
+export type UpsertIndicationResult = {
+  __typename?: 'UpsertIndicationResult';
+  indication?: Maybe<Indication>;
+};
+
+export type DeleteIndicationInput = {
   id: Scalars['Int'];
-  name: Scalars['String'];
 };
 
-export type CreateIndicationResult = {
-  __typename?: 'CreateIndicationResult';
+export type DeleteIndicationResult = {
+  __typename?: 'DeleteIndicationResult';
   indication?: Maybe<Indication>;
 };
 
@@ -283,6 +292,12 @@ export type UpsertMeasureInput = {
   description: Scalars['String'];
   name: Scalars['String'];
   indications: Array<IndicationInput>;
+};
+
+export type IndicationInput = {
+  id: Scalars['Int'];
+  description: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type UpsertMeasureResult = {
@@ -330,7 +345,6 @@ export type UpsertTemplateInput = {
   id?: Maybe<Scalars['Int']>;
   description: Scalars['String'];
   name: Scalars['String'];
-  indications: Array<IndicationInput>;
 };
 
 export type UpsertTemplateResult = {
@@ -423,15 +437,31 @@ export type User = {
   devices?: Maybe<Array<Maybe<Device>>>;
 };
 
-export type CreateIndicationMutationVariables = Exact<{
-  input: CreateIndicationInput;
+export type DeleteIndicationMutationVariables = Exact<{
+  input: DeleteIndicationInput;
 }>;
 
 
-export type CreateIndicationMutation = (
+export type DeleteIndicationMutation = (
   { __typename?: 'Mutation' }
-  & { createIndication: (
-    { __typename?: 'CreateIndicationResult' }
+  & { deleteIndication: (
+    { __typename?: 'DeleteIndicationResult' }
+    & { indication?: Maybe<(
+      { __typename?: 'Indication' }
+      & Pick<Indication, 'id' | 'description' | 'name'>
+    )> }
+  ) }
+);
+
+export type UpsertIndicationMutationVariables = Exact<{
+  input: UpsertIndicationInput;
+}>;
+
+
+export type UpsertIndicationMutation = (
+  { __typename?: 'Mutation' }
+  & { upsertIndication: (
+    { __typename?: 'UpsertIndicationResult' }
     & { indication?: Maybe<(
       { __typename?: 'Indication' }
       & Pick<Indication, 'id' | 'description' | 'name'>
@@ -763,7 +793,8 @@ export type GetUserQuery = (
 );
 
 
-export const CreateIndicationDocument: DocumentNode<CreateIndicationMutation, CreateIndicationMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createIndication"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateIndicationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createIndication"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"indication"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
+export const DeleteIndicationDocument: DocumentNode<DeleteIndicationMutation, DeleteIndicationMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteIndication"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteIndicationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteIndication"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"indication"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
+export const UpsertIndicationDocument: DocumentNode<UpsertIndicationMutation, UpsertIndicationMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"upsertIndication"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpsertIndicationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertIndication"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"indication"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
 export const DeleteMeasureDocument: DocumentNode<DeleteMeasureMutation, DeleteMeasureMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteMeasure"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteMeasureInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteMeasure"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"measure"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"indications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]};
 export const UpsertMeasureDocument: DocumentNode<UpsertMeasureMutation, UpsertMeasureMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"upsertMeasure"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpsertMeasureInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertMeasure"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"measure"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"indications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]};
 export const DeleteTemplateDocument: DocumentNode<DeleteTemplateMutation, DeleteTemplateMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteTemplate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteTemplateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteTemplate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"template"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};

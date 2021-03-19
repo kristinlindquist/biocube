@@ -44,7 +44,6 @@ const Measures = (): ReactElement => {
     <Page error={error} loading={loading} title="Measurements">
       <DataGrid
         allowAdds
-        allowEdits
         deleteMutation={deleteMutation}
         mutation={mutate}
         columns={[

@@ -1,17 +1,22 @@
 type Mutation {
-  createIndication(input: CreateIndicationInput!): CreateIndicationResult!,
+  upsertIndication(input: UpsertIndicationInput!): UpsertIndicationResult!,
+  deleteIndication(input: DeleteIndicationInput!): DeleteIndicationResult!,
 }
 
-input CreateIndicationInput {
+input UpsertIndicationInput {
+  id: Int
   description: String!
-  indication: IndicationInput
   name: String!
 }
 
-input IndicationInput {
-  name: String!
+type UpsertIndicationResult {
+  indication: Indication
 }
 
-type CreateIndicationResult {
+input DeleteIndicationInput {
+  id: Int!
+}
+
+type DeleteIndicationResult {
   indication: Indication
 }

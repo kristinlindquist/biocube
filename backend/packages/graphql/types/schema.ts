@@ -194,19 +194,20 @@ export type Sleep = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createIndication: CreateIndicationResult;
+  deleteIndication: DeleteIndicationResult;
   deleteMeasure: DeleteMeasureResult;
   deleteTemplate: DeleteTemplateResult;
   document: QueryDocumentType;
   id: Scalars['Int'];
   parameters: Scalars['JSON'];
+  upsertIndication: UpsertIndicationResult;
   upsertMeasure: UpsertMeasureResult;
   upsertTemplate: UpsertTemplateResult;
 };
 
 
-export type MutationCreateIndicationArgs = {
-  input: CreateIndicationInput;
+export type MutationDeleteIndicationArgs = {
+  input: DeleteIndicationInput;
 };
 
 
@@ -220,6 +221,11 @@ export type MutationDeleteTemplateArgs = {
 };
 
 
+export type MutationUpsertIndicationArgs = {
+  input: UpsertIndicationInput;
+};
+
+
 export type MutationUpsertMeasureArgs = {
   input: UpsertMeasureInput;
 };
@@ -229,20 +235,23 @@ export type MutationUpsertTemplateArgs = {
   input: UpsertTemplateInput;
 };
 
-export type CreateIndicationInput = {
+export type UpsertIndicationInput = {
+  id?: Maybe<Scalars['Int']>;
   description: Scalars['String'];
-  indication?: Maybe<IndicationInput>;
   name: Scalars['String'];
 };
 
-export type IndicationInput = {
-  description: Scalars['String'];
+export type UpsertIndicationResult = {
+  __typename?: 'UpsertIndicationResult';
+  indication?: Maybe<Indication>;
+};
+
+export type DeleteIndicationInput = {
   id: Scalars['Int'];
-  name: Scalars['String'];
 };
 
-export type CreateIndicationResult = {
-  __typename?: 'CreateIndicationResult';
+export type DeleteIndicationResult = {
+  __typename?: 'DeleteIndicationResult';
   indication?: Maybe<Indication>;
 };
 
@@ -285,6 +294,12 @@ export type UpsertMeasureInput = {
   description: Scalars['String'];
   name: Scalars['String'];
   indications: Array<IndicationInput>;
+};
+
+export type IndicationInput = {
+  id: Scalars['Int'];
+  description: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type UpsertMeasureResult = {
@@ -332,7 +347,6 @@ export type UpsertTemplateInput = {
   id?: Maybe<Scalars['Int']>;
   description: Scalars['String'];
   name: Scalars['String'];
-  indications: Array<IndicationInput>;
 };
 
 export type UpsertTemplateResult = {

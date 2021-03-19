@@ -21,10 +21,6 @@ export interface DataGridProps {
    */
   allowAdds?: boolean;
   /**
-   * add column for edit
-   */
-  allowEdits?: boolean;
-  /**
    * table cols
    */
   columns?: ColumnType[];
@@ -70,6 +66,9 @@ const multiple: GridColTypeDef = {
       .join(', '),
 };
 
+/**
+ * If no columns provided, make 'em up from the rows
+ */
 const getColumns = (rows: RowType[]): ColumnType[] =>
   !isEmpty(rows)
     ? Object.keys(rows[0])
@@ -77,51 +76,54 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
         .map((k) => ({ id: k, name: k }))
     : [];
 
-const formatColumns = (columns, mutation, deleteMutation): GridColDef[] => [
-  ...columns.map(({ id, name, type }) => ({
-    field: id,
-    flex: getFlex(type),
-    headerName: name,
-    type: ['text', 'select'].includes(type) ? 'string' : type,
-    width: type === 'number' ? 100 : undefined,
-    ...(type === 'multiple' ? multiple : {}),
-  })),
-  {
-    field: '',
-    headerName: '',
-    disableClickEventBubbling: true,
-    disableColumnMenu: true,
-    renderCell: (params: GridCellParams) => {
-      const id: number = params.getValue('id') as number;
+/**
+ * Turn into the columns expected by DataGrid and add an Edit column.
+ */
+const formatColumns = (columns, mutation, deleteMutation): GridColDef[] =>
+  [
+    ...columns.map(({ id, name, type }) => ({
+      field: id,
+      flex: getFlex(type),
+      headerName: name,
+      type: ['text', 'select'].includes(type) ? 'string' : type,
+      width: type === 'number' ? 100 : undefined,
+      ...(type === 'multiple' ? multiple : {}),
+    })),
+    mutation && deleteMutation
+      ? {
+          field: '',
+          headerName: '',
+          disableClickEventBubbling: true,
+          disableColumnMenu: true,
+          renderCell: (params: GridCellParams) => {
+            const id: number = params.getValue('id') as number;
 
-      return (
-        <EditCell
-          columns={columns}
-          del={() => deleteMutation({ variables: { input: { id } } })}
-          mutation={mutation}
-          values={params.api.getRowFromId(id)}
-        />
-      );
-    },
-    width: 100,
-  },
-];
+            return (
+              <EditCell
+                columns={columns}
+                del={() => deleteMutation({ variables: { input: { id } } })}
+                mutation={mutation}
+                values={params.api.getRowFromId(id)}
+              />
+            );
+          },
+          width: 100,
+        }
+      : null,
+  ].filter((c) => c);
 
 /**
  * A table with column sorting and other features
  */
 const DataGrid = ({
   allowAdds,
-  allowEdits,
   columns,
   deleteMutation,
   mutation,
   rows,
   ...props
 }: DataGridProps): ReactElement => {
-  console.log(rows);
   const myCols = columns || getColumns(rows);
-  console.log(myCols);
 
   return (
     <div>
@@ -135,7 +137,7 @@ const DataGrid = ({
           />
         )}
       </Box>
-      {allowAdds && (
+      {allowAdds && mutation && (
         <Dialog
           fields={myCols.filter((c) => undefOrTrue(c.create))}
           ml="auto"

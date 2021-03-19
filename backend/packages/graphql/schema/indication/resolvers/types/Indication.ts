@@ -2,7 +2,6 @@
  * Indication type resolvers
  */
 
-const Indication = {
-};
+const Indication = {};
 
 export default Indication;

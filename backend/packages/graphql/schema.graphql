@@ -106,29 +106,32 @@ type Sleep {
 }
 
 type Mutation {
-  createIndication(input: CreateIndicationInput!): CreateIndicationResult!
+  deleteIndication(input: DeleteIndicationInput!): DeleteIndicationResult!
   deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
   deleteTemplate(input: DeleteTemplateInput!): DeleteTemplateResult!
   document: QueryDocumentType!
   id: Int!
   parameters: JSON!
+  upsertIndication(input: UpsertIndicationInput!): UpsertIndicationResult!
   upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
   upsertTemplate(input: UpsertTemplateInput!): UpsertTemplateResult!
 }
 
-input CreateIndicationInput {
+input UpsertIndicationInput {
+  id: Int
   description: String!
-  indication: IndicationInput
   name: String!
 }
 
-input IndicationInput {
-  description: String!
+type UpsertIndicationResult {
+  indication: Indication
+}
+
+input DeleteIndicationInput {
   id: Int!
-  name: String!
 }
 
-type CreateIndicationResult {
+type DeleteIndicationResult {
   indication: Indication
 }
 
@@ -167,6 +170,12 @@ input UpsertMeasureInput {
   description: String!
   name: String!
   indications: [IndicationInput!]!
+}
+
+input IndicationInput {
+  id: Int!
+  description: String!
+  name: String!
 }
 
 type UpsertMeasureResult {
@@ -209,7 +218,6 @@ input UpsertTemplateInput {
   id: Int
   description: String!
   name: String!
-  indications: [IndicationInput!]!
 }
 
 type UpsertTemplateResult {
