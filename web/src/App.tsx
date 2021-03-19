@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import { ThemeProvider } from '@material-ui/core';
 
+import Home from 'containers/Home';
 import DynamicPages from 'containers/DynamicPages';
 import Measures from 'containers/Measures';
 import { getApolloClient } from 'gql';
@@ -17,6 +18,9 @@ const App = (): ReactElement => (
         <Switch>
           <Route path="/measures">
             <Measures />
+          </Route>
+          <Route path="/home">
+            <Home />
           </Route>
           <Route path="/">
             <DynamicPages />

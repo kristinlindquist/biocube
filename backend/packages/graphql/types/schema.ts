@@ -401,6 +401,7 @@ export type Page = {
 export type Component = {
   __typename?: 'Component';
   id: Scalars['Int'];
+  props?: Maybe<Scalars['JSON']>;
   type: ComponentType;
   read?: Maybe<Query>;
   upsert?: Maybe<Mutation>;

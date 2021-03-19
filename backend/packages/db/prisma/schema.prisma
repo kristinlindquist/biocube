@@ -128,6 +128,7 @@ model Component {
   createdAt DateTime      @default(now())
   updatedAt DateTime?     @updatedAt
   type      ComponentType
+  props     Json?
   readId    Int?
   upsertId  Int?
   deleteId  Int?

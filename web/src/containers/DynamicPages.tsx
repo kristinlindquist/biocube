@@ -27,6 +27,10 @@ export interface ComponentProps {
     document: string;
   };
   /**
+   * Properties
+   */
+  props?: JSONObject;
+  /**
    * Query function
    */
   read?: {
@@ -71,6 +75,7 @@ const unwrapData = (data): RowType[] => {
 
 const Component = ({
   delete: del,
+  props,
   read,
   upsert,
   type,
@@ -95,6 +100,7 @@ const Component = ({
     case 'TABLE':
       return (
         <DataGrid
+          {...props}
           deleteMutation={deleteMutation}
           mutation={mutate}
           rows={unwrapData(data)}
@@ -110,10 +116,11 @@ const getPages = (pages) =>
     <Route exact key={id} path={url}>
       <Page title={title}>
         {(components || []).map(
-          ({ id: cId, delete: del, read, upsert, type }) => (
+          ({ id: cId, delete: del, props, read, upsert, type }) => (
             <Component
               key={`${title}-${cId}`}
               delete={del}
+              props={props}
               read={read}
               type={type}
               upsert={upsert}

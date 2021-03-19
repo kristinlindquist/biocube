@@ -13,6 +13,7 @@ const getTemplates = gql`
           url
           components {
             id
+            props
             type
             read {
               id

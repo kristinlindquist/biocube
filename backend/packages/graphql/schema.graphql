@@ -266,6 +266,7 @@ type Page {
 
 type Component {
   id: Int!
+  props: JSON
   type: ComponentType!
   read: Query
   upsert: Mutation
