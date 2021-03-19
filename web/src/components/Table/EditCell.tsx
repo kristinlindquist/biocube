@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { Box } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -25,7 +26,12 @@ export interface EditCellProps {
   values?: { [key: string]: string | number | Date };
 }
 
-const EditCell = ({ columns, del, mutation, values }: EditCellProps) => (
+const EditCell = ({
+  columns,
+  del,
+  mutation,
+  values,
+}: EditCellProps): ReactElement => (
   <Box display="flex">
     <Dialog
       openButton={<IconButton label="Edit" size="small" />}
