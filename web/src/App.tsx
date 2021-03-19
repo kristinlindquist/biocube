@@ -15,11 +15,11 @@ const App = (): ReactElement => (
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/">
-            <DynamicPages />
-          </Route>
           <Route path="/measures">
             <Measures />
+          </Route>
+          <Route path="/">
+            <DynamicPages />
           </Route>
         </Switch>
       </Router>

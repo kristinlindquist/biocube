@@ -30,7 +30,7 @@ type Query {
 
 type Mutation {
   id: Int!
-  document: MutationDocumentType!
+  document: QueryDocumentType!
   parameters: JSON!
 }
 
@@ -39,11 +39,12 @@ enum ComponentType {
 }
 
 enum QueryDocumentType {
+  GetMeasureDocument
   GetMeasuresDocument
-  GetIndicationsDocument
-}
-
-enum MutationDocumentType {
   UpsertMeasureDocument
   DeleteMeasureDocument
+  GetIndicationDocument
+  GetIndicationsDocument
+  UpsertIndicationDocument
+  DeleteIndicationDocument
 }

@@ -142,8 +142,12 @@ enum ComponentType {
 }
 
 enum QueryDocumentType {
+  GetMeasureDocument
   GetMeasuresDocument
-  GetIndicationsDocument
   UpsertMeasureDocument
   DeleteMeasureDocument
+  GetIndicationDocument
+  GetIndicationsDocument
+  UpsertIndicationDocument
+  DeleteIndicationDocument
 }

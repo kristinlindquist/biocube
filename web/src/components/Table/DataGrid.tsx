@@ -6,10 +6,11 @@ import {
   GridColTypeDef,
 } from '@material-ui/data-grid';
 import { Box } from '@material-ui/core';
+import { isEmpty } from 'lodash';
 
 import { Fab } from 'components/Button';
 import { FormDialog as Dialog } from 'components/Dialog';
-import { ColumnType } from 'types';
+import { ColumnType, RowType } from 'types';
 import { undefOrTrue } from 'utils';
 
 import EditCell from './EditCell';
@@ -26,7 +27,7 @@ export interface DataGridProps {
   /**
    * table cols
    */
-  columns: ColumnType[];
+  columns?: ColumnType[];
   /**
    * Delete mutation
    */
@@ -42,7 +43,7 @@ export interface DataGridProps {
   /**
    * table rows
    */
-  rows: Array<{ [key: string]: string | number | Date }>;
+  rows: RowType[];
 }
 
 const getFlex = (type): number | undefined => {
@@ -68,6 +69,13 @@ const multiple: GridColTypeDef = {
       .map(({ name }) => name)
       .join(', '),
 };
+
+const getColumns = (rows: RowType[]): ColumnType[] =>
+  !isEmpty(rows)
+    ? Object.keys(rows[0])
+        .filter((k) => !k.startsWith('_'))
+        .map((k) => ({ id: k, name: k }))
+    : [];
 
 const formatColumns = (columns, mutation, deleteMutation): GridColDef[] => [
   ...columns.map(({ id, name, type }) => ({
@@ -110,28 +118,34 @@ const DataGrid = ({
   mutation,
   rows,
   ...props
-}: DataGridProps): ReactElement => (
-  <div>
-    <Box mb={3}>
-      {rows && (
-        <MaterialDataGrid
-          {...props}
-          autoHeight
-          columns={formatColumns(columns, mutation, deleteMutation)}
-          rows={rows}
+}: DataGridProps): ReactElement => {
+  console.log(rows);
+  const myCols = columns || getColumns(rows);
+  console.log(myCols);
+
+  return (
+    <div>
+      <Box mb={3}>
+        {rows && (
+          <MaterialDataGrid
+            {...props}
+            autoHeight
+            columns={formatColumns(myCols, mutation, deleteMutation)}
+            rows={rows}
+          />
+        )}
+      </Box>
+      {allowAdds && (
+        <Dialog
+          fields={myCols.filter((c) => undefOrTrue(c.create))}
+          ml="auto"
+          openButton={<Fab />}
+          onSubmit={mutation}
+          title="Add"
         />
       )}
-    </Box>
-    {allowAdds && (
-      <Dialog
-        fields={columns.filter((c) => undefOrTrue(c.create))}
-        ml="auto"
-        openButton={<Fab />}
-        onSubmit={mutation}
-        title="Add"
-      />
-    )}
-  </div>
-);
+    </div>
+  );
+};
 
 export default DataGrid;

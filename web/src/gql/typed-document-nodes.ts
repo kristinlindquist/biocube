@@ -195,7 +195,7 @@ export type Mutation = {
   createIndication: CreateIndicationResult;
   deleteMeasure: DeleteMeasureResult;
   deleteTemplate: DeleteTemplateResult;
-  document: MutationDocumentType;
+  document: QueryDocumentType;
   id: Scalars['Int'];
   parameters: Scalars['JSON'];
   upsertMeasure: UpsertMeasureResult;
@@ -396,13 +396,14 @@ export enum ComponentType {
 }
 
 export enum QueryDocumentType {
+  GetMeasureDocument = 'GetMeasureDocument',
   GetMeasuresDocument = 'GetMeasuresDocument',
-  GetIndicationsDocument = 'GetIndicationsDocument'
-}
-
-export enum MutationDocumentType {
   UpsertMeasureDocument = 'UpsertMeasureDocument',
-  DeleteMeasureDocument = 'DeleteMeasureDocument'
+  DeleteMeasureDocument = 'DeleteMeasureDocument',
+  GetIndicationDocument = 'GetIndicationDocument',
+  GetIndicationsDocument = 'GetIndicationsDocument',
+  UpsertIndicationDocument = 'UpsertIndicationDocument',
+  DeleteIndicationDocument = 'DeleteIndicationDocument'
 }
 
 export type GetUserInput = {

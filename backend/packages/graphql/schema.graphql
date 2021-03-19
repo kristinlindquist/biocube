@@ -109,7 +109,7 @@ type Mutation {
   createIndication(input: CreateIndicationInput!): CreateIndicationResult!
   deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
   deleteTemplate(input: DeleteTemplateInput!): DeleteTemplateResult!
-  document: MutationDocumentType!
+  document: QueryDocumentType!
   id: Int!
   parameters: JSON!
   upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
@@ -269,13 +269,14 @@ enum ComponentType {
 }
 
 enum QueryDocumentType {
+  GetMeasureDocument
   GetMeasuresDocument
-  GetIndicationsDocument
-}
-
-enum MutationDocumentType {
   UpsertMeasureDocument
   DeleteMeasureDocument
+  GetIndicationDocument
+  GetIndicationsDocument
+  UpsertIndicationDocument
+  DeleteIndicationDocument
 }
 
 input GetUserInput {
