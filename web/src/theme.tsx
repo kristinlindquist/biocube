@@ -1,16 +1,5 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-
-// TODO: this isn't working
-declare module '@material-ui/core/styles/createMuiTheme' {
-  interface PaletteColor {
-    veryLight?: string;
-    veryDark?: string;
-  }
-  interface PaletteColorOption {
-    veryLight?: string;
-    veryDark?: string;
-  }
-}
+// https://github.com/mui-org/material-ui/issues/13394
+import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
 
 declare module '@material-ui/core/styles/createPalette' {
   interface Palette {

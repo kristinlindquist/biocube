@@ -6,7 +6,7 @@ import {
   GridColTypeDef,
 } from '@material-ui/data-grid';
 import { Box } from '@material-ui/core';
-import { isEmpty } from 'lodash';
+import { capitalize, isEmpty } from 'lodash';
 
 import { Fab } from 'components/Button';
 import { FormDialog as Dialog } from 'components/Dialog';
@@ -73,7 +73,7 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
   !isEmpty(rows)
     ? Object.keys(rows[0])
         .filter((k) => !k.startsWith('_'))
-        .map((k) => ({ id: k, name: k }))
+        .map((k) => ({ create: k !== 'id', id: k, name: capitalize(k) }))
     : [];
 
 /**
