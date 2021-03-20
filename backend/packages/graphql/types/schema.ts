@@ -243,7 +243,7 @@ export type UpsertIndicationInput = {
 
 export type UpsertIndicationResult = {
   __typename?: 'UpsertIndicationResult';
-  indication?: Maybe<Indication>;
+  indication: Indication;
 };
 
 export type DeleteIndicationInput = {
@@ -252,7 +252,7 @@ export type DeleteIndicationInput = {
 
 export type DeleteIndicationResult = {
   __typename?: 'DeleteIndicationResult';
-  indication?: Maybe<Indication>;
+  indication: Indication;
 };
 
 export type GetIndicationsInput = {

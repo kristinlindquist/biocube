@@ -5,8 +5,6 @@ const deleteIndication = gql`
     deleteIndication(input: $input) {
       indication {
         id
-        description
-        name
       }
     }
   }

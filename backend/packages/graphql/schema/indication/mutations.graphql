@@ -10,7 +10,7 @@ input UpsertIndicationInput {
 }
 
 type UpsertIndicationResult {
-  indication: Indication
+  indication: Indication!
 }
 
 input DeleteIndicationInput {
@@ -18,5 +18,5 @@ input DeleteIndicationInput {
 }
 
 type DeleteIndicationResult {
-  indication: Indication
+  indication: Indication!
 }

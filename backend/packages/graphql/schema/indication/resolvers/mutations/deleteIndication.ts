@@ -14,11 +14,11 @@ async function deleteIndication(
 ): Promise<DeleteIndicationResult> {
   const { prisma } = context;
   const { input } = args;
-  const inputIndication: DeleteIndicationInput = input;
+  const { id }: DeleteIndicationInput = input;
 
   const indication: Indication = await prisma.indication.delete({
     where: {
-      id: inputIndication.id,
+      id,
     },
   });
 

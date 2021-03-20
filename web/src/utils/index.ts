@@ -7,3 +7,14 @@ export const unixYearRange = {
 
 export const undefOrTrue = (val: boolean | null): boolean =>
   val === undefined || val;
+
+export const getStartsWith = (
+  obj: { [any: string]: unknown },
+  str: string,
+): { [any: string]: any } =>
+  Object.entries(obj).find(([k]) => k.startsWith(str))[1];
+
+export const getFirstNonString = (obj: {
+  [any: string]: any;
+}): { [any: string]: any } =>
+  Object.values(obj).find((v) => typeof v !== 'string');
