@@ -16,7 +16,6 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  document: QueryDocumentType;
   getActivity: GetActivityResult;
   getDaily: GetDailyResult;
   getDevice: GetDeviceResult;
@@ -29,8 +28,6 @@ export type Query = {
   getTemplate: GetTemplateResult;
   getTemplates: GetTemplatesResult;
   getUser: GetUserResult;
-  id: Scalars['Int'];
-  parameters: Scalars['JSON'];
 };
 
 
@@ -195,9 +192,6 @@ export type Mutation = {
   deleteIndication: DeleteIndicationResult;
   deleteMeasure: DeleteMeasureResult;
   deleteTemplate: DeleteTemplateResult;
-  document: QueryDocumentType;
-  id: Scalars['Int'];
-  parameters: Scalars['JSON'];
   upsertIndication: UpsertIndicationResult;
   upsertMeasure: UpsertMeasureResult;
   upsertTemplate: UpsertTemplateResult;
@@ -401,9 +395,16 @@ export type Component = {
   id: Scalars['Int'];
   props?: Maybe<Scalars['JSON']>;
   type: ComponentType;
-  read?: Maybe<Query>;
-  upsert?: Maybe<Mutation>;
-  delete?: Maybe<Mutation>;
+  read?: Maybe<DataQuery>;
+  upsert?: Maybe<DataQuery>;
+  delete?: Maybe<DataQuery>;
+};
+
+export type DataQuery = {
+  __typename?: 'DataQuery';
+  id: Scalars['Int'];
+  document: QueryDocumentType;
+  parameters: Scalars['JSON'];
 };
 
 export enum ComponentType {
@@ -724,14 +725,14 @@ export type GetTemplateQuery = (
           { __typename?: 'Component' }
           & Pick<Component, 'id' | 'props' | 'type'>
           & { read?: Maybe<(
-            { __typename?: 'Query' }
-            & Pick<Query, 'id' | 'document' | 'parameters'>
+            { __typename?: 'DataQuery' }
+            & Pick<DataQuery, 'id' | 'document' | 'parameters'>
           )>, upsert?: Maybe<(
-            { __typename?: 'Mutation' }
-            & Pick<Mutation, 'id' | 'document' | 'parameters'>
+            { __typename?: 'DataQuery' }
+            & Pick<DataQuery, 'id' | 'document' | 'parameters'>
           )>, delete?: Maybe<(
-            { __typename?: 'Mutation' }
-            & Pick<Mutation, 'id' | 'document' | 'parameters'>
+            { __typename?: 'DataQuery' }
+            & Pick<DataQuery, 'id' | 'document' | 'parameters'>
           )> }
         )>> }
       )>> }
@@ -758,14 +759,14 @@ export type GetTemplatesQuery = (
           { __typename?: 'Component' }
           & Pick<Component, 'id' | 'props' | 'type'>
           & { read?: Maybe<(
-            { __typename?: 'Query' }
-            & Pick<Query, 'id' | 'document' | 'parameters'>
+            { __typename?: 'DataQuery' }
+            & Pick<DataQuery, 'id' | 'document' | 'parameters'>
           )>, upsert?: Maybe<(
-            { __typename?: 'Mutation' }
-            & Pick<Mutation, 'id' | 'document' | 'parameters'>
+            { __typename?: 'DataQuery' }
+            & Pick<DataQuery, 'id' | 'document' | 'parameters'>
           )>, delete?: Maybe<(
-            { __typename?: 'Mutation' }
-            & Pick<Mutation, 'id' | 'document' | 'parameters'>
+            { __typename?: 'DataQuery' }
+            & Pick<DataQuery, 'id' | 'document' | 'parameters'>
           )> }
         )>> }
       )>> }

@@ -2,7 +2,6 @@
  * NOTE: THIS IS AN AUTO-GENERATED FILE. DO NOT MODIFY DIRECTLY.
  */
 type Query {
-  document: QueryDocumentType!
   getActivity(input: GetActivityInput!): GetActivityResult!
   getDaily(input: GetDailyInput!): GetDailyResult!
   getDevice(input: GetDeviceInput!): GetDeviceResult!
@@ -15,8 +14,6 @@ type Query {
   getTemplate(input: GetTemplateInput!): GetTemplateResult!
   getTemplates(input: GetTemplatesInput!): GetTemplatesResult!
   getUser(input: GetUserInput!): GetUserResult!
-  id: Int!
-  parameters: JSON!
 }
 
 input GetDeviceInput {
@@ -109,9 +106,6 @@ type Mutation {
   deleteIndication(input: DeleteIndicationInput!): DeleteIndicationResult!
   deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
   deleteTemplate(input: DeleteTemplateInput!): DeleteTemplateResult!
-  document: QueryDocumentType!
-  id: Int!
-  parameters: JSON!
   upsertIndication(input: UpsertIndicationInput!): UpsertIndicationResult!
   upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
   upsertTemplate(input: UpsertTemplateInput!): UpsertTemplateResult!
@@ -268,9 +262,15 @@ type Component {
   id: Int!
   props: JSON
   type: ComponentType!
-  read: Query
-  upsert: Mutation
-  delete: Mutation
+  read: DataQuery
+  upsert: DataQuery
+  delete: DataQuery
+}
+
+type DataQuery {
+  id: Int!
+  document: QueryDocumentType!
+  parameters: JSON!
 }
 
 enum ComponentType {

@@ -16,7 +16,7 @@ const App = (): ReactElement => (
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/measures">
+          <Route path="/measuresback">
             <Measures />
           </Route>
           <Route path="/home">

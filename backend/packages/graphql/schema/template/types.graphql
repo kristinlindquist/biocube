@@ -18,18 +18,12 @@ type Component {
   id: Int!
   props: JSON
   type: ComponentType!
-  read: Query
-  upsert: Mutation
-  delete: Mutation
+  read: DataQuery
+  upsert: DataQuery
+  delete: DataQuery
 }
 
-type Query {
-  id: Int!
-  document: QueryDocumentType!
-  parameters: JSON!
-}
-
-type Mutation {
+type DataQuery {
   id: Int!
   document: QueryDocumentType!
   parameters: JSON!
