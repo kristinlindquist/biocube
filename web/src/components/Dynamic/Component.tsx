@@ -1,10 +1,10 @@
 import { ReactElement } from 'react';
-import { get, uniqBy } from 'lodash';
+import { uniqBy } from 'lodash';
 import { useMutation, useQuery } from '@apollo/client';
 
 import { DataGrid } from 'components/Table';
 import { JSONObject, RowType } from 'types';
-import { getFirstNonString, getStartsWith } from 'utils';
+import { getFirstNonString, getQueryAndEntity, getStartsWith } from 'utils';
 import {
   GetMeasureDocument,
   GetMeasuresDocument,
@@ -83,15 +83,11 @@ const Component = ({
   upsert,
   type,
 }: ComponentProps): ReactElement => {
+  const { queryName, entityName } = getQueryAndEntity(read.document);
+
   const { data } = useQuery(DocumentMap[read.document], {
     variables: { input: read.parameters },
   });
-
-  const queryName = get(
-    DocumentMap[read.document].definitions.find((d) => d.operation === 'query'),
-    'name.value',
-  ); // e.g. getMeasures
-  const entity = queryName.split('get')[1].toLowerCase(); // e.g. measures
 
   /**
    * Mutation with convoluted effort of adding to list if it doesn't already
@@ -102,11 +98,11 @@ const Component = ({
         update(cache, { data: d }) {
           cache.modify({
             fields: {
-              [queryName](existing = { [entity]: [] }) {
+              [queryName](existing = { [entityName]: [] }) {
                 return {
-                  [entity]: uniqBy(
+                  [entityName]: uniqBy(
                     [
-                      ...existing[entity],
+                      ...existing[entityName],
                       { __ref: cache.identify(getReturnObj(d, 'upsert')) },
                     ],
                     '__ref',

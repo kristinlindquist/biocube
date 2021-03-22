@@ -17,12 +17,7 @@ import {
 } from '@material-ui/core';
 import { uniq } from 'lodash';
 
-type IdType = string | number;
-
-type OptionsType = Array<{
-  id: IdType;
-  name: string;
-}>;
+import { IdType, SelectOptionType as OptionType } from 'types';
 
 export type SelectProps = {
   /**
@@ -40,11 +35,11 @@ export type SelectProps = {
   /**
    * optional callback
    */
-  onSelect?: (value: OptionsType) => unknown;
+  onSelect?: (selection: OptionType[]) => unknown;
   /**
    * select box options
    */
-  options: OptionsType;
+  options: OptionType[];
 } & MaterialSelectProps;
 
 const useStyles = makeStyles(() =>
@@ -84,7 +79,7 @@ const getMenuItemStyles = (id: IdType, selections: IdType[], theme: Theme) => ({
 /**
  * Get objects corresponding to selections
  */
-const getSelectedOptions = (selections: IdType[], options: OptionsType) =>
+const getSelectedOptions = (selections: IdType[], options: OptionType[]) =>
   selections
     .map((s) => options.find(({ id }) => (id as string) === (s as string)))
     .filter((s) => s);
@@ -94,7 +89,7 @@ const getSelectedOptions = (selections: IdType[], options: OptionsType) =>
  * non-native select (used when multiple === true)
  */
 const getNonNativeOptions = (
-  options: OptionsType,
+  options: OptionType[],
   selections: IdType[],
   theme: Theme,
 ) =>
@@ -110,7 +105,7 @@ const getNonNativeOptions = (
 /**
  * Get options for native select
  */
-const getNativeOptions = (options: OptionsType) => [
+const getNativeOptions = (options: OptionType[]) => [
   <option value=""> </option>,
   ...options.map(({ id, name }) => (
     <option key={id} value={id}>
@@ -124,7 +119,7 @@ const getNativeOptions = (options: OptionsType) => [
  */
 const getOptions = (
   isNative: boolean,
-  options: OptionsType,
+  options: OptionType[],
   selections: IdType[],
   theme: Theme,
 ) =>

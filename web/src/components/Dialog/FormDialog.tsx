@@ -7,13 +7,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  TextField,
 } from '@material-ui/core';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { SpacingProps } from '@material-ui/system';
-import { get } from 'lodash';
 
-import { Select } from 'components/Inputs';
+import { FormField } from 'components/Inputs';
+import { FieldType, SelectOptionType } from 'types';
 
 export interface FormDialogProps {
   /**
@@ -24,17 +23,10 @@ export interface FormDialogProps {
    * Form fields
    */
   fields: Array<{
-    id: string | number;
+    id: string;
     name: string;
-    options?: Array<{ id: string | number; name: string }>;
-    type?:
-      | 'date'
-      | 'dateTime'
-      | 'element'
-      | 'number'
-      | 'multiple'
-      | 'string'
-      | 'text';
+    options?: SelectOptionType[];
+    type?: FieldType;
   }>;
   /**
    * Save/update/upsert function
@@ -105,36 +97,8 @@ const FormDialog = ({
         <DialogTitle id="dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{content}</DialogContentText>
-          {fields.map(({ id, name, options, type }) => (
-            <React.Fragment key={id}>
-              {options && (
-                <Select
-                  defaultValue={((form[id] || []) as Array<{
-                    id: string | number;
-                  }>).map(({ id: sId }) => sId)}
-                  fullWidth
-                  label={name}
-                  multiple={type === 'multiple'}
-                  onSelect={(selection) =>
-                    setForm({ ...form, [id]: selection })
-                  }
-                  options={options}
-                />
-              )}
-              {!options && (
-                <TextField
-                  fullWidth
-                  id={id as string}
-                  label={name}
-                  margin="dense"
-                  multiline={type === 'text'}
-                  onChange={(e) =>
-                    setForm({ ...form, [id]: get(e, 'target.value') })
-                  }
-                  value={form[id]}
-                />
-              )}
-            </React.Fragment>
+          {fields.map((f) => (
+            <FormField {...f} form={form} setForm={setForm} />
           ))}
         </DialogContent>
         <DialogActions>
