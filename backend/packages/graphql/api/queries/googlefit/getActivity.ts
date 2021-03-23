@@ -7,7 +7,7 @@ const getActivity = gql`
         start
         end
         duration
-        type
+        state
       }
     }
   }

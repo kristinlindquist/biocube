@@ -15,7 +15,7 @@ export const processDataStream = (
   data: Array<{ date: number; point: number }> | null,
   states: Array<{ start: number; end: number; state: string }> | null,
   allowNull: boolean,
-  type = 'awake',
+  state = 'awake',
 ): Array<{ x: string; y: number | null }> =>
   (data || []).map(({ date, point }) => {
     const myState = states
@@ -24,7 +24,7 @@ export const processDataStream = (
       : null;
     return {
       x: moment(new Date(date)).format('YYYY-MM-DD HH:mm'),
-      y: myState === type || (!myState && allowNull) ? point : null,
+      y: myState === state || (!myState && allowNull) ? point : null,
     };
   });
 
@@ -52,14 +52,14 @@ export const processActivity = (
   activity: Array<{
     start: number;
     duration: number;
-    type: string;
+    state: string;
   }>,
 ): Array<{ day: string }> =>
   Object.values(
     (activity || [])
-      .map(({ start, duration, type }) => ({
+      .map(({ start, duration, state }) => ({
         day: getMonthDay(new Date(start)),
-        [type]: Math.round(duration / (1000 * 60)),
+        [state]: Math.round(duration / (1000 * 60)),
       }))
       .reduce((acc, x) => {
         acc[x.day] = { ...(acc[x.day] || []), ...x };

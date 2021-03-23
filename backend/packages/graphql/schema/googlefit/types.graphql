@@ -8,7 +8,7 @@ type Activity {
   start: Float
   end: Float
   duration: Float
-  type: String
+  state: String
 }
 
 type Daily {

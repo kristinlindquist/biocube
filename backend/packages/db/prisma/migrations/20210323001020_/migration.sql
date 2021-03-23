@@ -1,0 +1,6 @@
+-- CreateEnum
+CREATE TYPE "StateType" AS ENUM ('ASLEEP', 'AWAKE', 'IN_BED', 'WALKING', 'MEDICATION', 'SPINNING', 'STRENGTH_TRAINING');
+
+-- AlterTable
+ALTER TABLE "Datum" ADD COLUMN     "state" "StateType",
+ALTER COLUMN "value" DROP NOT NULL;

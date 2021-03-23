@@ -161,7 +161,7 @@ export type Activity = {
   start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
   duration?: Maybe<Scalars['Float']>;
-  type?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
 };
 
 export type Daily = {

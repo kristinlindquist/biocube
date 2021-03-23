@@ -5,7 +5,6 @@ import { ThemeProvider } from '@material-ui/core';
 
 import Home from 'containers/Home';
 import DynamicPages from 'containers/DynamicPages';
-import Measures from 'containers/Measures';
 import { getApolloClient } from 'gql';
 import theme from './theme';
 
@@ -16,9 +15,6 @@ const App = (): ReactElement => (
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/measuresback">
-            <Measures />
-          </Route>
           <Route path="/home">
             <Home />
           </Route>

@@ -35,7 +35,7 @@ export class GoogleFitnessAPI extends RESTDataSource {
   willSendRequest(request) {
     request.headers.set(
       'Authorization',
-      'Bearer ya29.a0AfH6SMC4ugOOA2nf7H3FOIEyHnxr8HvhdgheiTXJDfxbr3bxOv_gNP93SjJZHht6iaL1P-8m5p_OSZZYaWrvgQLssw0akwcN1_u4QQXNxVejEyntD044hp7MWmVxMHn0PC8aSyk91B_WDnMfhGEFNQ5N7F4h',
+      'Bearer ya29.a0AfH6SMBrVluwnGfnFXVv2CRAwTk9JMXyuf0Rb5B7gteoggKtdZlvCZVKx1Dq7dxeDncpekV_ak9Kgt06uBDdWMpzj7pCfA_GzWmP4M-F6A7hEGalFXOETEtJvfPg6y0eIsTX1en40e--MKQY9ARY2K2e7MVa',
       'Content-type',
       'application/json',
     );
@@ -102,7 +102,7 @@ export class GoogleFitnessAPI extends RESTDataSource {
         start: p.startTimeNanos / (1000 * 1000),
         end: p.endTimeNanos / (1000 * 1000),
         duration: (p.endTimeNanos - p.startTimeNanos) / (1000 * 1000),
-        type: activityMap[p.value[0].intVal],
+        state: activityMap[p.value[0].intVal],
       })),
     );
   }

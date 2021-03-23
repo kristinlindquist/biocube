@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["createMany"]
 }
 
 datasource db {
@@ -17,29 +18,53 @@ model User {
 }
 
 model Device {
-  name      String    @db.VarChar(255)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  id        Int       @id @default(autoincrement())
-  userId    Int
-  user      User      @relation(fields: [userId], references: [id])
+  name         String     @db.VarChar(255)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
+  id           Int        @id @default(autoincrement())
+  userId       Int
+  user         User       @relation(fields: [userId], references: [id])
+  deviceTypeId Int
+  deviceType   DeviceType @relation(fields: [deviceTypeId], references: [id])
+  data         Datum[]
 }
 
-model Stream {
-  name      String    @db.VarChar(255)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  id        Int       @id @default(autoincrement())
-  deviceId  Int
-  data      Datum[]
+model DeviceType {
+  name        String       @db.VarChar(255)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime?    @updatedAt
+  id          Int          @id @default(autoincrement())
+  description String
+  parentId    Int?
+  parent      DeviceType?  @relation(fields: [parentId], references: [id])
+  devices     Device[]
+  DeviceType  DeviceType[] @relation("DeviceTypeToDeviceType")
+}
+
+model DataType {
+  abbreviation String?    @db.VarChar(10)
+  name         String     @db.VarChar(255)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
+  id           Int        @id @default(autoincrement())
+  parentId     Int?
+  parent       DataType?  @relation(fields: [parentId], references: [id])
+  DataType     DataType[] @relation("DataTypeToDataType")
+  data         Datum[]
 }
 
 model Datum {
-  value     Float
-  createdAt DateTime @default(now())
-  id        Int      @id @default(autoincrement())
-  streamId  Int
-  stream    Stream   @relation(fields: [streamId], references: [id])
+  value      Float?
+  state      StateType?
+  createdAt  DateTime   @default(now())
+  startedAt  DateTime
+  duration   BigInt     @default(0)
+  deviceId   Int
+  device     Device     @relation(fields: [deviceId], references: [id])
+  dataTypeId Int
+  dataType   DataType   @relation(fields: [dataTypeId], references: [id])
+
+  @@unique([startedAt, deviceId, dataTypeId], name: "time_device_data_key")
 }
 
 model AspectOfHealth {
@@ -67,6 +92,7 @@ model Measure {
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
   description        String
+  abbreviation       String?             @db.VarChar(10)
   name               String              @db.VarChar(255)
   conceptsOfInterest ConceptOfInterest[]
   indications        Indication[]
@@ -88,6 +114,7 @@ model Indication {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
   name            String           @db.VarChar(255)
+  abbreviation    String?          @db.VarChar(10)
   description     String
   aspectsOfHealth AspectOfHealth[]
   measures        Measure[]
@@ -136,6 +163,17 @@ model Component {
   read      DataQuery?    @relation("readQuery", fields: [readId], references: [id])
   upsert    DataQuery?    @relation("upsertMutation", fields: [upsertId], references: [id])
   pages     Page[]
+}
+
+enum StateType {
+  SLEEP
+  ASLEEP
+  AWAKE
+  IN_BED
+  WALKING
+  MEDITATION
+  SPINNING
+  STRENGTH_TRAINING
 }
 
 enum ComponentType {
