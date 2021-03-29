@@ -9,12 +9,13 @@ datasource db {
 }
 
 model User {
-  email     String    @unique
-  name      String    @db.VarChar(255)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  id        Int       @id @default(autoincrement())
-  devices   Device[]
+  email       String       @unique
+  name        String       @db.VarChar(255)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime?    @updatedAt
+  id          Int          @id @default(autoincrement())
+  devices     Device[]
+  indications Indication[]
 }
 
 model Device {
@@ -58,6 +59,7 @@ model Datum {
   state      StateType?
   createdAt  DateTime   @default(now())
   startedAt  DateTime
+  id         Int        @id @default(autoincrement())
   duration   BigInt     @default(0)
   deviceId   Int
   device     Device     @relation(fields: [deviceId], references: [id])
@@ -118,6 +120,7 @@ model Indication {
   description     String
   aspectsOfHealth AspectOfHealth[]
   measures        Measure[]
+  users           User[]
 }
 
 model Template {

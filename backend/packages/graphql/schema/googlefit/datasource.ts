@@ -35,7 +35,7 @@ export class GoogleFitnessAPI extends RESTDataSource {
   willSendRequest(request) {
     request.headers.set(
       'Authorization',
-      'Bearer ya29.a0AfH6SMBrVluwnGfnFXVv2CRAwTk9JMXyuf0Rb5B7gteoggKtdZlvCZVKx1Dq7dxeDncpekV_ak9Kgt06uBDdWMpzj7pCfA_GzWmP4M-F6A7hEGalFXOETEtJvfPg6y0eIsTX1en40e--MKQY9ARY2K2e7MVa',
+      'Bearer ya29.a0AfH6SMB243W6fj2V4-r6I7HSUvd2JOqBh21lmvAJP1KhLVRTrIk8udIDc54uHk_Scg5S1joh0u5t-gxgUI8ChRuwl0W35Rib9QlS5eoUxSgbVaSPx5-eCzvrJldWHB4Fnc487wiRKQBwNVCkHICP2GNnovAi',
       'Content-type',
       'application/json',
     );
