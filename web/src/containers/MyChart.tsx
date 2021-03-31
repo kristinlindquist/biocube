@@ -111,7 +111,7 @@ const MyChart = (): ReactElement => {
           container={Card}
           data={processActivity(get(aData, 'getActivity.activity'))}
           error={error ? { message: error.message } : null}
-          keys={['walking', 'meditation', 'spinning']}
+          keys={['walking', 'meditation', 'spinning', 'hiking']}
           loading={loading}
           subtitle={<LongDate date={start} />}
           title="Activity"

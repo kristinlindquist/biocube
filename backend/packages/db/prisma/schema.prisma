@@ -177,6 +177,7 @@ enum StateType {
   MEDITATION
   SPINNING
   STRENGTH_TRAINING
+  HIKING
 }
 
 enum ComponentType {

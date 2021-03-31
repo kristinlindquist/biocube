@@ -14,6 +14,7 @@ const activityMap = {
   17: 'spinning',
   112: 'awake',
   80: 'strength training',
+  35: 'hiking'
 };
 
 const daily = {
@@ -35,7 +36,7 @@ export class GoogleFitnessAPI extends RESTDataSource {
   willSendRequest(request) {
     request.headers.set(
       'Authorization',
-      'Bearer ya29.a0AfH6SMB243W6fj2V4-r6I7HSUvd2JOqBh21lmvAJP1KhLVRTrIk8udIDc54uHk_Scg5S1joh0u5t-gxgUI8ChRuwl0W35Rib9QlS5eoUxSgbVaSPx5-eCzvrJldWHB4Fnc487wiRKQBwNVCkHICP2GNnovAi',
+      'Bearer ya29.a0AfH6SMD-DLNAVYFImB2GDnZ89Gclh_R1sIrqbhtoUGt_qQFgx7oxDWg6KtATElXGgymT_0SiBJ0xh4W9BBdJnU4pVbqUMCpb57Nphj7LT-GFK4QpC1ki3lcDCXymaWGHUkCetsAjlKvcAok9cItpD4yyVTl7',
       'Content-type',
       'application/json',
     );

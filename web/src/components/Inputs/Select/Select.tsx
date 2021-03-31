@@ -33,7 +33,11 @@ export type SelectProps = {
    */
   label: string;
   /**
-   * optional callback
+   * optional callback on chip deletion
+   */
+  onDelete?: (selection: OptionType[]) => unknown;
+  /**
+   * optional callback on select
    */
   onSelect?: (selection: OptionType[]) => unknown;
   /**
@@ -136,6 +140,7 @@ const Select = ({
   label,
   multiple = false,
   onSelect = () => {},
+  onDelete = () => {},
   options,
   ...props
 }: SelectProps): ReactElement => {
@@ -154,6 +159,11 @@ const Select = ({
       ? uniq([...selections, event.target.value].filter((s) => s))
       : [event.target.value];
     onChange(newSelections);
+  };
+
+  const handleDelete = (id) => {
+    onChange(selections.filter((s) => s !== id));
+    onDelete(getSelectedOptions([id], options));
   };
 
   return (
@@ -180,9 +190,7 @@ const Select = ({
                         className={classes.chip}
                         key={id}
                         label={name}
-                        onDelete={() =>
-                          onChange(selections.filter((s) => s !== id))
-                        }
+                        onDelete={() => handleDelete(id)}
                         onMouseDown={(event) => {
                           event.stopPropagation();
                         }}
