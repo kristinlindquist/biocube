@@ -1,5 +1,3 @@
-import { Box } from '@material-ui/core';
-
 import { Select } from 'components/Inputs';
 
 import { getSelectProps } from './utils';
@@ -24,14 +22,12 @@ const MemberGroup = ({
   addMemberName,
   updateMethods,
 }: MemberGroupProps) => (
-  <Box mr={2}>
-    <Select
-      defaultValue={members}
-      label={addMemberName}
-      multiple
-      {...getSelectProps(availableMembers, updateMethods)}
-    />
-  </Box>
+  <Select
+    defaultValue={members}
+    label={addMemberName}
+    multiple
+    {...getSelectProps(availableMembers, updateMethods)}
+  />
 );
 
 export default MemberGroup;

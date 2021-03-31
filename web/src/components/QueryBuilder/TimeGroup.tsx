@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import { Select } from 'components/Inputs';
 
@@ -8,10 +8,10 @@ const DateRanges = [
   { name: 'All time', id: undefined },
   { name: 'Today', id: 'today' },
   { name: 'Yesterday', id: 'yesterday' },
-  { name: 'This week', id: 'week' },
-  { name: 'This month', id: 'month' },
-  { name: 'This quarter', id: 'quarter' },
-  { name: 'This year', id: 'year' },
+  { name: 'This week', id: 'this week' },
+  { name: 'This month', id: 'this month' },
+  { name: 'This quarter', id: 'this quarter' },
+  { name: 'This year', id: 'this year' },
   { name: 'Last 7 days', id: '7 days' },
   { name: 'Last 30 days', id: '30 days' },
   { name: 'Last week', id: 'last week' },
@@ -42,51 +42,57 @@ const TimeGroup = ({
   updateMethods,
   title,
 }: TimeGroupProps) => (
-  <div>
+  <>
     {members.map((m) => [
-      <Select
-        key={`${m.dimension.name}-member`}
-        label={title}
-        {...getSelectProps(
-          availableMembers,
-          updateMethods,
-          'dimension',
-          null,
-          m,
-        )}
-      />,
-      <Typography key={`${m.dimension.name}-for`}>for</Typography>,
-      <Select
-        key={`${m.dimension.name}-dateRange`}
-        label="select date range"
-        {...getSelectProps(DateRanges, updateMethods, 'dateRange', 'id', m)}
-      />,
-      <Typography key={`${m.dimension.name}-by`}>by</Typography>,
-      <Select
-        key={`${m.dimension.name}-granularity`}
-        label="select granularity"
-        {...getSelectProps(
-          m.dimension.granularities,
-          updateMethods,
-          'granularity',
-          'name',
-          m,
-        )}
-      />,
+      <Grid item xs={12} sm={4}>
+        <Select
+          key={`${m.dimension.name}-member`}
+          label={title}
+          {...getSelectProps(
+            availableMembers,
+            updateMethods,
+            'dimension',
+            null,
+            m,
+          )}
+        />
+      </Grid>,
+      <Grid item xs={12} sm={4}>
+        <Select
+          key={`${m.dimension.name}-dateRange`}
+          label="Date Range"
+          {...getSelectProps(DateRanges, updateMethods, 'dateRange', 'id', m)}
+        />
+      </Grid>,
+      <Grid item xs={12} sm={4}>
+        <Select
+          key={`${m.dimension.name}-granularity`}
+          label="Granularity"
+          {...getSelectProps(
+            m.dimension.granularities,
+            updateMethods,
+            'granularity',
+            'name',
+            m,
+          )}
+        />
+      </Grid>,
     ])}
     {!members.length && (
-      <Select
-        label={addMemberName}
-        {...getSelectProps(
-          availableMembers,
-          updateMethods,
-          'dimension',
-          'dimension',
-          null,
-        )}
-      />
+      <Grid item xs={12}>
+        <Select
+          label={addMemberName}
+          {...getSelectProps(
+            availableMembers,
+            updateMethods,
+            'dimension',
+            'dimension',
+            null,
+          )}
+        />
+      </Grid>
     )}
-  </div>
+  </>
 );
 
 export default TimeGroup;

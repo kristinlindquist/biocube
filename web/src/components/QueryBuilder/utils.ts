@@ -16,6 +16,7 @@ export const getSelectProps = (
   keyPath = undefined,
   m = undefined,
 ) => ({
+  fullWidth: true,
   options: getMemberOptions(members),
   onDelete: (selections) =>
     updateMethods.remove(getMember(members, selections)),

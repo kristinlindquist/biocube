@@ -1,4 +1,5 @@
-import { Box, Grid, Card, Typography } from '@material-ui/core';
+import { Card, Grid, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { QueryBuilder, VizState } from '@cubejs-client/react';
 
 import { ChartRenderer } from 'components/Chart';
@@ -16,101 +17,109 @@ export interface QbProps {
    * cube API
    */
   cubejsApi?: any;
+  /**
+   * set viz state
+   */
   setVizState?: (vizState: VizState) => void;
 }
+
+const useStyles = makeStyles((theme) => ({
+  query: {
+    paddingBottom: theme.spacing(3),
+  },
+}));
 
 const ExploreQueryBuilder = ({
   vizState,
   cubejsApi,
   setVizState,
 }: // chartExtra,
-QbProps) => (
-  <QueryBuilder
-    vizState={vizState}
-    setVizState={setVizState}
-    cubejsApi={cubejsApi}
-    wrapWithQueryRenderer={false}
-    render={({
-      measures,
-      availableMeasures,
-      updateMeasures,
-      dimensions,
-      availableDimensions,
-      updateDimensions,
-      segments,
-      availableSegments,
-      updateSegments,
-      filters,
-      updateFilters,
-      timeDimensions,
-      availableTimeDimensions,
-      updateTimeDimensions,
-      isQueryPresent,
-      chartType,
-      updateChartType,
-      validatedQuery,
-      // cubejsApi,
-    }) => [
-      <Grid container key="1">
-        <Grid container>
-          <Box display="flex">
+QbProps) => {
+  const classes = useStyles();
+
+  return (
+    <QueryBuilder
+      vizState={vizState}
+      setVizState={setVizState}
+      cubejsApi={cubejsApi}
+      wrapWithQueryRenderer={false}
+      render={({
+        measures,
+        availableMeasures,
+        updateMeasures,
+        dimensions,
+        availableDimensions,
+        updateDimensions,
+        segments,
+        availableSegments,
+        updateSegments,
+        filters,
+        updateFilters,
+        timeDimensions,
+        availableTimeDimensions,
+        updateTimeDimensions,
+        isQueryPresent,
+        chartType,
+        updateChartType,
+        validatedQuery,
+        // cubejsApi,
+      }) => [
+        <Grid className={classes.query} container key="1" spacing={2}>
+          <Grid item xs={6} sm={4}>
             <MemberGroup
-              members={measures}
-              availableMembers={availableMeasures}
               addMemberName="Measure"
+              availableMembers={availableMeasures}
+              members={measures}
               updateMethods={updateMeasures}
             />
+          </Grid>
+          <Grid item xs={6} sm={4}>
             <MemberGroup
-              members={dimensions}
-              availableMembers={availableDimensions}
               addMemberName="Dimension"
+              availableMembers={availableDimensions}
+              members={dimensions}
               updateMethods={updateDimensions}
             />
+          </Grid>
+          <Grid item xs={6} sm={4}>
             <MemberGroup
-              members={segments}
-              availableMembers={availableSegments}
               addMemberName="Segment"
+              availableMembers={availableSegments}
+              members={segments}
               updateMethods={updateSegments}
             />
-            <TimeGroup
-              title="Time"
-              members={timeDimensions}
-              availableMembers={availableTimeDimensions}
-              addMemberName="Time"
-              updateMethods={updateTimeDimensions}
-            />
-          </Box>
-          {isQueryPresent && [
-            <Grid container>
-              <Grid xs={3}>
-                <FilterGroup
-                  members={filters}
-                  availableMembers={[
-                    ...availableDimensions,
-                    ...availableMeasures,
-                  ]}
-                  addMemberName="Filter"
-                  updateMethods={updateFilters}
-                />
-              </Grid>
-            </Grid>,
-          ]}
-        </Grid>
-      </Grid>,
-      <Grid container>
+          </Grid>
+          <TimeGroup
+            addMemberName="Time"
+            availableMembers={availableTimeDimensions}
+            members={timeDimensions}
+            title="Time"
+            updateMethods={updateTimeDimensions}
+          />
+          {isQueryPresent &&
+            false && [
+              <FilterGroup
+                addMemberName="Filter"
+                availableMembers={[
+                  ...availableDimensions,
+                  ...availableMeasures,
+                ]}
+                members={filters}
+                updateMethods={updateFilters}
+              />,
+            ]}
+        </Grid>,
         <Grid container>
           {isQueryPresent ? (
             [
-              <Grid xs={6}>
-                <SelectChartType
-                  chartType={chartType}
-                  updateChartType={updateChartType}
-                />
-              </Grid>,
+              <SelectChartType
+                chartType={chartType}
+                updateChartType={updateChartType}
+              />,
               <Card>
                 <ChartRenderer
-                  vizState={{ query: validatedQuery, chartType }}
                   cubejsApi={cubejsApi}
+                  vizState={{ query: validatedQuery, chartType }}
                 />
               </Card>,
             ]
@@ -119,9 +128,10 @@ QbProps) => (
               Choose a measure or dimension to get started
             </Typography>
           )}
-        </Grid>
-      </Grid>,
-    ]}
-  />
-);
+        </Grid>,
+      ]}
+    />
+  );
+};
+
 export default ExploreQueryBuilder;

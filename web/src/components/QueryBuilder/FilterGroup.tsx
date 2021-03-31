@@ -29,7 +29,7 @@ const FilterGroup = ({
     {members.map((m) => (
       <div key={m.index}>
         <Select
-          label="select 1"
+          label="Dimension"
           {...getSelectProps(
             availableMembers,
             updateMethods,
@@ -39,7 +39,7 @@ const FilterGroup = ({
           )}
         />
         <Select
-          label="select 2"
+          label="Operator"
           {...getSelectProps(m.operators, updateMethods, 'operator', null, m)}
           defaultValue={m.operator}
         />
