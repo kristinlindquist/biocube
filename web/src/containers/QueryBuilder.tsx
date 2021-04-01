@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { Page } from 'components/Page';
 import { ExploreQueryBuilder } from 'components/QueryBuilder';
 
-const QueryBuilder = () => {
+const QueryBuilder = (): ReactElement => {
   const [vizState, setVizState] = useState({});
   return (
     <Page title="Query Builder">

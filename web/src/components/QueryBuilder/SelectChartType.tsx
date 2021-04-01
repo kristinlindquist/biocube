@@ -1,3 +1,6 @@
+import { ReactElement } from 'react';
+import { ChartType } from '@cubejs-client/react';
+
 import { Select } from 'components/Inputs';
 
 const ChartTypes = [
@@ -13,11 +16,17 @@ export interface SelectChartProps {
   /**
    * chartType
    */
-  chartType?: string;
-  updateChartType?: (chartType: any) => void;
+  chartType?: ChartType;
+  /**
+   * function to update chart type
+   */
+  updateChartType: (chartType: ChartType) => void;
 }
 
-const SelectChartType = ({ chartType, updateChartType }: SelectChartProps) => (
+const SelectChartType = ({
+  chartType,
+  updateChartType,
+}: SelectChartProps): ReactElement => (
   <Select
     defaultValue={[chartType]}
     label="Chart Type"

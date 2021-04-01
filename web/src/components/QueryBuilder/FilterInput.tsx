@@ -1,14 +1,16 @@
+import { ReactElement } from 'react';
 import { TextField } from '@material-ui/core';
 
 import { Select } from 'components/Inputs';
 import { SelectOptionType } from 'types';
+import { UpdateMethods } from './types';
 
 export interface FilterProps {
+  onChange: (value: string) => void;
   /**
    * Options
    */
   values?: SelectOptionType[];
-  onChange: (value: any) => void;
 }
 
 export interface FilterInputProps {
@@ -16,12 +18,13 @@ export interface FilterInputProps {
    * Options
    */
   member: {
-    dimension: any;
+    index: number;
+    dimension: {
+      type: string;
+    };
     values: SelectOptionType[];
   };
-  updateMethods: {
-    update: any;
-  };
+  updateMethods: UpdateMethods;
 }
 
 const FilterInputs = {
@@ -29,7 +32,7 @@ const FilterInputs = {
     <Select
       label="filter inputs"
       key="input"
-      onChange={onChange}
+      onSelect={(s) => onChange(s[0].id)}
       options={values}
     />
   ),
@@ -39,13 +42,16 @@ const FilterInputs = {
       style={{
         width: 300,
       }}
-      onChange={(e) => onChange([e.target.value])}
+      onChange={(e) => onChange(e.target.value)}
       value={(values && values[0]) || ''}
     />
   ),
 };
 
-const FilterInput = ({ member, updateMethods }: FilterInputProps) => {
+const FilterInput = ({
+  member,
+  updateMethods,
+}: FilterInputProps): ReactElement => {
   const Filter = FilterInputs[member.dimension.type] || FilterInputs.string;
   return (
     <Filter

@@ -1,7 +1,8 @@
+import { ReactElement } from 'react';
 import { Grid } from '@material-ui/core';
 
 import { Select } from 'components/Inputs';
-
+import { GroupProps } from './types';
 import { getSelectProps } from './utils';
 
 const DateRanges = [
@@ -12,7 +13,7 @@ const DateRanges = [
   { name: 'This month', id: 'this month' },
   { name: 'This quarter', id: 'this quarter' },
   { name: 'This year', id: 'this year' },
-  { name: 'Last 7 days', id: '7 days' },
+  { name: 'Last 7 days', id: '7 days', isDefault: true },
   { name: 'Last 30 days', id: '30 days' },
   { name: 'Last week', id: 'last week' },
   { name: 'Last month', id: 'last month' },
@@ -20,34 +21,17 @@ const DateRanges = [
   { name: 'Last year', id: 'last year' },
 ];
 
-export interface TimeGroupProps {
-  /**
-   * Options
-   */
-  members?: any[];
-  availableMembers?: any[];
-  addMemberName?: string;
-  updateMethods: {
-    add: (member: any) => void;
-    update: (member: { index: number }, updateWith: any) => void;
-    remove: (member: { index: number }) => void;
-  };
-  title?: string;
-}
-
 const TimeGroup = ({
   members,
   availableMembers,
-  addMemberName,
+  name,
   updateMethods,
   title,
-}: TimeGroupProps) => (
+}: GroupProps): ReactElement => (
   <>
     {members.map((m) => [
       <Grid item xs={12} sm={4}>
         <Select
-          key={`${m.dimension.name}-member`}
-          label={title}
           {...getSelectProps(
             availableMembers,
             updateMethods,
@@ -55,19 +39,17 @@ const TimeGroup = ({
             null,
             m,
           )}
+          label={title}
         />
       </Grid>,
       <Grid item xs={12} sm={4}>
         <Select
-          key={`${m.dimension.name}-dateRange`}
-          label="Date Range"
           {...getSelectProps(DateRanges, updateMethods, 'dateRange', 'id', m)}
+          label="Date Range"
         />
       </Grid>,
       <Grid item xs={12} sm={4}>
         <Select
-          key={`${m.dimension.name}-granularity`}
-          label="Granularity"
           {...getSelectProps(
             m.dimension.granularities,
             updateMethods,
@@ -75,13 +57,14 @@ const TimeGroup = ({
             'name',
             m,
           )}
+          label="Granularity"
         />
       </Grid>,
     ])}
     {!members.length && (
       <Grid item xs={12}>
         <Select
-          label={addMemberName}
+          label={name}
           {...getSelectProps(
             availableMembers,
             updateMethods,

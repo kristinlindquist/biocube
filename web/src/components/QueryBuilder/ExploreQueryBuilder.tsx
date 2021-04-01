@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { QueryBuilder, VizState } from '@cubejs-client/react';
@@ -17,6 +18,7 @@ export interface QbProps {
   /**
    * cube API
    */
+  // eslint-disable-next-line
   cubejsApi?: any;
   /**
    * set viz state
@@ -34,8 +36,7 @@ const ExploreQueryBuilder = ({
   vizState,
   cubejsApi,
   setVizState,
-}: // chartExtra,
-QbProps) => {
+}: QbProps): ReactElement => {
   const classes = useStyles();
 
   return (
@@ -70,7 +71,7 @@ QbProps) => {
               <Grid container spacing={2}>
                 <Grid item xs={6} sm={4}>
                   <MemberGroup
-                    addMemberName="Measure"
+                    name="Measure"
                     availableMembers={availableMeasures}
                     members={measures}
                     updateMethods={updateMeasures}
@@ -78,7 +79,7 @@ QbProps) => {
                 </Grid>
                 <Grid item xs={6} sm={4}>
                   <MemberGroup
-                    addMemberName="Dimension"
+                    name="Dimension"
                     availableMembers={availableDimensions}
                     members={dimensions}
                     updateMethods={updateDimensions}
@@ -86,14 +87,14 @@ QbProps) => {
                 </Grid>
                 <Grid item xs={6} sm={4}>
                   <MemberGroup
-                    addMemberName="Segment"
+                    name="Segment"
                     availableMembers={availableSegments}
                     members={segments}
                     updateMethods={updateSegments}
                   />
                 </Grid>
                 <TimeGroup
-                  addMemberName="Time"
+                  name="Time"
                   availableMembers={availableTimeDimensions}
                   members={timeDimensions}
                   title="Time"
@@ -102,7 +103,7 @@ QbProps) => {
                 {isQueryPresent &&
                   false && [
                     <FilterGroup
-                      addMemberName="Filter"
+                      name="Filter"
                       availableMembers={[
                         ...availableDimensions,
                         ...availableMeasures,

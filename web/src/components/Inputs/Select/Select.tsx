@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { makeStyles, useTheme, Theme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {
@@ -152,17 +152,16 @@ const Select = ({
   const theme = useTheme();
   const native = !multiple;
   const [selections, setSelections] = useState<IdType[]>(defaultValue);
-  console.log(selections);
 
   const onChange = (newSelections: IdType[]) => {
     setSelections(newSelections);
     onSelect(getSelectedOptions(newSelections, options));
   };
 
-  const handleChange = (event: React.ChangeEvent<{ value: any }>) => {
+  const handleChange = (value: string) => {
     const newSelections = multiple
-      ? uniq([...selections, event.target.value].filter((s) => s))
-      : [event.target.value];
+      ? uniq([...selections, value].filter((s) => s))
+      : [value];
     onChange(newSelections);
   };
 
@@ -216,7 +215,7 @@ const Select = ({
               )
             : undefined
         }
-        onChange={handleChange}
+        onChange={({ target }) => handleChange(target.value as string)}
         value={multiple ? selections : selections[0]}
         variant={variant}>
         {getOptions(native, options, selections, emptyOption, theme)}
