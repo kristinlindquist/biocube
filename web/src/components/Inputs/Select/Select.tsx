@@ -9,7 +9,7 @@ import {
   Select as MaterialSelect,
   SelectProps as MaterialSelectProps,
 } from '@material-ui/core';
-import { uniq } from 'lodash';
+import { isEmpty, uniq } from 'lodash';
 
 import { IdType, SelectOptionType as OptionType } from 'types';
 
@@ -111,7 +111,11 @@ const getNonNativeOptions = (
  */
 const getNativeOptions = (options: OptionType[], includeEmpty) =>
   [
-    includeEmpty ? <option value={null}> </option> : null,
+    includeEmpty ? (
+      <option key="emp-o" value={null}>
+        {' '}
+      </option>
+    ) : null,
     ...options.map(({ id, name }) => (
       <option key={id} value={id}>
         {name}
@@ -134,10 +138,20 @@ const getOptions = (
     : getNonNativeOptions(options, selections, theme);
 
 /**
+ * Get default selection
+ */
+const getInitial = (options, defaultValue, emptyOption) => {
+  if (isEmpty(defaultValue)) {
+    return emptyOption ? [] : [options[0].id];
+  }
+  return defaultValue;
+};
+
+/**
  * A select box
  */
 const Select = ({
-  defaultValue = [],
+  defaultValue = null,
   emptyOption = true,
   fullWidth = false,
   label,
@@ -151,7 +165,11 @@ const Select = ({
   const classes = useStyles();
   const theme = useTheme();
   const native = !multiple;
-  const [selections, setSelections] = useState<IdType[]>(defaultValue);
+  const [selections, setSelections] = useState<IdType[]>(
+    getInitial(options, defaultValue, emptyOption),
+  );
+
+  console.log(defaultValue);
 
   const onChange = (newSelections: IdType[]) => {
     setSelections(newSelections);
@@ -188,7 +206,6 @@ const Select = ({
       </InputLabel>
       <MaterialSelect
         {...props}
-        defaultValue=""
         inputProps={{
           name: label,
           id: `${label}-select`,

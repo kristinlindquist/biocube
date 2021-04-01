@@ -97,7 +97,6 @@ const ExploreQueryBuilder = ({
                   name="Time"
                   availableMembers={availableTimeDimensions}
                   members={timeDimensions}
-                  title="Time"
                   updateMethods={updateTimeDimensions}
                 />
                 {isQueryPresent &&

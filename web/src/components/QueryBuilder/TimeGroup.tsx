@@ -7,18 +7,18 @@ import { getSelectProps } from './utils';
 
 const DateRanges = [
   { name: 'All time', id: undefined },
-  { name: 'Today', id: 'today' },
-  { name: 'Yesterday', id: 'yesterday' },
-  { name: 'This week', id: 'this week' },
-  { name: 'This month', id: 'this month' },
-  { name: 'This quarter', id: 'this quarter' },
-  { name: 'This year', id: 'this year' },
-  { name: 'Last 7 days', id: '7 days', isDefault: true },
-  { name: 'Last 30 days', id: '30 days' },
-  { name: 'Last week', id: 'last week' },
-  { name: 'Last month', id: 'last month' },
-  { name: 'Last quarter', id: 'last quarter' },
-  { name: 'Last year', id: 'last year' },
+  { name: 'Today', id: 'Today' },
+  { name: 'Yesterday', id: 'Yesterday' },
+  { name: 'This week', id: 'This week' },
+  { name: 'This month', id: 'This month' },
+  { name: 'This quarter', id: 'This quarter' },
+  { name: 'This year', id: 'This year' },
+  { name: 'Last 7 days', id: 'Last 7 days', isDefault: true },
+  { name: 'Last 30 days', id: 'Last 30 days' },
+  { name: 'Last week', id: 'Last week' },
+  { name: 'Last month', id: 'Last month' },
+  { name: 'Last quarter', id: 'Last quarter' },
+  { name: 'Last year', id: 'Last year' },
 ];
 
 const TimeGroup = ({
@@ -26,7 +26,6 @@ const TimeGroup = ({
   availableMembers,
   name,
   updateMethods,
-  title,
 }: GroupProps): ReactElement => (
   <>
     {members.map((m) => [
@@ -39,12 +38,14 @@ const TimeGroup = ({
             null,
             m,
           )}
-          label={title}
+          emptyOption={false}
+          label={name}
         />
       </Grid>,
       <Grid item xs={12} sm={4}>
         <Select
           {...getSelectProps(DateRanges, updateMethods, 'dateRange', 'id', m)}
+          emptyOption={false}
           label="Date Range"
         />
       </Grid>,
@@ -57,6 +58,8 @@ const TimeGroup = ({
             'name',
             m,
           )}
+          defaultValue={['day']}
+          emptyOption={false}
           label="Granularity"
         />
       </Grid>,
@@ -64,7 +67,6 @@ const TimeGroup = ({
     {!members.length && (
       <Grid item xs={12}>
         <Select
-          label={name}
           {...getSelectProps(
             availableMembers,
             updateMethods,
@@ -72,6 +74,7 @@ const TimeGroup = ({
             'dimension',
             null,
           )}
+          label={name}
         />
       </Grid>
     )}
