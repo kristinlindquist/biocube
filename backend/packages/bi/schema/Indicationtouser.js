@@ -6,10 +6,6 @@ cube(`Indicationtouser`, {
   },
   
   measures: {
-    count: {
-      type: `count`,
-      drillMembers: []
-    }
   },
   
   dimensions: {

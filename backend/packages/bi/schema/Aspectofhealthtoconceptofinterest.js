@@ -6,10 +6,6 @@ cube(`Aspectofhealthtoconceptofinterest`, {
   },
   
   measures: {
-    count: {
-      type: `count`,
-      drillMembers: []
-    }
   },
   
   dimensions: {

@@ -8,7 +8,7 @@ cube(`Indication`, {
   measures: {
     count: {
       type: `count`,
-      drillMembers: [id, name, createdat, updatedat]
+      drillMembers: [id, name]
     }
   },
   
@@ -27,21 +27,6 @@ cube(`Indication`, {
     name: {
       sql: `name`,
       type: `string`
-    },
-    
-    description: {
-      sql: `description`,
-      type: `string`
-    },
-    
-    createdat: {
-      sql: `${CUBE}."createdAt"`,
-      type: `time`
-    },
-    
-    updatedat: {
-      sql: `${CUBE}."updatedAt"`,
-      type: `time`
     }
   },
   

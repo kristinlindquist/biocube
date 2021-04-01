@@ -6,10 +6,6 @@ cube(`Conceptofinteresttomeasure`, {
   },
   
   measures: {
-    count: {
-      type: `count`,
-      drillMembers: []
-    }
   },
   
   dimensions: {

@@ -8,16 +8,11 @@ cube(`ConceptOfInterest`, {
   measures: {
     count: {
       type: `count`,
-      drillMembers: [id, name, createdat, updatedat]
+      drillMembers: [id, name]
     }
   },
   
-  dimensions: {
-    description: {
-      sql: `description`,
-      type: `string`
-    },
-    
+  dimensions: {    
     id: {
       sql: `id`,
       type: `number`,
@@ -27,16 +22,6 @@ cube(`ConceptOfInterest`, {
     name: {
       sql: `name`,
       type: `string`
-    },
-    
-    createdat: {
-      sql: `${CUBE}."createdAt"`,
-      type: `time`
-    },
-    
-    updatedat: {
-      sql: `${CUBE}."updatedAt"`,
-      type: `time`
     }
   },
   

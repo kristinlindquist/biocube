@@ -6,10 +6,6 @@ cube(`Aspectofhealthtoindication`, {
   },
   
   measures: {
-    count: {
-      type: `count`,
-      drillMembers: []
-    }
   },
   
   dimensions: {

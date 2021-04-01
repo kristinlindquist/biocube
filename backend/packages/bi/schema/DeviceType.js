@@ -8,16 +8,11 @@ cube(`DeviceType`, {
   measures: {
     count: {
       type: `count`,
-      drillMembers: [id, name, createdat, updatedat]
+      drillMembers: [id, name]
     }
   },
   
   dimensions: {
-    description: {
-      sql: `description`,
-      type: `string`
-    },
-    
     id: {
       sql: `id`,
       type: `number`,
@@ -27,16 +22,6 @@ cube(`DeviceType`, {
     name: {
       sql: `name`,
       type: `string`
-    },
-    
-    createdat: {
-      sql: `${CUBE}."createdAt"`,
-      type: `time`
-    },
-    
-    updatedat: {
-      sql: `${CUBE}."updatedAt"`,
-      type: `time`
     }
   },
   

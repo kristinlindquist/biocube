@@ -8,7 +8,7 @@ cube(`Measure`, {
   measures: {
     count: {
       type: `count`,
-      drillMembers: [name, id, createdat, updatedat]
+      drillMembers: [name, id]
     }
   },
   
@@ -27,21 +27,6 @@ cube(`Measure`, {
       sql: `id`,
       type: `number`,
       primaryKey: true
-    },
-    
-    description: {
-      sql: `description`,
-      type: `string`
-    },
-    
-    createdat: {
-      sql: `${CUBE}."createdAt"`,
-      type: `time`
-    },
-    
-    updatedat: {
-      sql: `${CUBE}."updatedAt"`,
-      type: `time`
     }
   },
   
