@@ -34,4 +34,5 @@ export const getSelectProps = (
         })
       : updateMethods.add({ granularity: 'day', ...member });
   },
+  variant: 'outlined' as any,
 });

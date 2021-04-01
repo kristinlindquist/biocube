@@ -1,15 +1,9 @@
 import React, { ReactElement, useState } from 'react';
-import {
-  createStyles,
-  makeStyles,
-  useTheme,
-  Theme,
-} from '@material-ui/core/styles';
+import { makeStyles, useTheme, Theme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {
   Chip,
   FormControl,
-  Input,
   InputLabel,
   MenuItem,
   Select as MaterialSelect,
@@ -24,6 +18,10 @@ export type SelectProps = {
    * default value
    */
   defaultValue?: IdType[];
+  /**
+   * include empty option
+   */
+  emptyOption?: boolean;
   /**
    * full width?
    */
@@ -46,29 +44,31 @@ export type SelectProps = {
   options: OptionType[];
 } & MaterialSelectProps;
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    chips: {
-      display: 'flex',
-      flexWrap: 'wrap',
+const useStyles = makeStyles((theme) => ({
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: -9,
+  },
+  chip: {
+    margin: 2,
+  },
+  formControl: {},
+  fullWidth: {
+    width: '100%',
+  },
+  label: {
+    position: 'relative',
+    paddingRight: 25,
+    whiteSpace: 'nowrap',
+    '&+div': {
+      marginTop: 0,
     },
-    chip: {
-      margin: 2,
-    },
-    formControl: {},
-    fullWidth: {
-      width: '100%',
-    },
-    label: {
-      position: 'relative',
-      paddingRight: 25,
-      whiteSpace: 'nowrap',
-      '&+div': {
-        marginTop: 0,
-      },
-    },
-  }),
-);
+  },
+  outlined: {
+    paddingLeft: theme.spacing(1),
+  },
+}));
 
 /**
  * Styles to indicate menu item selections
@@ -109,14 +109,15 @@ const getNonNativeOptions = (
 /**
  * Get options for native select
  */
-const getNativeOptions = (options: OptionType[]) => [
-  <option value=""> </option>,
-  ...options.map(({ id, name }) => (
-    <option key={id} value={id}>
-      {name}
-    </option>
-  )),
-];
+const getNativeOptions = (options: OptionType[], includeEmpty) =>
+  [
+    includeEmpty ? <option value={null}> </option> : null,
+    ...options.map(({ id, name }) => (
+      <option key={id} value={id}>
+        {name}
+      </option>
+    )),
+  ].filter((o) => o);
 
 /**
  * Get select options
@@ -125,10 +126,11 @@ const getOptions = (
   isNative: boolean,
   options: OptionType[],
   selections: IdType[],
+  includeEmpty: boolean,
   theme: Theme,
 ) =>
   isNative
-    ? getNativeOptions(options)
+    ? getNativeOptions(options, includeEmpty)
     : getNonNativeOptions(options, selections, theme);
 
 /**
@@ -136,18 +138,21 @@ const getOptions = (
  */
 const Select = ({
   defaultValue = [],
+  emptyOption = true,
   fullWidth = false,
   label,
   multiple = false,
   onSelect = () => {},
   onDelete = () => {},
   options,
+  variant,
   ...props
 }: SelectProps): ReactElement => {
   const classes = useStyles();
   const theme = useTheme();
   const native = !multiple;
   const [selections, setSelections] = useState<IdType[]>(defaultValue);
+  console.log(selections);
 
   const onChange = (newSelections: IdType[]) => {
     setSelections(newSelections);
@@ -168,17 +173,27 @@ const Select = ({
 
   return (
     <FormControl
-      className={clsx({ [classes.fullWidth]: fullWidth }, classes.formControl)}>
-      <InputLabel className={classes.label} htmlFor={`${label}-select`}>
+      className={clsx(
+        {
+          [classes.fullWidth]: fullWidth,
+        },
+        classes.formControl,
+      )}>
+      <InputLabel
+        className={clsx(
+          { [classes.outlined]: variant === 'outlined' },
+          classes.label,
+        )}
+        htmlFor={`${label}-select`}>
         {label}
       </InputLabel>
       <MaterialSelect
         {...props}
+        defaultValue=""
         inputProps={{
           name: label,
           id: `${label}-select`,
         }}
-        input={<Input id="select-multiple-chip" />}
         native={native}
         renderValue={
           !native
@@ -202,8 +217,9 @@ const Select = ({
             : undefined
         }
         onChange={handleChange}
-        value={multiple ? selections : selections[0]}>
-        {getOptions(native, options, selections, theme)}
+        value={multiple ? selections : selections[0]}
+        variant={variant}>
+        {getOptions(native, options, selections, emptyOption, theme)}
       </MaterialSelect>
     </FormControl>
   );

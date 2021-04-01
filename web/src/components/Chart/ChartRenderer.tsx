@@ -54,8 +54,9 @@ const xAxisFormatter = (item) =>
 
 const getType = (resultSet, key) =>
   (
-    resultSet.loadResponse.annotation.measures[key] ||
-    resultSet.loadResponse.annotation.dimensions[key]
+    resultSet.loadResponse.results[0].annotation.measures[key] ||
+    resultSet.loadResponse.results[0].annotation.dimensions[key] ||
+    {}
   ).type;
 
 export interface ChartProps {
@@ -119,27 +120,12 @@ const durationMeasures = [
   'Sessions.averageDurationSeconds',
 ];
 
-// const stackedChartData = (resultSet) => {
-//   const data = resultSet
-//     .pivot()
-//     .map(({ xValues, yValuesArray }) =>
-//       yValuesArray.map(([yValues, m]) => ({
-//         x: resultSet.axisValuesString(xValues, ', '),
-//         color: resultSet.axisValuesString(yValues, ', '),
-//         measure: m && Number.parseFloat(m),
-//       })),
-//     )
-//     .reduce((a, b) => a.concat(b), []);
-//   return data;
-// };
-
 const TypeToChartComponent = {
   line: ({ resultSet, ...props }: ChartProps) => (
     <CartesianChart resultSet={resultSet} ChartComponent={LineChart} {...props}>
       {resultSet.seriesNames().map((series, i) => (
         <Line
           key={series.key}
-          // stackId="a"
           dataKey={series.key}
           name={series.title}
           stroke={colors[i]}
@@ -195,7 +181,9 @@ const TypeToChartComponent = {
   ),
   number: ({ resultSet, height }: ChartProps) => {
     const measureKey = resultSet.seriesNames()[0].key; // Ensure number can only render single measure
-    const { format } = resultSet.loadResponse.annotation.measures[measureKey];
+    const { format } = resultSet.loadResponse.results[0].annotation.measures[
+      measureKey
+    ];
     const value = resultSet.totalRow()[measureKey];
     let formattedValue;
     if (format === 'percent') {

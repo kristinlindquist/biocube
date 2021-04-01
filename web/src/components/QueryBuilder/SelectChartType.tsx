@@ -21,7 +21,7 @@ const SelectChartType = ({ chartType, updateChartType }: SelectChartProps) => (
   <Select
     defaultValue={[chartType]}
     label="Chart Type"
-    onSelect={(selections) => updateChartType(selections[0].name)}
+    onSelect={(selections) => updateChartType(selections[0].id)}
     options={ChartTypes}
   />
 );

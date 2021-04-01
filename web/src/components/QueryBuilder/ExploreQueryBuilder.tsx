@@ -1,7 +1,8 @@
-import { Card, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { QueryBuilder, VizState } from '@cubejs-client/react';
 
+import { Card } from 'components/Card';
 import { ChartRenderer } from 'components/Chart';
 import MemberGroup from './MemberGroup';
 import FilterGroup from './FilterGroup';
@@ -62,74 +63,80 @@ QbProps) => {
         chartType,
         updateChartType,
         validatedQuery,
-        // cubejsApi,
-      }) => [
-        <Grid className={classes.query} container key="1" spacing={2}>
-          <Grid item xs={6} sm={4}>
-            <MemberGroup
-              addMemberName="Measure"
-              availableMembers={availableMeasures}
-              members={measures}
-              updateMethods={updateMeasures}
-            />
+      }) => (
+        <Grid container spacing={2}>
+          <Grid className={classes.query} item xs={12}>
+            <Card title="Build yer query">
+              <Grid container spacing={2}>
+                <Grid item xs={6} sm={4}>
+                  <MemberGroup
+                    addMemberName="Measure"
+                    availableMembers={availableMeasures}
+                    members={measures}
+                    updateMethods={updateMeasures}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={4}>
+                  <MemberGroup
+                    addMemberName="Dimension"
+                    availableMembers={availableDimensions}
+                    members={dimensions}
+                    updateMethods={updateDimensions}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={4}>
+                  <MemberGroup
+                    addMemberName="Segment"
+                    availableMembers={availableSegments}
+                    members={segments}
+                    updateMethods={updateSegments}
+                  />
+                </Grid>
+                <TimeGroup
+                  addMemberName="Time"
+                  availableMembers={availableTimeDimensions}
+                  members={timeDimensions}
+                  title="Time"
+                  updateMethods={updateTimeDimensions}
+                />
+                {isQueryPresent &&
+                  false && [
+                    <FilterGroup
+                      addMemberName="Filter"
+                      availableMembers={[
+                        ...availableDimensions,
+                        ...availableMeasures,
+                      ]}
+                      members={filters}
+                      updateMethods={updateFilters}
+                    />,
+                  ]}
+              </Grid>
+            </Card>
           </Grid>
-          <Grid item xs={6} sm={4}>
-            <MemberGroup
-              addMemberName="Dimension"
-              availableMembers={availableDimensions}
-              members={dimensions}
-              updateMethods={updateDimensions}
-            />
-          </Grid>
-          <Grid item xs={6} sm={4}>
-            <MemberGroup
-              addMemberName="Segment"
-              availableMembers={availableSegments}
-              members={segments}
-              updateMethods={updateSegments}
-            />
-          </Grid>
-          <TimeGroup
-            addMemberName="Time"
-            availableMembers={availableTimeDimensions}
-            members={timeDimensions}
-            title="Time"
-            updateMethods={updateTimeDimensions}
-          />
-          {isQueryPresent &&
-            false && [
-              <FilterGroup
-                addMemberName="Filter"
-                availableMembers={[
-                  ...availableDimensions,
-                  ...availableMeasures,
-                ]}
-                members={filters}
-                updateMethods={updateFilters}
-              />,
-            ]}
-        </Grid>,
-        <Grid container>
           {isQueryPresent ? (
-            [
-              <SelectChartType
-                chartType={chartType}
-                updateChartType={updateChartType}
-              />,
-              <Card>
+            <Grid item xs={12}>
+              <Card
+                title="A Chart"
+                headerAction={
+                  <SelectChartType
+                    chartType={chartType}
+                    updateChartType={updateChartType}
+                  />
+                }>
                 <ChartRenderer
                   cubejsApi={cubejsApi}
                   vizState={{ query: validatedQuery, chartType }}
                 />
-              </Card>,
-            ]
+              </Card>
+            </Grid>
           ) : (
             <Typography variant="h5">
               Choose a measure or dimension to get started
             </Typography>
           )}
-        </Grid>,
-      ]}
+        </Grid>
+      )}
     />
   );
 };

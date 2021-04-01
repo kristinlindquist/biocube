@@ -39,9 +39,9 @@ const FilterGroup = ({
           )}
         />
         <Select
+          defaultValue={m.operator}
           label="Operator"
           {...getSelectProps(m.operators, updateMethods, 'operator', null, m)}
-          defaultValue={m.operator}
         />
         <FilterInput
           member={m}
