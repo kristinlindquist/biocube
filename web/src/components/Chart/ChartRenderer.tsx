@@ -1,22 +1,23 @@
-import React, { ReactElement } from 'react';
-import { useCubeQuery } from '@cubejs-client/react';
+import React, { ReactElement, ReactNode } from 'react';
+import { ChartType, useCubeQuery } from '@cubejs-client/react';
+import { CubejsApi, Query } from '@cubejs-client/core';
 
 import {
-  CartesianGrid,
-  PieChart,
-  Pie,
-  Cell,
   AreaChart,
   Area,
+  BarChart,
+  Bar,
+  CartesianGrid,
+  LineChart,
+  Line,
+  Pie,
+  PieChart,
+  Cell,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
   Legend,
-  BarChart,
-  Bar,
-  LineChart,
-  Line,
 } from 'recharts';
 import {
   Paper,
@@ -32,8 +33,6 @@ import Skeleton from '@material-ui/lab/Skeleton';
 
 import moment from 'moment';
 import numeral from 'numeral';
-
-import { JSONObject } from 'types';
 
 const numberFormatter = (item) => numeral(item).format('0,0');
 const decimalFormatter = (item) => numeral(item).format('0,0.00');
@@ -52,6 +51,22 @@ const resolveFormatter = (type) => {
 const xAxisFormatter = (item) =>
   moment(item).isValid() ? dateFormatter(item) : item;
 
+type ResultSet<Type> = {
+  chartPivot: () => Array<Type>;
+  loadResponse?: {
+    results: Array<{
+      annotation: { measures: Array<{ [key: string]: string }> };
+    }>;
+  };
+  seriesNames: () => Array<{ key: string; title: string }>;
+  tableColumns: () => Array<{ key: string; shortTitle: string }>;
+  tablePivot: () => Array<{
+    id?: string;
+    [key: string]: string | number | boolean;
+  }>;
+  totalRow: () => { x: string; xValues: string[] };
+};
+
 const getType = (resultSet, key) =>
   (
     resultSet.loadResponse.results[0].annotation.measures[key] ||
@@ -59,18 +74,18 @@ const getType = (resultSet, key) =>
     {}
   ).type;
 
+export type LayoutType = 'horizontal' | 'vertical' | 'centric' | 'radial';
+
 export interface ChartProps {
+  children?: (ReactNode | ReactElement)[];
+  // eslint-disable-next-line
+  ChartComponent?: any;
+  height?: number;
+  legend?: LayoutType;
   /**
    * resultSet
    */
-  resultSet: {
-    [key: string]: any;
-    chartPivot: any;
-  };
-  legend?: any;
-  height?: number;
-  children?: any;
-  ChartComponent?: any;
+  resultSet: ResultSet<string>;
 }
 
 const CartesianChart = ({
@@ -108,10 +123,6 @@ const CartesianChart = ({
     </ChartComponent>
   </ResponsiveContainer>
 );
-
-CartesianChart.defaultProps = {
-  legend: true,
-};
 
 const colors = ['#4791db', '#e33371', '#e57373'];
 
@@ -207,13 +218,11 @@ const TypeToChartComponent = {
       <Table size="small">
         <TableHead>
           <TableRow>
-            {resultSet.tableColumns().map((c) => (
+            {resultSet.tableColumns().map(({ key, shortTitle }) => (
               <TableCell
-                align={
-                  getType(resultSet, c.key) === 'number' ? 'right' : 'left'
-                }
-                key={c.key}>
-                {c.shortTitle}
+                align={getType(resultSet, key) === 'number' ? 'right' : 'left'}
+                key={key}>
+                {shortTitle}
               </TableCell>
             ))}
           </TableRow>
@@ -221,15 +230,15 @@ const TypeToChartComponent = {
         <TableBody>
           {resultSet.tablePivot().map((row) => (
             <TableRow key={row.id}>
-              {resultSet.tableColumns().map((c) => {
-                const type = getType(resultSet, c.key);
+              {resultSet.tableColumns().map(({ key }) => {
+                const type = getType(resultSet, key);
                 return (
                   <TableCell
                     align={
-                      getType(resultSet, c.key) === 'number' ? 'right' : 'left'
+                      getType(resultSet, key) === 'number' ? 'right' : 'left'
                     }
-                    key={c.key}>
-                    {resolveFormatter(type)(row[c.key])}
+                    key={key}>
+                    {resolveFormatter(type)(row[key])}
                   </TableCell>
                 );
               })}
@@ -260,27 +269,27 @@ const renderChart = (Component) => ({
   height,
   ...props
 }: {
-  resultSet: any;
-  error?: any;
+  resultSet: ResultSet<{ [key: string]: string | number | boolean }>;
+  error?: Error;
   height?: number;
 }) =>
   (resultSet && (
-    <Component resultSet={resultSet} height={height} {...props} />
+    <Component height={height} resultSet={resultSet} {...props} />
   )) ||
-  (error && error.toString()) || <Loader height={height} />;
+  (error && <span>{error.toString()}</span>) || <Loader height={height} />;
 
 export interface ChartRendererProps {
   /**
    * viz state, whatever that is
    */
   vizState: {
-    query: any;
-    chartType: any;
+    query: Query | Query[];
+    chartType: ChartType;
   };
   /**
    * cube API
    */
-  cubejsApi?: JSONObject;
+  cubejsApi?: CubejsApi;
   height?: number;
 }
 

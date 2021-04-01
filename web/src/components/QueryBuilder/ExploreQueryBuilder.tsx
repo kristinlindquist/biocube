@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { QueryBuilder, VizState } from '@cubejs-client/react';
+import { CubejsApi } from '@cubejs-client/core';
 
 import { Card } from 'components/Card';
 import { ChartRenderer } from 'components/Chart';
@@ -18,8 +19,7 @@ export interface QbProps {
   /**
    * cube API
    */
-  // eslint-disable-next-line
-  cubejsApi?: any;
+  cubejsApi?: CubejsApi;
   /**
    * set viz state
    */
