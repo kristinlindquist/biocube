@@ -17,12 +17,10 @@ export const getMember = (
 /**
  * Turn CubeJs members into select box options
  */
-export const getMemberOptions = (
-  members: Member[] | SelectOptionType[],
-): SelectOptionType[] =>
+export const getMemberOptions = (members: Member[]): SelectOptionType[] =>
   members.map((m) => ({
-    id: m.id || m.name,
-    name: m.id ? m.name : m.title,
+    id: m.name,
+    name: m.title,
   }));
 
 /**

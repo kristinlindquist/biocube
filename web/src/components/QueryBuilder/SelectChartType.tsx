@@ -29,6 +29,7 @@ const SelectChartType = ({
 }: SelectChartProps): ReactElement => (
   <Select
     defaultValue={[chartType]}
+    emptyOption={false}
     label="Chart Type"
     onSelect={(selections) => updateChartType(selections[0].id)}
     options={ChartTypes}

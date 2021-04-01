@@ -2,7 +2,6 @@ import { ReactElement, useState } from 'react';
 import { makeStyles, useTheme, Theme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {
-  Chip,
   FormControl,
   InputLabel,
   MenuItem,
@@ -10,8 +9,10 @@ import {
   SelectProps as MaterialSelectProps,
 } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import { IdType, SelectOptionType as OptionType } from 'types';
+import Chips from './Chips';
 
 export type SelectProps = {
   /**
@@ -45,14 +46,6 @@ export type SelectProps = {
 } & MaterialSelectProps;
 
 const useStyles = makeStyles((theme) => ({
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    margin: -9,
-  },
-  chip: {
-    margin: 2,
-  },
   formControl: {},
   fullWidth: {
     width: '100%',
@@ -169,7 +162,9 @@ const Select = ({
     getInitial(options, defaultValue, emptyOption),
   );
 
-  console.log(defaultValue);
+  useDeepCompareEffect(() => {
+    setSelections(getInitial(options, defaultValue, emptyOption));
+  }, [defaultValue]);
 
   const onChange = (newSelections: IdType[]) => {
     setSelections(newSelections);
@@ -214,21 +209,11 @@ const Select = ({
         renderValue={
           !native
             ? (selected) => (
-                <div className={classes.chips}>
-                  {getSelectedOptions(selected as IdType[], options).map(
-                    ({ id, name }) => (
-                      <Chip
-                        className={classes.chip}
-                        key={id}
-                        label={name}
-                        onDelete={() => handleDelete(id)}
-                        onMouseDown={(event) => {
-                          event.stopPropagation();
-                        }}
-                      />
-                    ),
-                  )}
-                </div>
+                <Chips
+                  handleDelete={handleDelete}
+                  options={options}
+                  selected={selected as IdType[]}
+                />
               )
             : undefined
         }

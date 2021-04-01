@@ -6,19 +6,19 @@ import { GroupProps } from './types';
 import { getSelectProps } from './utils';
 
 const DateRanges = [
-  { name: 'All time', id: undefined },
-  { name: 'Today', id: 'Today' },
-  { name: 'Yesterday', id: 'Yesterday' },
-  { name: 'This week', id: 'This week' },
-  { name: 'This month', id: 'This month' },
-  { name: 'This quarter', id: 'This quarter' },
-  { name: 'This year', id: 'This year' },
-  { name: 'Last 7 days', id: 'Last 7 days', isDefault: true },
-  { name: 'Last 30 days', id: 'Last 30 days' },
-  { name: 'Last week', id: 'Last week' },
-  { name: 'Last month', id: 'Last month' },
-  { name: 'Last quarter', id: 'Last quarter' },
-  { name: 'Last year', id: 'Last year' },
+  { title: 'All time', name: undefined },
+  { title: 'Today', name: 'Today' },
+  { title: 'Yesterday', name: 'Yesterday' },
+  { title: 'This week', name: 'This week' },
+  { title: 'This month', name: 'This month' },
+  { title: 'This quarter', name: 'This quarter' },
+  { title: 'This year', name: 'This year' },
+  { title: 'Last 7 days', name: 'Last 7 days', isDefault: true },
+  { title: 'Last 30 days', name: 'Last 30 days' },
+  { title: 'Last week', name: 'Last week' },
+  { title: 'Last month', name: 'Last month' },
+  { title: 'Last quarter', name: 'Last quarter' },
+  { title: 'Last year', name: 'Last year' },
 ];
 
 const TimeGroup = ({
