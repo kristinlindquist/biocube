@@ -44,7 +44,7 @@ const TimeGroup = ({
       </Grid>,
       <Grid item xs={12} sm={4}>
         <Select
-          {...getSelectProps(DateRanges, updateMethods, 'dateRange', 'id', m)}
+          {...getSelectProps(DateRanges, updateMethods, 'dateRange', 'name', m)}
           emptyOption={false}
           label="Date Range"
         />
