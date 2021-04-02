@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { QueryBuilder, VizState } from '@cubejs-client/react';
 import { CubejsApi } from '@cubejs-client/core';
@@ -67,7 +67,13 @@ const ExploreQueryBuilder = ({
       }) => (
         <Grid container spacing={2}>
           <Grid className={classes.query} item xs={12}>
-            <Card title="Build yer query">
+            <Card
+              subtitle={
+                !isQueryPresent
+                  ? 'Choose a measure or dimension to get started'
+                  : ''
+              }
+              title="Build yer query">
               <Grid container spacing={2}>
                 <Grid item xs={6} sm={4}>
                   <MemberGroup
@@ -114,8 +120,8 @@ const ExploreQueryBuilder = ({
               </Grid>
             </Card>
           </Grid>
-          {isQueryPresent ? (
-            <Grid item xs={12}>
+          <Grid item xs={12}>
+            {isQueryPresent && (
               <Card
                 title="A Chart"
                 headerAction={
@@ -129,12 +135,8 @@ const ExploreQueryBuilder = ({
                   vizState={{ query: validatedQuery, chartType }}
                 />
               </Card>
-            </Grid>
-          ) : (
-            <Typography variant="h5">
-              Choose a measure or dimension to get started
-            </Typography>
-          )}
+            )}
+          </Grid>
         </Grid>
       )}
     />

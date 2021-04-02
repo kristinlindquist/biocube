@@ -17,6 +17,7 @@ const FilterGroup = ({
           label="Dimension"
           {...getSelectProps(
             availableMembers,
+            members,
             updateMethods,
             'dimension',
             null,
@@ -26,7 +27,14 @@ const FilterGroup = ({
         <Select
           defaultValue={m.operator}
           label="Operator"
-          {...getSelectProps(m.operators, updateMethods, 'operator', null, m)}
+          {...getSelectProps(
+            m.operators,
+            members,
+            updateMethods,
+            'operator',
+            null,
+            m,
+          )}
         />
         <FilterInput
           member={m}
@@ -39,6 +47,7 @@ const FilterGroup = ({
       label="Filter"
       {...getSelectProps(
         availableMembers,
+        members,
         updateMethods,
         'dimension',
         null,

@@ -22,20 +22,15 @@ import {
   Legend,
 } from 'recharts';
 import {
-  Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 const numberFormatter = (item) => numeral(item).format('0,0');
-const decimalFormatter = (item) => numeral(item).format('0,0.00');
-const percentFormatter = (item) => numeral(item / 100.0).format('0.00%');
 const dateFormatter = (item) => moment(item).format('MMM DD');
 const resolveFormatter = (type) => {
   switch (type) {
@@ -150,20 +145,18 @@ const getColors = (theme: Theme): Array<string> =>
     : [];
 
 const TypeToChartComponent = {
-  line: ({ resultSet, ...props }: ChartProps) => {
+  area: ({ resultSet }: ChartProps) => {
     const theme = useTheme();
     const colors = getColors(theme);
 
     return (
-      <CartesianChart
-        {...props}
-        ChartComponent={LineChart}
-        resultSet={resultSet}>
-        {resultSet.seriesNames().map((series, i) => (
-          <Line
-            dataKey={series.key}
-            key={series.key}
-            name={series.title}
+      <CartesianChart resultSet={resultSet} ChartComponent={AreaChart}>
+        {resultSet.seriesNames().map(({ key, title }, i) => (
+          <Area
+            dataKey={key}
+            fill={colors[i]}
+            key={key}
+            name={title}
             stroke={colors[i]}
           />
         ))}
@@ -176,31 +169,23 @@ const TypeToChartComponent = {
 
     return (
       <CartesianChart resultSet={resultSet} ChartComponent={BarChart}>
-        {resultSet.seriesNames().map((series, i) => (
-          <Bar
-            dataKey={series.key}
-            fill={colors[i]}
-            key={series.key}
-            name={series.title}
-          />
+        {resultSet.seriesNames().map(({ key, title }, i) => (
+          <Bar dataKey={key} fill={colors[i]} key={key} name={title} />
         ))}
       </CartesianChart>
     );
   },
-  area: ({ resultSet }: ChartProps) => {
+  line: ({ resultSet, ...props }: ChartProps) => {
     const theme = useTheme();
     const colors = getColors(theme);
 
     return (
-      <CartesianChart resultSet={resultSet} ChartComponent={AreaChart}>
-        {resultSet.seriesNames().map((series, i) => (
-          <Area
-            dataKey={series.key}
-            fill={colors[i]}
-            key={series.key}
-            name={series.title}
-            stroke={colors[i]}
-          />
+      <CartesianChart
+        {...props}
+        ChartComponent={LineChart}
+        resultSet={resultSet}>
+        {resultSet.seriesNames().map(({ key, title }, i) => (
+          <Line dataKey={key} key={key} name={title} stroke={colors[i]} />
         ))}
       </CartesianChart>
     );
@@ -227,60 +212,33 @@ const TypeToChartComponent = {
       </ResponsiveContainer>
     );
   },
-  number: ({ resultSet, height }: ChartProps) => {
-    const measureKey = resultSet.seriesNames()[0].key; // Ensure number can only render single measure
-    const { format } = resultSet.loadResponse.results[0].annotation.measures[
-      measureKey
-    ];
-    const value = resultSet.totalRow()[measureKey];
-    let formattedValue;
-    if (format === 'percent') {
-      formattedValue = percentFormatter(value);
-    } else if (Math.ceil(value) === value && Math.floor(value) === value) {
-      formattedValue = numberFormatter(value);
-    } else {
-      formattedValue = decimalFormatter(value);
-    }
-    return (
-      <Typography component="p" variant="h4" style={{ height }}>
-        {formattedValue}
-      </Typography>
-    );
-  },
   table: ({ resultSet }: ChartProps) => (
-    <TableContainer component={Paper}>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            {resultSet.tableColumns().map(({ key, shortTitle }) => (
+    <Table aria-label="table" size="small">
+      <TableHead>
+        <TableRow>
+          {resultSet.tableColumns().map(({ key, shortTitle }) => (
+            <TableCell
+              align={getType(resultSet, key) === 'number' ? 'right' : 'left'}
+              key={`header-${key}`}>
+              {shortTitle}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {resultSet.tablePivot().map((row) => (
+          <TableRow key={Object.values(row)[0] as string}>
+            {resultSet.tableColumns().map(({ key }) => (
               <TableCell
                 align={getType(resultSet, key) === 'number' ? 'right' : 'left'}
                 key={key}>
-                {shortTitle}
+                {resolveFormatter(getType(resultSet, key))(row[key])}
               </TableCell>
             ))}
           </TableRow>
-        </TableHead>
-        <TableBody>
-          {resultSet.tablePivot().map((row) => (
-            <TableRow key={row.id}>
-              {resultSet.tableColumns().map(({ key }) => {
-                const type = getType(resultSet, key);
-                return (
-                  <TableCell
-                    align={
-                      getType(resultSet, key) === 'number' ? 'right' : 'left'
-                    }
-                    key={key}>
-                    {resolveFormatter(type)(row[key])}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        ))}
+      </TableBody>
+    </Table>
   ),
 };
 

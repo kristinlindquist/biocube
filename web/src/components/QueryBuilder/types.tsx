@@ -17,6 +17,7 @@ export interface UpdateMethods {
 
 export interface Member {
   dimension?: any;
+  index?: number;
   isDefault?: boolean;
   name: string;
   title?: string;

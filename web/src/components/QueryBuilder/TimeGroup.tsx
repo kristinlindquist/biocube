@@ -13,7 +13,7 @@ const DateRanges = [
   { title: 'This month', name: 'This month' },
   { title: 'This quarter', name: 'This quarter' },
   { title: 'This year', name: 'This year' },
-  { title: 'Last 7 days', name: 'Last 7 days', isDefault: true },
+  { title: 'Last 7 days', name: 'Last 7 days' },
   { title: 'Last 30 days', name: 'Last 30 days' },
   { title: 'Last week', name: 'Last week' },
   { title: 'Last month', name: 'Last month' },
@@ -29,10 +29,11 @@ const TimeGroup = ({
 }: GroupProps): ReactElement => (
   <>
     {members.map((m) => [
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={4} key={name}>
         <Select
           {...getSelectProps(
             availableMembers,
+            members,
             updateMethods,
             'dimension',
             null,
@@ -42,17 +43,25 @@ const TimeGroup = ({
           label={name}
         />
       </Grid>,
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={4} key={`${m.name}-daterange`}>
         <Select
-          {...getSelectProps(DateRanges, updateMethods, 'dateRange', 'name', m)}
+          {...getSelectProps(
+            DateRanges,
+            members,
+            updateMethods,
+            'dateRange',
+            'name',
+            m,
+          )}
           emptyOption={false}
           label="Date Range"
         />
       </Grid>,
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={4} key={`${m.name}-granularity`}>
         <Select
           {...getSelectProps(
             m.dimension.granularities,
+            members,
             updateMethods,
             'granularity',
             'name',
@@ -69,10 +78,9 @@ const TimeGroup = ({
         <Select
           {...getSelectProps(
             availableMembers,
+            members,
             updateMethods,
             'dimension',
-            'dimension',
-            null,
           )}
           label={name}
         />

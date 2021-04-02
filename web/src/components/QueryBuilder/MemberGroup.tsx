@@ -6,14 +6,14 @@ import { GroupProps } from './types';
 import { getSelectProps } from './utils';
 
 const MemberGroup = ({
-  members,
   availableMembers,
+  members,
   name,
   updateMethods,
 }: GroupProps): ReactElement =>
   !isEmpty([...availableMembers, ...members]) ? (
     <Select
-      {...getSelectProps(availableMembers, updateMethods)}
+      {...getSelectProps(availableMembers, members, updateMethods)}
       label={name}
       multiple
     />

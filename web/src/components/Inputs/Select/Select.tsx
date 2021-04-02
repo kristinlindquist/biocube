@@ -92,7 +92,7 @@ const getNonNativeOptions = (
 ) =>
   options.map(({ id, name }) => (
     <MenuItem
-      key={id}
+      key={`option-${id}`}
       style={getMenuItemStyles(id, selections, theme)}
       value={id}>
       {name}
@@ -110,7 +110,7 @@ const getNativeOptions = (options: OptionType[], includeEmpty) =>
       </option>
     ) : null,
     ...options.map(({ id, name }) => (
-      <option key={id} value={id}>
+      <option key={`option-${id}`} value={id}>
         {name}
       </option>
     )),
