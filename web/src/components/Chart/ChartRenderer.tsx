@@ -185,7 +185,15 @@ const TypeToChartComponent = {
         ChartComponent={LineChart}
         resultSet={resultSet}>
         {resultSet.seriesNames().map(({ key, title }, i) => (
-          <Line dataKey={key} key={key} name={title} stroke={colors[i]} />
+          <Line
+            connectNulls
+            dataKey={key}
+            key={key}
+            name={title}
+            stroke={colors[i]}
+            strokeWidth={1.5}
+            type="linear"
+          />
         ))}
       </CartesianChart>
     );
@@ -203,7 +211,7 @@ const TypeToChartComponent = {
             label={(value) => numeral(value.percent).format('0.00%')}
             nameKey="x">
             {resultSet.chartPivot().map((e, index) => (
-              <Cell key={e} fill={colors[index % colors.length]} /> // idx
+              <Cell key={e} fill={colors[index % colors.length]} />
             ))}
           </Pie>
           {legendLayout && <Legend layout={legendLayout} align="right" />}
