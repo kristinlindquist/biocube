@@ -172,9 +172,9 @@ const Select = ({
     onSelect(getSelectedOptions(newSelections, options));
   };
 
-  const handleChange = (value: string) => {
-    const newSelections = multiple
-      ? uniq([...selections, value].filter((s) => s))
+  const handleChange = (value: IdType | IdType[]) => {
+    const newSelections = Array.isArray(value)
+      ? uniq([...selections, ...value].filter((s) => s))
       : [value];
     onChange(newSelections);
   };
@@ -202,11 +202,11 @@ const Select = ({
       </InputLabel>
       <MaterialSelect
         {...props}
-        inputProps={{
-          name: label,
-          id: `${label}-select`,
-        }}
+        id={label}
+        labelId={`${label}-select`}
+        multiple={multiple}
         native={native}
+        onChange={({ target }) => handleChange(target.value as string)}
         renderValue={
           !native
             ? (selected) => (
@@ -218,7 +218,6 @@ const Select = ({
               )
             : undefined
         }
-        onChange={({ target }) => handleChange(target.value as string)}
         value={multiple ? selections : selections[0]}
         variant={variant}>
         {getOptions(native, options, selections, emptyOption, theme)}

@@ -109,7 +109,7 @@ const CartesianChart = ({
         top: 16,
         right: 16,
         bottom: 0,
-        left: 0,
+        left: 16,
       }}>
       <XAxis
         axisLine={false}

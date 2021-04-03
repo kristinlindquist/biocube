@@ -1,6 +1,5 @@
 import { ReactElement } from 'react';
 import { Select } from 'components/Inputs';
-import { isEmpty } from 'lodash';
 
 import { GroupProps } from './types';
 import { getSelectProps } from './utils';
@@ -10,19 +9,16 @@ const MemberGroup = ({
   members,
   name,
   ...props
-}: GroupProps): ReactElement =>
-  !isEmpty([...availableMembers, ...members]) ? (
-    <Select
-      {...getSelectProps({
-        availableMembers,
-        members,
-        ...props,
-      })}
-      label={name}
-      multiple
-    />
-  ) : (
-    <span />
-  );
+}: GroupProps): ReactElement => (
+  <Select
+    {...getSelectProps({
+      availableMembers,
+      members,
+      ...props,
+    })}
+    label={name}
+    multiple
+  />
+);
 
 export default MemberGroup;

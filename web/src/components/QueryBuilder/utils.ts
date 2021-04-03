@@ -66,6 +66,7 @@ export const getSelectProps = ({
   onSelect: (selections) => {
     const matches = getMembers(availableMembers, selections, keyPath);
     const existingMatches = getMembers(members, selections, keyPath);
+
     if (!matches) {
       return null;
     }
@@ -73,23 +74,19 @@ export const getSelectProps = ({
     return matches.map((member) => {
       const existing = existingMatches.find(({ name }) => name === member.name);
 
-      if (m || existing) {
-        console.log(
-          merge(
-            m || existing,
-            key ? { [key]: keyPath ? get(member, keyPath) : member } : member,
-          ),
-        );
+      if (m && key) {
         return updateMethods.update(
-          (m || existing) as { index: number },
-          merge(
-            m || existing,
-            key ? { [key]: keyPath ? get(member, keyPath) : member } : member,
-          ),
+          m as { index: number },
+          merge(m || existing, {
+            [key]: keyPath ? get(member, keyPath) : member,
+          }),
         );
       }
-      console.log(member);
-      return updateMethods.add(member);
+
+      if (!existing) {
+        return updateMethods.add(member);
+      }
+      return null;
     });
   },
   // eslint-disable-next-line
