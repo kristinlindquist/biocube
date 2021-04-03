@@ -77,16 +77,17 @@ export const getSelectProps = ({
       if (m && key) {
         return updateMethods.update(
           m as { index: number },
-          merge(m || existing, {
+          merge(m, {
             [key]: keyPath ? get(member, keyPath) : member,
           }),
         );
       }
 
       if (!existing) {
+        console.log(member);
         return updateMethods.add(member);
       }
-      return null;
+      return member;
     });
   },
   // eslint-disable-next-line

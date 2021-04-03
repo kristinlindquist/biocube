@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { QueryBuilder, VizState } from '@cubejs-client/react';
 import { CubejsApi } from '@cubejs-client/core';
+import { uniq } from 'lodash';
 
 import { Card } from 'components/Card';
 import { ChartRenderer } from 'components/Chart';
@@ -105,18 +106,17 @@ const ExploreQueryBuilder = ({
                   members={timeDimensions}
                   updateMethods={updateTimeDimensions}
                 />
-                {isQueryPresent &&
-                  false && [
-                    <FilterGroup
-                      name="Filter"
-                      availableMembers={[
-                        ...availableDimensions,
-                        ...availableMeasures,
-                      ]}
-                      members={filters}
-                      updateMethods={updateFilters}
-                    />,
-                  ]}
+                {isQueryPresent && (
+                  <FilterGroup
+                    name="Filter"
+                    availableMembers={uniq([
+                      ...availableDimensions,
+                      ...availableMeasures,
+                    ])}
+                    members={filters}
+                    updateMethods={updateFilters}
+                  />
+                )}
               </Grid>
             </Card>
           </Grid>

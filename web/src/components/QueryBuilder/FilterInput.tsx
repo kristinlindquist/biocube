@@ -1,7 +1,6 @@
 import { ReactElement } from 'react';
 import { TextField } from '@material-ui/core';
 
-import { Select } from 'components/Inputs';
 import { SelectOptionType } from 'types';
 import { UpdateMethods } from './types';
 
@@ -29,21 +28,19 @@ export interface FilterInputProps {
 
 const FilterInputs = {
   string: ({ values = [], onChange }: FilterProps) => (
-    <Select
-      label="filter inputs"
+    <TextField
+      label="Filter Value"
       key="input"
-      onSelect={(s) => onChange(s[0].id)}
-      options={values}
+      onChange={(e) => onChange(e.target.value)}
+      value={(values && values[0]) || 'bpm'}
     />
   ),
   number: ({ values, onChange }: FilterProps) => (
     <TextField
       key="input"
-      style={{
-        width: 300,
-      }}
+      label="Filter Value"
       onChange={(e) => onChange(e.target.value)}
-      value={(values && values[0]) || ''}
+      value={(values && values[0]) || 0}
     />
   ),
 };
@@ -53,11 +50,12 @@ const FilterInput = ({
   updateMethods,
 }: FilterInputProps): ReactElement => {
   const Filter = FilterInputs[member.dimension.type] || FilterInputs.string;
+
   return (
     <Filter
       key="filter"
-      values={member.values}
       onChange={(values) => updateMethods.update(member, { ...member, values })}
+      values={member.values}
     />
   );
 };

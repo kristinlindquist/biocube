@@ -10,16 +10,16 @@ import {
   BarChart,
   Bar,
   CartesianGrid,
+  Cell,
+  Legend,
   LineChart,
   Line,
   Pie,
   PieChart,
-  Cell,
+  ResponsiveContainer,
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer,
-  Legend,
 } from 'recharts';
 import {
   Table,
@@ -168,7 +168,7 @@ const TypeToChartComponent = {
     const colors = getColors(theme);
 
     return (
-      <CartesianChart resultSet={resultSet} ChartComponent={BarChart}>
+      <CartesianChart ChartComponent={BarChart} resultSet={resultSet}>
         {resultSet.seriesNames().map(({ key, title }, i) => (
           <Bar dataKey={key} fill={colors[i]} key={key} name={title} />
         ))}
