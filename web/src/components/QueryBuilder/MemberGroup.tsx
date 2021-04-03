@@ -9,11 +9,15 @@ const MemberGroup = ({
   availableMembers,
   members,
   name,
-  updateMethods,
+  ...props
 }: GroupProps): ReactElement =>
   !isEmpty([...availableMembers, ...members]) ? (
     <Select
-      {...getSelectProps(availableMembers, members, updateMethods)}
+      {...getSelectProps({
+        availableMembers,
+        members,
+        ...props,
+      })}
       label={name}
       multiple
     />

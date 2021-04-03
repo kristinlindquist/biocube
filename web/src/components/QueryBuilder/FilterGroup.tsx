@@ -5,54 +5,40 @@ import FilterInput from './FilterInput';
 import { GroupProps } from './types';
 import { getSelectProps } from './utils';
 
-const FilterGroup = ({
-  members,
-  availableMembers,
-  updateMethods,
-}: GroupProps): ReactElement => (
+const FilterGroup = ({ members, ...props }: GroupProps): ReactElement => (
   <span>
     {members.map((m) => (
       <div key={m.index}>
         <Select
           label="Dimension"
-          {...getSelectProps(
-            availableMembers,
+          {...getSelectProps({
+            ...props,
             members,
-            updateMethods,
-            'dimension',
-            null,
+            key: 'dimension',
             m,
-          )}
+          })}
         />
         <Select
           defaultValue={m.operator}
           label="Operator"
-          {...getSelectProps(
-            m.operators,
+          {...getSelectProps({
+            ...props,
+            availableMembers: m.operators,
             members,
-            updateMethods,
-            'operator',
-            null,
+            key: 'operator',
             m,
-          )}
+          })}
         />
-        <FilterInput
-          member={m}
-          key="filterInput"
-          updateMethods={updateMethods}
-        />
+        <FilterInput {...props} member={m} key="filterInput" />
       </div>
     ))}
     <Select
       label="Filter"
-      {...getSelectProps(
-        availableMembers,
+      {...getSelectProps({
+        ...props,
         members,
-        updateMethods,
-        'dimension',
-        null,
-        null,
-      )}
+        key: 'dimension',
+      })}
     />
   </span>
 );

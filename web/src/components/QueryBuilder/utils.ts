@@ -1,4 +1,4 @@
-import { get, isEmpty } from 'lodash';
+import { get, isEmpty, merge } from 'lodash';
 
 import { SelectProps } from 'components/Inputs/Select';
 import { SelectOptionType } from 'types';
@@ -38,15 +38,22 @@ export const getMemberOptions = (members: Member[]): SelectOptionType[] =>
 /**
  * Get properties for query builder select boxes
  */
-export const getSelectProps = (
-  availableMembers: Member[],
-  members: Member[],
-  updateMethods: UpdateMethods,
-  key = undefined,
-  keyPath = undefined,
-  m = undefined,
-): SelectProps => ({
-  defaultValue: [],
+export const getSelectProps = ({
+  availableMembers,
+  members,
+  updateMethods,
+  key,
+  keyPath,
+  m,
+}: {
+  availableMembers: Member[];
+  members: Member[];
+  updateMethods: UpdateMethods;
+  key?: string;
+  keyPath?: string;
+  m?: Member;
+}): SelectProps => ({
+  defaultValue: m && key ? [m[key]] : null,
   fullWidth: true,
   label: null,
   options: getMemberOptions(availableMembers),
@@ -59,7 +66,6 @@ export const getSelectProps = (
   onSelect: (selections) => {
     const matches = getMembers(availableMembers, selections, keyPath);
     const existingMatches = getMembers(members, selections, keyPath);
-
     if (!matches) {
       return null;
     }
@@ -68,14 +74,22 @@ export const getSelectProps = (
       const existing = existingMatches.find(({ name }) => name === member.name);
 
       if (m || existing) {
-        return updateMethods.update(m || existing, {
-          ...(m || existing),
-          ...(key
-            ? { [key]: keyPath ? get(member, keyPath) : member }
-            : member),
-        });
+        console.log(
+          merge(
+            m || existing,
+            key ? { [key]: keyPath ? get(member, keyPath) : member } : member,
+          ),
+        );
+        return updateMethods.update(
+          (m || existing) as { index: number },
+          merge(
+            m || existing,
+            key ? { [key]: keyPath ? get(member, keyPath) : member } : member,
+          ),
+        );
       }
-      return updateMethods.add({ granularity: 'day', ...member });
+      console.log(member);
+      return updateMethods.add(member);
     });
   },
   // eslint-disable-next-line

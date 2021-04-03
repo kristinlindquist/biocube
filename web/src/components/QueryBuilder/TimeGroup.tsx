@@ -13,7 +13,7 @@ const DateRanges = [
   { title: 'This month', name: 'This month' },
   { title: 'This quarter', name: 'This quarter' },
   { title: 'This year', name: 'This year' },
-  { title: 'Last 7 days', name: 'Last 7 days' },
+  { title: 'Last 7 days', name: 'last 7 days' },
   { title: 'Last 30 days', name: 'Last 30 days' },
   { title: 'Last week', name: 'Last week' },
   { title: 'Last month', name: 'Last month' },
@@ -21,53 +21,45 @@ const DateRanges = [
   { title: 'Last year', name: 'Last year' },
 ];
 
-const TimeGroup = ({
-  members,
-  availableMembers,
-  name,
-  updateMethods,
-}: GroupProps): ReactElement => (
+const TimeGroup = ({ members, name, ...props }: GroupProps): ReactElement => (
   <>
     {members.map((m) => [
       <Grid item xs={12} sm={4} key={name}>
         <Select
-          {...getSelectProps(
-            availableMembers,
+          {...getSelectProps({
+            ...props,
             members,
-            updateMethods,
-            'dimension',
-            null,
+            key: 'dimension',
             m,
-          )}
+          })}
           emptyOption={false}
           label={name}
         />
       </Grid>,
       <Grid item xs={12} sm={4} key={`${m.name}-daterange`}>
         <Select
-          {...getSelectProps(
-            DateRanges,
+          {...getSelectProps({
+            ...props,
+            availableMembers: DateRanges,
             members,
-            updateMethods,
-            'dateRange',
-            'name',
+            key: 'dateRange',
+            keyPath: 'name',
             m,
-          )}
+          })}
           emptyOption={false}
           label="Date Range"
         />
       </Grid>,
       <Grid item xs={12} sm={4} key={`${m.name}-granularity`}>
         <Select
-          {...getSelectProps(
-            m.dimension.granularities,
+          {...getSelectProps({
+            ...props,
+            availableMembers: m.dimension.granularities,
             members,
-            updateMethods,
-            'granularity',
-            'name',
+            key: 'granularity',
+            keyPath: 'name',
             m,
-          )}
-          defaultValue={['day']}
+          })}
           emptyOption={false}
           label="Granularity"
         />
@@ -76,12 +68,11 @@ const TimeGroup = ({
     {!members.length && (
       <Grid item xs={12}>
         <Select
-          {...getSelectProps(
-            availableMembers,
+          {...getSelectProps({
+            ...props,
             members,
-            updateMethods,
-            'dimension',
-          )}
+            key: 'dimension',
+          })}
           label={name}
         />
       </Grid>

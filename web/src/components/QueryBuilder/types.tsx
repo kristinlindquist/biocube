@@ -2,7 +2,8 @@ export interface GroupProps {
   /**
    * Options
    */
-  availableMembers?: any[];
+  availableMembers: any[];
+  defaults?: any;
   name?: string;
   members?: any[];
   updateMethods: UpdateMethods;
@@ -18,7 +19,6 @@ export interface UpdateMethods {
 export interface Member {
   dimension?: any;
   index?: number;
-  isDefault?: boolean;
   name: string;
   title?: string;
 }

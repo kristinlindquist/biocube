@@ -133,7 +133,7 @@ const getOptions = (
 /**
  * Get default selection
  */
-const getInitial = (options, defaultValue, emptyOption) => {
+const getInitial = (options, defaultValue, emptyOption): IdType[] => {
   if (isEmpty(defaultValue)) {
     return emptyOption ? [] : [options[0].id];
   }
@@ -163,8 +163,9 @@ const Select = ({
   );
 
   useDeepCompareEffect(() => {
+    // no callback on initial set
     setSelections(getInitial(options, defaultValue, emptyOption));
-  }, [defaultValue]);
+  }, [defaultValue, options]);
 
   const onChange = (newSelections: IdType[]) => {
     setSelections(newSelections);
