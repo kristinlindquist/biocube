@@ -16,7 +16,7 @@ export interface GroupProps {
   /**
    * Button color
    */
-  color?: 'default' | 'inherit' | 'primary' | 'secondary';
+  color?: 'primary' | 'secondary' | 'standard';
   /**
    * Button label
    */

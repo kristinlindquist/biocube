@@ -1,4 +1,9 @@
-export default (oldState, state) => {
+import { QueryBuilderState } from '@cubejs-client/react';
+
+// eslint-disable-next-line
+type Props = QueryBuilderState & { [key: string]: any };
+
+export default (oldState: Props, state: Props): Props => {
   const { query: oldQuery, sessionGranularity } = oldState;
   const { query: newQuery } = state;
   let newState = state;
@@ -71,9 +76,9 @@ export default (oldState, state) => {
         ...newState,
         query: {
           ...newQuery,
-          filters: (newFilters || []).map((f) => ({
-            ...f,
-            operator: f.operators ? f.operators[0] : 'equals',
+          filters: (newFilters || []).map(({ member }) => ({
+            member,
+            operator: 'contains', // f.operators ? f.operators[0] : 'equals',
             values: [''],
           })),
         },
@@ -83,13 +88,7 @@ export default (oldState, state) => {
     if ((oldDims || []).length > 0 && (newDims || []).length === 0) {
       return {
         ...newState,
-        query: {
-          ...newQuery,
-          timeDimensions: (newDims || []).map((td) => ({
-            ...td,
-            granularity: td.granularity || defaultGranularity,
-          })),
-        },
+        query: newQuery,
         chartType: (newDims || []).length ? 'line' : 'table',
       };
     }

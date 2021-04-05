@@ -22,13 +22,13 @@ import {
   Tooltip,
 } from 'recharts';
 import {
+  Skeleton,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import Skeleton from '@material-ui/lab/Skeleton';
 
 const numberFormatter = (item) => numeral(item).format('0,0');
 const dateFormatter = (item) => moment(item).format('MMM DD');
@@ -270,7 +270,7 @@ const renderChart = (Component) => ({
     <Component height={height} resultSet={resultSet} {...props} />
   )) ||
   (error && <span>{error.toString()}</span>) || (
-    <Skeleton height={height} variant="rect" />
+    <Skeleton height={height} variant="rectangular" />
   );
 
 export interface ChartRendererProps {

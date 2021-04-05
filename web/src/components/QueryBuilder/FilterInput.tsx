@@ -5,25 +5,14 @@ import { SelectOptionType } from 'types';
 import { UpdateMethods } from './types';
 
 export interface FilterProps {
+  /**
+   * OnChange callback
+   */
   onChange: (value: string | number | Array<string | number>) => void;
   /**
    * Options
    */
   values?: SelectOptionType[];
-}
-
-export interface FilterInputProps {
-  /**
-   * Options
-   */
-  member: {
-    index: number;
-    dimension: {
-      type: string;
-    };
-    values: SelectOptionType[];
-  };
-  updateMethods: UpdateMethods;
 }
 
 const FilterInputs = {
@@ -32,7 +21,7 @@ const FilterInputs = {
       key="input"
       label="Filter Value"
       onChange={(val) => onChange([val])}
-      value={values || ['bpm']}
+      value={values || ['']}
     />
   ),
   number: ({ values, onChange }: FilterProps) => (
@@ -44,6 +33,17 @@ const FilterInputs = {
     />
   ),
 };
+
+export interface FilterInputProps {
+  member: {
+    index: number;
+    dimension: {
+      type: string;
+    };
+    values: SelectOptionType[];
+  };
+  updateMethods: UpdateMethods;
+}
 
 const FilterInput = ({
   member,

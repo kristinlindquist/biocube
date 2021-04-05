@@ -1,8 +1,7 @@
 import { ReactElement } from 'react';
 import moment from 'moment';
 import { useTheme } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
-import { Alert, Skeleton } from '@material-ui/lab';
+import { Alert, Box, Skeleton } from '@material-ui/core';
 import { CalendarDatum, ResponsiveCalendar } from '@nivo/calendar';
 
 import { ChartProps } from 'types';
@@ -33,7 +32,9 @@ const Calendar = ({
 
   return (
     <Box height={height} justifyContent="center" width="100%">
-      {loading && <Skeleton height={height} variant="rect" width="100%" />}
+      {loading && (
+        <Skeleton height={height} variant="rectangular" width="100%" />
+      )}
       {error && <Alert severity="error">{error.message}</Alert>}
       <ResponsiveCalendar
         colors={[

@@ -46,20 +46,11 @@ export type SelectProps = {
 } & MaterialSelectProps;
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {},
+  formControl: {
+    margin: theme.spacing(1),
+  },
   fullWidth: {
     width: '100%',
-  },
-  label: {
-    position: 'relative',
-    paddingRight: 25,
-    whiteSpace: 'nowrap',
-    '&+div': {
-      marginTop: 0,
-    },
-  },
-  outlined: {
-    paddingLeft: theme.spacing(1),
   },
 }));
 
@@ -193,19 +184,14 @@ const Select = ({
           [classes.fullWidth]: fullWidth,
         },
         classes.formControl,
-      )}>
-      <InputLabel
-        className={clsx(
-          { [classes.outlined]: variant === 'outlined' },
-          classes.label,
-        )}
-        htmlFor={`${label}-select`}>
-        {label}
-      </InputLabel>
+      )}
+      variant={variant}>
+      <InputLabel id={`${label}-label`}>{label}</InputLabel>
       <MaterialSelect
         {...props}
         id={label}
-        labelId={`${label}-select`}
+        labelId={`${label}-label`}
+        label={label}
         multiple={multiple}
         native={native}
         onClose={() => setOpen(false)}
@@ -223,8 +209,7 @@ const Select = ({
               )
             : undefined
         }
-        value={multiple ? selections : selections[0]}
-        variant={variant}>
+        value={multiple ? selections : selections[0]}>
         {getOptions(native, options, selections, emptyOption, theme)}
       </MaterialSelect>
     </FormControl>

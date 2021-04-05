@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 import {
   Button,
   ButtonGroup,
@@ -20,13 +20,15 @@ export interface DropdownProps {
 
 const defaultOptions = ['Option 1', 'Option 2'];
 
-const Dropdown = ({ options = defaultOptions }: DropdownProps) => {
+const Dropdown = ({
+  options = defaultOptions,
+}: DropdownProps): ReactElement => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(1);
 
   const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex]}`);
+    // console.info(`You clicked ${options[selectedIndex]}`);
   };
 
   const handleMenuItemClick = (_, index: number) => {
@@ -38,7 +40,7 @@ const Dropdown = ({ options = defaultOptions }: DropdownProps) => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event: React.MouseEvent<Document, MouseEvent>) => {
+  const handleClose = (event: MouseEvent | TouchEvent) => {
     if (
       anchorRef.current &&
       anchorRef.current.contains(event.target as HTMLElement)
@@ -52,30 +54,30 @@ const Dropdown = ({ options = defaultOptions }: DropdownProps) => {
   return (
     <div>
       <ButtonGroup
-        variant="contained"
+        aria-label="split button"
         color="primary"
         ref={anchorRef}
-        aria-label="split button">
+        variant="contained">
         <Button onClick={handleClick}>
           {JSON.stringify(options[selectedIndex])}
         </Button>
         <Button
-          color="primary"
-          size="small"
           aria-controls={open ? 'split-button-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
           aria-label="select merge strategy"
           aria-haspopup="menu"
-          onClick={handleToggle}>
+          color="primary"
+          onClick={handleToggle}
+          size="small">
           <ArrowDropDownIcon />
         </Button>
       </ButtonGroup>
       <Popper
-        open={open}
         anchorEl={anchorRef.current}
+        disablePortal
+        open={open}
         role={undefined}
-        transition
-        disablePortal>
+        transition>
         {({ TransitionProps }) => (
           <Grow {...TransitionProps}>
             <Paper>
@@ -83,7 +85,6 @@ const Dropdown = ({ options = defaultOptions }: DropdownProps) => {
                 <MenuList id="split-button-menu">
                   {options.map((option, index) => (
                     <MenuItem
-                      // key={option}
                       disabled={index === 2}
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}>

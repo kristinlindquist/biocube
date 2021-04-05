@@ -1,6 +1,5 @@
 import { ReactElement } from 'react';
-import { Box } from '@material-ui/core';
-import { Alert, Skeleton } from '@material-ui/lab';
+import { Alert, Box, Skeleton } from '@material-ui/core';
 import { ResponsiveLine, Serie } from '@nivo/line';
 
 import { ChartProps } from 'types';
@@ -30,7 +29,9 @@ const LineChart = ({
 
   return (
     <Container height={height} mt={2} subtitle={subtitle} title={title}>
-      {loading && <Skeleton variant="rect" width="100%" height={height} />}
+      {loading && (
+        <Skeleton height={height} variant="rectangular" width="100%" />
+      )}
       {error && <Alert severity="error">{error.message}</Alert>}
       <ResponsiveLine
         areaOpacity={0.05}

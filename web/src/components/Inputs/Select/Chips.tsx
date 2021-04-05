@@ -8,10 +8,7 @@ const useStyles = makeStyles(() => ({
   chips: {
     display: 'flex',
     flexWrap: 'wrap',
-    margin: -9,
-  },
-  chip: {
-    margin: 2,
+    margin: -4,
   },
 }));
 
@@ -43,13 +40,13 @@ const Chips = ({
     <div className={classes.chips}>
       {getSelectedOptions(selected, options).map(({ id, name }) => (
         <Chip
-          className={classes.chip}
           key={id}
           label={name}
           onDelete={() => handleDelete(id)}
           onMouseDown={(event) => {
             event.stopPropagation();
           }}
+          sx={{ mr: 0.5 }}
         />
       ))}
     </div>
