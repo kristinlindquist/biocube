@@ -1,33 +1,45 @@
 export default (oldState, state) => {
-  const { query, sessionGranularity } = oldState;
+  const { query: oldQuery, sessionGranularity } = oldState;
+  const { query: newQuery } = state;
   let newState = state;
   const defaultGranularity = sessionGranularity || 'day';
+
+  const {
+    dimensions: oldDims,
+    filters: oldFilters,
+    measures: oldMeasures,
+    timeDimensions: oldTds,
+  } = oldQuery || {};
+
+  const {
+    dimensions: newDims,
+    filtres: newFilters,
+    measures: newMeasures,
+    timeDimensions: newTds,
+  } = newQuery || {};
+
   if (newState.query) {
-    const oldQuery = query;
-    const newQuery = newState.query;
     const { meta } = oldState;
 
     if (
-      (oldQuery.timeDimensions || []).length === 1 &&
-      (newQuery.timeDimensions || []).length === 1 &&
-      newQuery.timeDimensions[0].granularity &&
-      oldQuery.timeDimensions[0].granularity !==
-        newQuery.timeDimensions[0].granularity
+      (oldTds || []).length === 1 &&
+      (newTds || []).length === 1 &&
+      newTds[0].granularity &&
+      oldTds[0].granularity !== newTds[0].granularity
     ) {
       newState = {
         ...newState,
-        sessionGranularity: newQuery.timeDimensions[0].granularity,
+        sessionGranularity: newTds[0].granularity,
       };
     }
 
     if (
-      ((oldQuery.measures || []).length === 0 &&
-        (newQuery.measures || []).length > 0) ||
-      ((oldQuery.measures || []).length === 1 &&
-        (newQuery.measures || []).length === 1 &&
-        oldQuery.measures[0] !== newQuery.measures[0])
+      ((oldMeasures || []).length === 0 && (newMeasures || []).length > 0) ||
+      ((oldMeasures || []).length === 1 &&
+        (newMeasures || []).length === 1 &&
+        oldMeasures[0] !== newMeasures[0])
     ) {
-      const defaultTd = meta.defaultTimeDimensionNameFor(newQuery.measures[0]);
+      const defaultTd = meta.defaultTimeDimensionNameFor(newMeasures[0]);
       return {
         ...newState,
         query: {
@@ -46,15 +58,12 @@ export default (oldState, state) => {
       };
     }
 
-    if (
-      (oldQuery.dimensions || []).length === 0 &&
-      (newQuery.dimensions || []).length > 0
-    ) {
+    if ((oldDims || []).length === 0 && (newDims || []).length > 0) {
       return {
         ...newState,
         query: {
           ...newQuery,
-          timeDimensions: (newQuery.timeDimensions || []).map((td) => ({
+          timeDimensions: (newDims || []).map((td) => ({
             ...td,
             granularity: undefined,
           })),
@@ -63,15 +72,12 @@ export default (oldState, state) => {
       };
     }
 
-    if (
-      (oldQuery.filters || []).length === 0 &&
-      (newQuery.filters || []).length > 0
-    ) {
+    if ((oldFilters || []).length === 0 && (newFilters || []).length > 0) {
       return {
         ...newState,
         query: {
           ...newQuery,
-          filters: (newQuery.filters || []).map((f) => ({
+          filters: (newFilters || []).map((f) => ({
             ...f,
             operator: f.operators ? f.operators[0] : 'equals',
             values: [''],
@@ -80,28 +86,24 @@ export default (oldState, state) => {
       };
     }
 
-    if (
-      (oldQuery.dimensions || []).length > 0 &&
-      (newQuery.dimensions || []).length === 0
-    ) {
+    if ((oldDims || []).length > 0 && (newDims || []).length === 0) {
       return {
         ...newState,
         query: {
           ...newQuery,
-          timeDimensions: (newQuery.timeDimensions || []).map((td) => ({
+          timeDimensions: (newDims || []).map((td) => ({
             ...td,
             granularity: td.granularity || defaultGranularity,
           })),
         },
-        chartType: (newQuery.timeDimensions || []).length ? 'line' : 'table',
+        chartType: (newDims || []).length ? 'line' : 'table',
       };
     }
 
     if (
-      ((oldQuery.dimensions || []).length > 0 ||
-        (oldQuery.measures || []).length > 0) &&
-      (newQuery.dimensions || []).length === 0 &&
-      (newQuery.measures || []).length === 0
+      ((oldDims || []).length > 0 || (oldMeasures || []).length > 0) &&
+      (newDims || []).length === 0 &&
+      (newMeasures || []).length === 0
     ) {
       return {
         ...newState,
@@ -119,32 +121,30 @@ export default (oldState, state) => {
   if (newState.chartType) {
     const newChartType = newState.chartType;
     if (
-      (newChartType === 'line' || newChartType === 'area') &&
-      (query.timeDimensions || []).length === 1 &&
-      !query.timeDimensions[0].granularity
+      ['line', 'area'].includes(newChartType) &&
+      (oldTds || []).length === 1 &&
+      !oldTds[0].granularity
     ) {
-      const [td] = query.timeDimensions;
+      const [td] = oldTds;
       return {
         ...newState,
         query: {
-          ...query,
+          ...oldQuery,
           timeDimensions: [{ ...td, granularity: defaultGranularity }],
         },
       };
     }
 
     if (
-      (newChartType === 'pie' ||
-        newChartType === 'table' ||
-        newChartType === 'number') &&
-      (query.timeDimensions || []).length === 1 &&
-      query.timeDimensions[0].granularity
+      ['pie', 'table'].includes(newChartType) &&
+      (oldTds || []).length === 1 &&
+      oldTds[0].granularity
     ) {
-      const [td] = query.timeDimensions;
+      const [td] = oldTds;
       return {
         ...newState,
         query: {
-          ...query,
+          ...oldQuery,
           timeDimensions: [{ ...td, granularity: undefined }],
         },
       };
