@@ -11,6 +11,7 @@ import MemberGroup from './MemberGroup';
 import FilterGroup from './FilterGroup';
 import TimeGroup from './TimeGroup';
 import SelectChartType from './SelectChartType';
+import stateChangeHeuristics from './stateChangeHeuristics';
 
 export interface QbProps {
   /**
@@ -42,9 +43,10 @@ const ExploreQueryBuilder = ({
 
   return (
     <QueryBuilder
+      cubejsApi={cubejsApi}
       vizState={vizState}
       setVizState={setVizState}
-      cubejsApi={cubejsApi}
+      stateChangeHeuristics={stateChangeHeuristics}
       wrapWithQueryRenderer={false}
       render={({
         availableDimensions,

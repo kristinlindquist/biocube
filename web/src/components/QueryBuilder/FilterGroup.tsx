@@ -17,6 +17,7 @@ const FilterGroup = ({ members, ...props }: GroupProps): ReactElement => (
             key: 'dimension',
             m,
           })}
+          defaultValue={[m.dimension.name]}
           label="Filter Dimension"
         />
       </Grid>,
@@ -30,7 +31,7 @@ const FilterGroup = ({ members, ...props }: GroupProps): ReactElement => (
             keyPath: 'name',
             m,
           })}
-          defaultValue={(m.operator || {}).name}
+          defaultValue={[m.operator || m.operators[0]]}
           label="Operator"
         />
       </Grid>,
@@ -39,14 +40,16 @@ const FilterGroup = ({ members, ...props }: GroupProps): ReactElement => (
       </Grid>,
     ])}
     {!members.length && (
-      <Select
-        {...getSelectProps({
-          ...props,
-          members,
-          key: 'dimension',
-        })}
-        label="Filter"
-      />
+      <Grid item xs={12}>
+        <Select
+          {...getSelectProps({
+            ...props,
+            members,
+            key: 'dimension',
+          })}
+          label="Filter Dimension"
+        />
+      </Grid>
     )}
   </>
 );

@@ -12,7 +12,7 @@ const TextField = ({
   onChange,
   ...props
 }: TextFieldProps & MaterialTextFieldProps): ReactElement => {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('');
 
   return (
     <MaterialTextField

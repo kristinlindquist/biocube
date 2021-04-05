@@ -84,8 +84,7 @@ export const getSelectProps = ({
       }
 
       if (!existing) {
-        console.log(member);
-        return updateMethods.add(member);
+        return updateMethods.add(key ? { [key]: member } : member);
       }
       return member;
     });
