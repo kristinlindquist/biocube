@@ -30,7 +30,7 @@
     "introspect:prisma": "dotenv -e .env yarn workspace @project-backend/db run introspect",
     "migrate:prisma": "dotenv -e .env yarn workspace @project-backend/db run migrate",
     "format:prisma": "dotenv -e .env yarn workspace @project-backend/db run format",
-    "reset:prisma":  "dotenv -e .env yarn workspace @project-backend/db run reset"
+    "reset:prisma": "dotenv -e .env yarn workspace @project-backend/db run reset"
   },
   "dependencies": {
     "@types/express": "4.17.11",
