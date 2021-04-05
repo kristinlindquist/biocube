@@ -161,6 +161,7 @@ const Select = ({
   const [selections, setSelections] = useState<IdType[]>(
     getInitial(options, defaultValue, emptyOption),
   );
+  const [open, setOpen] = useState(false);
 
   useDeepCompareEffect(() => {
     // no callback on initial set
@@ -170,6 +171,7 @@ const Select = ({
   const onChange = (newSelections: IdType[]) => {
     setSelections(newSelections);
     onSelect(getSelectedOptions(newSelections, options));
+    setOpen(false);
   };
 
   const handleChange = (value: IdType | IdType[]) => {
@@ -206,6 +208,9 @@ const Select = ({
         labelId={`${label}-select`}
         multiple={multiple}
         native={native}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        open={open}
         onChange={({ target }) => handleChange(target.value as string)}
         renderValue={
           !native
