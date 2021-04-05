@@ -13,7 +13,7 @@ export default (oldState, state) => {
 
   const {
     dimensions: newDims,
-    filtres: newFilters,
+    filters: newFilters,
     measures: newMeasures,
     timeDimensions: newTds,
   } = newQuery || {};
@@ -49,7 +49,7 @@ export default (oldState, state) => {
                 {
                   dimension: defaultTd,
                   granularity: defaultGranularity,
-                  dateRange: 'Last 30 days',
+                  dateRange: 'last 7 days',
                 },
               ]
             : [],
@@ -61,13 +61,7 @@ export default (oldState, state) => {
     if ((oldDims || []).length === 0 && (newDims || []).length > 0) {
       return {
         ...newState,
-        query: {
-          ...newQuery,
-          timeDimensions: (newDims || []).map((td) => ({
-            ...td,
-            granularity: undefined,
-          })),
-        },
+        query: newQuery,
         chartType: 'line',
       };
     }
