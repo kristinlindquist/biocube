@@ -78,7 +78,7 @@ const ExploreQueryBuilder = ({
               }
               title="Build yer query">
               <Grid container spacing={2}>
-                <Grid item xs={6} sm={4}>
+                <Grid item xs={12} sm={4}>
                   <MemberGroup
                     name="Measure"
                     availableMembers={availableMeasures}
@@ -86,7 +86,7 @@ const ExploreQueryBuilder = ({
                     updateMethods={updateMeasures}
                   />
                 </Grid>
-                <Grid item xs={6} sm={4}>
+                <Grid item xs={12} sm={4}>
                   <MemberGroup
                     name="Dimension"
                     availableMembers={availableDimensions}
@@ -94,7 +94,7 @@ const ExploreQueryBuilder = ({
                     updateMethods={updateDimensions}
                   />
                 </Grid>
-                <Grid item xs={6} sm={4}>
+                <Grid item xs={12} sm={4}>
                   <MemberGroup
                     name="Segment"
                     availableMembers={availableSegments}

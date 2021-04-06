@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react';
-import { TextField } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 import { capitalize, get } from 'lodash';
 
-import { Select } from 'components/Inputs';
+import { Select, TextField } from 'components/Inputs';
 import { getDocument, getEntityPath } from 'utils';
 import {
   FieldType,
@@ -81,7 +80,7 @@ const FormField = ({
           label={name}
           margin="dense"
           multiline={type === 'text'}
-          onChange={(e) => setForm({ ...form, [id]: get(e, 'target.value') })}
+          onChange={(val) => setForm({ ...form, [id]: val })}
           value={form[id]}
         />
       )}

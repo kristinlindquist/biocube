@@ -1,20 +1,25 @@
 import React, { ReactElement } from 'react';
 import {
   Box,
+  BoxProps,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
+  DialogProps,
   DialogTitle,
 } from '@material-ui/core';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-import { SpacingProps } from '@material-ui/system';
 
 import { FormField } from 'components/Inputs';
 import { FieldType, SelectOptionType } from 'types';
 
 export interface FormDialogProps {
+  /**
+   * Props for the container (Box)
+   */
+  containerProps?: BoxProps;
   /**
    * Text content to display above the form fields.
    */
@@ -50,6 +55,7 @@ export interface FormDialogProps {
  * A dialog box with a form
  */
 const FormDialog = ({
+  containerProps,
   content,
   fields,
   onSubmit,
@@ -57,7 +63,7 @@ const FormDialog = ({
   title,
   values = {},
   ...props
-}: FormDialogProps & SpacingProps): ReactElement => {
+}: FormDialogProps & Partial<DialogProps>): ReactElement => {
   const [open, setOpen] = React.useState(false);
   const [form, setForm] = React.useState(values);
 
@@ -65,7 +71,7 @@ const FormDialog = ({
     setForm(values);
   }, [values]);
 
-  const handleClickOpen = () => {
+  const handleOpen = () => {
     setOpen(true);
   };
 
@@ -80,7 +86,7 @@ const FormDialog = ({
       </Button>
     ),
     {
-      onClick: handleClickOpen,
+      onClick: handleOpen,
     },
   );
 
@@ -91,14 +97,18 @@ const FormDialog = ({
   };
 
   return (
-    <Box {...props}>
+    <Box {...containerProps}>
       {OpenButton}
-      <Dialog aria-labelledby="dialog-title" open={open} onClose={handleClose}>
+      <Dialog
+        {...props}
+        aria-labelledby="dialog-title"
+        open={open}
+        onClose={handleClose}>
         <DialogTitle id="dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{content}</DialogContentText>
           {fields.map((f) => (
-            <FormField {...f} form={form} setForm={setForm} />
+            <FormField {...f} form={form} setForm={setForm} key={f.id} />
           ))}
         </DialogContent>
         <DialogActions>

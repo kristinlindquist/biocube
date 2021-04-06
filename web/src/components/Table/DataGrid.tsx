@@ -124,6 +124,16 @@ const DataGrid = ({
   ...props
 }: DataGridProps): ReactElement => {
   const myCols = columns || getColumns(rows);
+  // for MUI DataGrid bug
+  document.addEventListener(
+    'keydown',
+    (e) => {
+      if (e.key === 'Backspace') {
+        e.stopPropagation();
+      }
+    },
+    true,
+  );
 
   return (
     <div>
@@ -139,10 +149,10 @@ const DataGrid = ({
       </Box>
       {allowAdds && mutation && (
         <Dialog
+          containerProps={{ sx: { ml: 'auto' } }}
           fields={myCols.filter((c) => undefOrTrue(c.create))}
-          ml="auto"
           openButton={<Fab />}
-          onSubmit={mutation}
+          onSubmit={(input) => mutation(input)}
           title="Add"
         />
       )}

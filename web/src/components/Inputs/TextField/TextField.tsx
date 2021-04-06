@@ -10,16 +10,17 @@ export interface TextFieldProps {
 
 const TextField = ({
   onChange,
+  value: newValue,
   ...props
 }: TextFieldProps & MaterialTextFieldProps): ReactElement => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(newValue);
 
   return (
     <MaterialTextField
       {...props}
       onChange={(e) => {
-        onChange(e.target.value);
         setValue(e.target.value);
+        onChange(e.target.value);
       }}
       value={value}
     />

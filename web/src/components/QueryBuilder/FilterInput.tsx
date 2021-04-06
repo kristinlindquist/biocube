@@ -16,20 +16,25 @@ export interface FilterProps {
 }
 
 const FilterInputs = {
+  // TODO: replace with select + add
   string: ({ values = [], onChange }: FilterProps) => (
     <TextField
+      fullWidth
       key="input"
       label="Filter Value"
       onChange={(val) => onChange([val])}
       value={values || ['']}
+      variant="outlined"
     />
   ),
   number: ({ values, onChange }: FilterProps) => (
     <TextField
+      fullWidth
       key="input"
       label="Filter Value"
       onChange={(val) => onChange([val])}
       value={values || [0]}
+      variant="outlined"
     />
   ),
 };

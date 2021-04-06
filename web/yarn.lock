@@ -1671,9 +1671,10 @@
     "react-is" "^17.0.0"
     "react-transition-group" "^4.4.0"
 
-"@material-ui/data-grid@4.0.0-alpha.24":
-  "resolved" "https://registry.npmjs.org/@material-ui/data-grid/-/data-grid-4.0.0-alpha.24.tgz"
-  "version" "4.0.0-alpha.24"
+"@material-ui/data-grid@4.0.0-alpha.23":
+  "integrity" "sha512-7y2+J8b1TTaZOhVY9DVa/6PWSvLpE50p0a7Y76oJTmmT3SYJBSLLiTLBskUwMrs+FLD+b6yCNqZlKIALZZj47Q=="
+  "resolved" "https://registry.npmjs.org/@material-ui/data-grid/-/data-grid-4.0.0-alpha.23.tgz"
+  "version" "4.0.0-alpha.23"
   dependencies:
     "@material-ui/utils" "^5.0.0-alpha.14"
     "prop-types" "^15.7.2"

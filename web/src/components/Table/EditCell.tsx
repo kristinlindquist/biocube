@@ -36,8 +36,8 @@ const EditCell = ({
     <Dialog
       openButton={<IconButton label="Edit" size="small" />}
       fields={columns.filter((c) => undefOrTrue(c.create))}
-      ml="auto"
-      onSubmit={mutation}
+      onSubmit={(input) => mutation(input)}
+      sx={{ ml: 'auto' }}
       title="Edit"
       values={values}
     />
