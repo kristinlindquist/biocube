@@ -9,35 +9,40 @@ import {
   MenuItem,
   MenuList,
 } from '@material-ui/core';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+
+import { SelectOptionType as OptionType } from 'types';
 
 export interface DropdownProps {
   /**
-   * Options
+   * button options
    */
-  options?: string[];
+  options: OptionType[];
+  /**
+   * button label
+   */
+  label: string;
+  /**
+   * optional callback on select
+   */
+  onSelect?: (selection: OptionType) => unknown;
 }
 
-const defaultOptions = ['Option 1', 'Option 2'];
+const defaultOptions = [
+  { id: 'option1', name: 'Option 1' },
+  { id: 'option2', name: 'Option 2' },
+];
 
 const Dropdown = ({
+  label = 'Select...',
   options = defaultOptions,
+  onSelect = () => {},
 }: DropdownProps): ReactElement => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
 
-  const handleClick = () => {
-    // console.info(`You clicked ${options[selectedIndex]}`);
-  };
-
-  const handleMenuItemClick = (_, index: number) => {
-    setSelectedIndex(index);
+  const handleSelect = (_, index: number) => {
+    onSelect(options[index]);
     setOpen(false);
-  };
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
   };
 
   const handleClose = (event: MouseEvent | TouchEvent) => {
@@ -52,43 +57,25 @@ const Dropdown = ({
   };
 
   return (
-    <div>
+    <>
       <ButtonGroup
         aria-label="split button"
         color="primary"
         ref={anchorRef}
         variant="contained">
-        <Button onClick={handleClick}>
-          {JSON.stringify(options[selectedIndex])}
-        </Button>
-        <Button
-          aria-controls={open ? 'split-button-menu' : undefined}
-          aria-expanded={open ? 'true' : undefined}
-          aria-label="select merge strategy"
-          aria-haspopup="menu"
-          color="primary"
-          onClick={handleToggle}
-          size="small">
-          <ArrowDropDownIcon />
-        </Button>
+        <Button onClick={() => setOpen(true)}>{label}</Button>
       </ButtonGroup>
-      <Popper
-        anchorEl={anchorRef.current}
-        disablePortal
-        open={open}
-        role={undefined}
-        transition>
+      <Popper anchorEl={anchorRef.current} open={open} transition>
         {({ TransitionProps }) => (
           <Grow {...TransitionProps}>
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu">
-                  {options.map((option, index) => (
+                  {options.map(({ name }, index) => (
                     <MenuItem
-                      disabled={index === 2}
-                      selected={index === selectedIndex}
-                      onClick={(event) => handleMenuItemClick(event, index)}>
-                      {JSON.stringify(option)}
+                      key={name}
+                      onClick={(event) => handleSelect(event, index)}>
+                      {name}
                     </MenuItem>
                   ))}
                 </MenuList>
@@ -97,7 +84,7 @@ const Dropdown = ({
           </Grow>
         )}
       </Popper>
-    </div>
+    </>
   );
 };
 

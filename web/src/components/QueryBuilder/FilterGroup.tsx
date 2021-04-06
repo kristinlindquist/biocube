@@ -1,10 +1,11 @@
 import { ReactElement } from 'react';
 import { Grid } from '@material-ui/core';
 
+import { Dropdown } from 'components/Button';
 import { Select } from 'components/Inputs';
 import FilterInput from './FilterInput';
 import { GroupProps } from './types';
-import { getSelectProps } from './utils';
+import { getDropdownProps, getSelectProps } from './utils';
 
 const FilterGroup = ({ members, ...props }: GroupProps): ReactElement => (
   <>
@@ -17,6 +18,7 @@ const FilterGroup = ({ members, ...props }: GroupProps): ReactElement => (
             key: 'dimension',
             m,
           })}
+          disabled
           defaultValue={[m.dimension.name]}
           label="Filter Dimension"
         />
@@ -39,18 +41,16 @@ const FilterGroup = ({ members, ...props }: GroupProps): ReactElement => (
         <FilterInput {...props} member={m} />
       </Grid>,
     ])}
-    {!members.length && (
-      <Grid item xs={12}>
-        <Select
-          {...getSelectProps({
-            ...props,
-            members,
-            key: 'dimension',
-          })}
-          label="Filter Dimension"
-        />
-      </Grid>
-    )}
+    <Grid item xs={12}>
+      <Dropdown
+        {...getDropdownProps({
+          ...props,
+          members,
+          key: 'dimension',
+        })}
+        label="Add Filter"
+      />
+    </Grid>
   </>
 );
 

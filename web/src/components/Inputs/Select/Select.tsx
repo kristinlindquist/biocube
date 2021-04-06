@@ -77,13 +77,14 @@ const getSelectedOptions = (selections: IdType[], options: OptionType[]) =>
  * non-native select (used when multiple === true)
  */
 const getNonNativeOptions = (
+  label: string,
   options: OptionType[],
   selections: IdType[],
   theme: Theme,
 ) =>
   options.map(({ id, name }) => (
     <MenuItem
-      key={`option-${id}`}
+      key={`option-${id}-${label}`}
       style={getMenuItemStyles(id, selections, theme)}
       value={id}>
       {name}
@@ -93,15 +94,15 @@ const getNonNativeOptions = (
 /**
  * Get options for native select
  */
-const getNativeOptions = (options: OptionType[], includeEmpty) =>
+const getNativeOptions = (label: string, options: OptionType[], includeEmpty) =>
   [
     includeEmpty ? (
-      <option key="emp-o" value={null}>
+      <option key={`empo-${label}`} value={null}>
         {' '}
       </option>
     ) : null,
     ...options.map(({ id, name }) => (
-      <option key={`option-${id}`} value={id}>
+      <option key={`option-${id}-${label}`} value={id}>
         {name}
       </option>
     )),
@@ -111,6 +112,7 @@ const getNativeOptions = (options: OptionType[], includeEmpty) =>
  * Get select options
  */
 const getOptions = (
+  label: string,
   isNative: boolean,
   options: OptionType[],
   selections: IdType[],
@@ -118,8 +120,8 @@ const getOptions = (
   theme: Theme,
 ) =>
   isNative
-    ? getNativeOptions(options, includeEmpty)
-    : getNonNativeOptions(options, selections, theme);
+    ? getNativeOptions(label, options, includeEmpty)
+    : getNonNativeOptions(label, options, selections, theme);
 
 /**
  * Get default selection
@@ -210,7 +212,7 @@ const Select = ({
             : undefined
         }
         value={multiple ? selections : selections[0]}>
-        {getOptions(native, options, selections, emptyOption, theme)}
+        {getOptions(label, native, options, selections, emptyOption, theme)}
       </MaterialSelect>
     </FormControl>
   );
