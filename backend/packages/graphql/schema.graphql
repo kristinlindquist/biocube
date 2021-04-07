@@ -27,6 +27,12 @@ type ConceptOfInterest {
   name: String!
 }
 
+input ConceptOfInterestInput {
+  id: Int!
+  description: String
+  name: String
+}
+
 type Daily {
   date: Float
   heartRate: HeartRateSummary
@@ -215,8 +221,8 @@ type Indication {
 
 input IndicationInput {
   id: Int!
-  description: String!
-  name: String!
+  description: String
+  name: String
 }
 
 scalar JSON
@@ -317,6 +323,7 @@ input UpsertMeasureInput {
   id: Int
   description: String!
   name: String!
+  conceptsOfInterest: [ConceptOfInterestInput!]!
   indications: [IndicationInput!]!
 }
 
