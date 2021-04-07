@@ -32,6 +32,11 @@ const defaultOptions = [
   { id: 'option2', name: 'Option 2' },
 ];
 
+/**
+ * A button that triggers a dropdown. Upon selection,
+ * onSelect is triggered. Good for adding, say,
+ * filters on the query builder.
+ */
 const Dropdown = ({
   label = 'Select...',
   options = defaultOptions,

@@ -21,6 +21,9 @@ export interface FabProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
+/**
+ * Floating action button!
+ */
 const Fab = ({
   icon,
   label = 'add',

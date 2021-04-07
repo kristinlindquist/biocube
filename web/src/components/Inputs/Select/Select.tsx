@@ -53,10 +53,8 @@ export type SelectProps = {
   variant?: 'standard' | 'outlined' | 'filled';
 } & MaterialSelectProps;
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-  },
+const useStyles = makeStyles(() => ({
+  formControl: {},
   fullWidth: {
     width: '100%',
   },
@@ -121,7 +119,7 @@ const Select = ({
   onSelect = () => {},
   onDelete = () => {},
   options,
-  variant,
+  variant = 'standard',
   ...props
 }: SelectProps): ReactElement => {
   const classes = useStyles();

@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { IconButton as MaterialIconButton } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 
-export interface IconButtonProps {
+export type IconButtonProps = {
   /**
    * icon
    */
@@ -19,8 +19,11 @@ export interface IconButtonProps {
    * size
    */
   size?: 'small' | 'medium';
-}
+};
 
+/**
+ * An Icon Button
+ */
 const IconButton = ({
   icon,
   label = 'add',

@@ -48,6 +48,7 @@ const FormField = ({
   options,
   setForm,
   type,
+  ...props
 }: FormFieldProps): ReactElement => {
   let myOptions = options || [];
 
@@ -75,6 +76,7 @@ const FormField = ({
           multiple={type === 'multiple'}
           onSelect={(selection) => setForm({ ...form, [id]: selection })}
           options={myOptions}
+          {...props}
         />
       )}
       {!isSelectType(type) && (
@@ -86,6 +88,7 @@ const FormField = ({
           multiline={type === 'text'}
           onChange={(val) => setForm({ ...form, [id]: val })}
           value={form[id]}
+          {...props}
         />
       )}
     </React.Fragment>

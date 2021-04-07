@@ -13,9 +13,9 @@ import {
 import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import { FormField } from 'components/Inputs';
-import { FieldType, SelectOptionType } from 'types';
+import { FieldType, KeyValuePairs, SelectOptionType } from 'types';
 
-export interface FormDialogProps {
+export type FormDialogProps = {
   /**
    * Props for the container (Box)
    */
@@ -36,11 +36,15 @@ export interface FormDialogProps {
   /**
    * Save/update/upsert function
    */
-  onSubmit: (input: { [key: string]: unknown }) => void;
+  onSubmit: (variables: KeyValuePairs) => void;
   /**
    * Button that opens dialog
    */
   openButton?: ReactElement;
+  /**
+   * Dialog size
+   */
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
   /**
    * Dialog title
    */
@@ -49,7 +53,11 @@ export interface FormDialogProps {
    * Initial form values (e.g. if editing)
    */
   values?: { [key: string]: unknown };
-}
+  /**
+   * Default variant for fields
+   */
+  variant: 'standard' | 'outlined' | 'filled';
+};
 
 /**
  * A dialog box with a form
@@ -60,8 +68,10 @@ const FormDialog = ({
   fields,
   onSubmit,
   openButton,
+  size,
   title,
   values = {},
+  variant,
   ...props
 }: FormDialogProps & Partial<DialogProps>): ReactElement => {
   const [open, setOpen] = React.useState(false);
@@ -102,13 +112,21 @@ const FormDialog = ({
       <Dialog
         {...props}
         aria-labelledby="dialog-title"
+        fullWidth={Boolean(size)}
+        maxWidth={size}
         open={open}
         onClose={handleClose}>
         <DialogTitle id="dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{content}</DialogContentText>
           {fields.map((f) => (
-            <FormField {...f} form={form} setForm={setForm} key={f.id} />
+            <FormField
+              {...f}
+              form={form}
+              setForm={setForm}
+              key={f.id}
+              variant={variant}
+            />
           ))}
         </DialogContent>
         <DialogActions>
