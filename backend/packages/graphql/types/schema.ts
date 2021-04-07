@@ -16,9 +16,332 @@ export type Scalars = {
   JSON: any;
 };
 
+export type Activity = {
+  __typename?: 'Activity';
+  start?: Maybe<Scalars['Float']>;
+  end?: Maybe<Scalars['Float']>;
+  duration?: Maybe<Scalars['Float']>;
+  state?: Maybe<Scalars['String']>;
+};
+
+export type Component = {
+  __typename?: 'Component';
+  id: Scalars['Int'];
+  props?: Maybe<Scalars['JSON']>;
+  type: ComponentType;
+  read?: Maybe<DataQuery>;
+  upsert?: Maybe<DataQuery>;
+  delete?: Maybe<DataQuery>;
+};
+
+export enum ComponentType {
+  Table = 'TABLE'
+}
+
+export type ConceptOfInterest = {
+  __typename?: 'ConceptOfInterest';
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+export type Daily = {
+  __typename?: 'Daily';
+  date?: Maybe<Scalars['Float']>;
+  heartRate?: Maybe<HeartRateSummary>;
+};
+
+export type DataQuery = {
+  __typename?: 'DataQuery';
+  id: Scalars['Int'];
+  document: QueryDocumentType;
+  parameters: Scalars['JSON'];
+};
+
+
+export type DeleteConceptOfInterestInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteConceptOfInterestResult = {
+  __typename?: 'DeleteConceptOfInterestResult';
+  conceptOfInterest: ConceptOfInterest;
+};
+
+export type DeleteIndicationInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteIndicationResult = {
+  __typename?: 'DeleteIndicationResult';
+  indication: Indication;
+};
+
+export type DeleteMeasureInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteMeasureResult = {
+  __typename?: 'DeleteMeasureResult';
+  measure?: Maybe<Measure>;
+};
+
+export type DeleteTemplateInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteTemplateResult = {
+  __typename?: 'DeleteTemplateResult';
+  template?: Maybe<Template>;
+};
+
+export type Device = {
+  __typename?: 'Device';
+  id: Scalars['Int'];
+  userId: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+export type GetActivityInput = {
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
+};
+
+export type GetActivityResult = {
+  __typename?: 'GetActivityResult';
+  activity?: Maybe<Array<Maybe<Activity>>>;
+};
+
+export type GetConceptOfInterestInput = {
+  id: Scalars['Int'];
+};
+
+export type GetConceptOfInterestResult = {
+  __typename?: 'GetConceptOfInterestResult';
+  conceptOfInterest?: Maybe<ConceptOfInterest>;
+};
+
+export type GetConceptsOfInterestInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetConceptsOfInterestResult = {
+  __typename?: 'GetConceptsOfInterestResult';
+  conceptsOfInterest?: Maybe<Array<Maybe<ConceptOfInterest>>>;
+};
+
+export type GetDailyInput = {
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
+};
+
+export type GetDailyResult = {
+  __typename?: 'GetDailyResult';
+  daily?: Maybe<Array<Maybe<Daily>>>;
+};
+
+export type GetDeviceInput = {
+  id: Scalars['Int'];
+};
+
+export type GetDeviceResult = {
+  __typename?: 'GetDeviceResult';
+  device?: Maybe<Device>;
+};
+
+export type GetHeartRateInput = {
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
+};
+
+export type GetHeartRateResult = {
+  __typename?: 'GetHeartRateResult';
+  heartRate?: Maybe<Array<Maybe<HeartRate>>>;
+};
+
+export type GetIndicationInput = {
+  id: Scalars['Int'];
+};
+
+export type GetIndicationResult = {
+  __typename?: 'GetIndicationResult';
+  indication?: Maybe<Indication>;
+};
+
+export type GetIndicationsInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetIndicationsResult = {
+  __typename?: 'GetIndicationsResult';
+  indications?: Maybe<Array<Maybe<Indication>>>;
+};
+
+export type GetMeasureInput = {
+  id: Scalars['Int'];
+};
+
+export type GetMeasureResult = {
+  __typename?: 'GetMeasureResult';
+  measure?: Maybe<Measure>;
+};
+
+export type GetMeasuresInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetMeasuresResult = {
+  __typename?: 'GetMeasuresResult';
+  measures?: Maybe<Array<Maybe<Measure>>>;
+};
+
+export type GetSleepInput = {
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
+};
+
+export type GetSleepResult = {
+  __typename?: 'GetSleepResult';
+  sleep?: Maybe<Array<Maybe<Sleep>>>;
+};
+
+export type GetTemplateInput = {
+  id: Scalars['Int'];
+};
+
+export type GetTemplateResult = {
+  __typename?: 'GetTemplateResult';
+  template?: Maybe<Template>;
+};
+
+export type GetTemplatesInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetTemplatesResult = {
+  __typename?: 'GetTemplatesResult';
+  templates?: Maybe<Array<Maybe<Template>>>;
+};
+
+export type GetUserInput = {
+  id: Scalars['Int'];
+};
+
+export type GetUserResult = {
+  __typename?: 'GetUserResult';
+  user?: Maybe<User>;
+};
+
+export type HeartRate = {
+  __typename?: 'HeartRate';
+  date?: Maybe<Scalars['Float']>;
+  point?: Maybe<Scalars['Float']>;
+};
+
+export type HeartRateSummary = {
+  __typename?: 'HeartRateSummary';
+  average?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  max?: Maybe<Scalars['Float']>;
+};
+
+export type Indication = {
+  __typename?: 'Indication';
+  conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  indications?: Maybe<Array<Indication>>;
+  name: Scalars['String'];
+};
+
+export type IndicationInput = {
+  id: Scalars['Int'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+};
+
+
+export type Measure = {
+  __typename?: 'Measure';
+  id?: Maybe<Scalars['Int']>;
+  description: Scalars['String'];
+  name: Scalars['String'];
+  conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
+  indications?: Maybe<Array<Indication>>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  deleteConceptOfInterest: DeleteConceptOfInterestResult;
+  deleteIndication: DeleteIndicationResult;
+  deleteMeasure: DeleteMeasureResult;
+  deleteTemplate: DeleteTemplateResult;
+  upsertConceptOfInterest: UpsertConceptOfInterestResult;
+  upsertIndication: UpsertIndicationResult;
+  upsertMeasure: UpsertMeasureResult;
+  upsertTemplate: UpsertTemplateResult;
+};
+
+
+export type MutationDeleteConceptOfInterestArgs = {
+  input: DeleteConceptOfInterestInput;
+};
+
+
+export type MutationDeleteIndicationArgs = {
+  input: DeleteIndicationInput;
+};
+
+
+export type MutationDeleteMeasureArgs = {
+  input: DeleteMeasureInput;
+};
+
+
+export type MutationDeleteTemplateArgs = {
+  input: DeleteTemplateInput;
+};
+
+
+export type MutationUpsertConceptOfInterestArgs = {
+  input: UpsertConceptOfInterestInput;
+};
+
+
+export type MutationUpsertIndicationArgs = {
+  input: UpsertIndicationInput;
+};
+
+
+export type MutationUpsertMeasureArgs = {
+  input: UpsertMeasureInput;
+};
+
+
+export type MutationUpsertTemplateArgs = {
+  input: UpsertTemplateInput;
+};
+
+export type OxygenSaturation = {
+  __typename?: 'OxygenSaturation';
+  date?: Maybe<Scalars['Float']>;
+  point?: Maybe<Scalars['Float']>;
+};
+
+export type Page = {
+  __typename?: 'Page';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  title: Scalars['String'];
+  url: Scalars['String'];
+  components?: Maybe<Array<Component>>;
+};
+
 export type Query = {
   __typename?: 'Query';
   getActivity: GetActivityResult;
+  getConceptOfInterest: GetConceptOfInterestResult;
+  getConceptsOfInterest: GetConceptsOfInterestResult;
   getDaily: GetDailyResult;
   getDevice: GetDeviceResult;
   getHeartRate: GetHeartRateResult;
@@ -35,6 +358,16 @@ export type Query = {
 
 export type QueryGetActivityArgs = {
   input: GetActivityInput;
+};
+
+
+export type QueryGetConceptOfInterestArgs = {
+  input: GetConceptOfInterestInput;
+};
+
+
+export type QueryGetConceptsOfInterestArgs = {
+  input: GetConceptsOfInterestInput;
 };
 
 
@@ -92,95 +425,16 @@ export type QueryGetUserArgs = {
   input: GetUserInput;
 };
 
-export type GetDeviceInput = {
-  id: Scalars['Int'];
-};
-
-export type GetDeviceResult = {
-  __typename?: 'GetDeviceResult';
-  device?: Maybe<Device>;
-};
-
-export type Device = {
-  __typename?: 'Device';
-  id: Scalars['Int'];
-  userId: Scalars['Int'];
-  name: Scalars['String'];
-};
-
-
-export type GetHeartRateInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-};
-
-export type GetHeartRateResult = {
-  __typename?: 'GetHeartRateResult';
-  heartRate?: Maybe<Array<Maybe<HeartRate>>>;
-};
-
-export type GetSleepInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-};
-
-export type GetSleepResult = {
-  __typename?: 'GetSleepResult';
-  sleep?: Maybe<Array<Maybe<Sleep>>>;
-};
-
-export type GetDailyInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-};
-
-export type GetDailyResult = {
-  __typename?: 'GetDailyResult';
-  daily?: Maybe<Array<Maybe<Daily>>>;
-};
-
-export type GetActivityInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-};
-
-export type GetActivityResult = {
-  __typename?: 'GetActivityResult';
-  activity?: Maybe<Array<Maybe<Activity>>>;
-};
-
-export type HeartRateSummary = {
-  __typename?: 'HeartRateSummary';
-  average?: Maybe<Scalars['Float']>;
-  min?: Maybe<Scalars['Float']>;
-  max?: Maybe<Scalars['Float']>;
-};
-
-export type Activity = {
-  __typename?: 'Activity';
-  start?: Maybe<Scalars['Float']>;
-  end?: Maybe<Scalars['Float']>;
-  duration?: Maybe<Scalars['Float']>;
-  state?: Maybe<Scalars['String']>;
-};
-
-export type Daily = {
-  __typename?: 'Daily';
-  date?: Maybe<Scalars['Float']>;
-  heartRate?: Maybe<HeartRateSummary>;
-};
-
-export type HeartRate = {
-  __typename?: 'HeartRate';
-  date?: Maybe<Scalars['Float']>;
-  point?: Maybe<Scalars['Float']>;
-};
-
-export type OxygenSaturation = {
-  __typename?: 'OxygenSaturation';
-  date?: Maybe<Scalars['Float']>;
-  point?: Maybe<Scalars['Float']>;
-};
+export enum QueryDocumentType {
+  GetMeasureDocument = 'GetMeasureDocument',
+  GetMeasuresDocument = 'GetMeasuresDocument',
+  UpsertMeasureDocument = 'UpsertMeasureDocument',
+  DeleteMeasureDocument = 'DeleteMeasureDocument',
+  GetIndicationDocument = 'GetIndicationDocument',
+  GetIndicationsDocument = 'GetIndicationsDocument',
+  UpsertIndicationDocument = 'UpsertIndicationDocument',
+  DeleteIndicationDocument = 'DeleteIndicationDocument'
+}
 
 export type Sleep = {
   __typename?: 'Sleep';
@@ -189,44 +443,22 @@ export type Sleep = {
   state?: Maybe<Scalars['String']>;
 };
 
-export type Mutation = {
-  __typename?: 'Mutation';
-  deleteIndication: DeleteIndicationResult;
-  deleteMeasure: DeleteMeasureResult;
-  deleteTemplate: DeleteTemplateResult;
-  upsertIndication: UpsertIndicationResult;
-  upsertMeasure: UpsertMeasureResult;
-  upsertTemplate: UpsertTemplateResult;
+export type Template = {
+  __typename?: 'Template';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  pages?: Maybe<Array<Page>>;
 };
 
-
-export type MutationDeleteIndicationArgs = {
-  input: DeleteIndicationInput;
+export type UpsertConceptOfInterestInput = {
+  id?: Maybe<Scalars['Int']>;
+  description: Scalars['String'];
+  name: Scalars['String'];
 };
 
-
-export type MutationDeleteMeasureArgs = {
-  input: DeleteMeasureInput;
-};
-
-
-export type MutationDeleteTemplateArgs = {
-  input: DeleteTemplateInput;
-};
-
-
-export type MutationUpsertIndicationArgs = {
-  input: UpsertIndicationInput;
-};
-
-
-export type MutationUpsertMeasureArgs = {
-  input: UpsertMeasureInput;
-};
-
-
-export type MutationUpsertTemplateArgs = {
-  input: UpsertTemplateInput;
+export type UpsertConceptOfInterestResult = {
+  __typename?: 'UpsertConceptOfInterestResult';
+  conceptOfInterest: ConceptOfInterest;
 };
 
 export type UpsertIndicationInput = {
@@ -240,49 +472,6 @@ export type UpsertIndicationResult = {
   indication: Indication;
 };
 
-export type DeleteIndicationInput = {
-  id: Scalars['Int'];
-};
-
-export type DeleteIndicationResult = {
-  __typename?: 'DeleteIndicationResult';
-  indication: Indication;
-};
-
-export type GetIndicationsInput = {
-  test?: Maybe<Scalars['Boolean']>;
-};
-
-export type GetIndicationsResult = {
-  __typename?: 'GetIndicationsResult';
-  indications?: Maybe<Array<Maybe<Indication>>>;
-};
-
-export type GetIndicationInput = {
-  id: Scalars['Int'];
-};
-
-export type GetIndicationResult = {
-  __typename?: 'GetIndicationResult';
-  indication?: Maybe<Indication>;
-};
-
-export type Indication = {
-  __typename?: 'Indication';
-  conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
-  description: Scalars['String'];
-  id: Scalars['Int'];
-  indications?: Maybe<Array<Indication>>;
-  name: Scalars['String'];
-};
-
-export type ConceptOfInterest = {
-  __typename?: 'ConceptOfInterest';
-  description: Scalars['String'];
-  id: Scalars['Int'];
-  name: Scalars['String'];
-};
-
 export type UpsertMeasureInput = {
   id?: Maybe<Scalars['Int']>;
   description: Scalars['String'];
@@ -290,51 +479,9 @@ export type UpsertMeasureInput = {
   indications: Array<IndicationInput>;
 };
 
-export type IndicationInput = {
-  id: Scalars['Int'];
-  description: Scalars['String'];
-  name: Scalars['String'];
-};
-
 export type UpsertMeasureResult = {
   __typename?: 'UpsertMeasureResult';
   measure?: Maybe<Measure>;
-};
-
-export type DeleteMeasureInput = {
-  id: Scalars['Int'];
-};
-
-export type DeleteMeasureResult = {
-  __typename?: 'DeleteMeasureResult';
-  measure?: Maybe<Measure>;
-};
-
-export type GetMeasuresInput = {
-  test?: Maybe<Scalars['Boolean']>;
-};
-
-export type GetMeasuresResult = {
-  __typename?: 'GetMeasuresResult';
-  measures?: Maybe<Array<Maybe<Measure>>>;
-};
-
-export type GetMeasureInput = {
-  id: Scalars['Int'];
-};
-
-export type GetMeasureResult = {
-  __typename?: 'GetMeasureResult';
-  measure?: Maybe<Measure>;
-};
-
-export type Measure = {
-  __typename?: 'Measure';
-  id?: Maybe<Scalars['Int']>;
-  description: Scalars['String'];
-  name: Scalars['String'];
-  conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
-  indications?: Maybe<Array<Indication>>;
 };
 
 export type UpsertTemplateInput = {
@@ -346,91 +493,6 @@ export type UpsertTemplateInput = {
 export type UpsertTemplateResult = {
   __typename?: 'UpsertTemplateResult';
   template?: Maybe<Template>;
-};
-
-export type DeleteTemplateInput = {
-  id: Scalars['Int'];
-};
-
-export type DeleteTemplateResult = {
-  __typename?: 'DeleteTemplateResult';
-  template?: Maybe<Template>;
-};
-
-export type GetTemplatesInput = {
-  test?: Maybe<Scalars['Boolean']>;
-};
-
-export type GetTemplatesResult = {
-  __typename?: 'GetTemplatesResult';
-  templates?: Maybe<Array<Maybe<Template>>>;
-};
-
-export type GetTemplateInput = {
-  id: Scalars['Int'];
-};
-
-export type GetTemplateResult = {
-  __typename?: 'GetTemplateResult';
-  template?: Maybe<Template>;
-};
-
-
-export type Template = {
-  __typename?: 'Template';
-  id: Scalars['Int'];
-  name: Scalars['String'];
-  pages?: Maybe<Array<Page>>;
-};
-
-export type Page = {
-  __typename?: 'Page';
-  id: Scalars['Int'];
-  name: Scalars['String'];
-  title: Scalars['String'];
-  url: Scalars['String'];
-  components?: Maybe<Array<Component>>;
-};
-
-export type Component = {
-  __typename?: 'Component';
-  id: Scalars['Int'];
-  props?: Maybe<Scalars['JSON']>;
-  type: ComponentType;
-  read?: Maybe<DataQuery>;
-  upsert?: Maybe<DataQuery>;
-  delete?: Maybe<DataQuery>;
-};
-
-export type DataQuery = {
-  __typename?: 'DataQuery';
-  id: Scalars['Int'];
-  document: QueryDocumentType;
-  parameters: Scalars['JSON'];
-};
-
-export enum ComponentType {
-  Table = 'TABLE'
-}
-
-export enum QueryDocumentType {
-  GetMeasureDocument = 'GetMeasureDocument',
-  GetMeasuresDocument = 'GetMeasuresDocument',
-  UpsertMeasureDocument = 'UpsertMeasureDocument',
-  DeleteMeasureDocument = 'DeleteMeasureDocument',
-  GetIndicationDocument = 'GetIndicationDocument',
-  GetIndicationsDocument = 'GetIndicationsDocument',
-  UpsertIndicationDocument = 'UpsertIndicationDocument',
-  DeleteIndicationDocument = 'DeleteIndicationDocument'
-}
-
-export type GetUserInput = {
-  id: Scalars['Int'];
-};
-
-export type GetUserResult = {
-  __typename?: 'GetUserResult';
-  user?: Maybe<User>;
 };
 
 export type User = {

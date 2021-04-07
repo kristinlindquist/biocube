@@ -1,0 +1,20 @@
+type Query {
+  getConceptsOfInterest(input: GetConceptsOfInterestInput!): GetConceptsOfInterestResult!,
+  getConceptOfInterest(input: GetConceptOfInterestInput!): GetConceptOfInterestResult!
+}
+
+input GetConceptsOfInterestInput {
+  test: Boolean
+}
+
+type GetConceptsOfInterestResult {
+  conceptsOfInterest: [ConceptOfInterest]
+}
+
+input GetConceptOfInterestInput {
+  id: Int!
+}
+
+type GetConceptOfInterestResult {
+  conceptOfInterest: ConceptOfInterest
+}

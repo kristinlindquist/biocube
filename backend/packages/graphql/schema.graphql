@@ -1,8 +1,262 @@
 /**
  * NOTE: THIS IS AN AUTO-GENERATED FILE. DO NOT MODIFY DIRECTLY.
  */
+type Activity {
+  start: Float
+  end: Float
+  duration: Float
+  state: String
+}
+
+type Component {
+  id: Int!
+  props: JSON
+  type: ComponentType!
+  read: DataQuery
+  upsert: DataQuery
+  delete: DataQuery
+}
+
+enum ComponentType {
+  TABLE
+}
+
+type ConceptOfInterest {
+  description: String!
+  id: Int!
+  name: String!
+}
+
+type Daily {
+  date: Float
+  heartRate: HeartRateSummary
+}
+
+type DataQuery {
+  id: Int!
+  document: QueryDocumentType!
+  parameters: JSON!
+}
+
+scalar DateTime
+
+input DeleteConceptOfInterestInput {
+  id: Int!
+}
+
+type DeleteConceptOfInterestResult {
+  conceptOfInterest: ConceptOfInterest!
+}
+
+input DeleteIndicationInput {
+  id: Int!
+}
+
+type DeleteIndicationResult {
+  indication: Indication!
+}
+
+input DeleteMeasureInput {
+  id: Int!
+}
+
+type DeleteMeasureResult {
+  measure: Measure
+}
+
+input DeleteTemplateInput {
+  id: Int!
+}
+
+type DeleteTemplateResult {
+  template: Template
+}
+
+type Device {
+  id: Int!
+  userId: Int!
+  name: String!
+}
+
+input GetActivityInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+type GetActivityResult {
+  activity: [Activity]
+}
+
+input GetConceptOfInterestInput {
+  id: Int!
+}
+
+type GetConceptOfInterestResult {
+  conceptOfInterest: ConceptOfInterest
+}
+
+input GetConceptsOfInterestInput {
+  test: Boolean
+}
+
+type GetConceptsOfInterestResult {
+  conceptsOfInterest: [ConceptOfInterest]
+}
+
+input GetDailyInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+type GetDailyResult {
+  daily: [Daily]
+}
+
+input GetDeviceInput {
+  id: Int!
+}
+
+type GetDeviceResult {
+  device: Device
+}
+
+input GetHeartRateInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+type GetHeartRateResult {
+  heartRate: [HeartRate]
+}
+
+input GetIndicationInput {
+  id: Int!
+}
+
+type GetIndicationResult {
+  indication: Indication
+}
+
+input GetIndicationsInput {
+  test: Boolean
+}
+
+type GetIndicationsResult {
+  indications: [Indication]
+}
+
+input GetMeasureInput {
+  id: Int!
+}
+
+type GetMeasureResult {
+  measure: Measure
+}
+
+input GetMeasuresInput {
+  test: Boolean
+}
+
+type GetMeasuresResult {
+  measures: [Measure]
+}
+
+input GetSleepInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+type GetSleepResult {
+  sleep: [Sleep]
+}
+
+input GetTemplateInput {
+  id: Int!
+}
+
+type GetTemplateResult {
+  template: Template
+}
+
+input GetTemplatesInput {
+  test: Boolean
+}
+
+type GetTemplatesResult {
+  templates: [Template]
+}
+
+input GetUserInput {
+  id: Int!
+}
+
+type GetUserResult {
+  user: User
+}
+
+type HeartRate {
+  date: Float
+  point: Float
+}
+
+type HeartRateSummary {
+  average: Float
+  min: Float
+  max: Float
+}
+
+type Indication {
+  conceptsOfInterest: [ConceptOfInterest!]
+  description: String!
+  id: Int!
+  indications: [Indication!]
+  name: String!
+}
+
+input IndicationInput {
+  id: Int!
+  description: String!
+  name: String!
+}
+
+scalar JSON
+
+type Measure {
+  id: Int
+  description: String!
+  name: String!
+  conceptsOfInterest: [ConceptOfInterest!]
+  indications: [Indication!]
+}
+
+type Mutation {
+  deleteConceptOfInterest(input: DeleteConceptOfInterestInput!): DeleteConceptOfInterestResult!
+  deleteIndication(input: DeleteIndicationInput!): DeleteIndicationResult!
+  deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
+  deleteTemplate(input: DeleteTemplateInput!): DeleteTemplateResult!
+  upsertConceptOfInterest(input: UpsertConceptOfInterestInput!): UpsertConceptOfInterestResult!
+  upsertIndication(input: UpsertIndicationInput!): UpsertIndicationResult!
+  upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
+  upsertTemplate(input: UpsertTemplateInput!): UpsertTemplateResult!
+}
+
+type OxygenSaturation {
+  date: Float
+  point: Float
+}
+
+type Page {
+  id: Int!
+  name: String!
+  title: String!
+  url: String!
+  components: [Component!]
+}
+
 type Query {
   getActivity(input: GetActivityInput!): GetActivityResult!
+  getConceptOfInterest(input: GetConceptOfInterestInput!): GetConceptOfInterestResult!
+  getConceptsOfInterest(input: GetConceptsOfInterestInput!): GetConceptsOfInterestResult!
   getDaily(input: GetDailyInput!): GetDailyResult!
   getDevice(input: GetDeviceInput!): GetDeviceResult!
   getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
@@ -16,84 +270,15 @@ type Query {
   getUser(input: GetUserInput!): GetUserResult!
 }
 
-input GetDeviceInput {
-  id: Int!
-}
-
-type GetDeviceResult {
-  device: Device
-}
-
-type Device {
-  id: Int!
-  userId: Int!
-  name: String!
-}
-
-scalar DateTime
-
-input GetHeartRateInput {
-  start: DateTime!
-  end: DateTime!
-}
-
-type GetHeartRateResult {
-  heartRate: [HeartRate]
-}
-
-input GetSleepInput {
-  start: DateTime!
-  end: DateTime!
-}
-
-type GetSleepResult {
-  sleep: [Sleep]
-}
-
-input GetDailyInput {
-  start: DateTime!
-  end: DateTime!
-}
-
-type GetDailyResult {
-  daily: [Daily]
-}
-
-input GetActivityInput {
-  start: DateTime!
-  end: DateTime!
-}
-
-type GetActivityResult {
-  activity: [Activity]
-}
-
-type HeartRateSummary {
-  average: Float
-  min: Float
-  max: Float
-}
-
-type Activity {
-  start: Float
-  end: Float
-  duration: Float
-  state: String
-}
-
-type Daily {
-  date: Float
-  heartRate: HeartRateSummary
-}
-
-type HeartRate {
-  date: Float
-  point: Float
-}
-
-type OxygenSaturation {
-  date: Float
-  point: Float
+enum QueryDocumentType {
+  GetMeasureDocument
+  GetMeasuresDocument
+  UpsertMeasureDocument
+  DeleteMeasureDocument
+  GetIndicationDocument
+  GetIndicationsDocument
+  UpsertIndicationDocument
+  DeleteIndicationDocument
 }
 
 type Sleep {
@@ -102,13 +287,20 @@ type Sleep {
   state: String
 }
 
-type Mutation {
-  deleteIndication(input: DeleteIndicationInput!): DeleteIndicationResult!
-  deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
-  deleteTemplate(input: DeleteTemplateInput!): DeleteTemplateResult!
-  upsertIndication(input: UpsertIndicationInput!): UpsertIndicationResult!
-  upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
-  upsertTemplate(input: UpsertTemplateInput!): UpsertTemplateResult!
+type Template {
+  id: Int!
+  name: String!
+  pages: [Page!]
+}
+
+input UpsertConceptOfInterestInput {
+  id: Int
+  description: String!
+  name: String!
+}
+
+type UpsertConceptOfInterestResult {
+  conceptOfInterest: ConceptOfInterest!
 }
 
 input UpsertIndicationInput {
@@ -121,44 +313,6 @@ type UpsertIndicationResult {
   indication: Indication!
 }
 
-input DeleteIndicationInput {
-  id: Int!
-}
-
-type DeleteIndicationResult {
-  indication: Indication!
-}
-
-input GetIndicationsInput {
-  test: Boolean
-}
-
-type GetIndicationsResult {
-  indications: [Indication]
-}
-
-input GetIndicationInput {
-  id: Int!
-}
-
-type GetIndicationResult {
-  indication: Indication
-}
-
-type Indication {
-  conceptsOfInterest: [ConceptOfInterest!]
-  description: String!
-  id: Int!
-  indications: [Indication!]
-  name: String!
-}
-
-type ConceptOfInterest {
-  description: String!
-  id: Int!
-  name: String!
-}
-
 input UpsertMeasureInput {
   id: Int
   description: String!
@@ -166,46 +320,8 @@ input UpsertMeasureInput {
   indications: [IndicationInput!]!
 }
 
-input IndicationInput {
-  id: Int!
-  description: String!
-  name: String!
-}
-
 type UpsertMeasureResult {
   measure: Measure
-}
-
-input DeleteMeasureInput {
-  id: Int!
-}
-
-type DeleteMeasureResult {
-  measure: Measure
-}
-
-input GetMeasuresInput {
-  test: Boolean
-}
-
-type GetMeasuresResult {
-  measures: [Measure]
-}
-
-input GetMeasureInput {
-  id: Int!
-}
-
-type GetMeasureResult {
-  measure: Measure
-}
-
-type Measure {
-  id: Int
-  description: String!
-  name: String!
-  conceptsOfInterest: [ConceptOfInterest!]
-  indications: [Indication!]
 }
 
 input UpsertTemplateInput {
@@ -216,84 +332,6 @@ input UpsertTemplateInput {
 
 type UpsertTemplateResult {
   template: Template
-}
-
-input DeleteTemplateInput {
-  id: Int!
-}
-
-type DeleteTemplateResult {
-  template: Template
-}
-
-input GetTemplatesInput {
-  test: Boolean
-}
-
-type GetTemplatesResult {
-  templates: [Template]
-}
-
-input GetTemplateInput {
-  id: Int!
-}
-
-type GetTemplateResult {
-  template: Template
-}
-
-scalar JSON
-
-type Template {
-  id: Int!
-  name: String!
-  pages: [Page!]
-}
-
-type Page {
-  id: Int!
-  name: String!
-  title: String!
-  url: String!
-  components: [Component!]
-}
-
-type Component {
-  id: Int!
-  props: JSON
-  type: ComponentType!
-  read: DataQuery
-  upsert: DataQuery
-  delete: DataQuery
-}
-
-type DataQuery {
-  id: Int!
-  document: QueryDocumentType!
-  parameters: JSON!
-}
-
-enum ComponentType {
-  TABLE
-}
-
-enum QueryDocumentType {
-  GetMeasureDocument
-  GetMeasuresDocument
-  UpsertMeasureDocument
-  DeleteMeasureDocument
-  GetIndicationDocument
-  GetIndicationsDocument
-  UpsertIndicationDocument
-  DeleteIndicationDocument
-}
-
-input GetUserInput {
-  id: Int!
-}
-
-type GetUserResult {
-  user: User
 }
 
 type User {

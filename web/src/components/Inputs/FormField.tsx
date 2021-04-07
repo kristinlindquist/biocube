@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useQuery } from '@apollo/client';
-import { capitalize, get } from 'lodash';
+import { get } from 'lodash';
 
 import { Select, TextField } from 'components/Inputs';
 import { getDocument, getEntityPath } from 'utils';
@@ -52,11 +52,15 @@ const FormField = ({
   let myOptions = options || [];
 
   if (isSelectType(type) && !options) {
-    const docName = `Get${capitalize(id)}Document`;
-    const { data: d } = useQuery(getDocument(docName), {
-      variables: { input: {} },
-    });
-    myOptions = get(d, getEntityPath(docName)) || [];
+    const docName = `Get${id}Document`;
+    const doc = getDocument(docName);
+
+    if (doc) {
+      const { data: d } = useQuery(doc, {
+        variables: { input: {} },
+      });
+      myOptions = get(d, getEntityPath(docName)) || [];
+    }
   }
 
   return (

@@ -74,3 +74,6 @@ export const isSelectFieldType = (value: string): value is SelectFieldType =>
   selectFieldTypes.indexOf(value as SelectFieldType) !== -1;
 
 export type FieldType = TextFieldType | SelectFieldType;
+
+// eslint-disable-next-line
+export type KeyValuePairs = { [key: string]: any };

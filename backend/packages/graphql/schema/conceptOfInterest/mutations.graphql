@@ -1,0 +1,22 @@
+type Mutation {
+  upsertConceptOfInterest(input: UpsertConceptOfInterestInput!): UpsertConceptOfInterestResult!,
+  deleteConceptOfInterest(input: DeleteConceptOfInterestInput!): DeleteConceptOfInterestResult!,
+}
+
+input UpsertConceptOfInterestInput {
+  id: Int
+  description: String!
+  name: String!
+}
+
+type UpsertConceptOfInterestResult {
+  conceptOfInterest: ConceptOfInterest!
+}
+
+input DeleteConceptOfInterestInput {
+  id: Int!
+}
+
+type DeleteConceptOfInterestResult {
+  conceptOfInterest: ConceptOfInterest!
+}

@@ -2,6 +2,7 @@ import moment from 'moment';
 import { get } from 'lodash';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
+import { KeyValuePairs } from 'types';
 import * as gql from 'gql';
 
 export const unixYearRange = {
@@ -18,16 +19,21 @@ export const undefOrTrue = (val: boolean | undefined): boolean =>
 /**
  * Get object value by key (shallow)
  */
-export const getStartsWith = (
-  obj: { [any: string]: unknown },
-  str: string,
-): { [any: string]: any } =>
+export const getStartsWith = (obj: KeyValuePairs, str: string): KeyValuePairs =>
   Object.entries(obj).find(([k]) => k.startsWith(str))[1];
 
-export const getFirstNonString = (obj: {
-  [any: string]: any;
-}): { [any: string]: any } =>
+export const getFirstNonString = (obj: KeyValuePairs): KeyValuePairs =>
   Object.values(obj).find((v) => typeof v !== 'string');
+
+/**
+ * Case-insensitive look for document
+ */
+export const getDocument = (docName: string): DocumentNode => {
+  const key = Object.keys(gql).find(
+    (k) => docName.toLowerCase() === k.toLowerCase(),
+  );
+  return gql[key];
+};
 
 /**
  * Get gql query and entity based on document name
@@ -37,7 +43,7 @@ export const getQueryAndEntity = (
   docName: string,
 ): { queryName: string; entityName: string } => {
   const queryName = get(
-    (get(gql[docName], 'definitions') || []).find(
+    (get(getDocument(docName) as KeyValuePairs, 'definitions') || []).find(
       (d) => d.operation === 'query',
     ),
     'name.value',
@@ -54,5 +60,3 @@ export const getEntityPath = (docName: string): string => {
   const { queryName, entityName } = getQueryAndEntity(docName);
   return `${queryName}.${entityName}`;
 };
-
-export const getDocument = (docName: string): DocumentNode => gql[docName];

@@ -1,0 +1,11 @@
+type ConceptOfInterest {
+  id: Int!
+  description: String!
+  name: String!
+}
+
+# type AspectOfHealth {
+#   id: Int!
+#   description: String!
+#   name: String!	
+# }

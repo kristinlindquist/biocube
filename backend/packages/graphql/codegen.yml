@@ -1,12 +1,12 @@
 overwrite: true
-# schema: "http://localhost:4000/graphql"
 schema:
-  - 'schema/googlefit/**/*.graphql'
+  - 'schema/conceptOfInterest/**/*.graphql'
   - 'schema/device/**/*.graphql'
-  - 'schema/user/**/*.graphql'
-  - 'schema/measure/**/*.graphql'
+  - 'schema/googlefit/**/*.graphql'
   - 'schema/indication/**/*.graphql'
+  - 'schema/measure/**/*.graphql'
   - 'schema/template/**/*.graphql'
+  - 'schema/user/**/*.graphql'
 documents: ["./api/queries/**/**.ts", "./api/mutations/**/**.ts"]
 config:
   useIndexSignature: true
