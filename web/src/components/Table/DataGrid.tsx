@@ -95,18 +95,14 @@ const formatColumns = (columns, mutation, deleteMutation): GridColDef[] =>
           headerName: '',
           disableClickEventBubbling: true,
           disableColumnMenu: true,
-          renderCell: (params: GridCellParams) => {
-            const id: number = params.getValue('id') as number;
-
-            return (
-              <EditCell
-                columns={columns}
-                del={() => deleteMutation({ variables: { input: { id } } })}
-                mutation={mutation}
-                values={params.api.getRowFromId(id)}
-              />
-            );
-          },
+          renderCell: ({ api, id }: GridCellParams) => (
+            <EditCell
+              columns={columns}
+              del={() => deleteMutation({ variables: { input: { id } } })}
+              mutation={mutation}
+              values={api.getRowFromId(id)}
+            />
+          ),
           width: 100,
         }
       : null,

@@ -35,6 +35,10 @@ export interface FormFieldProps {
    * Field type
    */
   type?: FieldType;
+  /**
+   * variant for fields
+   */
+  variant?: 'filled' | 'outlined' | 'standard';
 }
 
 /**

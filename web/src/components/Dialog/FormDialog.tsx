@@ -44,7 +44,7 @@ export type FormDialogProps = {
   /**
    * Dialog size
    */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | false;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   /**
    * Dialog title
    */
@@ -56,7 +56,7 @@ export type FormDialogProps = {
   /**
    * Default variant for fields
    */
-  variant: 'standard' | 'outlined' | 'filled';
+  variant?: 'standard' | 'outlined' | 'filled';
 };
 
 /**
