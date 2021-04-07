@@ -80,42 +80,42 @@ const ExploreQueryBuilder = ({
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
                   <MemberGroup
-                    name="Measure"
                     availableMembers={availableMeasures}
                     members={measures}
+                    name="Measure"
                     updateMethods={updateMeasures}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <MemberGroup
-                    name="Dimension"
                     availableMembers={availableDimensions}
                     members={dimensions}
+                    name="Dimension"
                     updateMethods={updateDimensions}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <MemberGroup
-                    name="Segment"
                     availableMembers={availableSegments}
                     members={segments}
+                    name="Segment"
                     updateMethods={updateSegments}
                   />
                 </Grid>
                 <TimeGroup
-                  name="Time"
                   availableMembers={availableTimeDimensions}
                   members={timeDimensions}
+                  name="Time"
                   updateMethods={updateTimeDimensions}
                 />
                 {isQueryPresent && (
                   <FilterGroup
-                    name="Filter"
                     availableMembers={uniq([
                       ...availableDimensions,
                       ...availableMeasures,
                     ])}
                     members={filters}
+                    name="Filter"
                     updateMethods={updateFilters}
                   />
                 )}
@@ -125,13 +125,13 @@ const ExploreQueryBuilder = ({
           <Grid item xs={12}>
             {isQueryPresent && (
               <Card
-                title="A Chart"
                 headerAction={
                   <SelectChartType
                     chartType={chartType}
                     updateChartType={updateChartType}
                   />
-                }>
+                }
+                title="A Chart">
                 <ChartRenderer
                   cubejsApi={cubejsApi}
                   vizState={{ query: validatedQuery, chartType }}

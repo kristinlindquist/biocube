@@ -78,6 +78,7 @@ export default {
     MuiFormControl: {
       styleOverrides: {
         root: {
+          marginTop: theme.spacing(2),
           minWidth: '130px',
         },
       },

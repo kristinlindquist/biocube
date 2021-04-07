@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { get } from 'lodash';
+import { camelCase, get } from 'lodash';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
 import { KeyValuePairs } from 'types';
@@ -48,7 +48,7 @@ export const getQueryAndEntity = (
     ),
     'name.value',
   );
-  const entityName = queryName.split('get')[1].toLowerCase();
+  const entityName = camelCase(queryName.split('get')[1]);
 
   return { queryName, entityName };
 };

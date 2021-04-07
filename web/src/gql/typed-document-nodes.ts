@@ -43,6 +43,12 @@ export type ConceptOfInterest = {
   name: Scalars['String'];
 };
 
+export type ConceptOfInterestInput = {
+  id: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type Daily = {
   __typename?: 'Daily';
   date?: Maybe<Scalars['Float']>;
@@ -254,8 +260,8 @@ export type Indication = {
 
 export type IndicationInput = {
   id: Scalars['Int'];
-  description: Scalars['String'];
-  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 
@@ -474,6 +480,7 @@ export type UpsertMeasureInput = {
   id?: Maybe<Scalars['Int']>;
   description: Scalars['String'];
   name: Scalars['String'];
+  conceptsOfInterest: Array<ConceptOfInterestInput>;
   indications: Array<IndicationInput>;
 };
 

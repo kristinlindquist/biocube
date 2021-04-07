@@ -156,12 +156,9 @@ const Select = ({
 
   return (
     <FormControl
-      className={clsx(
-        {
-          [classes.fullWidth]: fullWidth,
-        },
-        classes.formControl,
-      )}
+      className={clsx(classes.formControl, {
+        [classes.fullWidth]: fullWidth,
+      })}
       variant={variant}>
       <InputLabel id={`${label}-label`}>{label}</InputLabel>
       <MaterialSelect

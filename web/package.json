@@ -34,7 +34,7 @@
     "@nivo/line": "^0.67.0",
     "@nivo/waffle": "^0.67.0",
     "@prisma/client": "2.19.0",
-    "@storybook/react": "^6.1.21",
+    "@storybook/react": "^6.2.5",
     "@testing-library/jest-dom": "5.11.9",
     "@testing-library/react": "11.2.5",
     "@testing-library/user-event": "12.8.1",
@@ -88,11 +88,11 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.1.21",
-    "@storybook/addon-essentials": "^6.1.21",
-    "@storybook/addon-links": "^6.1.21",
-    "@storybook/node-logger": "^6.1.21",
-    "@storybook/preset-create-react-app": "^3.1.6",
+    "@storybook/addon-actions": "^6.2.5",
+    "@storybook/addon-essentials": "^6.2.5",
+    "@storybook/addon-links": "^6.2.5",
+    "@storybook/node-logger": "^6.2.5",
+    "@storybook/preset-create-react-app": "^3.1.7",
     "@types/lodash": "^4.14.168",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
@@ -109,7 +109,7 @@
     "prettier": "^2.2.1",
     "react-app-rewire-alias": "1.0.1",
     "react-app-rewired": "2.1.8",
-    "storybook": "^6.1.21",
+    "storybook": "^6.2.5",
     "tsconfig-paths-webpack-plugin": "3.3.0"
   },
   "husky": {

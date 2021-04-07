@@ -25,9 +25,9 @@ const FilterGroup = ({
         <Select
           {...getSelectProps({
             ...props,
-            members,
             key: 'dimension',
             m,
+            members,
             updateMethods,
           })}
           disabled
@@ -40,10 +40,10 @@ const FilterGroup = ({
           {...getSelectProps({
             ...props,
             availableMembers: m.operators,
-            members,
             key: 'operator',
             keyPath: 'name',
             m,
+            members,
             updateMethods,
           })}
           defaultValue={[m.operator || m.operators[0]]}
@@ -58,8 +58,8 @@ const FilterGroup = ({
       <Dropdown
         {...getDropdownProps({
           ...props,
-          members,
           key: 'dimension',
+          members,
           updateMethods,
         })}
         label="Add Filter"
