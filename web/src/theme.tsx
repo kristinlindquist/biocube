@@ -64,13 +64,29 @@ const theme = createMuiTheme({
 
 export default {
   ...theme,
-  overrides: {
+  components: {
     MuiButton: {
-      root: {
-        lineHeight: 0.5,
+      styleOverrides: {
+        root: {
+          lineHeight: 0.5,
+        },
+        label: {
+          padding: theme.spacing(1),
+        },
       },
-      label: {
-        padding: theme.spacing(1),
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          minWidth: '130px',
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        input: {
+          height: 'initial',
+        },
       },
     },
   },

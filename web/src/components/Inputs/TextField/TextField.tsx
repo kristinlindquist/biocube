@@ -11,6 +11,7 @@ export interface TextFieldProps {
 const TextField = ({
   onChange,
   value: newValue,
+  variant = 'standard',
   ...props
 }: TextFieldProps & MaterialTextFieldProps): ReactElement => {
   const [value, setValue] = useState(newValue);
@@ -23,6 +24,7 @@ const TextField = ({
         onChange(e.target.value);
       }}
       value={value}
+      variant={variant}
     />
   );
 };

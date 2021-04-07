@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Chip } from '@material-ui/core';
+import { Chip, ChipProps } from '@material-ui/core';
 
 import { IdType, SelectOptionType as OptionType } from 'types';
 
@@ -8,7 +8,8 @@ const useStyles = makeStyles(() => ({
   chips: {
     display: 'flex',
     flexWrap: 'wrap',
-    margin: -4,
+    marginTop: -4,
+    marginBottom: -4,
   },
 }));
 
@@ -33,20 +34,21 @@ const Chips = ({
   handleDelete,
   options,
   selected,
-}: ChipsProps): ReactElement => {
+  ...props
+}: ChipsProps & ChipProps): ReactElement => {
   const classes = useStyles();
 
   return (
     <div className={classes.chips}>
       {getSelectedOptions(selected, options).map(({ id, name }) => (
         <Chip
+          {...props}
           key={id}
           label={name}
           onDelete={() => handleDelete(id)}
           onMouseDown={(event) => {
             event.stopPropagation();
           }}
-          sx={{ mr: 0.5 }}
         />
       ))}
     </div>
