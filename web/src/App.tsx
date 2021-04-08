@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-ui/core';
 import cubejs from '@cubejs-client/core';
 import { CubeProvider } from '@cubejs-client/react';
 
+import ErrorBoundary from 'ErrorBoundary';
 import Home from 'containers/Home';
 import DynamicPages from 'containers/DynamicPages';
 import QueryBuilder from 'containers/QueryBuilder';
@@ -20,19 +21,21 @@ const App = (): ReactElement => (
   <CubeProvider cubejsApi={cubejsApi}>
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
-        <Router>
-          <Switch>
-            <Route path="/qb">
-              <QueryBuilder />
-            </Route>
-            <Route path="/home">
-              <Home />
-            </Route>
-            <Route path="/">
-              <DynamicPages />
-            </Route>
-          </Switch>
-        </Router>
+        <ErrorBoundary>
+          <Router>
+            <Switch>
+              <Route path="/qb">
+                <QueryBuilder />
+              </Route>
+              <Route path="/home">
+                <Home />
+              </Route>
+              <Route path="/">
+                <DynamicPages />
+              </Route>
+            </Switch>
+          </Router>
+        </ErrorBoundary>
       </ThemeProvider>
     </ApolloProvider>
   </CubeProvider>

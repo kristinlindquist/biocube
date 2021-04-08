@@ -48,10 +48,11 @@ const getApolloClient = (): ApolloClient<NormalizedCacheObject> => {
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors) {
           graphQLErrors.forEach(({ message, locations, path }) =>
-            Logger.warn(
+            Logger.error(
               `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
             ),
           );
+          return;
         }
 
         if (networkError) {

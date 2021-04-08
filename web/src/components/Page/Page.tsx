@@ -34,7 +34,7 @@ export interface PageProps {
 const Page = ({
   children,
   loading,
-  title = 'Phenotype.io',
+  title = 'Biocube',
 }: PageProps): ReactElement => {
   const classes = useStyles();
 

@@ -1,7 +1,9 @@
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { uniqBy } from 'lodash';
 import { useMutation, useQuery } from '@apollo/client';
+import { Alert } from '@material-ui/core';
 
+import ErrorBoundary from 'ErrorBoundary';
 import { DataGrid } from 'components/Table';
 import { JSONObject, RowType } from 'types';
 import { getFirstNonString, getQueryAndEntity, getStartsWith } from 'utils';
@@ -83,6 +85,7 @@ const Component = ({
   upsert,
   type,
 }: ComponentProps): ReactElement => {
+  const [error, setError] = useState(null);
   const { queryName, entityName } = getQueryAndEntity(read.document);
 
   const { data } = useQuery(DocumentMap[read.document], {
@@ -95,6 +98,10 @@ const Component = ({
    */
   const [mutate] = upsert
     ? useMutation(DocumentMap[upsert.document], {
+        onError: (e) => {
+          setError(e);
+          Logger.error(e);
+        },
         update(cache, { data: d }) {
           cache.modify({
             fields: {
@@ -132,9 +139,11 @@ const Component = ({
     return null;
   }
 
+  let component = <span />;
+
   switch (type) {
     case 'TABLE':
-      return (
+      component = (
         <DataGrid
           {...props}
           deleteMutation={deleteMutation}
@@ -142,9 +151,21 @@ const Component = ({
           rows={unwrapData(data)}
         />
       );
+      break;
     default:
-      return <span />;
+      component = <span />;
   }
+
+  return (
+    <ErrorBoundary>
+      {error && (
+        <Alert onClose={() => setError(null)} severity="error" sx={{ mb: 1 }}>
+          {error.message}
+        </Alert>
+      )}
+      {component}
+    </ErrorBoundary>
+  );
 };
 
 export default Component;

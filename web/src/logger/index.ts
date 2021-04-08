@@ -20,7 +20,7 @@ export const Logger = (() => {
   };
 
   const error = (msg) => {
-    throw new Error(msg);
+    RollbarObj.error(msg);
   };
 
   return { info, error, warn };
