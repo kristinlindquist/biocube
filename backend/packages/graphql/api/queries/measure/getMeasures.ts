@@ -9,12 +9,15 @@ const getMeasures = gql`
           id
           name
         }
+        dataTypes {
+          name
+        }
         description
+        indications {
+          id
+          name
+        }
         name
-	      indications {
-	      	id
-	      	name
-	      }
       }
     }
   }

@@ -5,12 +5,17 @@ const upsertMeasure = gql`
     upsertMeasure(input: $input) {
       measure {
         id
-        description
-        name
-        indications {
-          id
+        conceptsOfInterest {
           name
         }
+        dataTypes {
+          name
+        }
+        description
+        indications {
+          name
+        }
+        name
       }
     }
   }

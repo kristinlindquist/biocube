@@ -67,7 +67,8 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
  * Get length of a cell, incl. if array
  */
 const getCellLength = (cell) =>
-  (Array.isArray(cell) ? cell.map((c) => c.name).join('') : cell).length;
+  ((Array.isArray(cell) ? cell.map((c) => c.name).join('') : cell) || '')
+    .length;
 
 /**
  * Get max length of cells for column

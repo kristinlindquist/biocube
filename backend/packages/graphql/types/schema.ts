@@ -40,7 +40,7 @@ export enum ComponentType {
 
 export type ConceptOfInterest = {
   __typename?: 'ConceptOfInterest';
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
 };
@@ -62,6 +62,19 @@ export type DataQuery = {
   id: Scalars['Int'];
   document: QueryDocumentType;
   parameters: Scalars['JSON'];
+};
+
+export type DataType = {
+  __typename?: 'DataType';
+  id: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+export type DataTypeInput = {
+  id: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 
@@ -254,7 +267,7 @@ export type HeartRateSummary = {
 export type Indication = {
   __typename?: 'Indication';
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   indications?: Maybe<Array<Indication>>;
   name: Scalars['String'];
@@ -270,9 +283,10 @@ export type IndicationInput = {
 export type Measure = {
   __typename?: 'Measure';
   id?: Maybe<Scalars['Int']>;
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
+  dataTypes?: Maybe<Array<DataType>>;
   indications?: Maybe<Array<Indication>>;
 };
 
@@ -458,7 +472,7 @@ export type Template = {
 
 export type UpsertConceptOfInterestInput = {
   id?: Maybe<Scalars['Int']>;
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
@@ -469,7 +483,7 @@ export type UpsertConceptOfInterestResult = {
 
 export type UpsertIndicationInput = {
   id?: Maybe<Scalars['Int']>;
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
@@ -480,10 +494,11 @@ export type UpsertIndicationResult = {
 
 export type UpsertMeasureInput = {
   id?: Maybe<Scalars['Int']>;
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
-  conceptsOfInterest: Array<ConceptOfInterestInput>;
-  indications: Array<IndicationInput>;
+  conceptsOfInterest?: Maybe<Array<ConceptOfInterestInput>>;
+  dataTypes?: Maybe<Array<DataTypeInput>>;
+  indications?: Maybe<Array<IndicationInput>>;
 };
 
 export type UpsertMeasureResult = {

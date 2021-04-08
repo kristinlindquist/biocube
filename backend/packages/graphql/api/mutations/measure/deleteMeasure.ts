@@ -5,12 +5,6 @@ const deleteMeasure = gql`
     deleteMeasure(input: $input) {
       measure {
         id
-        description
-        name
-        indications {
-          id
-          name
-        }
       }
     }
   }

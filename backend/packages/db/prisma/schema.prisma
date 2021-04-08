@@ -35,7 +35,7 @@ model DeviceType {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime?    @updatedAt
   id          Int          @id @default(autoincrement())
-  description String
+  description String?
   parentId    Int?
   parent      DeviceType?  @relation(fields: [parentId], references: [id])
   devices     Device[]
@@ -43,15 +43,28 @@ model DeviceType {
 }
 
 model DataType {
-  abbreviation String?    @db.VarChar(10)
-  name         String     @db.VarChar(255)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime?  @updatedAt
-  id           Int        @id @default(autoincrement())
+  abbreviation String?             @db.VarChar(10)
+  name         String              @db.VarChar(255)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime?           @updatedAt
+  id           Int                 @id @default(autoincrement())
   parentId     Int?
-  parent       DataType?  @relation(fields: [parentId], references: [id])
-  DataType     DataType[] @relation("DataTypeToDataType")
+  parent       DataType?           @relation(fields: [parentId], references: [id])
+  children     DataType[]          @relation("DataTypeToDataType")
   data         Datum[]
+  measureMap   MeasureToDataType[]
+}
+
+model MeasureToDataType {
+  dataTypeId  Int
+  measureId   Int
+  dataType    DataType  @relation(fields: [dataTypeId], references: [id])
+  measure     Measure   @relation(fields: [measureId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  description String?
+
+  @@unique([measureId, dataTypeId], name: "measure_data_type_key")
 }
 
 model Datum {
@@ -73,7 +86,7 @@ model AspectOfHealth {
   id                 Int                 @id @default(autoincrement())
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
-  description        String
+  description        String?
   name               String              @db.VarChar(255)
   conceptsOfInterest ConceptOfInterest[]
   indications        Indication[]
@@ -83,7 +96,7 @@ model ConceptOfInterest {
   id              Int              @id @default(autoincrement())
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
-  description     String
+  description     String?
   name            String           @db.VarChar(255)
   aspectsOfHealth AspectOfHealth[]
   measures        Measure[]
@@ -93,12 +106,13 @@ model Measure {
   id                 Int                 @id @default(autoincrement())
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
-  description        String
+  description        String?
   abbreviation       String?             @db.VarChar(10)
   name               String              @db.VarChar(255)
   conceptsOfInterest ConceptOfInterest[]
   indications        Indication[]
   validationStudies  Study[]
+  dataTypeMap        MeasureToDataType[]
 }
 
 model Study {
@@ -117,7 +131,7 @@ model Indication {
   updatedAt       DateTime?        @updatedAt
   name            String           @db.VarChar(255)
   abbreviation    String?          @db.VarChar(10)
-  description     String
+  description     String?
   aspectsOfHealth AspectOfHealth[]
   measures        Measure[]
   users           User[]

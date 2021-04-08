@@ -22,7 +22,7 @@ enum ComponentType {
 }
 
 type ConceptOfInterest {
-  description: String!
+  description: String
   id: Int!
   name: String!
 }
@@ -42,6 +42,18 @@ type DataQuery {
   id: Int!
   document: QueryDocumentType!
   parameters: JSON!
+}
+
+type DataType {
+  id: Int!
+  description: String
+  name: String!
+}
+
+input DataTypeInput {
+  id: Int!
+  description: String
+  name: String
 }
 
 scalar DateTime
@@ -213,7 +225,7 @@ type HeartRateSummary {
 
 type Indication {
   conceptsOfInterest: [ConceptOfInterest!]
-  description: String!
+  description: String
   id: Int!
   indications: [Indication!]
   name: String!
@@ -229,9 +241,10 @@ scalar JSON
 
 type Measure {
   id: Int
-  description: String!
+  description: String
   name: String!
   conceptsOfInterest: [ConceptOfInterest!]
+  dataTypes: [DataType!]
   indications: [Indication!]
 }
 
@@ -301,7 +314,7 @@ type Template {
 
 input UpsertConceptOfInterestInput {
   id: Int
-  description: String!
+  description: String
   name: String!
 }
 
@@ -311,7 +324,7 @@ type UpsertConceptOfInterestResult {
 
 input UpsertIndicationInput {
   id: Int
-  description: String!
+  description: String
   name: String!
 }
 
@@ -321,10 +334,11 @@ type UpsertIndicationResult {
 
 input UpsertMeasureInput {
   id: Int
-  description: String!
+  description: String
   name: String!
-  conceptsOfInterest: [ConceptOfInterestInput!]!
-  indications: [IndicationInput!]!
+  conceptsOfInterest: [ConceptOfInterestInput!]
+  dataTypes: [DataTypeInput!]
+  indications: [IndicationInput!]
 }
 
 type UpsertMeasureResult {

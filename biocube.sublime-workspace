@@ -38,38 +38,49 @@
 			}
 		},
 		{
-			"file": "web/src/components/Inputs/Select/Select.tsx",
+			"file": "web/src/components/Table/DataGrid.tsx",
 			"settings":
 			{
-				"buffer_size": 4622,
+				"buffer_size": 4454,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "web/src/theme.tsx",
+			"contents": "/**\n * Measure type resolvers\n */\nimport { ConceptOfInterest, Indication, MeasureToDataType } from '@prisma/client';\nimport { Parent, Args, Context } from '../../../../types';\n\nconst Measure = {\n  conceptsOfInterest: async (parent: Parent, _: Args, context: Context): Promise<ConceptOfInterest[] | null> => {\n    const { id } = parent;\n    const { prisma } = context;\n\n    return prisma.measure.findUnique({ where: { id } }).conceptsOfInterest();\n  },\n\n  dataTypeMap: async (parent: Parent, _: Args, context: Context): Promise<MeasureToDataType[] | null> => {\n    const { id } = parent;\n    const { prisma } = context;\n    console.log(prisma.measure.findUnique({ where: { id } }).dataTypeMap());\n    const templates: Template[] = await prisma.template.findMany({\n      include: { pages: true },\n    });\n    return prisma.measure.findUnique({ where: { id } }).dataTypeMap();\n  },\n\n  indications: async (parent: Parent, _: Args, context: Context): Promise<Indication[] | null> => {\n    const { id } = parent;\n    const { prisma } = context;\n\n    return prisma.measure.findUnique({ where: { id } }).indications();\n  },\n};\n\nexport default Measure;\n",
+			"file": "backend/packages/graphql/schema/measure/resolvers/types/Measure.ts",
+			"file_size": 1037,
+			"file_write_time": 132623711923492128,
 			"settings":
 			{
-				"buffer_size": 1807,
+				"buffer_size": 1144,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "web/src/components/Inputs/FormField.tsx",
+			"file": "backend/packages/graphql/schema/measure/resolvers/mutations/upsertMeasure.ts",
 			"settings":
 			{
-				"buffer_size": 2028,
+				"buffer_size": 1362,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "backend/packages/graphql/codegen.yml",
+			"file": "backend/packages/graphql/schema/measure/types.graphql",
 			"settings":
 			{
-				"buffer_size": 986,
+				"buffer_size": 439,
 				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "backend/packages/graphql/schema/measure/mutations.graphql",
+			"settings":
+			{
+				"buffer_size": 780,
 				"line_ending": "Unix"
 			}
 		},
@@ -77,7 +88,8 @@
 			"file": "backend/packages/db/prisma/schema.prisma",
 			"settings":
 			{
-				"buffer_size": 5769,
+				"buffer_size": 6290,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		}
@@ -153,31 +165,42 @@
 	],
 	"file_history":
 	[
-		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Inputs/Select/Chips.tsx",
-		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/mutations.graphql",
-		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/resolvers/mutations/upsertMeasure.ts",
-		"/Users/kristinlindquist/development/biocube-mono/web/src/utils/index.ts",
-		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/index.ts",
+		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/resolvers/queries/getMeasure.ts",
+		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/resolvers/queries/getMeasures.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/queries/measure/getMeasures.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/queries/measure/getMeasure.ts",
-		"/Users/kristinlindquist/development/biocube-mono/web/src/components/QueryBuilder/types.tsx",
-		"/Users/kristinlindquist/development/biocube-mono/web/src/types/index.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/mutations/measure/upsertMeasure.ts",
+		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/resolvers/mutations/upsertMeasure.ts",
+		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/resolvers/mutations/deleteMeasure.ts",
+		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/codegen.yml",
+		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/mutations/measure/deleteMeasure.ts",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Inputs/TextField/TextField.tsx",
-		"/Users/kristinlindquist/development/biocube-mono/web/src/theme.tsx",
-		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Inputs/Select/Select.stories.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Inputs/Select/Select.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/Group.stories.tsx",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Inputs/FormField.tsx",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Dialog/FormDialog.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/QueryBuilder/FilterInput.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/theme.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/types/index.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Dialog/FormDialog.stories.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/Dropdown.stories.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/Fab.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/Fab.stories.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/Dropdown.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/IconButton.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/IconButtons.stories.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/utils/index.ts",
+		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/index.ts",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/QueryBuilder/types.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Inputs/Select/Chips.tsx",
+		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Inputs/Select/Select.stories.tsx",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Table/DataGrid.tsx",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/bi/schema/Data.js",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/QueryBuilder/TimeGroup.tsx",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/QueryBuilder/utils.ts",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Table/EditCell.tsx",
-		"/Users/kristinlindquist/development/biocube-mono/web/src/components/QueryBuilder/FilterInput.tsx",
-		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/Dropdown.tsx",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Page/Page.tsx",
-		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/Fab.tsx",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/QueryBuilder/stateChangeHeuristics.ts",
-		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Inputs/Select/Select.tsx",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Chart/ChartRenderer.tsx",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/Group.tsx",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Chart/Bar.tsx",
@@ -241,6 +264,7 @@
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/queries/template/getTemplates.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/template/resolvers/queries/getTemplates.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/template/resolvers/queries/getTemplate.ts",
+		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/mutations.graphql",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/mutations/indication/upsertIndication.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/indication/resolvers/mutations/upsertIndication.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/indication/queries.graphql",
@@ -254,20 +278,13 @@
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/device/resolvers/types/Device.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/template/resolvers/mutations/upsertTemplate.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/mutations/template/deleteTemplate.ts",
-		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/mutations/measure/upsertMeasure.ts",
-		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/mutations/measure/deleteMeasure.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/mutations/measure/index.ts",
-		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/resolvers/mutations/deleteMeasure.ts",
-		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/IconButton.tsx",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/components/Button/index.js",
 		"/Users/kristinlindquist/development/biocube-mono/web/src/logger/index.ts",
 		"/Users/kristinlindquist/development/biocube-mono/biocube.sublime-project",
-		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/resolvers/queries/getMeasures.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/types.graphql",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/api/mutations/measure/createMeasure.ts",
-		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/codegen.yml",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/queries.graphql",
-		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/resolvers/queries/getMeasure.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/measure/resolvers/types/Measure.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/index.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/utils/logger.ts",
@@ -275,12 +292,7 @@
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/schema/user/resolvers/queries/getUser.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/packages/graphql/types/schema.ts",
 		"/Users/kristinlindquist/development/biocube-mono/backend/node_modules/.prisma/client/index.d.ts",
-		"/Users/kristinlindquist/development/biocube-mono/backend/build/packages/graphql/schema/measure/resolvers/index.d.ts",
-		"/Users/kristinlindquist/development/biocube-mono/backend/build/packages/graphql/schema/measure/types.graphql",
-		"/Users/kristinlindquist/development/biocube-mono/backend/build/packages/graphql/schema/measure/resolvers/types/Measure.js",
-		"/Users/kristinlindquist/development/biocube-mono/backend/build/packages/graphql/schema/measure/resolvers/types/Measure.d.ts",
-		"/Users/kristinlindquist/development/biocube-mono/backend/build/packages/graphql/schema.graphql",
-		"/Users/kristinlindquist/development/biocube-mono/backend/build/node_modules/@project-backend/graphql/schema.graphql"
+		"/Users/kristinlindquist/development/biocube-mono/backend/build/packages/graphql/schema/measure/resolvers/index.d.ts"
 	],
 	"find":
 	{
@@ -298,6 +310,19 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"DataTypeToDataType",
+			"MeasureToDataType",
+			"DataTypeMap",
+			"desc",
+			"MeasureUpdateInput",
+			"formatColumns",
+			"getColumns",
+			"formatColumns",
+			"params",
+			"FieldType",
+			"maxWidth",
+			"onSubmit",
+			"ref",
 			"getDocument",
 			"native",
 			"MenuItem",
@@ -412,20 +437,7 @@
 			"SelectFieldType",
 			"OptionsType",
 			"gql",
-			"getMeasures",
-			"indication",
-			"uniq",
-			"Json",
-			"JSON",
-			"allowEdits",
-			"console",
-			"map",
-			"BigInt",
-			"@db.BigInt",
-			"BigInt",
-			"id",
-			"description",
-			"console"
+			"getMeasures"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -461,8 +473,82 @@
 						"selection":
 						[
 							[
-								2667,
-								2667
+								2286,
+								2286
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScriptReact.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": true,
+								"indentSize": 2,
+								"tabSize": 2
+							},
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "web/src/components/QueryBuilder/FilterGroup.tsx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1898,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								891,
+								891
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScriptReact.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": true,
+								"indentSize": 2,
+								"tabSize": 2
+							},
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 560.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "web/src/containers/DynamicPages.tsx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1112,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								37,
+								37
 							]
 						],
 						"settings":
@@ -486,20 +572,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "web/src/components/QueryBuilder/FilterGroup.tsx",
+					"buffer": 3,
+					"file": "web/src/components/Table/DataGrid.tsx",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1898,
+						"buffer_size": 4454,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								499,
-								499
+								3661,
+								3661
 							]
 						],
 						"settings":
@@ -507,121 +593,41 @@
 							"syntax": "Packages/TypeScript/TypeScriptReact.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true,
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": true,
-								"indentSize": 2,
-								"tabSize": 2
-							},
 							"use_tab_stops": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2127.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "web/src/containers/DynamicPages.tsx",
+					"buffer": 4,
+					"file": "backend/packages/graphql/schema/measure/resolvers/types/Measure.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1112,
+						"buffer_size": 1144,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								810,
+								810
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/TypeScript/TypeScriptReact.tmLanguage",
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true,
 							"use_tab_stops": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "web/src/components/Inputs/Select/Select.tsx",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4622,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4396,
-								4396
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/TypeScript/TypeScriptReact.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true,
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": true,
-								"indentSize": 2,
-								"tabSize": 2
-							},
-							"use_tab_stops": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2460.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "web/src/theme.tsx",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1807,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1623,
-								1623
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/TypeScript/TypeScriptReact.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true,
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": true,
-								"indentSize": 2,
-								"tabSize": 2
-							},
-							"use_tab_stops": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1014.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -629,55 +635,55 @@
 				},
 				{
 					"buffer": 5,
-					"file": "web/src/components/Inputs/FormField.tsx",
+					"file": "backend/packages/graphql/schema/measure/resolvers/mutations/upsertMeasure.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2028,
+						"buffer_size": 1362,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1242,
-								1242
+								248,
+								248
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/TypeScript/TypeScriptReact.tmLanguage",
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true,
 							"use_tab_stops": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 676.0,
+						"translation.y": 245.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "backend/packages/graphql/codegen.yml",
+					"file": "backend/packages/graphql/schema/measure/types.graphql",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 986,
+						"buffer_size": 439,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16,
-								16
+								368,
+								368
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/YAML/YAML.sublime-syntax",
+							"syntax": "Packages/GraphQL-SublimeText3/GraphQL.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -685,24 +691,54 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 7,
-					"file": "backend/packages/db/prisma/schema.prisma",
+					"file": "backend/packages/graphql/schema/measure/mutations.graphql",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5769,
+						"buffer_size": 780,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								342,
+								342
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/GraphQL-SublimeText3/GraphQL.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "backend/packages/db/prisma/schema.prisma",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6290,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2088,
+								2088
 							]
 						],
 						"settings":
@@ -718,10 +754,10 @@
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 2460.0,
+						"translation.y": 592.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]

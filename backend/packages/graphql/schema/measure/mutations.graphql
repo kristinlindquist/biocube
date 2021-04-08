@@ -1,20 +1,35 @@
 type Mutation {
-  upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!,
+  upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
   deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
 }
 
 input UpsertMeasureInput {
   id: Int
-  description: String!
+  description: String
   name: String!
-  conceptsOfInterest: [ConceptOfInterestInput!]!
-  indications: [IndicationInput!]!
+  conceptsOfInterest: [ConceptOfInterestInput!]
+  dataTypes: [DataTypeInput!]
+  indications: [IndicationInput!]
 }
 
 input ConceptOfInterestInput {
   id: Int!
   description: String
   name: String
+}
+
+input DataTypeInput {
+  id: Int!
+  description: String
+  name: String
+}
+
+input DeleteMeasureInput {
+  id: Int!
+}
+
+type DeleteMeasureResult {
+  measure: Measure
 }
 
 input IndicationInput {
@@ -24,13 +39,5 @@ input IndicationInput {
 }
 
 type UpsertMeasureResult {
-  measure: Measure
-}
-
-input DeleteMeasureInput {
-  id: Int!
-}
-
-type DeleteMeasureResult {
   measure: Measure
 }

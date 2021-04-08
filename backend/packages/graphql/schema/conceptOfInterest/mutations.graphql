@@ -5,7 +5,7 @@ type Mutation {
 
 input UpsertConceptOfInterestInput {
   id: Int
-  description: String!
+  description: String
   name: String!
 }
 
