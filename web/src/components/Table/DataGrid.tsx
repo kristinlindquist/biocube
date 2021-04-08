@@ -5,12 +5,12 @@ import {
   GridColDef,
   GridColTypeDef,
 } from '@material-ui/data-grid';
-import { Box } from '@material-ui/core';
+import { Box, Chip } from '@material-ui/core';
 import { capitalize, isEmpty } from 'lodash';
 
 import { Fab } from 'components/Button';
 import { FormDialog as Dialog } from 'components/Dialog';
-import { ColumnType, RowType } from 'types';
+import { ColumnType, RowType, isSelectFieldType as isSelectType } from 'types';
 import { undefOrTrue } from 'utils';
 
 import EditCell from './EditCell';
@@ -42,19 +42,6 @@ export interface DataGridProps {
   rows: RowType[];
 }
 
-const getFlex = (type): number | undefined => {
-  switch (type) {
-    case 'text':
-      return 1;
-    case 'number':
-      return undefined;
-    case 'string':
-      return 0.5;
-    default:
-      return 0.2;
-  }
-};
-
 /**
  * Handling an array / multi-select
  */
@@ -77,16 +64,53 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
     : [];
 
 /**
+ * Get length of a cell, incl. if array
+ */
+const getCellLength = (cell) =>
+  (Array.isArray(cell) ? cell.map((c) => c.name).join('') : cell).length;
+
+/**
+ * Get max length of cells for column
+ */
+const getMaxLength = (colName, colId, rows) => {
+  const charSize = 10;
+  const row = rows.reduce((a, b) =>
+    getCellLength(a[colId]) > getCellLength(b[colId]) ? a : b,
+  );
+  const cell = row[colId];
+  return Math.min(Math.max(colName.length, getCellLength(cell)), 25) * charSize;
+};
+
+/**
+ * Render special cells, so far just chips for selects.
+ */
+const renderCell = (colId, colType) => {
+  return ({ api, id }: GridCellParams) => {
+    const cell = api.getRowFromId(id)[colId];
+    return isSelectType(colType)
+      ? (Array.isArray(cell) ? cell : [{ name: cell }]).map(({ name }) => (
+          <Chip
+            key={`${id}-${name}`}
+            label={name}
+            size="small"
+            sx={{ mr: 0.5 }}
+          />
+        ))
+      : undefined;
+  };
+};
+
+/**
  * Turn into the columns expected by DataGrid and add an Edit column.
  */
-const formatColumns = (columns, mutation, deleteMutation): GridColDef[] =>
+const formatColumns = (columns, rows, mutation, deleteMutation): GridColDef[] =>
   [
-    ...columns.map(({ id, name, type }) => ({
+    ...columns.map(({ id, name, type, width }) => ({
       field: id,
-      flex: getFlex(type),
+      flex: type === 'text' ? 1 : undefined,
       headerName: name,
-      type: ['text', 'select'].includes(type) ? 'string' : type,
-      width: type === 'number' ? 100 : undefined,
+      renderCell: renderCell(id, type),
+      width: width || getMaxLength(name, id, rows),
       ...(type === 'multiple' ? multiple : {}),
     })),
     mutation && deleteMutation
@@ -138,7 +162,7 @@ const DataGrid = ({
           <MaterialDataGrid
             {...props}
             autoHeight
-            columns={formatColumns(myCols, mutation, deleteMutation)}
+            columns={formatColumns(myCols, rows, mutation, deleteMutation)}
             rows={rows}
           />
         )}
