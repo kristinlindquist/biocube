@@ -6,7 +6,7 @@ import {
   GridColTypeDef,
 } from '@material-ui/data-grid';
 import { Box, Chip } from '@material-ui/core';
-import { capitalize, isEmpty } from 'lodash';
+import { capitalize, isEmpty, orderBy } from 'lodash';
 
 import { Fab } from 'components/Button';
 import { FormDialog as Dialog } from 'components/Dialog';
@@ -143,7 +143,7 @@ const DataGrid = ({
   rows,
   ...props
 }: DataGridProps): ReactElement => {
-  const myCols = columns || getColumns(rows);
+  const myCols = orderBy(columns || getColumns(rows), 'listOrder');
   // for MUI DataGrid bug
   document.addEventListener(
     'keydown',

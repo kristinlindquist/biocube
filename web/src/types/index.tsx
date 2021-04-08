@@ -38,7 +38,7 @@ export interface ChartProps {
 export type ColumnType = {
   create?: boolean;
   id: string;
-  flex?: number | null;
+  listOrder?: number;
   name: string;
   options?: Array<{ id: string | number; name: string }>;
   type?: FieldType;
