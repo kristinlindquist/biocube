@@ -3,6 +3,7 @@ import { Parent, Context, GetDataTypesResult } from '../../../../types';
 
 async function getDataTypes(
   _: Parent,
+  __,
   context: Context,
 ): Promise<GetDataTypesResult> {
   const { prisma } = context;

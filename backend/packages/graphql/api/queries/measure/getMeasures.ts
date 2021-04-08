@@ -10,6 +10,7 @@ const getMeasures = gql`
           name
         }
         dataTypes {
+          id
           name
         }
         description
