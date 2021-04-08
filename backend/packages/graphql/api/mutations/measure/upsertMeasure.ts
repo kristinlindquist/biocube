@@ -6,13 +6,16 @@ const upsertMeasure = gql`
       measure {
         id
         conceptsOfInterest {
+          id
           name
         }
         dataTypes {
+          id
           name
         }
         description
         indications {
+          id
           name
         }
         name

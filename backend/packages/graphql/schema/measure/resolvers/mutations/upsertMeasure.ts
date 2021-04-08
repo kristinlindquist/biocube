@@ -16,40 +16,52 @@ async function upsertMeasure(
   const { prisma } = context;
   const { input } = args;
   const inputMeasure: UpsertMeasureInput = input;
-  const { conceptsOfInterest, dataTypes, indications } = inputMeasure;
+  const { conceptsOfInterest, dataTypes, id: mId, indications } = inputMeasure;
 
   // if we don't limit this to ids, prisma gets mad
   const coiIds = (conceptsOfInterest || []).map(({ id }) => ({ id }));
-  const dataTypeIds = (dataTypes || []).map(({ id }) => id);
-  const indicationIds = (indications || []).map(({ id }) => ({ id }));
+  const dtIds = (dataTypes || []).map(({ id }) => id);
+  const iIds = (indications || []).map(({ id }) => ({ id }));
   let measure: Measure | null = null;
 
-  const dataTypeMapIds = (
-    await prisma.measureToDataType.findMany({
-      where: {
-        dataTypeId: { in: dataTypeIds },
-      },
-    })
-  ).map(({ dataTypeId, measureId }) => ({ dataTypeId, measureId }));
-
-  const getData = isUpdate => {
-    const key = isUpdate ? 'set' : 'connect';
+  const getKey = isUpdate => (isUpdate ? 'set' : 'connect');
+  const getData = (isUpdate = false) => {
+    const key = getKey(isUpdate);
     return {
-      ...omit(inputMeasure, 'id'),
+      ...omit(inputMeasure, ['id', 'dataTypes']),
       conceptsOfInterest: { [key]: coiIds },
-      dataTypeMap: { [key]: dataTypeMapIds },
-      indications: { [key]: indicationIds },
+      indications: { [key]: iIds },
     };
   };
 
-  if (!inputMeasure.id) {
-    measure = await prisma.measure.create({ data: getData(false) });
-  } else {
-    measure = await prisma.measure.update({
-      where: {
-        id: inputMeasure.id,
+  if (!mId) {
+    measure = await prisma.measure.create({
+      data: {
+        ...getData(),
+        dataTypeMap: {
+          createMany: {
+            data: dtIds.map(id => ({
+              dataTypeId: id,
+            })),
+          },
+        },
       },
-      data: getData(true),
+    });
+  } else {
+    await prisma.measureToDataType.createMany({
+      data: dtIds.map(id => ({ dataTypeId: id, measureId: mId })),
+      skipDuplicates: true,
+    });
+    measure = await prisma.measure.update({
+      where: { id: mId },
+      data: {
+        ...getData(true),
+        dataTypeMap: {
+          deleteMany: {
+            dataTypeId: { notIn: dtIds },
+          },
+        },
+      },
     });
   }
 
