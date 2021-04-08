@@ -17,24 +17,25 @@ async function upsertMeasure(
   const { input } = args;
   const inputMeasure: UpsertMeasureInput = input;
 
-  const coiIds = inputMeasure.conceptsOfInterest;
-  const indicationIds = inputMeasure.indications;
+  // if we don't limit this to ids, prisma gets mad
+  const coiIds = inputMeasure.conceptsOfInterest.map(({ id }) => ({ id }));
+  const indicationIds = inputMeasure.indications.map(({ id }) => ({ id }));
   let measure: Measure | null = null;
 
-  const data = {
+  const getData = isUpdate => ({
     ...omit(inputMeasure, 'id'),
-    conceptsOfInterest: { set: coiIds },
-    indications: { set: indicationIds },
-  };
+    conceptsOfInterest: { [isUpdate ? 'set' : 'connect']: coiIds },
+    indications: { [isUpdate ? 'set' : 'connect']: indicationIds },
+  });
 
   if (!inputMeasure.id) {
-    measure = await prisma.measure.create({ data });
+    measure = await prisma.measure.create({ data: getData(false) });
   } else {
     measure = await prisma.measure.update({
       where: {
         id: inputMeasure.id,
       },
-      data,
+      data: getData(true),
     });
   }
 
