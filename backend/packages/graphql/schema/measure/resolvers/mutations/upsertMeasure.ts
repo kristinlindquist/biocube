@@ -17,14 +17,14 @@ async function upsertMeasure(
   const { input } = args;
   const inputMeasure: UpsertMeasureInput = input;
 
-  const coiIds = inputMeasure.conceptsOfInterest.map(({ id }) => ({ id }));
-  const indicationIds = inputMeasure.indications.map(({ id }) => ({ id }));
+  const coiIds = inputMeasure.conceptsOfInterest;
+  const indicationIds = inputMeasure.indications;
   let measure: Measure | null = null;
 
   const data = {
     ...omit(inputMeasure, 'id'),
-    conceptsOfInterest: { connect: coiIds },
-    indications: { connect: indicationIds },
+    conceptsOfInterest: { set: coiIds },
+    indications: { set: indicationIds },
   };
 
   if (!inputMeasure.id) {
