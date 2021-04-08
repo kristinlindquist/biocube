@@ -1,6 +1,7 @@
 overwrite: true
 schema:
   - 'schema/conceptOfInterest/**/*.graphql'
+  - 'schema/dataType/**/*.graphql'
   - 'schema/device/**/*.graphql'
   - 'schema/googlefit/**/*.graphql'
   - 'schema/indication/**/*.graphql'

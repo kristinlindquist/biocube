@@ -9,7 +9,8 @@ import {
   getConceptOfInterest,
   getConceptsOfInterest,
 } from './queries/conceptOfInterest';
-import { getMeasures, getMeasure } from './queries/measure';
+import { getDataType, getDataTypes } from './queries/dataType';
+import { getMeasure, getMeasures } from './queries/measure';
 import { getIndication, getIndications } from './queries/indication';
 import { getTemplate, getTemplates } from './queries/template';
 import { getHeartRate } from './queries/googlefit';
@@ -17,6 +18,8 @@ import { getHeartRate } from './queries/googlefit';
 const allQueries = {
   getConceptOfInterest,
   getConceptsOfInterest,
+  getDataType,
+  getDataTypes,
   getDevice,
   getHeartRate,
   getMeasures,
@@ -36,6 +39,10 @@ import {
   GetConceptOfInterestResult,
   GetConceptsOfInterestInput,
   GetConceptsOfInterestResult,
+  GetDataTypeInput,
+  GetDataTypeResult,
+  GetDataTypesInput,
+  GetDataTypesResult,
   GetDeviceInput,
   GetDeviceResult,
   GetHeartRateInput,
@@ -105,6 +112,32 @@ class GraphQLApi {
     context?: Context,
   ): Promise<GetConceptOfInterestResult> {
     const operationName = 'getMeasure';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context,
+    });
+  }
+
+  async getDataType(
+    input: GetDataTypeInput,
+    context?: Context,
+  ): Promise<GetDataTypeResult> {
+    const operationName = 'getDataType';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context,
+    });
+  }
+
+  async getDataTypes(
+    input: GetDataTypesInput,
+    context?: Context,
+  ): Promise<GetDataTypesResult> {
+    const operationName = 'getDataTypes';
     const variables = { input };
     return this.graphqlRequest({
       operationName,

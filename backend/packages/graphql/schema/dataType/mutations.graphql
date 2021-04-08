@@ -1,0 +1,22 @@
+type Mutation {
+  upsertDataType(input: UpsertDataTypeInput!): UpsertDataTypeResult!,
+  deleteDataType(input: DeleteDataTypeInput!): DeleteDataTypeResult!,
+}
+
+input UpsertDataTypeInput {
+  id: Int
+  description: String
+  name: String!
+}
+
+type UpsertDataTypeResult {
+  dataType: DataType!
+}
+
+input DeleteDataTypeInput {
+  id: Int!
+}
+
+type DeleteDataTypeResult {
+  dataType: DataType!
+}

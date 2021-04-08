@@ -45,8 +45,8 @@ type DataQuery {
 }
 
 type DataType {
-  id: Int!
   description: String
+  id: Int!
   name: String!
 }
 
@@ -64,6 +64,14 @@ input DeleteConceptOfInterestInput {
 
 type DeleteConceptOfInterestResult {
   conceptOfInterest: ConceptOfInterest!
+}
+
+input DeleteDataTypeInput {
+  id: Int!
+}
+
+type DeleteDataTypeResult {
+  dataType: DataType!
 }
 
 input DeleteIndicationInput {
@@ -128,6 +136,22 @@ input GetDailyInput {
 
 type GetDailyResult {
   daily: [Daily]
+}
+
+input GetDataTypeInput {
+  id: Int!
+}
+
+type GetDataTypeResult {
+  dataType: DataType
+}
+
+input GetDataTypesInput {
+  test: Boolean
+}
+
+type GetDataTypesResult {
+  dataTypes: [DataType]
 }
 
 input GetDeviceInput {
@@ -250,10 +274,12 @@ type Measure {
 
 type Mutation {
   deleteConceptOfInterest(input: DeleteConceptOfInterestInput!): DeleteConceptOfInterestResult!
+  deleteDataType(input: DeleteDataTypeInput!): DeleteDataTypeResult!
   deleteIndication(input: DeleteIndicationInput!): DeleteIndicationResult!
   deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
   deleteTemplate(input: DeleteTemplateInput!): DeleteTemplateResult!
   upsertConceptOfInterest(input: UpsertConceptOfInterestInput!): UpsertConceptOfInterestResult!
+  upsertDataType(input: UpsertDataTypeInput!): UpsertDataTypeResult!
   upsertIndication(input: UpsertIndicationInput!): UpsertIndicationResult!
   upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
   upsertTemplate(input: UpsertTemplateInput!): UpsertTemplateResult!
@@ -277,6 +303,8 @@ type Query {
   getConceptOfInterest(input: GetConceptOfInterestInput!): GetConceptOfInterestResult!
   getConceptsOfInterest(input: GetConceptsOfInterestInput!): GetConceptsOfInterestResult!
   getDaily(input: GetDailyInput!): GetDailyResult!
+  getDataType(input: GetDataTypeInput!): GetDataTypeResult!
+  getDataTypes(input: GetDataTypesInput!): GetDataTypesResult!
   getDevice(input: GetDeviceInput!): GetDeviceResult!
   getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
   getIndication(input: GetIndicationInput!): GetIndicationResult!
@@ -320,6 +348,16 @@ input UpsertConceptOfInterestInput {
 
 type UpsertConceptOfInterestResult {
   conceptOfInterest: ConceptOfInterest!
+}
+
+input UpsertDataTypeInput {
+  id: Int
+  description: String
+  name: String!
+}
+
+type UpsertDataTypeResult {
+  dataType: DataType!
 }
 
 input UpsertIndicationInput {

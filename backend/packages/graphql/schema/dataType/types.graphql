@@ -1,0 +1,5 @@
+type DataType {
+  id: Int!
+  description: String
+  name: String!
+}

@@ -66,8 +66,8 @@ export type DataQuery = {
 
 export type DataType = {
   __typename?: 'DataType';
-  id: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
   name: Scalars['String'];
 };
 
@@ -85,6 +85,15 @@ export type DeleteConceptOfInterestInput = {
 export type DeleteConceptOfInterestResult = {
   __typename?: 'DeleteConceptOfInterestResult';
   conceptOfInterest: ConceptOfInterest;
+};
+
+export type DeleteDataTypeInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteDataTypeResult = {
+  __typename?: 'DeleteDataTypeResult';
+  dataType: DataType;
 };
 
 export type DeleteIndicationInput = {
@@ -157,6 +166,24 @@ export type GetDailyInput = {
 export type GetDailyResult = {
   __typename?: 'GetDailyResult';
   daily?: Maybe<Array<Maybe<Daily>>>;
+};
+
+export type GetDataTypeInput = {
+  id: Scalars['Int'];
+};
+
+export type GetDataTypeResult = {
+  __typename?: 'GetDataTypeResult';
+  dataType?: Maybe<DataType>;
+};
+
+export type GetDataTypesInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetDataTypesResult = {
+  __typename?: 'GetDataTypesResult';
+  dataTypes?: Maybe<Array<Maybe<DataType>>>;
 };
 
 export type GetDeviceInput = {
@@ -293,10 +320,12 @@ export type Measure = {
 export type Mutation = {
   __typename?: 'Mutation';
   deleteConceptOfInterest: DeleteConceptOfInterestResult;
+  deleteDataType: DeleteDataTypeResult;
   deleteIndication: DeleteIndicationResult;
   deleteMeasure: DeleteMeasureResult;
   deleteTemplate: DeleteTemplateResult;
   upsertConceptOfInterest: UpsertConceptOfInterestResult;
+  upsertDataType: UpsertDataTypeResult;
   upsertIndication: UpsertIndicationResult;
   upsertMeasure: UpsertMeasureResult;
   upsertTemplate: UpsertTemplateResult;
@@ -305,6 +334,11 @@ export type Mutation = {
 
 export type MutationDeleteConceptOfInterestArgs = {
   input: DeleteConceptOfInterestInput;
+};
+
+
+export type MutationDeleteDataTypeArgs = {
+  input: DeleteDataTypeInput;
 };
 
 
@@ -325,6 +359,11 @@ export type MutationDeleteTemplateArgs = {
 
 export type MutationUpsertConceptOfInterestArgs = {
   input: UpsertConceptOfInterestInput;
+};
+
+
+export type MutationUpsertDataTypeArgs = {
+  input: UpsertDataTypeInput;
 };
 
 
@@ -363,6 +402,8 @@ export type Query = {
   getConceptOfInterest: GetConceptOfInterestResult;
   getConceptsOfInterest: GetConceptsOfInterestResult;
   getDaily: GetDailyResult;
+  getDataType: GetDataTypeResult;
+  getDataTypes: GetDataTypesResult;
   getDevice: GetDeviceResult;
   getHeartRate: GetHeartRateResult;
   getIndication: GetIndicationResult;
@@ -393,6 +434,16 @@ export type QueryGetConceptsOfInterestArgs = {
 
 export type QueryGetDailyArgs = {
   input: GetDailyInput;
+};
+
+
+export type QueryGetDataTypeArgs = {
+  input: GetDataTypeInput;
+};
+
+
+export type QueryGetDataTypesArgs = {
+  input: GetDataTypesInput;
 };
 
 
@@ -479,6 +530,17 @@ export type UpsertConceptOfInterestInput = {
 export type UpsertConceptOfInterestResult = {
   __typename?: 'UpsertConceptOfInterestResult';
   conceptOfInterest: ConceptOfInterest;
+};
+
+export type UpsertDataTypeInput = {
+  id?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+export type UpsertDataTypeResult = {
+  __typename?: 'UpsertDataTypeResult';
+  dataType: DataType;
 };
 
 export type UpsertIndicationInput = {

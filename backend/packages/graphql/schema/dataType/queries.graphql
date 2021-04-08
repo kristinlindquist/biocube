@@ -1,0 +1,20 @@
+type Query {
+  getDataTypes(input: GetDataTypesInput!): GetDataTypesResult!,
+  getDataType(input: GetDataTypeInput!): GetDataTypeResult!
+}
+
+input GetDataTypesInput {
+  test: Boolean
+}
+
+type GetDataTypesResult {
+  dataTypes: [DataType]
+}
+
+input GetDataTypeInput {
+  id: Int!
+}
+
+type GetDataTypeResult {
+  dataType: DataType
+}
