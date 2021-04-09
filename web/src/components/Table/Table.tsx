@@ -57,7 +57,9 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
  * Render chips
  */
 const renderChips = (chips) =>
-  (Array.isArray(chips) ? chips : [chips]).map((cell) => <Chip {...cell} />);
+  (Array.isArray(chips) ? chips : [chips]).map((cell) => (
+    <Chip key={cell.id} {...cell} />
+  ));
 
 /**
  * Render cell by type

@@ -35,6 +35,8 @@ export type Component = {
 };
 
 export enum ComponentType {
+  Content = 'CONTENT',
+  Datagrid = 'DATAGRID',
   Table = 'TABLE'
 }
 
@@ -76,6 +78,7 @@ export type DataTypeInput = {
   id: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 
@@ -563,6 +566,7 @@ export type UpsertMeasureInput = {
   conceptsOfInterest?: Maybe<Array<ConceptOfInterestInput>>;
   dataTypes?: Maybe<Array<DataTypeInput>>;
   indications?: Maybe<Array<IndicationInput>>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type UpsertMeasureResult = {

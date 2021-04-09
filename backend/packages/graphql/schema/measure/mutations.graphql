@@ -10,6 +10,7 @@ input UpsertMeasureInput {
   conceptsOfInterest: [ConceptOfInterestInput!]
   dataTypes: [DataTypeInput!]
   indications: [IndicationInput!]
+  url: String
 }
 
 input ConceptOfInterestInput {
@@ -22,6 +23,7 @@ input DataTypeInput {
   id: Int!
   description: String
   name: String
+  url: String
 }
 
 input DeleteMeasureInput {

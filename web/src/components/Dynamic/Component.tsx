@@ -1,11 +1,12 @@
 import { ReactElement, useState } from 'react';
 import { uniqBy } from 'lodash';
+import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { Alert } from '@material-ui/core';
 
 import ErrorBoundary from 'ErrorBoundary';
 import { DataGrid, Table } from 'components/Table';
-import { JSONObject, RowType } from 'types';
+import { JSONObject } from 'types';
 import { getFirstNonString, getQueryAndEntity, getStartsWith } from 'utils';
 import {
   GetMeasureDocument,
@@ -18,6 +19,7 @@ import {
   DeleteIndicationDocument,
 } from 'gql';
 import { Logger } from 'logger';
+import Content from './Content';
 
 const DocumentMap = {
   GetMeasureDocument,
@@ -31,9 +33,9 @@ const DocumentMap = {
 };
 
 // TODO: fix this cheesy mess.
-const unwrapData = (data): RowType[] => {
+const unwrapData = (data): any => {
   try {
-    return getFirstNonString(getFirstNonString(data)) as RowType[];
+    return getFirstNonString(getFirstNonString(data));
   } catch (e) {
     Logger.warn(e);
   }
@@ -72,7 +74,7 @@ export interface ComponentProps {
   /**
    * Component types
    */
-  type: 'DATAGRID' | 'TABLE';
+  type: 'CONTENT' | 'DATAGRID' | 'TABLE';
 }
 
 /**
@@ -85,11 +87,17 @@ const Component = ({
   upsert,
   type,
 }: ComponentProps): ReactElement => {
+  const { id } = useParams() as { id: string };
   const [error, setError] = useState(null);
-  const { queryName, entityName } = getQueryAndEntity(read.document);
+  const { entityName, queryName } = getQueryAndEntity(read.document);
 
   const { data } = useQuery(DocumentMap[read.document], {
-    variables: { input: read.parameters },
+    variables: {
+      input: {
+        ...read.parameters,
+        id: read.parameters.id ? Number(id) : undefined,
+      },
+    },
   });
 
   /**
@@ -142,6 +150,16 @@ const Component = ({
   let component = <span />;
 
   switch (type) {
+    case 'CONTENT':
+      component = (
+        <Content
+          {...props}
+          data={unwrapData(data)}
+          deleteMutation={deleteMutation}
+          mutation={mutate}
+        />
+      );
+      break;
     case 'DATAGRID':
       component = (
         <DataGrid

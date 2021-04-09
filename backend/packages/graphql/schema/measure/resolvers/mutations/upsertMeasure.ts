@@ -28,7 +28,7 @@ async function upsertMeasure(
   const getData = (isUpdate = false) => {
     const key = getKey(isUpdate);
     return {
-      ...omit(inputMeasure, ['id', 'dataTypes']),
+      ...omit(inputMeasure, ['id', 'dataTypes', 'url']),
       conceptsOfInterest: { [key]: coiIds },
       indications: { [key]: iIds },
     };

@@ -18,6 +18,8 @@ type Component {
 }
 
 enum ComponentType {
+  CONTENT
+  DATAGRID
   TABLE
 }
 
@@ -55,6 +57,7 @@ input DataTypeInput {
   id: Int!
   description: String
   name: String
+  url: String
 }
 
 scalar DateTime
@@ -379,6 +382,7 @@ input UpsertMeasureInput {
   conceptsOfInterest: [ConceptOfInterestInput!]
   dataTypes: [DataTypeInput!]
   indications: [IndicationInput!]
+  url: String
 }
 
 type UpsertMeasureResult {
