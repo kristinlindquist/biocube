@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from '@material-ui/core';
 import { capitalize, isEmpty, omitBy, orderBy, sortBy } from 'lodash';
 
@@ -52,33 +53,39 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
     : [];
 
 /**
+ * Render chips
+ */
+const renderChips = (chips) =>
+  (Array.isArray(chips) ? chips : [chips]).map(({ id, name }) => (
+    <Chip key={`${id}-${name}`} label={name} size="small" sx={{ mr: 0.5 }} />
+  ));
+
+/**
+ * Render cell by type
+ */
+const renderCellType = (value, column) => {
+  if (Array.isArray(value) || isSelectType(column.type)) {
+    return renderChips(value);
+  }
+  if (column.type === 'main') {
+    return (
+      <Typography variant="h5" sx={{ whiteSpace: 'nowrap' }}>
+        {value}
+      </Typography>
+    );
+  }
+  return value;
+};
+
+/**
  * Render special cells, so far just chips for selects.
  */
-const renderCell = (cell, columns) => {
-  const column = columns.find((col) => col.id === cell.id);
-
-  if (!column) {
-    return null;
-  }
-
-  const val =
-    Array.isArray(cell.value) || isSelectType(column.type)
-      ? (Array.isArray(cell.value)
-          ? cell.value
-          : [{ name: cell.value }]
-        ).map(({ id: cId, name }) => (
-          <Chip
-            key={`${cId}-${name}`}
-            label={name}
-            size="small"
-            sx={{ mr: 0.5 }}
-          />
-        ))
-      : cell.value;
+const renderCell = ({ id, value }, columns) => {
+  const column = columns.find((col) => col.id === id);
 
   return (
-    <TableCell key={cell.id} scope="row">
-      {val}
+    <TableCell key={id} scope="row">
+      {renderCellType(value, column || {})}
     </TableCell>
   );
 };

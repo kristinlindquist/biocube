@@ -40,7 +40,7 @@ const Header = ({ title }: HeaderProps): ReactElement => {
           edge="start">
           <MenuIcon />
         </IconButton>
-        <Typography className={classes.title} variant="h6">
+        <Typography className={classes.title} variant="h4">
           {title}
         </Typography>
         <Button color="inherit">Login</Button>

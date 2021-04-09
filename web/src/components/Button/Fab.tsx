@@ -35,7 +35,7 @@ const Fab = ({
     color="primary"
     sx={
       position === 'fixed'
-        ? { position: 'fixed', bottom: 25, right: 25 }
+        ? { position: 'fixed', bottom: 20, right: 20 }
         : undefined
     }
     {...props}>

@@ -58,6 +58,24 @@ const theme = createMuiTheme({
     },
   },
   typography: {
+    h1: {
+      fontSize: '2.643rem',
+    },
+    h2: {
+      fontSize: '2.071rem',
+    },
+    h3: {
+      fontSize: '1.643rem',
+    },
+    h4: {
+      fontSize: '1.286rem',
+    },
+    h5: {
+      fontSize: '1rem',
+    },
+    h6: {
+      fontSize: '0.786rem',
+    },
     fontFamily: ['Avenir-Book', 'Arial'].join(','),
   },
 });
