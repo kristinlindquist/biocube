@@ -1,3 +1,4 @@
 import DataGrid from './DataGrid';
+import Table from './Table';
 
-export { DataGrid };
+export { DataGrid, Table };

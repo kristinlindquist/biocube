@@ -123,8 +123,8 @@ const FormDialog = ({
             <FormField
               {...f}
               form={form}
-              setForm={setForm}
               key={f.id}
+              setForm={setForm}
               variant={variant}
             />
           ))}

@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Alert } from '@material-ui/core';
 
 import ErrorBoundary from 'ErrorBoundary';
-import { DataGrid } from 'components/Table';
+import { DataGrid, Table } from 'components/Table';
 import { JSONObject, RowType } from 'types';
 import { getFirstNonString, getQueryAndEntity, getStartsWith } from 'utils';
 import {
@@ -72,7 +72,7 @@ export interface ComponentProps {
   /**
    * Component types
    */
-  type: 'TABLE';
+  type: 'DATAGRID' | 'TABLE';
 }
 
 /**
@@ -142,9 +142,19 @@ const Component = ({
   let component = <span />;
 
   switch (type) {
-    case 'TABLE':
+    case 'DATAGRID':
       component = (
         <DataGrid
+          {...props}
+          deleteMutation={deleteMutation}
+          mutation={mutate}
+          rows={unwrapData(data)}
+        />
+      );
+      break;
+    case 'TABLE':
+      component = (
+        <Table
           {...props}
           deleteMutation={deleteMutation}
           mutation={mutate}
