@@ -69,6 +69,7 @@ export type DataType = {
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type DataTypeInput = {
@@ -315,6 +316,7 @@ export type Measure = {
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   dataTypes?: Maybe<Array<DataType>>;
   indications?: Maybe<Array<Indication>>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {

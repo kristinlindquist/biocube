@@ -12,6 +12,7 @@ const getMeasures = gql`
         dataTypes {
           id
           name
+          url
         }
         description
         indications {
@@ -19,6 +20,7 @@ const getMeasures = gql`
           name
         }
         name
+        url
       }
     }
   }

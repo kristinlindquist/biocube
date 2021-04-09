@@ -7,6 +7,7 @@ const getDataTypes = gql`
         id
         description
         name
+        url
       }
     }
   }

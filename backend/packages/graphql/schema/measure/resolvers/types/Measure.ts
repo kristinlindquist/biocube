@@ -32,6 +32,11 @@ const Measure = {
 
     return prisma.measure.findUnique({ where: { id } }).indications();
   },
+
+  url: (parent: Parent): string | null => {
+    const { id } = parent;
+    return `/measure/${id}`;
+  }
 };
 
 export default Measure;

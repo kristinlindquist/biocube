@@ -5,6 +5,7 @@ type Measure {
   conceptsOfInterest: [ConceptOfInterest!]
   dataTypes: [DataType!]
   indications: [Indication!]
+  url: String
 }
 
 type ConceptOfInterest {
@@ -17,6 +18,7 @@ type DataType {
   id: Int!
   description: String
   name: String! 
+  url: String
 }
 
 type Indication {

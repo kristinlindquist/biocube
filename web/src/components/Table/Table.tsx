@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import {
   Chip,
   Paper,
@@ -56,8 +57,17 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
  * Render chips
  */
 const renderChips = (chips) =>
-  (Array.isArray(chips) ? chips : [chips]).map(({ id, name }) => (
-    <Chip key={`${id}-${name}`} label={name} size="small" sx={{ mr: 0.5 }} />
+  (Array.isArray(chips) ? chips : [chips]).map(({ id, name, url }) => (
+    <Chip
+      clickable={Boolean(url)}
+      component={url ? Link : undefined}
+      key={`${id}-${name}`}
+      label={name}
+      onClick={(e) => e.stopPropagation()}
+      size="small"
+      sx={{ mr: 0.5 }}
+      to={url}
+    />
   ));
 
 /**
@@ -80,11 +90,11 @@ const renderCellType = (value, column) => {
 /**
  * Render special cells, so far just chips for selects.
  */
-const renderCell = ({ id, value }, columns) => {
+const renderCell = ({ id, value }, columns, goTo) => {
   const column = columns.find((col) => col.id === id);
 
   return (
-    <TableCell key={id} scope="row">
+    <TableCell key={id} onClick={goTo} scope="row">
       {renderCellType(value, column || {})}
     </TableCell>
   );
@@ -104,11 +114,18 @@ const processRow = (row, cols) => {
 /**
  * Render rows and add edit/delete buttons
  */
-const renderRows = (rows, cols, mutation, deleteMutation) =>
+const renderRows = (rows, cols, mutation, deleteMutation, goTo) =>
   rows.map((row) => (
-    <TableRow key={row.id}>
+    <TableRow
+      hover={Boolean(row.url)}
+      key={row.id}
+      sx={row.url ? { cursor: 'pointer' } : undefined}>
       {processRow(row, cols).map(([id, value]) =>
-        renderCell({ id, value }, cols),
+        renderCell(
+          { id, value },
+          cols,
+          row.url ? () => goTo(row.url) : undefined,
+        ),
       )}
       <TableCell scope="row">
         <EditCell
@@ -132,6 +149,8 @@ const Table = ({
   rows,
 }: TableProps): ReactElement => {
   const cols = orderBy(columns || getColumns(rows), 'listOrder');
+  const history = useHistory();
+  const goTo = (url) => history.push(url);
 
   return (
     <TableContainer component={Paper}>
@@ -145,7 +164,7 @@ const Table = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {renderRows(rows, cols, mutation, deleteMutation)}
+          {renderRows(rows, cols, mutation, deleteMutation, goTo)}
         </TableBody>
       </MaterialTable>
       {allowAdds && mutation && (

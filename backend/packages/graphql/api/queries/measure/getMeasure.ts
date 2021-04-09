@@ -17,6 +17,7 @@ const getMeasure = gql`
           name
         }
         name
+        url
       }
     }
   }
