@@ -1,7 +1,6 @@
 import { ReactElement } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
-  Chip,
   Paper,
   Table as MaterialTable,
   TableBody,
@@ -14,6 +13,7 @@ import {
 import { capitalize, isEmpty, omitBy, orderBy, sortBy } from 'lodash';
 
 import { Fab } from 'components/Button';
+import { Chip } from 'components/Chip';
 import { FormDialog as Dialog } from 'components/Dialog';
 import { ColumnType, RowType, isSelectFieldType as isSelectType } from 'types';
 import { undefOrTrue } from 'utils';
@@ -57,18 +57,7 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
  * Render chips
  */
 const renderChips = (chips) =>
-  (Array.isArray(chips) ? chips : [chips]).map(({ id, name, url }) => (
-    <Chip
-      clickable={Boolean(url)}
-      component={url ? Link : undefined}
-      key={`${id}-${name}`}
-      label={name}
-      onClick={(e) => e.stopPropagation()}
-      size="small"
-      sx={{ mr: 0.5 }}
-      to={url}
-    />
-  ));
+  (Array.isArray(chips) ? chips : [chips]).map((cell) => <Chip {...cell} />);
 
 /**
  * Render cell by type
