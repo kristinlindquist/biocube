@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import {
   Chip,
+  Paper,
   Table as MaterialTable,
   TableBody,
   TableCell,
@@ -126,7 +127,7 @@ const Table = ({
   const cols = orderBy(columns || getColumns(rows), 'listOrder');
 
   return (
-    <TableContainer>
+    <TableContainer component={Paper}>
       <MaterialTable aria-label="simple table">
         <TableHead>
           <TableRow>
