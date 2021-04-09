@@ -97,7 +97,7 @@ const renderCell = (colId, colType) => {
             sx={{ mr: 0.5 }}
           />
         ))
-      : undefined;
+      : cell;
   };
 };
 
@@ -106,12 +106,12 @@ const renderCell = (colId, colType) => {
  */
 const formatColumns = (columns, rows, mutation, deleteMutation): GridColDef[] =>
   [
-    ...columns.map(({ id, name, type, width }) => ({
+    ...columns.map(({ id, name, type = '', width }) => ({
       field: id,
       flex: type === 'text' ? 1 : undefined,
       headerName: name,
       renderCell: renderCell(id, type),
-      width: width || getMaxLength(name, id, rows),
+      width: width || getMaxLength(name, id, rows) || 100,
       ...(type === 'multiple' ? multiple : {}),
     })),
     mutation && deleteMutation

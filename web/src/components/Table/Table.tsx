@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ElementType, ReactElement } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Paper,
@@ -29,6 +29,10 @@ export interface TableProps {
    * table cols
    */
   columns?: ColumnType[];
+  /**
+   * background component
+   */
+  component?: ElementType;
   /**
    * Delete mutation
    */
@@ -135,6 +139,7 @@ const renderRows = (rows, cols, mutation, deleteMutation, goTo) =>
 const Table = ({
   allowAdds,
   columns,
+  component,
   deleteMutation,
   mutation,
   rows,
@@ -144,7 +149,7 @@ const Table = ({
   const goTo = (url) => history.push(url);
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={component || Paper}>
       <MaterialTable aria-label="simple table">
         <TableHead>
           <TableRow>

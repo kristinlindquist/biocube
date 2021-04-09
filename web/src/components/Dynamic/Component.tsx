@@ -33,6 +33,7 @@ const DocumentMap = {
 };
 
 // TODO: fix this cheesy mess.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const unwrapData = (data): any => {
   try {
     return getFirstNonString(getFirstNonString(data));

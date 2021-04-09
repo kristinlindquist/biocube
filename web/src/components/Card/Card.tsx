@@ -43,7 +43,12 @@ const Card = ({
   ...props
 }: CardProps): ReactElement => (
   <MaterialCard>
-    <CardHeader action={headerAction} subheader={subtitle} title={title} />
+    <CardHeader
+      action={headerAction}
+      subheader={subtitle}
+      title={title}
+      titleTypographyProps={{ variant: 'h3' }}
+    />
     <CardContent>
       <Box {...props}>{children}</Box>
     </CardContent>

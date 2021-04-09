@@ -10,6 +10,7 @@ const getMeasure = gql`
         }
         dataTypes {
           id
+          description
           name
           url
         }

@@ -49,6 +49,7 @@ const useStateContext = (): { start: Date; end: Date } => {
   return state;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useDateRange = (): Array<any> => {
   return [useStateContext(), useDispatchContext()];
 };
