@@ -72,11 +72,13 @@ const theme = createMuiTheme({
     },
     h5: {
       fontSize: '1rem',
+      fontWeight: 500,
     },
     h6: {
       fontSize: '0.786rem',
+      textTransform: 'uppercase',
     },
-    fontFamily: ['Avenir-Book', 'Arial'].join(','),
+    fontFamily: ['Montserrat', 'Arial'].join(','),
   },
 });
 

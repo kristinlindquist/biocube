@@ -1,11 +1,11 @@
 import { ReactElement } from 'react';
 import { Box, Typography } from '@material-ui/core';
-import { pickBy } from 'lodash';
 
 import { Card } from 'components/Card';
 import { Chip } from 'components/Chip';
 import { DataGrid, Table } from 'components/Table';
-import { KeyValuePairs } from 'types';
+import { ContentDefType, KeyValuePairs, TypographyVariant } from 'types';
+import { sortByColumn } from 'utils';
 
 export interface ContentProps {
   /**
@@ -15,13 +15,7 @@ export interface ContentProps {
   /**
    * how the data should be presented
    */
-  dataMap?: {
-    [id: string]: {
-      name: string;
-      type: 'CHIPS' | 'DATAGRID' | 'TABLE' | 'TITLE' | 'TYPOGRAPHY';
-      props: KeyValuePairs;
-    };
-  };
+  dataMap?: ContentDefType[];
   /**
    * Delete mutation
    */
@@ -34,6 +28,19 @@ export interface ContentProps {
 
 const asArray = (value) => (Array.isArray(value) ? value : [value]);
 
+const addTitle = (
+  component: ReactElement | ReactElement[],
+  title: string,
+  variant: TypographyVariant = 'h6',
+) => (
+  <>
+    <Typography sx={{ display: 'inline', mr: 1 }} variant={variant}>
+      {title}
+    </Typography>
+    {component}
+  </>
+);
+
 const getElement = (
   value,
   id,
@@ -43,36 +50,32 @@ const getElement = (
     case 'TYPOGRAPHY':
       return <Typography {...props}>{value}</Typography>;
     case 'CHIPS':
-      return (
-        <>
-          {name && (
-            <Typography sx={{ display: 'inline', mr: 1 }} variant="h6">
-              {name}:
-            </Typography>
-          )}
-          {asArray(value).map((v) => (
-            <Chip key={`${id}-${v.name}`} {...v} />
-          ))}
-        </>
+      return addTitle(
+        asArray(value).map((v) => <Chip key={`${id}-${v.name}`} {...v} />),
+        name,
       );
     case 'DATAGRID':
-      return <DataGrid {...props} hideFooter rows={value} />;
+      return addTitle(<DataGrid {...props} hideFooter rows={value} />, name);
     case 'TABLE':
-      return <Table {...props} rows={value} />;
+      return addTitle(<Table {...props} rows={value} />, name, 'h4');
     default:
       return null;
   }
 };
 
 const Content = ({ data, dataMap }: ContentProps): ReactElement => {
-  const titleKey = Object.keys(pickBy(dataMap, (dm) => dm.type === 'TITLE'));
+  const titleKey = dataMap.find(({ type }) => type === 'TITLE').id;
+  console.log(data[titleKey]);
+  const subtitleKey = dataMap.find(({ type }) => type === 'SUBTITLE').id;
 
   return (
-    <Card title={titleKey ? data[titleKey[0]] : undefined}>
-      {Object.entries(data)
+    <Card
+      subtitle={subtitleKey ? data[subtitleKey] : undefined}
+      title={titleKey ? data[titleKey] : undefined}>
+      {sortByColumn(data, dataMap)
         .map(([k, v]) => (
           <Box key={k} sx={{ mb: 2 }}>
-            {getElement(v, k, dataMap[k] || {})}
+            {getElement(v, k, dataMap.find(({ id }) => id === k) || {})}
           </Box>
         ))
         .filter((e) => e)

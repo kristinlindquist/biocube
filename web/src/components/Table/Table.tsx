@@ -10,13 +10,13 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import { capitalize, isEmpty, omitBy, orderBy, sortBy } from 'lodash';
+import { capitalize, isEmpty, omitBy, orderBy } from 'lodash';
 
 import { Fab } from 'components/Button';
 import { Chip } from 'components/Chip';
 import { FormDialog as Dialog } from 'components/Dialog';
 import { ColumnType, RowType, isSelectFieldType as isSelectType } from 'types';
-import { undefOrTrue } from 'utils';
+import { sortByColumn, undefOrTrue } from 'utils';
 
 import EditCell from './EditCell';
 
@@ -100,10 +100,7 @@ const renderCell = ({ id, value }, columns, goTo) => {
  */
 const processRow = (row, cols) => {
   const myRow = omitBy(row, (_, key) => !cols.some(({ id }) => id === key));
-  return sortBy(
-    Object.entries(myRow),
-    ([id]) => (cols.find((c) => id === c.id) || {}).listOrder,
-  );
+  return sortByColumn(myRow, cols);
 };
 
 /**

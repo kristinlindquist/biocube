@@ -1,9 +1,18 @@
 import moment from 'moment';
-import { camelCase, get } from 'lodash';
+import { camelCase, get, sortBy } from 'lodash';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
-import { KeyValuePairs } from 'types';
+import { DynamicDefType, KeyValuePairs } from 'types';
 import * as gql from 'gql';
+
+export const sortByColumn = (
+  row: KeyValuePairs,
+  cols: Partial<DynamicDefType>[],
+): Array<Array<any>> =>
+  sortBy(
+    Object.entries(row),
+    ([id]) => (cols.find((col) => id === col.id) || {}).listOrder,
+  ).reverse();
 
 export const unixYearRange = {
   start: new Date(moment().startOf('year').unix() * 1000),

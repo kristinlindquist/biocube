@@ -35,15 +35,23 @@ export interface ChartProps {
   title?: string | ReactElement;
 }
 
-export type ColumnType = {
+export type DynamicDefType = {
   create?: boolean;
   id: string;
   listOrder?: number;
   name: string;
   options?: Array<{ id: string | number; name: string }>;
-  type?: FieldType;
   update?: boolean;
 };
+
+export type ColumnType = {
+  type?: FieldType;
+} & DynamicDefType;
+
+export type ContentDefType = {
+  props: KeyValuePairs;
+  type: 'CHIPS' | 'DATAGRID' | 'SUBTITLE' | 'TABLE' | 'TITLE' | 'TYPOGRAPHY';
+} & DynamicDefType;
 
 export type RowType = { [key: string]: string | number | Date };
 
@@ -77,3 +85,19 @@ export type FieldType = TextFieldType | SelectFieldType;
 
 // eslint-disable-next-line
 export type KeyValuePairs = { [key: string]: any };
+
+export type TypographyVariant =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'subtitle1'
+  | 'subtitle2'
+  | 'body1'
+  | 'body2'
+  | 'caption'
+  | 'button'
+  | 'overline'
+  | 'inherit';
