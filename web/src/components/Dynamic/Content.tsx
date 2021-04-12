@@ -65,7 +65,6 @@ const getElement = (
 
 const Content = ({ data, dataMap }: ContentProps): ReactElement => {
   const titleKey = dataMap.find(({ type }) => type === 'TITLE').id;
-  console.log(data[titleKey]);
   const subtitleKey = dataMap.find(({ type }) => type === 'SUBTITLE').id;
 
   return (
@@ -78,8 +77,7 @@ const Content = ({ data, dataMap }: ContentProps): ReactElement => {
             {getElement(v, k, dataMap.find(({ id }) => id === k) || {})}
           </Box>
         ))
-        .filter((e) => e)
-        .reverse()}
+        .filter((e) => e)}
     </Card>
   );
 };

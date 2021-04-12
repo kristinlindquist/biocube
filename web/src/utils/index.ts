@@ -12,7 +12,7 @@ export const sortByColumn = (
   sortBy(
     Object.entries(row),
     ([id]) => (cols.find((col) => id === col.id) || {}).listOrder,
-  ).reverse();
+  );
 
 export const unixYearRange = {
   start: new Date(moment().startOf('year').unix() * 1000),

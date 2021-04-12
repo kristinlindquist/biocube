@@ -10,7 +10,7 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import { capitalize, isEmpty, omitBy, orderBy } from 'lodash';
+import { capitalize, isEmpty, omitBy, sortBy } from 'lodash';
 
 import { Fab } from 'components/Button';
 import { Chip } from 'components/Chip';
@@ -141,7 +141,7 @@ const Table = ({
   mutation,
   rows,
 }: TableProps): ReactElement => {
-  const cols = orderBy(columns || getColumns(rows), 'listOrder');
+  const cols = sortBy(columns || getColumns(rows), 'listOrder');
   const history = useHistory();
   const goTo = (url) => history.push(url);
 
