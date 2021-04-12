@@ -82,6 +82,9 @@ model Datum {
   @@unique([startedAt, deviceId, dataTypeId], name: "time_device_data_key")
 }
 
+/// "A meaningful aspect of health (MAH) broadly defines an aspect of a disease that patients
+/// a) do not want to become worse, b) want to improve or c) want to prevent."
+/// https://www.dimesociety.org/developing-and-selecting-digital-clinical-measures-that-matter-to-patients/
 model AspectOfHealth {
   id                 Int                 @id @default(autoincrement())
   createdAt          DateTime            @default(now())
@@ -92,6 +95,8 @@ model AspectOfHealth {
   indications        Indication[]
 }
 
+/// "The COI is a simplified or narrowed element of a MAH that can be practically measured."
+/// https://www.dimesociety.org/developing-and-selecting-digital-clinical-measures-that-matter-to-patients/
 model ConceptOfInterest {
   id              Int              @id @default(autoincrement())
   createdAt       DateTime         @default(now())
@@ -102,6 +107,8 @@ model ConceptOfInterest {
   measures        Measure[]
 }
 
+/// "The outcome to be measured.""
+/// https://docs.google.com/presentation/d/1EmtQ1YS8FAOXbTVDnWPRpwrSXT1MMiTWWnRg4CCRWdc/edit#slide=id.p61
 model Measure {
   id                 Int                 @id @default(autoincrement())
   createdAt          DateTime            @default(now())
