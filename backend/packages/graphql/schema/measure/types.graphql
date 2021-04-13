@@ -24,5 +24,6 @@ type DataType {
 type Indication {
   id: Int!
   description: String
-  name: String!	
+  name: String!
+  url: String
 }

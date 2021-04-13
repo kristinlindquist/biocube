@@ -1,6 +1,7 @@
 import { ElementType, ReactElement } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
+  Box,
   Paper,
   Table as MaterialTable,
   TableBody,
@@ -65,10 +66,13 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
 /**
  * Render chips
  */
-const renderChips = (chips) =>
-  (Array.isArray(chips) ? chips : [chips]).map((cell) => (
-    <Chip key={cell.id} {...cell} />
-  ));
+const renderChips = (chips) => (
+  <Box sx={{ mt: -0.5 }}>
+    {(Array.isArray(chips) ? chips : [chips]).map((cell) => (
+      <Chip key={cell.id} {...cell} />
+    ))}
+  </Box>
+);
 
 /**
  * Render cell by type

@@ -32,7 +32,7 @@ const Chip = ({ id, name, url, ...props }: ChipProps): ReactElement => (
     label={name}
     onClick={(e) => e.stopPropagation()}
     size="small"
-    sx={{ mr: 0.5 }}
+    sx={{ mr: 0.5, mt: 0.5 }}
     to={url}
     {...props}
   />

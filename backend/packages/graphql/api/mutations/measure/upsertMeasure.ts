@@ -12,13 +12,16 @@ const upsertMeasure = gql`
         dataTypes {
           id
           name
+          url
         }
         description
         indications {
           id
           name
+          url
         }
         name
+        url
       }
     }
   }

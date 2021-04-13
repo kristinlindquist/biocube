@@ -18,6 +18,7 @@ const getMeasures = gql`
         indications {
           id
           name
+          url
         }
         name
         url

@@ -324,6 +324,7 @@ export type IndicationInput = {
   id: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 

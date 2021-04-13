@@ -38,6 +38,7 @@ input IndicationInput {
   id: Int!
   description: String
   name: String
+  url: String
 }
 
 type UpsertMeasureResult {
