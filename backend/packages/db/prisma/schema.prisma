@@ -139,6 +139,7 @@ model Study {
   abbreviation       String?             @db.VarChar(10)
   abstract           String?
   authors            String
+  externalUrl        String
   title              String
   aspectsOfHealth    AspectOfHealth[]
   conceptsOfInterest ConceptOfInterest[]
