@@ -36,6 +36,8 @@ enum ComponentType {
 }
 
 enum QueryDocumentType {
+  GetDataTypeDocument
+  GetDataTypesDocument
   GetMeasureDocument
   GetMeasuresDocument
   UpsertMeasureDocument

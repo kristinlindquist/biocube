@@ -8,76 +8,82 @@ datasource db {
 }
 
 model User {
-  email       String       @unique
-  name        String       @db.VarChar(255)
+  id          Int          @id @default(autoincrement())
   createdAt   DateTime     @default(now())
   updatedAt   DateTime?    @updatedAt
-  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  name        String       @db.VarChar(255)
   devices     Device[]
   indications Indication[]
 }
 
 model Device {
-  name         String     @db.VarChar(255)
+  id           Int        @id @default(autoincrement())
   createdAt    DateTime   @default(now())
   updatedAt    DateTime?  @updatedAt
-  id           Int        @id @default(autoincrement())
-  userId       Int
-  user         User       @relation(fields: [userId], references: [id])
   deviceTypeId Int
+  name         String     @db.VarChar(255)
+  userId       Int
   deviceType   DeviceType @relation(fields: [deviceTypeId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
   data         Datum[]
 }
 
 model DeviceType {
-  name        String       @db.VarChar(255)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime?    @updatedAt
-  id          Int          @id @default(autoincrement())
-  description String?
-  parentId    Int?
-  parent      DeviceType?  @relation(fields: [parentId], references: [id])
-  devices     Device[]
-  DeviceType  DeviceType[] @relation("DeviceTypeToDeviceType")
+  id           Int          @id @default(autoincrement())
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime?    @updatedAt
+  abbreviation String?      @db.VarChar(10)
+  description  String?
+  name         String       @db.VarChar(255)
+  parentId     Int?
+  parent       DeviceType?  @relation(fields: [parentId], references: [id])
+  children     DeviceType[] @relation("DeviceTypeToDeviceType")
+  dataTypes    DataType[]
+  devices      Device[]
 }
 
 model DataType {
-  abbreviation String?             @db.VarChar(10)
-  name         String              @db.VarChar(255)
-  description  String?
-  createdAt    DateTime            @default(now())
-  updatedAt    DateTime?           @updatedAt
-  id           Int                 @id @default(autoincrement())
-  parentId     Int?
-  parent       DataType?           @relation(fields: [parentId], references: [id])
-  children     DataType[]          @relation("DataTypeToDataType")
-  data         Datum[]
-  measureMap   MeasureToDataType[]
+  id               Int              @id @default(autoincrement())
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime?        @updatedAt
+  abbreviation     String?          @db.VarChar(10)
+  description      String?
+  name             String           @db.VarChar(255)
+  parentId         Int?
+  parent           DataType?        @relation(fields: [parentId], references: [id])
+  children         DataType[]       @relation("DataTypeToDataType")
+  data             Datum[]
+  deviceTypes      DeviceType[]
+  measureProcesses MeasureProcess[]
+  relatedStudies   Study[]
 }
 
-model MeasureToDataType {
+// Measure Process?
+model MeasureProcess {
   dataTypeId  Int
   measureId   Int
-  dataType    DataType  @relation(fields: [dataTypeId], references: [id])
-  measure     Measure   @relation(fields: [measureId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
   description String?
+  dataType    DataType  @relation(fields: [dataTypeId], references: [id])
+  measure     Measure   @relation(fields: [measureId], references: [id])
 
   @@unique([measureId, dataTypeId], name: "measure_data_type_key")
 }
 
 model Datum {
-  value      Float?
-  state      StateType?
-  createdAt  DateTime   @default(now())
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
   startedAt  DateTime
-  id         Int        @id @default(autoincrement())
-  duration   BigInt     @default(0)
-  deviceId   Int
-  device     Device     @relation(fields: [deviceId], references: [id])
   dataTypeId Int
-  dataType   DataType   @relation(fields: [dataTypeId], references: [id])
+  deviceId   Int
+  duration   BigInt   @default(0)
+
+  dataType DataType   @relation(fields: [dataTypeId], references: [id])
+  device   Device     @relation(fields: [deviceId], references: [id])
+  state    StateType?
+  value    Float?
 
   @@unique([startedAt, deviceId, dataTypeId], name: "time_device_data_key")
 }
@@ -89,10 +95,12 @@ model AspectOfHealth {
   id                 Int                 @id @default(autoincrement())
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
+  abbreviation       String?             @db.VarChar(10)
   description        String?
   name               String              @db.VarChar(255)
   conceptsOfInterest ConceptOfInterest[]
   indications        Indication[]
+  relatedStudies     Study[]
 }
 
 /// "The COI is a simplified or narrowed element of a MAH that can be practically measured."
@@ -101,10 +109,12 @@ model ConceptOfInterest {
   id              Int              @id @default(autoincrement())
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
+  abbreviation    String?          @db.VarChar(10)
   description     String?
   name            String           @db.VarChar(255)
   aspectsOfHealth AspectOfHealth[]
   measures        Measure[]
+  relatedStudies  Study[]
 }
 
 /// "The outcome to be measured.""
@@ -113,32 +123,36 @@ model Measure {
   id                 Int                 @id @default(autoincrement())
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
-  description        String?
   abbreviation       String?             @db.VarChar(10)
+  description        String?
   name               String              @db.VarChar(255)
   conceptsOfInterest ConceptOfInterest[]
+  measureProcesses   MeasureProcess[]
   indications        Indication[]
   validationStudies  Study[]
-  dataTypeMap        MeasureToDataType[]
 }
 
 model Study {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  abstract  String?
-  authors   String
-  title     String
-  measures  Measure[]
+  id                 Int                 @id @default(autoincrement())
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime?           @updatedAt
+  abbreviation       String?             @db.VarChar(10)
+  abstract           String?
+  authors            String
+  title              String
+  aspectsOfHealth    AspectOfHealth[]
+  conceptsOfInterest ConceptOfInterest[]
+  dataTypes          DataType[]
+  measures           Measure[]
 }
 
 model Indication {
   id              Int              @id @default(autoincrement())
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
-  name            String           @db.VarChar(255)
   abbreviation    String?          @db.VarChar(10)
   description     String?
+  name            String           @db.VarChar(255)
   aspectsOfHealth AspectOfHealth[]
   measures        Measure[]
   users           User[]
@@ -169,8 +183,8 @@ model DataQuery {
   updatedAt        DateTime?         @updatedAt
   document         QueryDocumentType
   parameters       Json
-  readComponents   Component[]       @relation("readQuery")
   deleteComponents Component[]       @relation("deleteMutation")
+  readComponents   Component[]       @relation("readQuery")
   upsertComponents Component[]       @relation("upsertMutation")
 }
 
@@ -178,13 +192,13 @@ model Component {
   id        Int           @id @default(autoincrement())
   createdAt DateTime      @default(now())
   updatedAt DateTime?     @updatedAt
-  type      ComponentType
-  props     Json?
-  readId    Int?
-  upsertId  Int?
   deleteId  Int?
+  readId    Int?
+  props     Json?
+  upsertId  Int?
   delete    DataQuery?    @relation("deleteMutation", fields: [deleteId], references: [id])
   read      DataQuery?    @relation("readQuery", fields: [readId], references: [id])
+  type      ComponentType
   upsert    DataQuery?    @relation("upsertMutation", fields: [upsertId], references: [id])
   pages     Page[]
 }
@@ -208,6 +222,8 @@ enum ComponentType {
 }
 
 enum QueryDocumentType {
+  GetDataTypeDocument
+  GetDataTypesDocument
   GetMeasureDocument
   GetMeasuresDocument
   UpsertMeasureDocument

@@ -1,6 +1,13 @@
 type DataType {
+  id: Int
+  description: String
+  deviceTypes: [DeviceType!]
+  name: String!
+  url: String
+}
+
+type DeviceType {
   id: Int!
   description: String
   name: String!
-  url: String
 }

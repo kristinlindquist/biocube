@@ -16,7 +16,7 @@ async function deleteMeasure(
   const { input } = args;
   const inputMeasure: DeleteMeasureInput = input;
 
-  await prisma.measureToDataType.deleteMany({
+  await prisma.measureProcess.deleteMany({
     where: { measureId: inputMeasure.id },
   });
 

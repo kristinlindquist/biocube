@@ -6,11 +6,12 @@ type Mutation {
 input UpsertDataTypeInput {
   id: Int
   description: String
+  deviceTypes: [DeviceTypeInput!]
   name: String!
 }
 
 type UpsertDataTypeResult {
-  dataType: DataType!
+  dataType: DataType
 }
 
 input DeleteDataTypeInput {
@@ -18,5 +19,11 @@ input DeleteDataTypeInput {
 }
 
 type DeleteDataTypeResult {
-  dataType: DataType!
+  dataType: DataType
+}
+
+input DeviceTypeInput {
+  id: Int!
+  description: String
+  name: String
 }

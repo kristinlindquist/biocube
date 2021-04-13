@@ -48,6 +48,7 @@ type DataQuery {
 
 type DataType {
   description: String
+  deviceTypes: [DeviceType!]
   id: Int!
   name: String!
   url: String
@@ -75,7 +76,7 @@ input DeleteDataTypeInput {
 }
 
 type DeleteDataTypeResult {
-  dataType: DataType!
+  dataType: DataType
 }
 
 input DeleteIndicationInput {
@@ -106,6 +107,18 @@ type Device {
   id: Int!
   userId: Int!
   name: String!
+}
+
+type DeviceType {
+  id: Int!
+  description: String
+  name: String!
+}
+
+input DeviceTypeInput {
+  id: Int!
+  description: String
+  name: String
 }
 
 input GetActivityInput {
@@ -323,6 +336,8 @@ type Query {
 }
 
 enum QueryDocumentType {
+  GetDataTypeDocument
+  GetDataTypesDocument
   GetMeasureDocument
   GetMeasuresDocument
   UpsertMeasureDocument
@@ -358,11 +373,12 @@ type UpsertConceptOfInterestResult {
 input UpsertDataTypeInput {
   id: Int
   description: String
+  deviceTypes: [DeviceTypeInput!]
   name: String!
 }
 
 type UpsertDataTypeResult {
-  dataType: DataType!
+  dataType: DataType
 }
 
 input UpsertIndicationInput {

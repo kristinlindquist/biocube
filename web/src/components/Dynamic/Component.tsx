@@ -9,6 +9,8 @@ import { DataGrid, Table } from 'components/Table';
 import { JSONObject } from 'types';
 import { getFirstNonString, getQueryAndEntity, getStartsWith } from 'utils';
 import {
+  GetDataTypeDocument,
+  GetDataTypesDocument,
   GetMeasureDocument,
   GetMeasuresDocument,
   UpsertMeasureDocument,
@@ -22,6 +24,8 @@ import { Logger } from 'logger';
 import Content from './Content';
 
 const DocumentMap = {
+  GetDataTypeDocument,
+  GetDataTypesDocument,
   GetMeasureDocument,
   GetMeasuresDocument,
   UpsertMeasureDocument,
@@ -92,7 +96,13 @@ const Component = ({
   const [error, setError] = useState(null);
   const { entityName, queryName } = getQueryAndEntity(read.document);
 
+  const onError = (e) => {
+    setError(e);
+    Logger.error(e);
+  };
+
   const { data } = useQuery(DocumentMap[read.document], {
+    onError,
     variables: {
       input: {
         ...read.parameters,
@@ -107,10 +117,7 @@ const Component = ({
    */
   const [mutate] = upsert
     ? useMutation(DocumentMap[upsert.document], {
-        onError: (e) => {
-          setError(e);
-          Logger.error(e);
-        },
+        onError,
         update(cache, { data: d }) {
           cache.modify({
             fields: {
@@ -136,6 +143,7 @@ const Component = ({
    */
   const [deleteMutation] = del
     ? useMutation(DocumentMap[del.document], {
+        onError,
         update(cache, { data: d }) {
           cache.evict({
             id: cache.identify(getReturnObj(d, 'delete')),

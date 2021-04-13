@@ -6,6 +6,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableContainerProps,
   TableHead,
   TableRow,
   Typography,
@@ -33,6 +34,10 @@ export interface TableProps {
    * background component
    */
   component?: ElementType;
+  /**
+   * Props for container (e.g. sx)
+   */
+  containerProps?: TableContainerProps;
   /**
    * Delete mutation
    */
@@ -119,7 +124,7 @@ const renderRows = (rows, cols, mutation, deleteMutation, goTo) =>
           row.url ? () => goTo(row.url) : undefined,
         ),
       )}
-      <TableCell scope="row">
+      <TableCell scope="row" sx={{ width: '1px' }}>
         <EditCell
           columns={cols}
           del={() => deleteMutation({ variables: { input: { id: row.id } } })}
@@ -137,6 +142,7 @@ const Table = ({
   allowAdds,
   columns,
   component,
+  containerProps,
   deleteMutation,
   mutation,
   rows,
@@ -146,7 +152,7 @@ const Table = ({
   const goTo = (url) => history.push(url);
 
   return (
-    <TableContainer component={component || Paper}>
+    <TableContainer {...containerProps} component={component || Paper}>
       <MaterialTable aria-label="simple table">
         <TableHead>
           <TableRow>

@@ -16,7 +16,7 @@ const Measure = {
     const { id } = parent;
     const { prisma } = context;
 
-    const mtdts = await prisma.measureToDataType.findMany({
+    const mtdts = await prisma.measureProcess.findMany({
       where: {
         measureId: id,
       },

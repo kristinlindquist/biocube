@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import { Box, Typography } from '@material-ui/core';
+import { get } from 'lodash';
 
 import { Card } from 'components/Card';
 import { Chip } from 'components/Chip';
@@ -47,8 +48,6 @@ const getElement = (
   { name = null, type = '', props = {} },
 ): ReactElement | ReactElement[] => {
   switch (type) {
-    case 'TYPOGRAPHY':
-      return <Typography {...props}>{value}</Typography>;
     case 'CHIPS':
       return addTitle(
         asArray(value).map((v) => <Chip key={`${id}-${v.name}`} {...v} />),
@@ -57,26 +56,40 @@ const getElement = (
     case 'DATAGRID':
       return addTitle(<DataGrid {...props} hideFooter rows={value} />, name);
     case 'TABLE':
-      return addTitle(<Table {...props} rows={value} />, name, 'h4');
+      return <Table {...props} rows={value} />;
+    case 'TYPOGRAPHY':
+      return <Typography {...props}>{value}</Typography>;
     default:
       return null;
   }
 };
 
 const Content = ({ data, dataMap }: ContentProps): ReactElement => {
-  const titleKey = dataMap.find(({ type }) => type === 'TITLE').id;
-  const subtitleKey = dataMap.find(({ type }) => type === 'SUBTITLE').id;
+  const titleKey = get(
+    dataMap.find(({ type }) => type === 'TITLE'),
+    'id',
+  );
+  const subtitleKey = get(
+    dataMap.find(({ type }) => type === 'SUBTITLE'),
+    'id',
+  );
 
   return (
     <Card
       subtitle={subtitleKey ? data[subtitleKey] : undefined}
       title={titleKey ? data[titleKey] : undefined}>
       {sortByColumn(data, dataMap)
-        .map(([k, v]) => (
-          <Box key={k} sx={{ mb: 2 }}>
-            {getElement(v, k, dataMap.find(({ id }) => id === k) || {})}
-          </Box>
-        ))
+        .map(([k, v]) => {
+          const col = dataMap.find(({ id }) => id === k);
+          return (
+            <Box
+              key={k}
+              sx={{ mb: 1 }}
+              {...(col && col.props ? col.props.sx : {})}>
+              {getElement(v, k, col || {})}
+            </Box>
+          );
+        })
         .filter((e) => e)}
     </Card>
   );

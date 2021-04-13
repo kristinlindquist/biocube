@@ -8,7 +8,7 @@ import * as gql from 'gql';
 export const sortByColumn = (
   row: KeyValuePairs,
   cols: Partial<DynamicDefType>[],
-): Array<Array<any>> =>
+): Array<Array<string | KeyValuePairs>> =>
   sortBy(
     Object.entries(row),
     ([id]) => (cols.find((col) => id === col.id) || {}).listOrder,

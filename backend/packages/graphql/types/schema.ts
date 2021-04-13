@@ -69,6 +69,7 @@ export type DataQuery = {
 export type DataType = {
   __typename?: 'DataType';
   description?: Maybe<Scalars['String']>;
+  deviceTypes?: Maybe<Array<DeviceType>>;
   id: Scalars['Int'];
   name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
@@ -97,7 +98,7 @@ export type DeleteDataTypeInput = {
 
 export type DeleteDataTypeResult = {
   __typename?: 'DeleteDataTypeResult';
-  dataType: DataType;
+  dataType?: Maybe<DataType>;
 };
 
 export type DeleteIndicationInput = {
@@ -132,6 +133,19 @@ export type Device = {
   id: Scalars['Int'];
   userId: Scalars['Int'];
   name: Scalars['String'];
+};
+
+export type DeviceType = {
+  __typename?: 'DeviceType';
+  id: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+export type DeviceTypeInput = {
+  id: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type GetActivityInput = {
@@ -502,6 +516,8 @@ export type QueryGetUserArgs = {
 };
 
 export enum QueryDocumentType {
+  GetDataTypeDocument = 'GetDataTypeDocument',
+  GetDataTypesDocument = 'GetDataTypesDocument',
   GetMeasureDocument = 'GetMeasureDocument',
   GetMeasuresDocument = 'GetMeasuresDocument',
   UpsertMeasureDocument = 'UpsertMeasureDocument',
@@ -540,12 +556,13 @@ export type UpsertConceptOfInterestResult = {
 export type UpsertDataTypeInput = {
   id?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
+  deviceTypes?: Maybe<Array<DeviceTypeInput>>;
   name: Scalars['String'];
 };
 
 export type UpsertDataTypeResult = {
   __typename?: 'UpsertDataTypeResult';
-  dataType: DataType;
+  dataType?: Maybe<DataType>;
 };
 
 export type UpsertIndicationInput = {

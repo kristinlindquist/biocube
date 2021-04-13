@@ -6,6 +6,11 @@ const upsertDataType = gql`
       dataType {
         id
         description
+        deviceTypes {
+          id
+          name
+          description
+        }
         name
       }
     }
