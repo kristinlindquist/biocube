@@ -27,6 +27,7 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#546e7a',
+      contrastText: '#fff',
     },
     secondary: {
       main: '#5c6bc0',
@@ -107,6 +108,31 @@ export default {
       styleOverrides: {
         input: {
           height: 'initial',
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        textColorPrimary: {
+          color: theme.palette.primary.contrastText,
+          opacity: 0.7,
+        },
+        root: {
+          minWidth: 0,
+          [theme.breakpoints.up('sm')]: {
+            minWidth: 0,
+          },
+          marginRight: theme.spacing(4),
+          '&:hover': {
+            opacity: 0.9,
+          },
+          '&.Mui-selected': {
+            color: theme.palette.primary.contrastText,
+            opacity: 0.9,
+          },
+          '&indicator': {
+            backgroundColor: '#1890ff',
+          },
         },
       },
     },

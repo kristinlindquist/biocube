@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
+  Box,
   Button,
   IconButton,
   Toolbar,
@@ -9,12 +10,11 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const useStyles = makeStyles((theme) => ({
+import SubNav from './SubNav';
+
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
-  },
-  menu: {
-    marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
@@ -31,13 +31,13 @@ export type HeaderProps = {
 const Header = ({ title }: HeaderProps): ReactElement => {
   const classes = useStyles();
   return (
-    <AppBar position="static">
+    <AppBar color="primary" elevation={3} position="static">
       <Toolbar>
         <IconButton
           aria-label="menu"
-          className={classes.menu}
           color="inherit"
-          edge="start">
+          edge="start"
+          sx={{ pr: 4 }}>
           <MenuIcon />
         </IconButton>
         <Typography className={classes.title} variant="h4">
@@ -45,6 +45,15 @@ const Header = ({ title }: HeaderProps): ReactElement => {
         </Typography>
         <Button color="inherit">Login</Button>
       </Toolbar>
+      <Box sx={{ pl: 8 }}>
+        <SubNav
+          tabs={[
+            { id: 'measures', label: 'Measures', to: '/measures' },
+            { id: 'indications', label: 'Indications', to: '/indications' },
+            { id: 'querybuilder', label: 'Query Builder', to: '/qb' },
+          ]}
+        />
+      </Box>
     </AppBar>
   );
 };

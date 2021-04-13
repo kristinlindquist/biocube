@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { Box, Typography } from '@material-ui/core';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 import { Card } from 'components/Card';
 import { Chip } from 'components/Chip';
@@ -50,7 +50,9 @@ const getElement = (
   switch (type) {
     case 'CHIPS':
       return addTitle(
-        asArray(value).map((v) => <Chip key={`${id}-${v.name}`} {...v} />),
+        asArray(value).map((v) => (
+          <Chip key={`${id}-${v.name}`} sx={{ mr: 0.5 }} {...v} />
+        )),
         name,
       );
     case 'DATAGRID':
@@ -81,14 +83,14 @@ const Content = ({ data, dataMap }: ContentProps): ReactElement => {
       {sortByColumn(data, dataMap)
         .map(([k, v]) => {
           const col = dataMap.find(({ id }) => id === k);
-          return (
+          return !isEmpty(v) ? (
             <Box
               key={k}
               sx={{ mb: 1 }}
               {...(col && col.props ? col.props.sx : {})}>
               {getElement(v, k, col || {})}
             </Box>
-          );
+          ) : null;
         })
         .filter((e) => e)}
     </Card>
