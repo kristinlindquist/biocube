@@ -6,6 +6,9 @@ const upsertIndication = gql`
       indication {
         id
         description
+        measures {
+          id
+        }
         name
       }
     }

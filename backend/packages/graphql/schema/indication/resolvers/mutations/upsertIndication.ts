@@ -14,25 +14,28 @@ async function upsertIndication(
   context: Context,
 ): Promise<UpsertIndicationResult> {
   const { prisma } = context;
-  const { input } = args;
-  const inputIndication: UpsertIndicationInput = input;
-
+  const { input } = args as { input: UpsertIndicationInput };
+  const { id, measures } = input;
+  const mIds = (measures || []).map(({ id }) => id);
   let indication: Indication | null = null;
 
-  if (!inputIndication.id) {
+  const getKey = isUpdate => (isUpdate ? 'set' : 'connect');
+  const getData = (isUpdate = false) => {
+    const key = getKey(isUpdate);
+    return {
+      ...(omit(input, ['id', 'url']) as any),
+      measures: { [key]: mIds },
+    };
+  };
+
+  if (!id) {
     indication = await prisma.indication.create({
-      data: {
-        ...omit(inputIndication, 'id'),
-      },
+      data: getData(),
     });
   } else {
     indication = await prisma.indication.update({
-      where: {
-        id: inputIndication.id,
-      },
-      data: {
-        ...omit(inputIndication, 'id'),
-      },
+      where: { id },
+      data: getData(true),
     });
   }
 

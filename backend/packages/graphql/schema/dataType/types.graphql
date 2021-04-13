@@ -2,11 +2,18 @@ type DataType {
   id: Int
   description: String
   deviceTypes: [DeviceType!]
+  measures: [Measure!]
   name: String!
   url: String
 }
 
 type DeviceType {
+  id: Int!
+  description: String
+  name: String!
+}
+
+type Measure {
   id: Int!
   description: String
   name: String!

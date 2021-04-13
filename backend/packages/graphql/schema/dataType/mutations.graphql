@@ -7,6 +7,7 @@ input UpsertDataTypeInput {
   id: Int
   description: String
   deviceTypes: [DeviceTypeInput!]
+  measures: [MeasureInput!]
   name: String!
 }
 
@@ -23,6 +24,12 @@ type DeleteDataTypeResult {
 }
 
 input DeviceTypeInput {
+  id: Int!
+  description: String
+  name: String
+}
+
+input MeasureInput {
   id: Int!
   description: String
   name: String

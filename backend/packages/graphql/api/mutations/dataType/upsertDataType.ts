@@ -11,6 +11,11 @@ const upsertDataType = gql`
           name
           description
         }
+        measures {
+          id
+          name
+          description
+        }
         name
       }
     }

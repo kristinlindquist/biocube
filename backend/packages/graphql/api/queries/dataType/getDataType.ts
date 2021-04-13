@@ -8,8 +8,14 @@ const getDataType = gql`
         description
         deviceTypes {
           id
-          name
           description
+          name
+        }
+        measures {
+          id
+          description
+          name
+          url
         }
         name
         url

@@ -6,6 +6,7 @@ const getMeasure = gql`
       measure {
         id
         conceptsOfInterest {
+          id
           name
         }
         dataTypes {
@@ -16,7 +17,9 @@ const getMeasure = gql`
         }
         description
         indications {
+          id
           name
+          url
         }
         name
         url

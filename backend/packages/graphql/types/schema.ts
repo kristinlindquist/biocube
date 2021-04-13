@@ -71,6 +71,7 @@ export type DataType = {
   description?: Maybe<Scalars['String']>;
   deviceTypes?: Maybe<Array<DeviceType>>;
   id: Scalars['Int'];
+  measures?: Maybe<Array<Measure>>;
   name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
 };
@@ -314,8 +315,9 @@ export type Indication = {
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  indications?: Maybe<Array<Indication>>;
+  measures?: Maybe<Array<Measure>>;
   name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type IndicationInput = {
@@ -327,13 +329,19 @@ export type IndicationInput = {
 
 export type Measure = {
   __typename?: 'Measure';
-  id?: Maybe<Scalars['Int']>;
-  description?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   dataTypes?: Maybe<Array<DataType>>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
   indications?: Maybe<Array<Indication>>;
+  name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
+};
+
+export type MeasureInput = {
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -557,6 +565,7 @@ export type UpsertDataTypeInput = {
   id?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   deviceTypes?: Maybe<Array<DeviceTypeInput>>;
+  measures?: Maybe<Array<MeasureInput>>;
   name: Scalars['String'];
 };
 
@@ -568,6 +577,7 @@ export type UpsertDataTypeResult = {
 export type UpsertIndicationInput = {
   id?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
+  measures?: Maybe<Array<MeasureInput>>;
   name: Scalars['String'];
 };
 

@@ -3,7 +3,8 @@ type Indication {
   description: String
   name: String!
   conceptsOfInterest: [ConceptOfInterest!]
-  indications: [Indication!]
+  measures: [Measure!]
+  url: String
 }
 
 type ConceptOfInterest {
@@ -12,8 +13,9 @@ type ConceptOfInterest {
   name: String!	
 }
 
-type Indication {
+type Measure {
   id: Int!
   description: String
-  name: String!	
+  name: String!
+  url: String
 }

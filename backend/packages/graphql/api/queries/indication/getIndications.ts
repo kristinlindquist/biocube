@@ -7,6 +7,7 @@ const getIndications = gql`
         id
         description
         name
+        url
       }
     }
   }

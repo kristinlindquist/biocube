@@ -1,9 +1,5 @@
 import { Indication } from '@prisma/client';
-import {
-  Parent,
-  Context,
-  GetIndicationsResult,
-} from '../../../../types';
+import { Parent, Context, GetIndicationsResult } from '../../../../types';
 
 async function getIndications(
   _: Parent,

@@ -6,6 +6,7 @@ type Mutation {
 input UpsertIndicationInput {
   id: Int
   description: String
+  measures: [MeasureInput!]
   name: String!
 }
 
@@ -19,4 +20,10 @@ input DeleteIndicationInput {
 
 type DeleteIndicationResult {
   indication: Indication!
+}
+
+input MeasureInput {
+  id: Int!
+  description: String
+  name: String
 }

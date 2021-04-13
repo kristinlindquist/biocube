@@ -14,27 +14,52 @@ async function upsertDataType(
   context: Context,
 ): Promise<UpsertDataTypeResult> {
   const { prisma } = context;
-  const { input } = args;
-  const inputDataType: UpsertDataTypeInput = input;
-  const { deviceTypes, id: dtId } = inputDataType;
+  const { input } = args as { input: UpsertDataTypeInput };
+  const { deviceTypes, id: dtId, measures } = input;
   const devTypeIds = (deviceTypes || []).map(({ id }) => ({ id }));
+  const mIds = (measures || []).map(({ id }) => id);
   let dataType: DataType | null = null;
+
+  const getKey = isUpdate => (isUpdate ? 'set' : 'connect');
+  const getData = (isUpdate = false) => {
+    const key = getKey(isUpdate);
+    return {
+      ...omit(input, ['id', 'measures', 'url']) as any,
+        deviceTypes: { [key]: devTypeIds },
+        measures: { [key]: mIds },
+    };
+  };
 
   if (!dtId) {
     dataType = await prisma.dataType.create({
       data: {
-        ...omit(inputDataType, ['id', 'url']) as any,
-        deviceTypes: { connect: devTypeIds },
+        ...getData(),
+        measureProcesses: {
+          createMany: {
+            data: mIds.map(id => ({
+              measureId: id,
+            })),
+          },
+        },
       },
     });
   } else {
+    await prisma.measureProcess.createMany({
+      data: mIds.map(id => ({ dataTypeId: dtId, measureId: id })),
+      skipDuplicates: true,
+    });
+
     dataType = await prisma.dataType.update({
       where: {
         id: dtId,
       },
       data: {
-        ...omit(inputDataType, ['id', 'url']) as any,
-        deviceTypes: { set: devTypeIds },
+        ...getData(true),
+        measureProcesses: {
+          deleteMany: {
+            measureId: { notIn: mIds },
+          },
+        },
       },
     });
   }
