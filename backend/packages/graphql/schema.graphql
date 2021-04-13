@@ -27,6 +27,7 @@ type ConceptOfInterest {
   description: String
   id: Int!
   name: String!
+  url: String
 }
 
 input ConceptOfInterestInput {
@@ -108,12 +109,14 @@ type Device {
   id: Int!
   userId: Int!
   name: String!
+  url: String
 }
 
 type DeviceType {
   id: Int!
   description: String
   name: String!
+  url: String
 }
 
 input DeviceTypeInput {
@@ -297,6 +300,7 @@ input MeasureInput {
   description: String
   id: Int!
   name: String
+  url: String
 }
 
 type Mutation {
@@ -373,6 +377,7 @@ input UpsertConceptOfInterestInput {
   id: Int
   description: String
   name: String!
+  url: String
 }
 
 type UpsertConceptOfInterestResult {
@@ -385,6 +390,7 @@ input UpsertDataTypeInput {
   deviceTypes: [DeviceTypeInput!]
   measures: [MeasureInput!]
   name: String!
+  url: String
 }
 
 type UpsertDataTypeResult {
@@ -396,6 +402,7 @@ input UpsertIndicationInput {
   description: String
   measures: [MeasureInput!]
   name: String!
+  url: String
 }
 
 type UpsertIndicationResult {

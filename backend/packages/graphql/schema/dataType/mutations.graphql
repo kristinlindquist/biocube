@@ -9,6 +9,7 @@ input UpsertDataTypeInput {
   deviceTypes: [DeviceTypeInput!]
   measures: [MeasureInput!]
   name: String!
+  url: String
 }
 
 type UpsertDataTypeResult {
@@ -33,4 +34,5 @@ input MeasureInput {
   id: Int!
   description: String
   name: String
+  url: String
 }

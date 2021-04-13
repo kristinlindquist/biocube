@@ -45,6 +45,7 @@ export type ConceptOfInterest = {
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type ConceptOfInterestInput = {
@@ -134,6 +135,7 @@ export type Device = {
   id: Scalars['Int'];
   userId: Scalars['Int'];
   name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type DeviceType = {
@@ -141,6 +143,7 @@ export type DeviceType = {
   id: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type DeviceTypeInput = {
@@ -343,6 +346,7 @@ export type MeasureInput = {
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -555,6 +559,7 @@ export type UpsertConceptOfInterestInput = {
   id?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type UpsertConceptOfInterestResult = {
@@ -568,6 +573,7 @@ export type UpsertDataTypeInput = {
   deviceTypes?: Maybe<Array<DeviceTypeInput>>;
   measures?: Maybe<Array<MeasureInput>>;
   name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type UpsertDataTypeResult = {
@@ -580,6 +586,7 @@ export type UpsertIndicationInput = {
   description?: Maybe<Scalars['String']>;
   measures?: Maybe<Array<MeasureInput>>;
   name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type UpsertIndicationResult = {

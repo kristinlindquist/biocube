@@ -1,10 +1,13 @@
 /**
  * Device type resolvers
  */
-// import { User } from '@prisma/client';
-// import { Parent, Args, Context } from '../../../../types';
+import { Parent } from '../../../../types';
 
 const Device = {
+  url: (parent: Parent): string | null => {
+    const { id } = parent;
+    return `/device/${id}`;
+  }
 };
 
 export default Device;

@@ -11,10 +11,12 @@ type DeviceType {
   id: Int!
   description: String
   name: String!
+  url: String
 }
 
 type Measure {
   id: Int!
   description: String
   name: String!
+  url: String
 }

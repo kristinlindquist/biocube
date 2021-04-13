@@ -16,14 +16,14 @@ async function upsertIndication(
   const { prisma } = context;
   const { input } = args as { input: UpsertIndicationInput };
   const { id, measures } = input;
-  const mIds = (measures || []).map(({ id }) => id);
+  const mIds = (measures || []).map(({ id }) => ({ id }));
   let indication: Indication | null = null;
 
   const getKey = isUpdate => (isUpdate ? 'set' : 'connect');
   const getData = (isUpdate = false) => {
     const key = getKey(isUpdate);
     return {
-      ...(omit(input, ['id', 'url']) as any),
+      ...omit(input, ['id', 'url']),
       measures: { [key]: mIds },
     };
   };

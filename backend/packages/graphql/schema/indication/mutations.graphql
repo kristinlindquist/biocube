@@ -8,6 +8,7 @@ input UpsertIndicationInput {
   description: String
   measures: [MeasureInput!]
   name: String!
+  url: String
 }
 
 type UpsertIndicationResult {
@@ -26,4 +27,5 @@ input MeasureInput {
   id: Int!
   description: String
   name: String
+  url: String
 }
