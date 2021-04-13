@@ -4,9 +4,11 @@ import { get, isEmpty } from 'lodash';
 
 import { Card } from 'components/Card';
 import { Chip } from 'components/Chip';
+import { FormDialog as Dialog } from 'components/Dialog';
+import { IconButton } from 'components/Button';
 import { DataGrid, Table } from 'components/Table';
 import { ContentDefType, KeyValuePairs, TypographyVariant } from 'types';
-import { sortByColumn } from 'utils';
+import { fieldFromContentType, sortByColumn, undefOrTrue } from 'utils';
 
 export interface ContentProps {
   /**
@@ -66,7 +68,7 @@ const getElement = (
   }
 };
 
-const Content = ({ data, dataMap }: ContentProps): ReactElement => {
+const Content = ({ data, dataMap, mutation }: ContentProps): ReactElement => {
   const titleKey = get(
     dataMap.find(({ type }) => type === 'TITLE'),
     'id',
@@ -78,6 +80,23 @@ const Content = ({ data, dataMap }: ContentProps): ReactElement => {
 
   return (
     <Card
+      headerAction={
+        mutation ? (
+          <Dialog
+            openButton={<IconButton label="Edit" size="small" />}
+            fields={dataMap
+              .filter((c) => undefOrTrue(c.create))
+              .map((col) => ({
+                ...col,
+                type: fieldFromContentType(col.type),
+              }))}
+            onSubmit={(input) => mutation(input)}
+            sx={{ ml: 'auto' }}
+            title="Edit"
+            values={data}
+          />
+        ) : undefined
+      }
       subtitle={subtitleKey ? data[subtitleKey] : undefined}
       title={titleKey ? data[titleKey] : undefined}>
       {sortByColumn(data, dataMap)

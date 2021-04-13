@@ -128,14 +128,16 @@ const renderRows = (rows, cols, mutation, deleteMutation, goTo) =>
           row.url ? () => goTo(row.url) : undefined,
         ),
       )}
-      <TableCell scope="row" sx={{ width: '1px' }}>
-        <EditCell
-          columns={cols}
-          del={() => deleteMutation({ variables: { input: { id: row.id } } })}
-          mutation={mutation}
-          values={row}
-        />
-      </TableCell>
+      {mutation && deleteMutation && (
+        <TableCell scope="row" sx={{ width: '1px' }}>
+          <EditCell
+            columns={cols}
+            del={() => deleteMutation({ variables: { input: { id: row.id } } })}
+            mutation={mutation}
+            values={row}
+          />
+        </TableCell>
+      )}
     </TableRow>
   ));
 
@@ -163,7 +165,7 @@ const Table = ({
             {cols.map(({ id, name }) => (
               <TableCell key={id}>{name}</TableCell>
             ))}
-            <TableCell id="edit" />
+            {mutation && deleteMutation && <TableCell id="edit" />}
           </TableRow>
         </TableHead>
         <TableBody>

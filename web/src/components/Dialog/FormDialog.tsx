@@ -111,12 +111,12 @@ const FormDialog = ({
       {OpenButton}
       <Dialog
         {...props}
-        aria-labelledby="dialog-title"
+        aria-labelledby="title"
         fullWidth={Boolean(size)}
         maxWidth={size}
         open={open}
         onClose={handleClose}>
-        <DialogTitle id="dialog-title">{title}</DialogTitle>
+        <DialogTitle id="title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{content}</DialogContentText>
           {fields.map((f) => (

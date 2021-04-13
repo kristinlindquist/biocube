@@ -2,7 +2,7 @@ import moment from 'moment';
 import { camelCase, get, sortBy } from 'lodash';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
-import { DynamicDefType, KeyValuePairs } from 'types';
+import { ContentType, DynamicDefType, FieldType, KeyValuePairs } from 'types';
 import * as gql from 'gql';
 
 export const sortByColumn = (
@@ -68,4 +68,23 @@ export const getQueryAndEntity = (
 export const getEntityPath = (docName: string): string => {
   const { queryName, entityName } = getQueryAndEntity(docName);
   return `${queryName}.${entityName}`;
+};
+
+/**
+ * Get field type from content type
+ */
+export const fieldFromContentType = (type: ContentType): FieldType => {
+  switch (type) {
+    case 'CHIPS':
+    case 'DATAGRID':
+    case 'TABLE':
+      return 'multiple';
+    case 'SUBTITLE':
+    case 'TITLE':
+    case 'TYPOGRAPHY':
+      return 'string';
+
+    default:
+      return 'string';
+  }
 };

@@ -122,15 +122,21 @@ const Component = ({
           cache.modify({
             fields: {
               [queryName](existing = { [entityName]: [] }) {
-                return {
-                  [entityName]: uniqBy(
-                    [
-                      ...existing[entityName],
-                      { __ref: cache.identify(getReturnObj(d, 'upsert')) },
-                    ],
-                    '__ref',
-                  ),
-                };
+                return Array.isArray(existing[entityName])
+                  ? {
+                      [entityName]: uniqBy(
+                        [
+                          ...existing[entityName],
+                          { __ref: cache.identify(getReturnObj(d, 'upsert')) },
+                        ],
+                        '__ref',
+                      ),
+                    }
+                  : {
+                      [entityName]: {
+                        __ref: cache.identify(getReturnObj(d, 'upsert')),
+                      },
+                    };
               },
             },
           });

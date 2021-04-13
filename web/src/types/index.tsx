@@ -50,14 +50,7 @@ export type ColumnType = {
 
 export type ContentDefType = {
   props: KeyValuePairs;
-  type:
-    | 'CHIPS'
-    | 'DATAGRID'
-    | 'DIVIDER'
-    | 'SUBTITLE'
-    | 'TABLE'
-    | 'TITLE'
-    | 'TYPOGRAPHY';
+  type: ContentType;
 } & DynamicDefType;
 
 export type RowType = { [key: string]: string | number | Date };
@@ -73,6 +66,14 @@ export type SelectOptionType = {
   id: IdType;
   name: string;
 };
+
+export type ContentType =
+  | 'CHIPS'
+  | 'DATAGRID'
+  | 'SUBTITLE'
+  | 'TABLE'
+  | 'TITLE'
+  | 'TYPOGRAPHY';
 
 export type TextFieldType =
   | 'date'
