@@ -14,7 +14,7 @@ const activityMap = {
   17: 'spinning',
   112: 'awake',
   80: 'strength training',
-  35: 'hiking'
+  35: 'hiking',
 };
 
 const daily = {
@@ -34,82 +34,83 @@ export class GoogleFitnessAPI extends RESTDataSource {
   }
 
   willSendRequest(request) {
-    request.headers.set(
-      'Authorization',
-      'Bearer ya29.a0AfH6SMCOLnX62IH698HJW4eIH5OGF4VHPxJB2ZYCK_LDK75I26Y_fC-PSnX8-TQj792cRbirxZnxnhZBIA-QkXCpXCOo7X5nFuwwAKRcgmXzyu0WcleoIrIPZgXrg3upgXiHk_FZBYPGhpNyKIAkNxEWYlCE',
-      'Content-type',
-      'application/json',
+    request.headers.set('Content-type', 'application/json');
+  }
+
+  getData = async (token, start, end, type, aggregate) =>
+    this.post(
+      '/fitness/v1/users/me/dataset:aggregate',
+      {
+        aggregateBy: [
+          {
+            dataTypeName: type,
+          },
+        ],
+        bucketByTime: aggregate ? daily : null,
+        startTimeMillis: start,
+        endTimeMillis: end,
+      },
+      { headers: { Authorization: `Bearer ${token}` } },
     );
-  }
 
-  getData = async (start, end, type, aggregate) => {
-    return this.post('/fitness/v1/users/me/dataset:aggregate', {
-      aggregateBy: [
-        {
-          dataTypeName: type,
-        },
-      ],
-      bucketByTime: aggregate ? daily : null,
-      startTimeMillis: start,
-      endTimeMillis: end,
-    });
-  }
-
-  getHeartRate = async (start, end, aggregate) => {
+  getHeartRate = async (token, start, end, aggregate) => {
     const data = await this.getData(
+      token,
       new Date(start).getTime(),
       new Date(end).getTime(),
       'com.google.heart_rate.bpm',
       aggregate,
     );
 
-    return data.bucket.flatMap((b) =>
-      b.dataset[0].point.map((p) => ({
+    return data.bucket.flatMap(b =>
+      b.dataset[0].point.map(p => ({
         date: p.startTimeNanos / (1000 * 1000),
-        point: aggregate ? p.value.map((v) => v.fpVal) : p.value[0].fpVal,
+        point: aggregate ? p.value.map(v => v.fpVal) : p.value[0].fpVal,
       })),
     );
-  }
+  };
 
-  getSleep = async (start, end, aggregate) => {
+  getSleep = async (token, start, end, aggregate) => {
     const data = await this.getData(
+      token,
       new Date(start).getTime(),
       new Date(end).getTime(),
       'com.google.sleep.segment',
       aggregate,
     );
 
-    return data.bucket.flatMap((b) =>
-      b.dataset[0].point.map((p) => ({
+    return data.bucket.flatMap(b =>
+      b.dataset[0].point.map(p => ({
         start: p.startTimeNanos / (1000 * 1000),
         end: p.endTimeNanos / (1000 * 1000),
         state: aggregate
-          ? p.value.map((v) => sleepMap[v.intVal])
+          ? p.value.map(v => sleepMap[v.intVal])
           : sleepMap[p.value[0].intVal],
       })),
     );
-  }
+  };
 
-  getActivity = async (start, end, aggregate = true) => {
+  getActivity = async (token, start, end, aggregate = true) => {
     const data = await this.getData(
+      token,
       new Date(start).getTime(),
       new Date(end).getTime(),
       'com.google.activity.segment',
       aggregate,
     );
 
-    return data.bucket.flatMap((b) =>
-      b.dataset[0].point.map((p) => ({
+    return data.bucket.flatMap(b =>
+      b.dataset[0].point.map(p => ({
         start: p.startTimeNanos / (1000 * 1000),
         end: p.endTimeNanos / (1000 * 1000),
         duration: (p.endTimeNanos - p.startTimeNanos) / (1000 * 1000),
         state: activityMap[p.value[0].intVal],
       })),
     );
-  }
+  };
 
-  getDaily = async (start, end) => {
-    const hrData = await this.getHeartRate(start, end, true);
+  getDaily = async (token, start, end) => {
+    const hrData = await this.getHeartRate(token, start, end, true);
 
     return hrData.map(({ date, point }) => ({
       date,
@@ -119,5 +120,5 @@ export class GoogleFitnessAPI extends RESTDataSource {
         max: point[1],
       },
     }));
-  }
+  };
 }

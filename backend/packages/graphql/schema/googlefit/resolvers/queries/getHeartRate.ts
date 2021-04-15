@@ -14,8 +14,9 @@ const getHeartRate = async (
 ): Promise<GetHeartRateResult> => {
   const { prisma } = context;
   const { input } = args;
-  const { start, end }: GetHeartRateInput = input;
+  const { start, end, token }: GetHeartRateInput = input;
   const heartRate = await new GoogleFitnessAPI().getHeartRate(
+    token,
     start,
     end,
     false,

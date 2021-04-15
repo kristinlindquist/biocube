@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import {
   ToggleButton as Button,
   ToggleButtonGroup as ButtonGroup,
-} from '@material-ui/lab';
+} from '@material-ui/core';
 
 export interface GroupProps {
   /**

@@ -2,6 +2,7 @@ import { ReactElement, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
+import { useCookies } from 'react-cookie';
 
 import { Group } from 'components/Button';
 import { Card } from 'components/Card';
@@ -25,6 +26,8 @@ import {
   GetSleepDocument,
 } from 'gql';
 
+const COOKIE_NAME = process.env.REACT_APP_COOKIE_ID;
+
 const useStyles = makeStyles(() => ({
   group: {
     alignSelf: 'center',
@@ -33,24 +36,26 @@ const useStyles = makeStyles(() => ({
 
 const MyChart = (): ReactElement => {
   const classes = useStyles();
+  const [{ [COOKIE_NAME]: cookie }] = useCookies();
+  const { accessToken: token } = cookie || {};
 
   const [aggType, setAggType] = useState(AggType.AVG);
   const [{ start, end }, { setDay }] = useDateRange();
 
   const { data, error, loading } = useQuery(GetHeartRateDocument, {
-    variables: { input: { start, end } },
+    variables: { input: { start, end, token } },
   });
 
   const { data: sData } = useQuery(GetSleepDocument, {
-    variables: { input: { start, end } },
+    variables: { input: { start, end, token } },
   });
 
   const { data: aData } = useQuery(GetActivityDocument, {
-    variables: { input: unixYearRange },
+    variables: { input: { ...unixYearRange, token } },
   });
 
   const { data: dData } = useQuery(GetDailyDocument, {
-    variables: { input: unixYearRange },
+    variables: { input: { ...unixYearRange, token } },
   });
 
   return (

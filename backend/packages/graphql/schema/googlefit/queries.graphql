@@ -10,6 +10,7 @@ type Query {
 input GetHeartRateInput {
   start: DateTime!
   end: DateTime!
+  token: String!
 }
 
 type GetHeartRateResult {
@@ -19,6 +20,7 @@ type GetHeartRateResult {
 input GetSleepInput {
   start: DateTime!
   end: DateTime!
+  token: String!
 }
 
 type GetSleepResult {
@@ -28,6 +30,7 @@ type GetSleepResult {
 input GetDailyInput {
   start: DateTime!
   end: DateTime!
+  token: String!
 }
 
 type GetDailyResult {
@@ -37,6 +40,7 @@ type GetDailyResult {
 input GetActivityInput {
   start: DateTime!
   end: DateTime!
+  token: String!
 }
 
 type GetActivityResult {

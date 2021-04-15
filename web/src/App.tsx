@@ -4,6 +4,7 @@ import { ApolloProvider } from '@apollo/client';
 import { ThemeProvider } from '@material-ui/core';
 import cubejs from '@cubejs-client/core';
 import { CubeProvider } from '@cubejs-client/react';
+import { CookiesProvider } from 'react-cookie';
 
 import ErrorBoundary from 'ErrorBoundary';
 import Home from 'containers/Home';
@@ -18,27 +19,29 @@ const CUBE_API_URL = 'http://localhost:4343';
 const cubejsApi = cubejs({ apiUrl: `${CUBE_API_URL}/cubejs-api/v1` });
 
 const App = (): ReactElement => (
-  <CubeProvider cubejsApi={cubejsApi}>
-    <ApolloProvider client={client}>
-      <ThemeProvider theme={theme}>
-        <ErrorBoundary>
-          <Router>
-            <Switch>
-              <Route path="/qb">
-                <QueryBuilder />
-              </Route>
-              <Route path="/home">
-                <Home />
-              </Route>
-              <Route path="/">
-                <DynamicPages />
-              </Route>
-            </Switch>
-          </Router>
-        </ErrorBoundary>
-      </ThemeProvider>
-    </ApolloProvider>
-  </CubeProvider>
+  <CookiesProvider>
+    <CubeProvider cubejsApi={cubejsApi}>
+      <ApolloProvider client={client}>
+        <ThemeProvider theme={theme}>
+          <ErrorBoundary>
+            <Router>
+              <Switch>
+                <Route path="/qb">
+                  <QueryBuilder />
+                </Route>
+                <Route path="/home">
+                  <Home />
+                </Route>
+                <Route path="/">
+                  <DynamicPages />
+                </Route>
+              </Switch>
+            </Router>
+          </ErrorBoundary>
+        </ThemeProvider>
+      </ApolloProvider>
+    </CubeProvider>
+  </CookiesProvider>
 );
 
 export default App;

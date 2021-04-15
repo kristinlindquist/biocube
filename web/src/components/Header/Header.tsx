@@ -3,13 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
   Box,
-  Button,
   IconButton,
   Toolbar,
   Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import Login from './Login';
 import SubNav from './SubNav';
 
 const useStyles = makeStyles(() => ({
@@ -43,7 +43,7 @@ const Header = ({ title }: HeaderProps): ReactElement => {
         <Typography className={classes.title} variant="h4">
           {title}
         </Typography>
-        <Button color="inherit">Login</Button>
+        <Login />
       </Toolbar>
       <Box sx={{ pl: 8 }}>
         <SubNav

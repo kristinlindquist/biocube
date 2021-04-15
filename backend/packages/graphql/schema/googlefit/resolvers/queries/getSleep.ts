@@ -14,8 +14,8 @@ const getSleep = async (
 ): Promise<GetSleepResult> => {
   const { prisma } = context;
   const { input } = args;
-  const { start, end }: GetSleepInput = input;
-  const sleep = await new GoogleFitnessAPI().getSleep(start, end, false);
+  const { start, end, token }: GetSleepInput = input;
+  const sleep = await new GoogleFitnessAPI().getSleep(token, start, end, false);
 
   const createMany = await prisma.datum.createMany({
     data: sleep.map(({ start, end, state }) => ({

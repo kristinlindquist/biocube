@@ -155,6 +155,7 @@ export type DeviceTypeInput = {
 export type GetActivityInput = {
   start: Scalars['DateTime'];
   end: Scalars['DateTime'];
+  token: Scalars['String'];
 };
 
 export type GetActivityResult = {
@@ -183,6 +184,7 @@ export type GetConceptsOfInterestResult = {
 export type GetDailyInput = {
   start: Scalars['DateTime'];
   end: Scalars['DateTime'];
+  token: Scalars['String'];
 };
 
 export type GetDailyResult = {
@@ -220,6 +222,7 @@ export type GetDeviceResult = {
 export type GetHeartRateInput = {
   start: Scalars['DateTime'];
   end: Scalars['DateTime'];
+  token: Scalars['String'];
 };
 
 export type GetHeartRateResult = {
@@ -266,6 +269,7 @@ export type GetMeasuresResult = {
 export type GetSleepInput = {
   start: Scalars['DateTime'];
   end: Scalars['DateTime'];
+  token: Scalars['String'];
 };
 
 export type GetSleepResult = {

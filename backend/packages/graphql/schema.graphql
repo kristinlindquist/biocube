@@ -128,6 +128,7 @@ input DeviceTypeInput {
 input GetActivityInput {
   start: DateTime!
   end: DateTime!
+  token: String!
 }
 
 type GetActivityResult {
@@ -153,6 +154,7 @@ type GetConceptsOfInterestResult {
 input GetDailyInput {
   start: DateTime!
   end: DateTime!
+  token: String!
 }
 
 type GetDailyResult {
@@ -186,6 +188,7 @@ type GetDeviceResult {
 input GetHeartRateInput {
   start: DateTime!
   end: DateTime!
+  token: String!
 }
 
 type GetHeartRateResult {
@@ -227,6 +230,7 @@ type GetMeasuresResult {
 input GetSleepInput {
   start: DateTime!
   end: DateTime!
+  token: String!
 }
 
 type GetSleepResult {

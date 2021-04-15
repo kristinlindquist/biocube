@@ -14,8 +14,13 @@ const getActivity = async (
 ): Promise<GetActivityResult> => {
   const { prisma } = context;
   const { input } = args;
-  const { start, end }: GetActivityInput = input;
-  const activity = await new GoogleFitnessAPI().getActivity(start, end, false);
+  const { start, end, token }: GetActivityInput = input;
+  const activity = await new GoogleFitnessAPI().getActivity(
+    token,
+    start,
+    end,
+    false,
+  );
 
   const createMany = await prisma.datum.createMany({
     data: activity.map(({ start, end, state }) => ({
