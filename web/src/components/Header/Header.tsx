@@ -37,15 +37,15 @@ const Header = ({ title }: HeaderProps): ReactElement => {
           aria-label="menu"
           color="inherit"
           edge="start"
-          sx={{ pr: 4 }}>
+          sx={{ mr: 2 }}>
           <MenuIcon />
         </IconButton>
         <Typography className={classes.title} variant="h4">
-          {title}
+          Biocube {title}
         </Typography>
         <Login />
       </Toolbar>
-      <Box sx={{ pl: 8 }}>
+      <Box sx={{ pl: 9 }}>
         <SubNav
           tabs={[
             { id: 'measures', label: 'Measures', to: '/measures' },

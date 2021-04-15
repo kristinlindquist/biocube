@@ -29,7 +29,7 @@ const App = (): ReactElement => (
                 <Route path="/qb">
                   <QueryBuilder />
                 </Route>
-                <Route path="/home">
+                <Route path="/" exact>
                   <Home />
                 </Route>
                 <Route path="/">
