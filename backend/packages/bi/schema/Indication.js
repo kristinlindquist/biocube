@@ -1,16 +1,16 @@
 cube(`Indication`, {
   sql: `SELECT * FROM public."Indication"`,
 
-  joins: {},
+  joins: {
+    IndicationToUser: {
+      sql: `${CUBE}.id = ${IndicationToUser}."A"`,
+      relationship: `hasMany`,
+    },
+  },
 
   measures: {},
 
   dimensions: {
-    abbreviation: {
-      sql: `abbreviation`,
-      type: `string`,
-    },
-
     id: {
       sql: `id`,
       type: `number`,

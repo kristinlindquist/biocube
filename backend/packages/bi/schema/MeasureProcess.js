@@ -13,14 +13,11 @@ cube(`MeasureProcess`, {
   },
 
   dimensions: {
-    dataTypeId: {
-      sql: `dataTypeId`,
-      type: `number`
-    },
-
-    measureId: {
-      sql: `id`,
-      type: `number`
+    id: {
+      sql: `${CUBE}.measureId || '-' || ${CUBE}.dataTypeId`,
+      type: `string`,
+      primaryKey: true,
+      shown: false,
     }
   },
   

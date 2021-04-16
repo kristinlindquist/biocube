@@ -2,11 +2,7 @@ cube(`Measure`, {
   sql: `SELECT * FROM public."Measure"`,
 
   joins: {
-    Data: {
-      sql: `${DataType}."id" = ${Data}.dataTypeId`,
-      relationship: `hasMany`,
-    },
-    DataType: {
+    MeasureProcess: {
       sql: `${CUBE}."id" = ${MeasureProcess}.measureId`,
       relationship: `hasMany`,
     }
@@ -15,11 +11,6 @@ cube(`Measure`, {
   measures: {},
 
   dimensions: {
-    abbreviation: {
-      sql: `abbreviation`,
-      type: `string`,
-    },
-
     name: {
       sql: `name`,
       type: `string`,
