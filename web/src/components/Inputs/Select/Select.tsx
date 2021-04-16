@@ -100,7 +100,11 @@ const getOptions = (
 /**
  * Get default selection
  */
-const getInitial = (options, defaultValue, emptyOption): IdType[] => {
+const getInitial = (
+  options: OptionType[],
+  defaultValue: IdType[],
+  emptyOption,
+): IdType[] => {
   if (isEmpty(defaultValue)) {
     return emptyOption ? [] : [options[0].id];
   }
@@ -179,7 +183,7 @@ const Select = ({
                   sx={variant !== 'outlined' ? { my: 1, mr: 0.5 } : { mr: 0.5 }}
                 />
               )
-            : undefined
+            : (selected) => selected
         }
         value={selections}>
         {getOptions(label, options, selections, theme)}

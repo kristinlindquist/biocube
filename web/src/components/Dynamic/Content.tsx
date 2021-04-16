@@ -68,6 +68,9 @@ const getElement = (
   }
 };
 
+/**
+ * A metadata-driven content block
+ */
 const Content = ({ data, dataMap, mutation }: ContentProps): ReactElement => {
   const titleKey = get(
     dataMap.find(({ type }) => type === 'TITLE'),

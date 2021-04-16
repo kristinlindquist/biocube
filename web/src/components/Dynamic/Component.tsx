@@ -83,7 +83,7 @@ export interface ComponentProps {
 }
 
 /**
- * Generic component
+ * A generic, metadata-driven component
  */
 const Component = ({
   delete: del,
