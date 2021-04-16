@@ -96,7 +96,7 @@ export const getSelectProps = ({
   keyPath?: string;
   m?: Member;
 }): SelectProps => ({
-  defaultValue: m && key ? [m[key].name || m[key]] : null,
+  defaultValue: m && key && m[key] ? [m[key].name || m[key]] : null,
   fullWidth: true,
   label: null,
   options: getMemberOptions(availableMembers),

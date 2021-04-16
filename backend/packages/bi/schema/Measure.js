@@ -1,34 +1,36 @@
 cube(`Measure`, {
   sql: `SELECT * FROM public."Measure"`,
-  
+
   joins: {
-    
-  },
-  
-  measures: {
-    count: {
-      type: `count`,
-      drillMembers: [name, id]
+    Data: {
+      sql: `${DataType}."id" = ${Data}.dataTypeId`,
+      relationship: `hasMany`,
+    },
+    DataType: {
+      sql: `${CUBE}."id" = ${MeasureProcess}.measureId`,
+      relationship: `hasMany`,
     }
   },
-  
+
+  measures: {},
+
   dimensions: {
     abbreviation: {
       sql: `abbreviation`,
-      type: `string`
+      type: `string`,
     },
-    
+
     name: {
       sql: `name`,
-      type: `string`
+      type: `string`,
     },
-    
+
     id: {
       sql: `id`,
       type: `number`,
-      primaryKey: true
-    }
+      primaryKey: true,
+    },
   },
-  
-  dataSource: `default`
+
+  dataSource: `default`,
 });

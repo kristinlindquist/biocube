@@ -11,11 +11,6 @@ cube(`State`, {
       sql: `id`,
       type: `number`,
       primaryKey: true
-    },
-    
-    startedAt: {
-      sql: `${CUBE}."startedAt"`,
-      type: `time`
     }
   },
   

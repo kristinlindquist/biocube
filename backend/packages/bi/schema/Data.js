@@ -1,15 +1,20 @@
 cube(`Data`, {
-  sql: `SELECT * FROM public."Datum" where state is null`,
+  sql: `SELECT * FROM public."Datum"`,
 
   joins: {
+    DataType: {
+      sql: `${CUBE}."dataTypeId" = ${DataType}.id`,
+      relationship: `belongsTo`,
+    },
+
     Device: {
       sql: `${CUBE}."deviceId" = ${Device}.id`,
       relationship: `belongsTo`,
     },
 
-    DataType: {
-      sql: `${CUBE}."dataTypeId" = ${DataType}.id`,
-      relationship: `belongsTo`,
+    Measure: {
+      sql: `${CUBE}."dataTypeId" = ${MeasureProcess}.dataTypeId`,
+      relationship: `hasMany`,
     },
 
     State: {
@@ -19,14 +24,9 @@ cube(`Data`, {
   },
 
   measures: {
-    count: {
-      type: `count`,
-      drillMembers: [id, startedAt],
-    },
-
-    value: {
+    average: {
       sql: `value`,
-      type: `sum`,
+      type: `avg`,
     },
 
     duration: {
@@ -34,28 +34,33 @@ cube(`Data`, {
       type: `sum`,
     },
 
-    average: {
+    value: {
       sql: `value`,
-      type: `avg`,
+      type: `sum`,
     }
   },
 
   dimensions: {
-    state: {
-      sql: `${State}.state`,
-      type: `string`,
-    },
-
     id: {
       sql: `id`,
       type: `number`,
       primaryKey: true,
     },
 
+    measure: {
+      sql: `${Measure}.name`,
+      type: `string`,
+    },
+
     startedAt: {
       sql: `${CUBE}."startedAt"`,
       type: `time`,
     },
+
+    state: {
+      sql: `${State}.state`,
+      type: `string`,
+    }
   },
 
   segments: {

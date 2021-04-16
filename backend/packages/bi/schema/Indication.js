@@ -1,34 +1,27 @@
 cube(`Indication`, {
   sql: `SELECT * FROM public."Indication"`,
-  
-  joins: {
-    
-  },
-  
-  measures: {
-    count: {
-      type: `count`,
-      drillMembers: [id, name]
-    }
-  },
-  
+
+  joins: {},
+
+  measures: {},
+
   dimensions: {
     abbreviation: {
       sql: `abbreviation`,
-      type: `string`
+      type: `string`,
     },
-    
+
     id: {
       sql: `id`,
       type: `number`,
-      primaryKey: true
+      primaryKey: true,
     },
-    
+
     name: {
       sql: `name`,
-      type: `string`
-    }
+      type: `string`,
+    },
   },
-  
-  dataSource: `default`
+
+  dataSource: `default`,
 });
