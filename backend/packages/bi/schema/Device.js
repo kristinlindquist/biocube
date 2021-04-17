@@ -16,11 +16,6 @@ cube(`Device`, {
   measures: {},
 
   dimensions: {
-    name: {
-      sql: `name`,
-      type: `string`,
-    },
-
     id: {
       sql: `id`,
       type: `number`,

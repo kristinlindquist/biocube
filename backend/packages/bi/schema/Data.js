@@ -42,8 +42,14 @@ asyncModule(async () => {
         relationship: `belongsTo`,
       },
 
+      MeasureProcess: {
+        sql: `${CUBE}."dataTypeId" = ${MeasureProcess}."dataTypeId"`,
+        relationship: `belongsTo`,
+      },
+
       State: {
-        sql: `${Data}."startedAt" > ${State}."startedAt" AND ${Data}."startedAt" < ${State}."startedAt" + interval '1 hour' * ${State}.duration / (1000 * 60 * 60)`,
+        sql: `${Data}."startedAt" > ${State}."startedAt" AND ${Data}."startedAt" < ${State}."startedAt" + interval '1 hour'
+          * ${State}.duration / (1000 * 60 * 60)`,
         relationship: `hasMany`,
       },
     },
@@ -52,7 +58,8 @@ asyncModule(async () => {
       ...measures
         .map(m => ({
           [camelCase(m.name)]: {
-            sql: `${Measure}.id = '${m.id}'`,
+            filters: [{ sql: `${MeasureProcess}."measureId" = ${m.id}` }],
+            sql: `value`,
             title: `${m.name}`,
             type: `avg`,
           },
