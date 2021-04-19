@@ -3,6 +3,7 @@ type Measure {
   description: String
   name: String!
   conceptsOfInterest: [ConceptOfInterest!]
+  components: [Component!]
   dataTypes: [DataType!]
   indications: [Indication!]
   url: String
@@ -12,6 +13,20 @@ type ConceptOfInterest {
   id: Int!
   description: String
   name: String!	
+}
+
+type Component {
+  id: Int!
+  dataType: DataType!
+  description: String
+  filters: [Filter!]
+}
+
+type Filter {
+  id: Int!
+  dimension: String! 
+  operator: String!
+  values: [String!]  
 }
 
 type DataType {

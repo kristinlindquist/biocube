@@ -8,6 +8,7 @@ input UpsertMeasureInput {
   description: String
   name: String!
   conceptsOfInterest: [ConceptOfInterestInput!]
+  components: [ComponentInput!]
   dataTypes: [DataTypeInput!]
   indications: [IndicationInput!]
   url: String
@@ -17,6 +18,10 @@ input ConceptOfInterestInput {
   id: Int!
   description: String
   name: String
+}
+
+input ComponentInput {
+  id: Int!
 }
 
 input DataTypeInput {

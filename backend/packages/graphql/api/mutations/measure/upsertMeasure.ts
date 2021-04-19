@@ -9,6 +9,9 @@ const upsertMeasure = gql`
           id
           name
         }
+        components {
+          id
+        }
         dataTypes {
           id
           name

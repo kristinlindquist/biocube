@@ -9,6 +9,19 @@ const getMeasure = gql`
           id
           name
         }
+        components {
+          id
+          dataType {
+            id
+            name
+          }
+          description
+          filters {
+            dimension
+            operator
+            values
+          }
+        }
         dataTypes {
           id
           description

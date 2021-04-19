@@ -6,8 +6,8 @@ cube(`DataType`, {
       sql: `${CUBE}.id = ${Data}."dataTypeId"`,
       relationship: `hasMany`,
     },
-    MeasureProcess: {
-      sql: `${CUBE}.id = ${MeasureProcess}."dataTypeId"`,
+    MeasureComponent: {
+      sql: `${CUBE}.id = ${MeasureComponent}."dataTypeId"`,
       relationship: `hasMany`,
     }
   },

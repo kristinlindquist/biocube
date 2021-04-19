@@ -1,22 +1,63 @@
 /**
  * Measure type resolvers
  */
-import { ConceptOfInterest, DataType, Indication } from '@prisma/client';
+import {
+  ConceptOfInterest,
+  DataType,
+  MeasureComponent,
+  Indication,
+} from '@prisma/client';
 import { Parent, Args, Context } from '../../../../types';
 
+import { omit } from 'lodash';
+
 const Measure = {
-  conceptsOfInterest: async (parent: Parent, _: Args, context: Context): Promise<ConceptOfInterest[] | null> => {
+  conceptsOfInterest: async (
+    parent: Parent,
+    _: Args,
+    context: Context,
+  ): Promise<ConceptOfInterest[] | null> => {
     const { id } = parent;
     const { prisma } = context;
 
     return prisma.measure.findUnique({ where: { id } }).conceptsOfInterest();
   },
 
-  dataTypes: async (parent: Parent, _: Args, context: Context): Promise<DataType[] | null> => {
+  components: async (
+    parent: Parent,
+    _: Args,
+    context: Context,
+  ): Promise<MeasureComponent[] | null> => {
     const { id } = parent;
     const { prisma } = context;
 
-    const mtdts = await prisma.measureProcess.findMany({
+    const measureComponents = await prisma.measureComponent.findMany({
+      where: {
+        measureId: id,
+      },
+      include: { dataType: true, filters: true },
+    });
+
+    return measureComponents.map(mp => ({
+      ...mp,
+      filters: mp.filters.map(f =>
+        omit({ ...f, values: f.stringValues || f.numberValues }, [
+          'numberValues',
+          'stringValues',
+        ]),
+      ),
+    }));
+  },
+
+  dataTypes: async (
+    parent: Parent,
+    _: Args,
+    context: Context,
+  ): Promise<DataType[] | null> => {
+    const { id } = parent;
+    const { prisma } = context;
+
+    const mtdts = await prisma.measureComponent.findMany({
       where: {
         measureId: id,
       },
@@ -26,7 +67,11 @@ const Measure = {
     return mtdts.map(({ dataType }) => dataType);
   },
 
-  indications: async (parent: Parent, _: Args, context: Context): Promise<Indication[] | null> => {
+  indications: async (
+    parent: Parent,
+    _: Args,
+    context: Context,
+  ): Promise<Indication[] | null> => {
     const { id } = parent;
     const { prisma } = context;
 
@@ -36,7 +81,7 @@ const Measure = {
   url: (parent: Parent): string | null => {
     const { id } = parent;
     return `/measure/${id}`;
-  }
+  },
 };
 
 export default Measure;

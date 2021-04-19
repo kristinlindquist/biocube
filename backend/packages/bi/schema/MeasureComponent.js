@@ -1,5 +1,5 @@
-cube(`MeasureProcess`, {
-  sql: `SELECT * FROM public."MeasureProcess"`,
+cube(`MeasureComponent`, {
+  sql: `SELECT * FROM public."MeasureComponent"`,
   
   joins: {
     DataType: {

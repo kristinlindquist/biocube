@@ -34,7 +34,7 @@ async function upsertDataType(
     dataType = await prisma.dataType.create({
       data: {
         ...getData(),
-        measureProcesses: {
+        measureComponents: {
           createMany: {
             data: mIds.map(id => ({
               measureId: id,
@@ -44,7 +44,7 @@ async function upsertDataType(
       },
     });
   } else {
-    await prisma.measureProcess.createMany({
+    await prisma.measureComponent.createMany({
       data: mIds.map(id => ({ dataTypeId: dtId, measureId: id })),
       skipDuplicates: true,
     });
@@ -55,7 +55,7 @@ async function upsertDataType(
       },
       data: {
         ...getData(true),
-        measureProcesses: {
+        measureComponents: {
           deleteMany: {
             measureId: { notIn: mIds },
           },

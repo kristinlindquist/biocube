@@ -26,12 +26,19 @@ export type Activity = {
 
 export type Component = {
   __typename?: 'Component';
+  dataType: DataType;
+  delete?: Maybe<DataQuery>;
+  description?: Maybe<Scalars['String']>;
+  filters?: Maybe<Array<Filter>>;
   id: Scalars['Int'];
   props?: Maybe<Scalars['JSON']>;
-  type: ComponentType;
   read?: Maybe<DataQuery>;
+  type: ComponentType;
   upsert?: Maybe<DataQuery>;
-  delete?: Maybe<DataQuery>;
+};
+
+export type ComponentInput = {
+  id: Scalars['Int'];
 };
 
 export enum ComponentType {
@@ -150,6 +157,14 @@ export type DeviceTypeInput = {
   id: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+};
+
+export type Filter = {
+  __typename?: 'Filter';
+  id: Scalars['Int'];
+  dimension: Scalars['String'];
+  operator: Scalars['String'];
+  values?: Maybe<Array<Scalars['String']>>;
 };
 
 export type GetActivityInput = {
@@ -337,6 +352,7 @@ export type IndicationInput = {
 
 export type Measure = {
   __typename?: 'Measure';
+  components?: Maybe<Array<Component>>;
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   dataTypes?: Maybe<Array<DataType>>;
   description?: Maybe<Scalars['String']>;
@@ -603,6 +619,7 @@ export type UpsertMeasureInput = {
   description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   conceptsOfInterest?: Maybe<Array<ConceptOfInterestInput>>;
+  components?: Maybe<Array<ComponentInput>>;
   dataTypes?: Maybe<Array<DataTypeInput>>;
   indications?: Maybe<Array<IndicationInput>>;
   url?: Maybe<Scalars['String']>;

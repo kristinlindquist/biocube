@@ -10,6 +10,13 @@ const mQuery = {
       measures {
         id
         name
+        components {
+          filters {
+            dimension
+            operator
+            values
+          }
+        }
       }
     }
   }`,
@@ -42,15 +49,16 @@ asyncModule(async () => {
         relationship: `belongsTo`,
       },
 
-      MeasureProcess: {
-        sql: `${CUBE}."dataTypeId" = ${MeasureProcess}."dataTypeId"`,
+      MeasureComponent: {
+        sql: `${CUBE}."dataTypeId" = ${MeasureComponent}."dataTypeId"`,
         relationship: `belongsTo`,
       },
 
       State: {
-        sql: `${Data}."startedAt" > ${State}."startedAt" AND ${Data}."startedAt" < ${State}."startedAt" + interval '1 hour'
+        sql: `${CUBE}."startedAt" > ${State}."startedAt"
+          AND ${CUBE}."startedAt" < ${State}."startedAt" + interval '1 hour'
           * ${State}.duration / (1000 * 60 * 60)`,
-        relationship: `hasMany`,
+        relationship: `belongsTo`,
       },
     },
 
@@ -58,7 +66,16 @@ asyncModule(async () => {
       ...measures
         .map(m => ({
           [camelCase(m.name)]: {
-            filters: [{ sql: `${MeasureProcess}."measureId" = ${m.id}` }],
+            filters: [
+              { sql: `${MeasureComponent}."measureId" = ${m.id}` },
+              ...(m.components || [])
+                .flatMap(c => c.filters || [])
+                .map(({ dimension, operator, values }) => ({
+                  sql: `${State}.${dimension} ${operator} (${values
+                    .map(v => `'${v}'`)
+                    .join(',')})`,
+                })),
+            ],
             sql: `value`,
             title: `${m.name}`,
             type: `avg`,

@@ -44,23 +44,23 @@ model DeviceType {
 }
 
 model DataType {
-  id               Int              @id @default(autoincrement())
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime?        @updatedAt
-  abbreviation     String?          @db.VarChar(10)
-  description      String?
-  name             String           @db.VarChar(255)
-  parentId         Int?
-  parent           DataType?        @relation(fields: [parentId], references: [id])
-  children         DataType[]       @relation("DataTypeToDataType")
-  data             Datum[]
-  deviceTypes      DeviceType[]
-  measureProcesses MeasureProcess[]
-  relatedStudies   Study[]
+  id                Int                @id @default(autoincrement())
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime?          @updatedAt
+  abbreviation      String?            @db.VarChar(10)
+  description       String?
+  name              String             @db.VarChar(255)
+  parentId          Int?
+  parent            DataType?          @relation(fields: [parentId], references: [id])
+  children          DataType[]         @relation("DataTypeToDataType")
+  data              Datum[]
+  deviceTypes       DeviceType[]
+  measureComponents MeasureComponent[]
+  relatedStudies    Study[]
 }
 
-// Measure Process?
-model MeasureProcess {
+model MeasureComponent {
+  id          Int       @id @default(autoincrement())
   dataTypeId  Int
   measureId   Int
   createdAt   DateTime  @default(now())
@@ -68,8 +68,21 @@ model MeasureProcess {
   description String?
   dataType    DataType  @relation(fields: [dataTypeId], references: [id])
   measure     Measure   @relation(fields: [measureId], references: [id])
+  filters     Filter[]
 
   @@unique([measureId, dataTypeId], name: "measure_data_type_key")
+}
+
+model Filter {
+  id                Int                @id @default(autoincrement())
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime?          @updatedAt
+  description       String?
+  dimension         String
+  operator          String
+  numberValues      Float[]
+  stringValues      String[]
+  measureComponents MeasureComponent[]
 }
 
 model Datum {
@@ -127,7 +140,7 @@ model Measure {
   description        String?
   name               String              @db.VarChar(255)
   conceptsOfInterest ConceptOfInterest[]
-  measureProcesses   MeasureProcess[]
+  components         MeasureComponent[]
   indications        Indication[]
   validationStudies  Study[]
 }

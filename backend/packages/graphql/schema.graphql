@@ -9,12 +9,19 @@ type Activity {
 }
 
 type Component {
+  dataType: DataType!
+  delete: DataQuery
+  description: String
+  filters: [Filter!]
   id: Int!
   props: JSON
-  type: ComponentType!
   read: DataQuery
+  type: ComponentType!
   upsert: DataQuery
-  delete: DataQuery
+}
+
+input ComponentInput {
+  id: Int!
 }
 
 enum ComponentType {
@@ -123,6 +130,13 @@ input DeviceTypeInput {
   id: Int!
   description: String
   name: String
+}
+
+type Filter {
+  id: Int!
+  dimension: String!
+  operator: String!
+  values: [String!]
 }
 
 input GetActivityInput {
@@ -291,6 +305,7 @@ input IndicationInput {
 scalar JSON
 
 type Measure {
+  components: [Component!]
   conceptsOfInterest: [ConceptOfInterest!]
   dataTypes: [DataType!]
   description: String
@@ -418,6 +433,7 @@ input UpsertMeasureInput {
   description: String
   name: String!
   conceptsOfInterest: [ConceptOfInterestInput!]
+  components: [ComponentInput!]
   dataTypes: [DataTypeInput!]
   indications: [IndicationInput!]
   url: String
