@@ -2,7 +2,6 @@ import { ReactElement, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  FormControl,
   TextField as MaterialTextField,
   TextFieldProps as MaterialTextFieldProps,
 } from '@material-ui/core';
@@ -25,6 +24,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+/**
+ * A form field for single or multi-line text, or
+ * numbers
+ */
 const TextField = ({
   fullWidth,
   onChange,
@@ -36,20 +39,18 @@ const TextField = ({
   const classes = useStyles();
 
   return (
-    <FormControl
+    <MaterialTextField
+      {...props}
       className={clsx({
         [classes.fullWidth]: fullWidth,
-      })}>
-      <MaterialTextField
-        {...props}
-        onChange={(e) => {
-          setValue(e.target.value);
-          onChange(e.target.value);
-        }}
-        value={value}
-        variant={variant}
-      />
-    </FormControl>
+      })}
+      onChange={(e) => {
+        setValue(e.target.value);
+        onChange(e.target.value);
+      }}
+      value={value}
+      variant={variant}
+    />
   );
 };
 

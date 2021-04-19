@@ -51,7 +51,7 @@ export type SelectProps = {
    * display variant
    */
   variant?: 'standard' | 'outlined' | 'filled';
-} & MaterialSelectProps;
+} & Partial<MaterialSelectProps>;
 
 const useStyles = makeStyles(() => ({
   formControl: {},
@@ -165,6 +165,7 @@ const Select = ({
       <InputLabel id={`${label}-label`}>{label}</InputLabel>
       <MaterialSelect
         {...props}
+        autoWidth
         id={label}
         labelId={`${label}-label`}
         label={label}
@@ -180,10 +181,11 @@ const Select = ({
                   handleDelete={handleDelete}
                   options={options}
                   selected={selected as IdType[]}
-                  sx={variant !== 'outlined' ? { my: 1, mr: 0.5 } : { mr: 0.5 }}
+                  selectVariant={variant}
+                  sx={{ my: 0.5, mr: 0.5 }}
                 />
               )
-            : (selected) => selected
+            : null
         }
         value={selections}>
         {getOptions(label, options, selections, theme)}

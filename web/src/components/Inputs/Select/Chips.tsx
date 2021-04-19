@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Chip, ChipProps } from '@material-ui/core';
+import clsx from 'clsx';
 
 import { IdType, SelectOptionType as OptionType } from 'types';
 
@@ -8,10 +9,31 @@ const useStyles = makeStyles(() => ({
   chips: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginTop: -4,
-    marginBottom: -4,
+  },
+  outlined: {
+    marginTop: -8,
+    marginBottom: -8,
   },
 }));
+
+type ChipsProps = {
+  /**
+   * optional callback on chip deletion
+   */
+  handleDelete?: (id: IdType) => void;
+  /**
+   * select box options
+   */
+  options: OptionType[];
+  /**
+   * selected option(s)
+   */
+  selected: IdType[];
+  /**
+   * *select* display variant
+   */
+  selectVariant?: 'standard' | 'outlined' | 'filled';
+} & Partial<ChipProps>;
 
 /**
  * Get objects corresponding to selections
@@ -21,12 +43,6 @@ const getSelectedOptions = (selections: IdType[], options: OptionType[]) =>
     .map((s) => options.find(({ id }) => (id as string) === (s as string)))
     .filter((s) => s);
 
-type ChipsProps = {
-  handleDelete?: (id: IdType) => void;
-  options: OptionType[];
-  selected: IdType[];
-};
-
 /**
  * Chips for multi-select
  */
@@ -34,12 +50,16 @@ const Chips = ({
   handleDelete,
   options,
   selected,
+  selectVariant,
   ...props
-}: ChipsProps & ChipProps): ReactElement => {
+}: ChipsProps): ReactElement => {
   const classes = useStyles();
 
   return (
-    <div className={classes.chips}>
+    <div
+      className={clsx(classes.chips, {
+        [classes.outlined]: selectVariant === 'outlined',
+      })}>
       {getSelectedOptions(selected, options).map(({ id, name }) => (
         <Chip
           {...props}

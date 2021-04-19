@@ -12,7 +12,7 @@ const Template: Story<SelectProps> = (args) => <Select {...args} />;
 export const Default = Template.bind({});
 
 Default.args = {
-  label: 'A Fancy Select Box',
+  label: 'A Select Box',
   options: [
     { id: 'value1', name: 'Value #1' },
     { id: 'value2', name: 'Value #2' },
