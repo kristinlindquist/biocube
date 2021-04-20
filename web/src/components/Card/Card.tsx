@@ -1,11 +1,15 @@
 import { ReactChild, ReactElement, ReactFragment, ReactPortal } from 'react';
 import {
+  Alert,
   Box,
   Card as MaterialCard,
   CardActions,
   CardContent,
   CardHeader,
+  LinearProgress,
 } from '@material-ui/core';
+
+import { ErrorMessage } from 'types';
 
 export interface CardProps {
   /**
@@ -18,9 +22,17 @@ export interface CardProps {
    */
   children: boolean | ReactChild | ReactFragment | ReactPortal;
   /**
+   * Error
+   */
+  error?: ErrorMessage;
+  /**
    * Header action
    */
   headerAction?: ReactElement;
+  /**
+   * is card content loading?
+   */
+  loading?: boolean;
   /**
    * Card subtitle
    */
@@ -37,12 +49,16 @@ export interface CardProps {
 const Card = ({
   actions,
   children,
+  error,
   headerAction,
+  loading,
   subtitle,
   title,
   ...props
 }: CardProps): ReactElement => (
   <MaterialCard>
+    {error && <Alert severity="error">{error.message}</Alert>}
+    {loading && <LinearProgress />}
     <CardHeader
       action={headerAction}
       subheader={subtitle}

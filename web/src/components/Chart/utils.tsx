@@ -2,6 +2,8 @@ import moment from 'moment';
 import { LegendProps } from '@nivo/legends';
 import { getMonthDay } from 'components/Date';
 
+import { KeyValuePairs } from 'types';
+
 export enum AggType {
   AVG = 'average',
   MIN = 'min',
@@ -66,6 +68,20 @@ export const processActivity = (
         return acc;
       }, {} as Record<string, { day: string }>),
   );
+
+/**
+ * Maps zeros to nulls, for better presentation in chart
+ */
+export const zeroToNull = (
+  data: Array<KeyValuePairs | string>,
+): Array<KeyValuePairs | string> =>
+  typeof data[0] !== 'string'
+    ? data.map((d) =>
+        Object.fromEntries(
+          Object.entries(d).map(([k, v]) => [k, v !== 0 ? v : null]),
+        ),
+      )
+    : data;
 
 /**
  * Default Nivo chart legend config

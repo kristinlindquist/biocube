@@ -29,6 +29,10 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
+import { isEmpty } from 'lodash';
+
+import { Card } from 'components/Card';
+import { zeroToNull } from './utils';
 
 const numberFormatter = (item) => numeral(item).format('0,0');
 const dateFormatter = (item) => moment(item).format('MMM DD');
@@ -45,7 +49,7 @@ const xAxisFormatter = (item) =>
   moment(item).isValid() ? dateFormatter(item) : item;
 
 type ResultSet<Type> = {
-  chartPivot: () => Array<Type>;
+  chartPivot: (any?) => Array<Type>;
   loadResponse?: {
     results: Array<{
       annotation: { measures: Array<{ [key: string]: string }> };
@@ -95,6 +99,11 @@ export interface ChartProps {
 
 const defaultHeight = 300;
 
+const axisProps = {
+  axisLine: false,
+  tickLine: false,
+};
+
 const CartesianChart = ({
   children,
   ChartComponent,
@@ -104,25 +113,20 @@ const CartesianChart = ({
 }: ChartProps) => (
   <ResponsiveContainer width="100%" height={height}>
     <ChartComponent
-      data={resultSet.chartPivot()}
+      data={zeroToNull(resultSet.chartPivot())}
       margin={{
         top: 16,
-        right: 16,
+        right: 32,
         bottom: 0,
         left: 16,
       }}>
       <XAxis
-        axisLine={false}
+        {...axisProps}
         dataKey="x"
         minTickGap={20}
-        tickLine={false}
         tickFormatter={xAxisFormatter}
       />
-      <YAxis
-        axisLine={false}
-        tickLine={false}
-        tickFormatter={numberFormatter}
-      />
+      <YAxis {...axisProps} tickFormatter={numberFormatter} />
       <CartesianGrid vertical={false} />
       {children}
       {legendLayout && <Legend />}
@@ -192,7 +196,7 @@ const TypeToChartComponent = {
             name={title}
             stroke={colors[i]}
             strokeWidth={1.5}
-            type="linear"
+            type="monotone"
           />
         ))}
       </CartesianChart>
@@ -256,28 +260,15 @@ const TypeToMemoChartComponent = Object.keys(TypeToChartComponent)
   }))
   .reduce((a, b) => ({ ...a, ...b }));
 
-const renderChart = (Component) => ({
-  resultSet,
-  error,
-  height = defaultHeight,
-  ...props
-}: {
-  resultSet: ResultSet<{ [key: string]: string | number | boolean }>;
-  error?: Error;
-  height: number;
-}) =>
-  (resultSet && (
-    <Component height={height} resultSet={resultSet} {...props} />
-  )) ||
-  (error && <span>{error.toString()}</span>) || (
-    <Skeleton height={height} variant="rectangular" />
-  );
-
 export interface ChartRendererProps {
   /**
    * cube API
    */
   cubejsApi?: CubejsApi;
+  /**
+   * component to change chart type
+   */
+  changeChartType?: ReactElement;
   /**
    * chart height
    */
@@ -292,15 +283,25 @@ export interface ChartRendererProps {
 }
 
 const ChartRenderer = ({
+  changeChartType,
+  height = defaultHeight,
   vizState,
-  height,
 }: ChartRendererProps): ReactElement => {
-  const { query, chartType, ...options } = vizState;
-  const component = TypeToMemoChartComponent[chartType];
-  const renderProps = useCubeQuery(query);
+  const { chartType, query, ...options } = vizState;
+  const Component = TypeToMemoChartComponent[chartType];
+  const { error, isLoading, resultSet, ...chartProps } = useCubeQuery(query);
 
-  return component ? (
-    renderChart(component)({ height, ...options, ...renderProps })
+  return Component ? (
+    <Card
+      error={error ? { message: error.toString() } : null}
+      loading={isLoading}
+      headerAction={changeChartType}
+      title="A Chart">
+      {!isEmpty(resultSet) && (
+        <Component {...chartProps} {...options} resultSet={resultSet} />
+      )}
+      {isEmpty(resultSet) && <Skeleton height={height} variant="rectangular" />}
+    </Card>
   ) : (
     <span />
   );

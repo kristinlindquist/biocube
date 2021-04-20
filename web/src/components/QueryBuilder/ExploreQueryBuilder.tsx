@@ -124,19 +124,16 @@ const ExploreQueryBuilder = ({
           </Grid>
           <Grid item xs={12}>
             {isQueryPresent && (
-              <Card
-                headerAction={
+              <ChartRenderer
+                cubejsApi={cubejsApi}
+                changeChartType={
                   <SelectChartType
                     chartType={chartType}
                     updateChartType={updateChartType}
                   />
                 }
-                title="A Chart">
-                <ChartRenderer
-                  cubejsApi={cubejsApi}
-                  vizState={{ query: validatedQuery, chartType }}
-                />
-              </Card>
+                vizState={{ query: validatedQuery, chartType }}
+              />
             )}
           </Grid>
         </Grid>
