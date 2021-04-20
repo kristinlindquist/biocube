@@ -8,7 +8,7 @@ import {
   Select as MaterialSelect,
   SelectProps as MaterialSelectProps,
 } from '@material-ui/core';
-import { isEmpty, uniq } from 'lodash';
+import { get, isEmpty, uniq } from 'lodash';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import { IdType, SelectOptionType as OptionType } from 'types';
@@ -148,6 +148,7 @@ const Select = ({
     const newSelections = Array.isArray(value)
       ? uniq([...selections, ...value].filter((s) => s))
       : [value];
+
     onChange(newSelections);
   };
 
@@ -185,7 +186,7 @@ const Select = ({
                   sx={{ my: 0.5, mr: 0.5 }}
                 />
               )
-            : null
+            : (selected) => get(getSelectedOptions(selected, options), '0.name')
         }
         value={selections}>
         {getOptions(label, options, selections, theme)}

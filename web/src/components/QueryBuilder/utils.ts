@@ -1,4 +1,4 @@
-import { get, isEmpty, merge } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 import { DropdownProps } from 'components/Button/Dropdown';
 import { SelectProps } from 'components/Inputs/Select';
@@ -56,23 +56,18 @@ const onSelect = ({
   }
 
   return matches.map((member) => {
-    const existing = members.find(({ name }) => name === member.name);
-
     if (m) {
-      return updateMethods.update(
-        m as { index: number },
-        merge(
-          m,
-          key
-            ? {
-                [key]: keyPath ? get(member, keyPath) : member,
-              }
-            : member,
-        ),
-      );
+      return updateMethods.update(m as { index: number }, {
+        ...m,
+        ...(key
+          ? {
+              [key]: keyPath ? get(member, keyPath) : member,
+            }
+          : member),
+      });
     }
 
-    return !existing
+    return !members.find(({ name }) => name === member.name) // nx
       ? updateMethods.add(key ? { [key]: member } : member)
       : member;
   });
