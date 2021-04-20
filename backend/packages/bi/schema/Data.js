@@ -17,6 +17,7 @@ const mQuery = {
             values
           }
         }
+        status
       }
     }
   }`,
@@ -64,6 +65,7 @@ asyncModule(async () => {
 
     measures: {
       ...measures
+        .filter(m => m.status !== 'DRAFT')
         .map(m => ({
           [camelCase(m.name)]: {
             filters: [

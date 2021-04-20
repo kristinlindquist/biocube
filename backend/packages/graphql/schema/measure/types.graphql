@@ -6,13 +6,14 @@ type Measure {
   components: [Component!]
   dataTypes: [DataType!]
   indications: [Indication!]
+  status: String # Why not MeasureStatus? https://github.com/prisma-labs/graphqlgen/issues/213
   url: String
 }
 
 type ConceptOfInterest {
   id: Int!
   description: String
-  name: String!	
+  name: String!
 }
 
 type Component {
@@ -24,15 +25,15 @@ type Component {
 
 type Filter {
   id: Int!
-  dimension: String! 
+  dimension: String!
   operator: String!
-  values: [String!]  
+  values: [String!]
 }
 
 type DataType {
   id: Int!
   description: String
-  name: String! 
+  name: String!
   url: String
 }
 

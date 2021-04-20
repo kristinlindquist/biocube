@@ -143,6 +143,7 @@ model Measure {
   components         MeasureComponent[]
   indications        Indication[]
   validationStudies  Study[]
+  status             MeasureStatus       @default(DRAFT)
 }
 
 model Study {
@@ -246,4 +247,10 @@ enum QueryDocumentType {
   GetIndicationsDocument
   UpsertIndicationDocument
   DeleteIndicationDocument
+}
+
+enum MeasureStatus {
+  VALIDATED
+  EXPLORATORY
+  DRAFT
 }

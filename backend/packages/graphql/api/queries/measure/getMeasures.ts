@@ -21,6 +21,7 @@ const getMeasures = gql`
           url
         }
         name
+        status
         url
       }
     }

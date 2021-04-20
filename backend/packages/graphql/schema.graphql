@@ -312,6 +312,7 @@ type Measure {
   id: Int!
   indications: [Indication!]
   name: String!
+  status: String
   url: String
 }
 

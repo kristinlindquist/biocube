@@ -359,6 +359,7 @@ export type Measure = {
   id: Scalars['Int'];
   indications?: Maybe<Array<Indication>>;
   name: Scalars['String'];
+  status?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
 
