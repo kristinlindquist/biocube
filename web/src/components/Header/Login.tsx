@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { GoogleLogout, useGoogleLogin } from 'react-google-login';
 import { useCookies } from 'react-cookie';
 
 import { Button } from 'components/Button';
@@ -24,6 +24,16 @@ const Login = (): ReactElement => {
 
   const logout = () => removeCookie(COOKIE_NAME);
 
+  const { loaded, signIn } = useGoogleLogin({
+    clientId: CLIENT_ID,
+    onFailure: () => Logger.info('Login failure'),
+    onSuccess: login,
+    cookiePolicy: 'single_host_origin',
+    isSignedIn: true,
+    responseType: 'code,token',
+    scope: SCOPES.join(' '),
+  });
+
   return cookie ? (
     <GoogleLogout
       clientId={CLIENT_ID}
@@ -34,17 +44,7 @@ const Login = (): ReactElement => {
       )}
     />
   ) : (
-    <GoogleLogin
-      clientId={CLIENT_ID}
-      onFailure={() => Logger.info('Login failure')}
-      onSuccess={login}
-      cookiePolicy="single_host_origin"
-      render={(props) => (
-        <Button {...props} color="inherit" disabled={false} label="Log In" />
-      )}
-      responseType="code,token"
-      scope={SCOPES.join(' ')}
-    />
+    <Button color="inherit" loading={loaded} label="Log In" onClick={signIn} />
   );
 };
 
