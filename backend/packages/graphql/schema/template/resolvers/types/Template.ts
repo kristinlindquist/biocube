@@ -29,6 +29,7 @@ const Template = {
         components: {
           include: {
             read: true,
+            readOne: true,
             upsert: true,
             delete: true,
           },

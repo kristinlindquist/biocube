@@ -33,6 +33,7 @@ export type Component = {
   id: Scalars['Int'];
   props?: Maybe<Scalars['JSON']>;
   read?: Maybe<DataQuery>;
+  readOne?: Maybe<DataQuery>;
   type: ComponentType;
   upsert?: Maybe<DataQuery>;
 };
@@ -370,6 +371,12 @@ export type MeasureInput = {
   url?: Maybe<Scalars['String']>;
 };
 
+export enum MeasureStatus {
+  Validated = 'VALIDATED',
+  Exploratory = 'EXPLORATORY',
+  Draft = 'DRAFT'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   deleteConceptOfInterest: DeleteConceptOfInterestResult;
@@ -623,6 +630,7 @@ export type UpsertMeasureInput = {
   components?: Maybe<Array<ComponentInput>>;
   dataTypes?: Maybe<Array<DataTypeInput>>;
   indications?: Maybe<Array<IndicationInput>>;
+  status: MeasureStatus;
   url?: Maybe<Scalars['String']>;
 };
 

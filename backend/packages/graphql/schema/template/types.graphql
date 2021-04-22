@@ -19,6 +19,7 @@ type Component {
   props: JSON
   type: ComponentType!
   read: DataQuery
+  readOne: DataQuery
   upsert: DataQuery
   delete: DataQuery
 }

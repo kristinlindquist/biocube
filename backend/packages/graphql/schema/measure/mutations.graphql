@@ -11,7 +11,14 @@ input UpsertMeasureInput {
   components: [ComponentInput!]
   dataTypes: [DataTypeInput!]
   indications: [IndicationInput!]
+  status: MeasureStatus!
   url: String
+}
+
+enum MeasureStatus {
+  VALIDATED
+  EXPLORATORY
+  DRAFT
 }
 
 input ConceptOfInterestInput {

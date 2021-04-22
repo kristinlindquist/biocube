@@ -24,6 +24,7 @@ const upsertMeasure = gql`
           url
         }
         name
+        status
         url
       }
     }

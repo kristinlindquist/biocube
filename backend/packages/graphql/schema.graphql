@@ -16,6 +16,7 @@ type Component {
   id: Int!
   props: JSON
   read: DataQuery
+  readOne: DataQuery
   type: ComponentType!
   upsert: DataQuery
 }
@@ -323,6 +324,12 @@ input MeasureInput {
   url: String
 }
 
+enum MeasureStatus {
+  VALIDATED
+  EXPLORATORY
+  DRAFT
+}
+
 type Mutation {
   deleteConceptOfInterest(input: DeleteConceptOfInterestInput!): DeleteConceptOfInterestResult!
   deleteDataType(input: DeleteDataTypeInput!): DeleteDataTypeResult!
@@ -437,6 +444,7 @@ input UpsertMeasureInput {
   components: [ComponentInput!]
   dataTypes: [DataTypeInput!]
   indications: [IndicationInput!]
+  status: MeasureStatus!
   url: String
 }
 

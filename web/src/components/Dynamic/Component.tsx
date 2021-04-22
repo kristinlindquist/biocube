@@ -1,7 +1,7 @@
 import { ReactElement, useState } from 'react';
 import { uniqBy } from 'lodash';
 import { useParams } from 'react-router-dom';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import { Alert } from '@material-ui/core';
 
 import ErrorBoundary from 'ErrorBoundary';
@@ -71,6 +71,14 @@ export interface ComponentProps {
     parameters: JSONObject;
   };
   /**
+   * Function to query for a single entity
+   * (if read is a fetchMany)
+   */
+  readOne?: {
+    document: string;
+    parameters: JSONObject;
+  };
+  /**
    * Upsert function
    */
   upsert?: {
@@ -89,6 +97,7 @@ const Component = ({
   delete: del,
   props,
   read,
+  readOne,
   upsert,
   type,
 }: ComponentProps): ReactElement => {
@@ -110,6 +119,10 @@ const Component = ({
       },
     },
   });
+
+  const [readOneFunc] = readOne
+    ? useLazyQuery(DocumentMap[readOne.document])
+    : [null];
 
   /**
    * Mutation with convoluted effort of adding to list if it doesn't already
@@ -191,6 +204,7 @@ const Component = ({
           {...props}
           deleteMutation={deleteMutation}
           mutation={mutate}
+          readOne={readOneFunc}
           rows={unwrapData(data)}
         />
       );

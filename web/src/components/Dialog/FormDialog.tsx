@@ -42,6 +42,10 @@ export type FormDialogProps = {
    */
   openButton?: ReactElement;
   /**
+   * Read / load values
+   */
+  read?: () => void;
+  /**
    * Dialog size
    */
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -68,6 +72,7 @@ const FormDialog = ({
   fields,
   onSubmit,
   openButton,
+  read,
   size,
   title,
   values = {},
@@ -82,6 +87,9 @@ const FormDialog = ({
   }, [values]);
 
   const handleOpen = () => {
+    if (read) {
+      read();
+    }
     setOpen(true);
   };
 

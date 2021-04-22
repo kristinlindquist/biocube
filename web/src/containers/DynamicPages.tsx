@@ -12,12 +12,13 @@ const getPages = (pages) =>
     <Route exact key={id} path={url}>
       <Page title={title}>
         {(components || []).map(
-          ({ id: cId, delete: del, props, read, upsert, type }) => (
+          ({ id: cId, delete: del, props, read, readOne, upsert, type }) => (
             <Component
               key={`${title}-${cId}`}
               delete={del}
               props={props}
               read={read}
+              readOne={readOne}
               type={type}
               upsert={upsert}
             />

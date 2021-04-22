@@ -173,12 +173,35 @@ model Indication {
   users           User[]
 }
 
-model Template {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  name      String    @db.VarChar(255)
+// start: dynamic web components
+
+model Component {
+  id        Int           @id @default(autoincrement())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime?     @updatedAt
+  deleteId  Int?
+  readId    Int?
+  readOneId Int?
+  props     Json?
+  upsertId  Int?
+  delete    DataQuery?    @relation("deleteMutation", fields: [deleteId], references: [id])
+  read      DataQuery?    @relation("readQuery", fields: [readId], references: [id])
+  readOne   DataQuery?    @relation("readOneQuery", fields: [readOneId], references: [id])
+  type      ComponentType
+  upsert    DataQuery?    @relation("upsertMutation", fields: [upsertId], references: [id])
   pages     Page[]
+}
+
+model DataQuery {
+  id                Int               @id @default(autoincrement())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime?         @updatedAt
+  document          QueryDocumentType
+  parameters        Json
+  deleteComponents  Component[]       @relation("deleteMutation")
+  readComponents    Component[]       @relation("readQuery")
+  readOneComponents Component[]       @relation("readOneQuery")
+  upsertComponents  Component[]       @relation("upsertMutation")
 }
 
 model Page {
@@ -192,48 +215,26 @@ model Page {
   templates  Template[]
 }
 
-model DataQuery {
-  id               Int               @id @default(autoincrement())
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime?         @updatedAt
-  document         QueryDocumentType
-  parameters       Json
-  deleteComponents Component[]       @relation("deleteMutation")
-  readComponents   Component[]       @relation("readQuery")
-  upsertComponents Component[]       @relation("upsertMutation")
-}
-
-model Component {
-  id        Int           @id @default(autoincrement())
-  createdAt DateTime      @default(now())
-  updatedAt DateTime?     @updatedAt
-  deleteId  Int?
-  readId    Int?
-  props     Json?
-  upsertId  Int?
-  delete    DataQuery?    @relation("deleteMutation", fields: [deleteId], references: [id])
-  read      DataQuery?    @relation("readQuery", fields: [readId], references: [id])
-  type      ComponentType
-  upsert    DataQuery?    @relation("upsertMutation", fields: [upsertId], references: [id])
+model Template {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  name      String    @db.VarChar(255)
   pages     Page[]
 }
 
-enum StateType {
-  SLEEP
-  ASLEEP
-  AWAKE
-  IN_BED
-  WALKING
-  MEDITATION
-  SPINNING
-  STRENGTH_TRAINING
-  HIKING
-}
+// end: dynamic web components
 
 enum ComponentType {
   CONTENT
   DATAGRID
   TABLE
+}
+
+enum MeasureStatus {
+  VALIDATED
+  EXPLORATORY
+  DRAFT
 }
 
 enum QueryDocumentType {
@@ -249,8 +250,14 @@ enum QueryDocumentType {
   DeleteIndicationDocument
 }
 
-enum MeasureStatus {
-  VALIDATED
-  EXPLORATORY
-  DRAFT
+enum StateType {
+  SLEEP
+  ASLEEP
+  AWAKE
+  IN_BED
+  WALKING
+  MEDITATION
+  SPINNING
+  STRENGTH_TRAINING
+  HIKING
 }

@@ -21,6 +21,10 @@ export interface EditCellProps {
    */
   mutation?: (input: { [key: string]: unknown }) => void;
   /**
+   * Read / load values
+   */
+  read?: () => void;
+  /**
    * Values for modal
    */
   values?: { [key: string]: string | number | Date };
@@ -30,6 +34,7 @@ const EditCell = ({
   columns,
   del,
   mutation,
+  read,
   values,
 }: EditCellProps): ReactElement => (
   <Box display="flex">
@@ -37,6 +42,7 @@ const EditCell = ({
       openButton={<IconButton label="Edit" size="small" />}
       fields={columns.filter((c) => undefOrTrue(c.create))}
       onSubmit={(input) => mutation(input)}
+      read={read}
       sx={{ ml: 'auto' }}
       title="Edit"
       values={values}

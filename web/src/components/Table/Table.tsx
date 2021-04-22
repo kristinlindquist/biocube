@@ -48,6 +48,10 @@ export interface TableProps {
    */
   mutation?: (input: { [key: string]: unknown }) => void;
   /**
+   * Read row/entity by id
+   */
+  readOne?: (input: { [key: string]: unknown }) => void;
+  /**
    * table rows
    */
   rows: RowType[];
@@ -115,7 +119,15 @@ const processRow = (row, cols) => {
 /**
  * Render rows and add edit/delete buttons
  */
-const renderRows = (rows, cols, mutation, deleteMutation, goTo) =>
+const renderRows = (
+  rows,
+  cols,
+  editCols,
+  read,
+  mutation,
+  deleteMutation,
+  goTo,
+) =>
   rows.map((row) => (
     <TableRow
       hover={Boolean(row.url)}
@@ -131,9 +143,12 @@ const renderRows = (rows, cols, mutation, deleteMutation, goTo) =>
       {mutation && deleteMutation && (
         <TableCell scope="row" sx={{ width: '1px' }}>
           <EditCell
-            columns={cols}
+            columns={editCols}
             del={() => deleteMutation({ variables: { input: { id: row.id } } })}
             mutation={mutation}
+            read={() =>
+              read ? read({ variables: { input: { id: row.id } } }) : {}
+            }
             values={row}
           />
         </TableCell>
@@ -151,9 +166,11 @@ const Table = ({
   containerProps,
   deleteMutation,
   mutation,
+  readOne,
   rows,
 }: TableProps): ReactElement => {
   const cols = sortBy(columns || getColumns(rows), 'listOrder');
+  const showCols = cols.filter((col) => !col.editOnly);
   const history = useHistory();
   const goTo = (url) => history.push(url);
 
@@ -162,14 +179,22 @@ const Table = ({
       <MaterialTable aria-label="simple table">
         <TableHead>
           <TableRow>
-            {cols.map(({ id, name }) => (
+            {showCols.map(({ id, name }) => (
               <TableCell key={id}>{name}</TableCell>
             ))}
             {mutation && deleteMutation && <TableCell id="edit" />}
           </TableRow>
         </TableHead>
         <TableBody>
-          {renderRows(rows, cols, mutation, deleteMutation, goTo)}
+          {renderRows(
+            rows,
+            showCols,
+            cols,
+            readOne,
+            mutation,
+            deleteMutation,
+            goTo,
+          )}
         </TableBody>
       </MaterialTable>
       {allowAdds && mutation && (

@@ -20,6 +20,11 @@ const getTemplate = gql`
               document
               parameters
             }
+            readOne {
+              id
+              document
+              parameters
+            }
             upsert {
               id
               document

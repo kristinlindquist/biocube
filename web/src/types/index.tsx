@@ -45,6 +45,7 @@ export type DynamicDefType = {
 };
 
 export type ColumnType = {
+  editOnly?: boolean;
   type?: FieldType;
 } & DynamicDefType;
 
