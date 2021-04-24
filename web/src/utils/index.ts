@@ -11,7 +11,9 @@ export const sortByColumn = (
 ): Array<Array<string | KeyValuePairs>> =>
   sortBy(
     Object.entries(row),
-    ([id]) => (cols.find((col) => id === col.id) || {}).listOrder,
+    ([id]) =>
+      (cols.find(({ id: colId }) => colId.split('.')[0] === id) || {})
+        .listOrder,
   );
 
 export const unixYearRange = {

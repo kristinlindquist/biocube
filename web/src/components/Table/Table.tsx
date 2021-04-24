@@ -12,7 +12,7 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import { capitalize, isEmpty, omitBy, sortBy } from 'lodash';
+import { capitalize, get, isEmpty, omitBy, sortBy } from 'lodash';
 
 import { Fab } from 'components/Button';
 import { Chip } from 'components/Chip';
@@ -85,25 +85,31 @@ const renderCellType = (value, column) => {
   if (Array.isArray(value) || isSelectType(column.type)) {
     return renderChips(value);
   }
-  if (column.type === 'main') {
-    return (
-      <Typography variant="h5" sx={{ whiteSpace: 'nowrap' }}>
-        {value}
-      </Typography>
-    );
-  }
-  return value;
+
+  return column.type === 'main' ? (
+    <Typography variant="h5" sx={{ whiteSpace: 'nowrap' }}>
+      {value}
+    </Typography>
+  ) : (
+    value
+  );
 };
 
 /**
- * Render special cells, so far just chips for selects.
+ * Render cells.
  */
 const renderCell = ({ id, value }, columns, goTo) => {
-  const column = columns.find((col) => col.id === id);
+  const column = columns.find((col) => col.id.split('.')[0] === id);
+
+  // semi-ugly way of grabbing string representation of
+  // a cell value that is an object.
+  const val = column.id.includes('.')
+    ? get(value, column.id.split('.')[1])
+    : value;
 
   return (
     <TableCell key={id} onClick={goTo} scope="row">
-      {renderCellType(value, column || {})}
+      {renderCellType(val, column || {})}
     </TableCell>
   );
 };
@@ -112,7 +118,11 @@ const renderCell = ({ id, value }, columns, goTo) => {
  * Sort & omit based on columns.
  */
 const processRow = (row, cols) => {
-  const myRow = omitBy(row, (_, key) => !cols.some(({ id }) => id === key));
+  const myRow = omitBy(
+    row,
+    (_, key) => !cols.some(({ id }) => id.split('.')[0] === key),
+  );
+
   return sortByColumn(myRow, cols);
 };
 
