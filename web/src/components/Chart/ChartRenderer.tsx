@@ -37,12 +37,10 @@ import { zeroToNull } from './utils';
 const numberFormatter = (item) => numeral(item).format('0,0');
 const dateFormatter = (item) => moment(item).format('MMM DD');
 const resolveFormatter = (type) => {
-  switch (type) {
-    case 'number':
-      return numberFormatter;
-    default:
-      return (item) => item;
-  }
+  const formatters = {
+    number: numberFormatter,
+  };
+  return formatters[type] || ((item) => item);
 };
 
 const xAxisFormatter = (item) =>

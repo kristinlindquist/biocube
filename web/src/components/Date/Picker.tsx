@@ -30,15 +30,12 @@ export interface PickerProps {
   type: 'date' | 'datetime-local' | 'time';
 }
 
-const getValue = (date: Date, type: 'date' | 'datetime-local' | 'time') => {
-  switch (type) {
-    case 'time':
-      return moment(new Date(date)).format('HH:mm'); // TODO: time expects AM/PM (A)
-    case 'datetime-local':
-      return moment(new Date(date)).format('yyyy-MM-DDTHH:mm');
-    default:
-      return moment(new Date(date)).format('yyyy-MM-DD');
-  }
+const formatDate = (date: Date, type: 'date' | 'datetime-local' | 'time') => {
+  const formats = {
+    time: moment(new Date(date)).format('HH:mm'), // TODO: time expects AM/PM (A)
+    'datetime-local': moment(new Date(date)).format('yyyy-MM-DDTHH:mm'),
+  };
+  return formats[type] || moment(new Date(date)).format('yyyy-MM-DD');
 };
 /**
  * A date picker
@@ -61,7 +58,7 @@ const Picker = ({
     }}
     label={label || id}
     onChange={(e) => onChange(e.target.value)}
-    value={getValue(date, type)}
+    value={formatDate(date, type)}
     type={type}
   />
 );

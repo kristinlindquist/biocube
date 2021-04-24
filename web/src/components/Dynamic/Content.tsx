@@ -49,23 +49,18 @@ const getElement = (
   id,
   { name = null, type = '', props = {} },
 ): ReactElement | ReactElement[] => {
-  switch (type) {
-    case 'CHIPS':
-      return addTitle(
-        asArray(value).map((v) => (
-          <Chip key={`${id}-${v.name}`} sx={{ mr: 0.5 }} {...v} />
-        )),
-        name,
-      );
-    case 'DATAGRID':
-      return addTitle(<DataGrid {...props} hideFooter rows={value} />, name);
-    case 'TABLE':
-      return <Table {...props} rows={value} />;
-    case 'TYPOGRAPHY':
-      return <Typography {...props}>{value}</Typography>;
-    default:
-      return null;
-  }
+  const elements = {
+    CHIPS: addTitle(
+      asArray(value).map((v) => (
+        <Chip key={`${id}-${v.name}`} sx={{ mr: 0.5 }} {...v} />
+      )),
+      name,
+    ),
+    DATAGRID: addTitle(<DataGrid {...props} hideFooter rows={value} />, name),
+    TABLE: <Table {...props} rows={value} />,
+    TYPOGRAPHY: <Typography {...props}>{value}</Typography>,
+  };
+  return elements[type];
 };
 
 /**

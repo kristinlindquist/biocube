@@ -175,43 +175,35 @@ const Component = ({
     return null;
   }
 
-  let component = <span />;
+  const components = {
+    CONTENT: (
+      <Content
+        {...props}
+        data={unwrapData(data)}
+        deleteMutation={deleteMutation}
+        mutation={mutate}
+      />
+    ),
+    DATAGRID: (
+      <DataGrid
+        {...props}
+        deleteMutation={deleteMutation}
+        mutation={mutate}
+        rows={unwrapData(data)}
+      />
+    ),
+    TABLE: (
+      <Table
+        {...props}
+        deleteMutation={deleteMutation}
+        mutation={mutate}
+        readOne={readOneFunc}
+        rows={unwrapData(data)}
+      />
+    ),
+  };
 
-  switch (type) {
-    case 'CONTENT':
-      component = (
-        <Content
-          {...props}
-          data={unwrapData(data)}
-          deleteMutation={deleteMutation}
-          mutation={mutate}
-        />
-      );
-      break;
-    case 'DATAGRID':
-      component = (
-        <DataGrid
-          {...props}
-          deleteMutation={deleteMutation}
-          mutation={mutate}
-          rows={unwrapData(data)}
-        />
-      );
-      break;
-    case 'TABLE':
-      component = (
-        <Table
-          {...props}
-          deleteMutation={deleteMutation}
-          mutation={mutate}
-          readOne={readOneFunc}
-          rows={unwrapData(data)}
-        />
-      );
-      break;
-    default:
-      component = <span />;
-  }
+  const component = components[type] || <span />;
 
   return (
     <ErrorBoundary>
