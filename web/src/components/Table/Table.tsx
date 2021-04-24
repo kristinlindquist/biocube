@@ -20,6 +20,7 @@ import { FormDialog as Dialog } from 'components/Dialog';
 import { ColumnType, RowType, isSelectFieldType as isSelectType } from 'types';
 import { sortByColumn, undefOrTrue } from 'utils';
 
+import CollapsedRow from './CollapsedRow';
 import EditCell from './EditCell';
 
 export interface TableProps {
@@ -55,6 +56,10 @@ export interface TableProps {
    * table rows
    */
   rows: RowType[];
+  /**
+   * table size
+   */
+  size?: 'small' | 'medium';
 }
 
 /**
@@ -73,7 +78,7 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
 const renderChips = (chips) => (
   <Box sx={{ mt: -0.5 }}>
     {(Array.isArray(chips) ? chips : [chips]).map((cell) => (
-      <Chip key={cell.id} {...cell} />
+      <Chip key={cell.id || cell} name={cell} {...cell} />
     ))}
   </Box>
 );
@@ -95,21 +100,26 @@ const renderCellType = (value, column) => {
   );
 };
 
+// get column associated with cell
+const getCellColumn = (columns, rowId) =>
+  columns.find((col) => col.id.split('.')[0] === rowId);
+
+// semi-ugly way of grabbing string representation of
+// a cell value that is an object.
+const getCellValue = (column, value) =>
+  column && column.id.includes('.')
+    ? get(value, column.id.split('.')[1])
+    : value;
+
 /**
  * Render cells.
  */
 const renderCell = ({ id, value }, columns, goTo) => {
-  const column = columns.find((col) => col.id.split('.')[0] === id);
-
-  // semi-ugly way of grabbing string representation of
-  // a cell value that is an object.
-  const val = column.id.includes('.')
-    ? get(value, column.id.split('.')[1])
-    : value;
+  const column = getCellColumn(columns, id);
 
   return (
     <TableCell key={id} onClick={goTo} scope="row">
-      {renderCellType(val, column || {})}
+      {renderCellType(getCellValue(column, value), column || {})}
     </TableCell>
   );
 };
@@ -120,7 +130,10 @@ const renderCell = ({ id, value }, columns, goTo) => {
 const processRow = (row, cols) => {
   const myRow = omitBy(
     row,
-    (_, key) => !cols.some(({ id }) => id.split('.')[0] === key),
+    (_, key) =>
+      !cols.some(
+        ({ id, type }) => id.split('.')[0] === key || type === 'TABLE',
+      ),
   );
 
   return sortByColumn(myRow, cols);
@@ -132,13 +145,13 @@ const processRow = (row, cols) => {
 const renderRows = (
   rows,
   cols,
-  editCols,
+  allCols,
   read,
   mutation,
   deleteMutation,
   goTo,
 ) =>
-  rows.map((row) => (
+  rows.map((row) => [
     <TableRow
       hover={Boolean(row.url)}
       key={row.id}
@@ -153,7 +166,7 @@ const renderRows = (
       {mutation && deleteMutation && (
         <TableCell scope="row" sx={{ width: '1px' }}>
           <EditCell
-            columns={editCols}
+            columns={allCols}
             del={() => deleteMutation({ variables: { input: { id: row.id } } })}
             mutation={mutation}
             read={() =>
@@ -163,8 +176,11 @@ const renderRows = (
           />
         </TableCell>
       )}
-    </TableRow>
-  ));
+    </TableRow>,
+    ...allCols
+      .filter(({ type }) => type === 'TABLE')
+      .map(({ id }) => <CollapsedRow open rows={row[id]} />),
+  ]);
 
 /**
  * A table with column sorting and other features
@@ -178,15 +194,16 @@ const Table = ({
   mutation,
   readOne,
   rows,
+  ...props
 }: TableProps): ReactElement => {
   const cols = sortBy(columns || getColumns(rows), 'listOrder');
-  const showCols = cols.filter((col) => !col.editOnly);
+  const showCols = cols.filter((col) => !col.editOnly && col.type !== 'TABLE');
   const history = useHistory();
   const goTo = (url) => history.push(url);
 
   return (
     <TableContainer {...containerProps} component={component || Paper}>
-      <MaterialTable aria-label="simple table">
+      <MaterialTable aria-label="simple table" {...props}>
         <TableHead>
           <TableRow>
             {showCols.map(({ id, name }) => (

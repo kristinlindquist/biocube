@@ -82,6 +82,7 @@ export type TextFieldType =
   | 'element'
   | 'number'
   | 'string'
+  | 'TABLE'
   | 'text';
 
 const selectFieldTypes = ['single', 'multiple'] as const;
