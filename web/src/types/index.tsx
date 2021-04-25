@@ -54,7 +54,11 @@ export type ContentDefType = {
   type: ContentType;
 } & DynamicDefType;
 
-export type RowType = { [key: string]: string | number | Date };
+export type RowType = {
+  [key: string]: string | number | Date | RowType[];
+  id?: IdType;
+  url?: string;
+};
 
 export type JSONPrimitive = string | number | boolean | null;
 export type JSONValue = JSONPrimitive | JSONObject;

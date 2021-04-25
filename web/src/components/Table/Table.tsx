@@ -1,7 +1,5 @@
 import { ElementType, ReactElement } from 'react';
-import { useHistory } from 'react-router-dom';
 import {
-  Box,
   Paper,
   Table as MaterialTable,
   TableBody,
@@ -10,18 +8,15 @@ import {
   TableContainerProps,
   TableHead,
   TableRow,
-  Typography,
 } from '@material-ui/core';
-import { capitalize, get, isEmpty, omitBy, sortBy } from 'lodash';
+import { capitalize, isEmpty, sortBy } from 'lodash';
 
 import { Fab } from 'components/Button';
-import { Chip } from 'components/Chip';
 import { FormDialog as Dialog } from 'components/Dialog';
-import { ColumnType, RowType, isSelectFieldType as isSelectType } from 'types';
-import { sortByColumn, undefOrTrue } from 'utils';
+import { ColumnType, RowType } from 'types';
+import { undefOrTrue } from 'utils';
 
-import CollapsedRow from './CollapsedRow';
-import EditCell from './EditCell';
+import Row from './Row';
 
 export interface TableProps {
   /**
@@ -73,116 +68,6 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
     : [];
 
 /**
- * Render chips
- */
-const renderChips = (chips) => (
-  <Box sx={{ mt: -0.5 }}>
-    {(Array.isArray(chips) ? chips : [chips]).map((cell) => (
-      <Chip key={cell.id || cell} name={cell} {...cell} />
-    ))}
-  </Box>
-);
-
-/**
- * Render cell by type
- */
-const renderCellType = (value, column) => {
-  if (Array.isArray(value) || isSelectType(column.type)) {
-    return renderChips(value);
-  }
-
-  return column.type === 'main' ? (
-    <Typography variant="h5" sx={{ whiteSpace: 'nowrap' }}>
-      {value}
-    </Typography>
-  ) : (
-    value
-  );
-};
-
-// get column associated with cell
-const getCellColumn = (columns, rowId) =>
-  columns.find((col) => col.id.split('.')[0] === rowId);
-
-// semi-ugly way of grabbing string representation of
-// a cell value that is an object.
-const getCellValue = (column, value) =>
-  column && column.id.includes('.')
-    ? get(value, column.id.split('.')[1])
-    : value;
-
-/**
- * Render cells.
- */
-const renderCell = ({ id, value }, columns, goTo) => {
-  const column = getCellColumn(columns, id);
-
-  return (
-    <TableCell key={id} onClick={goTo} scope="row">
-      {renderCellType(getCellValue(column, value), column || {})}
-    </TableCell>
-  );
-};
-
-/**
- * Sort & omit based on columns.
- */
-const processRow = (row, cols) => {
-  const myRow = omitBy(
-    row,
-    (_, key) =>
-      !cols.some(
-        ({ id, type }) => id.split('.')[0] === key || type === 'TABLE',
-      ),
-  );
-
-  return sortByColumn(myRow, cols);
-};
-
-/**
- * Render rows and add edit/delete buttons
- */
-const renderRows = (
-  rows,
-  cols,
-  allCols,
-  read,
-  mutation,
-  deleteMutation,
-  goTo,
-) =>
-  rows.map((row) => [
-    <TableRow
-      hover={Boolean(row.url)}
-      key={row.id}
-      sx={row.url ? { cursor: 'pointer' } : undefined}>
-      {processRow(row, cols).map(([id, value]) =>
-        renderCell(
-          { id, value },
-          cols,
-          row.url ? () => goTo(row.url) : undefined,
-        ),
-      )}
-      {mutation && deleteMutation && (
-        <TableCell scope="row" sx={{ width: '1px' }}>
-          <EditCell
-            columns={allCols}
-            del={() => deleteMutation({ variables: { input: { id: row.id } } })}
-            mutation={mutation}
-            read={() =>
-              read ? read({ variables: { input: { id: row.id } } }) : {}
-            }
-            values={row}
-          />
-        </TableCell>
-      )}
-    </TableRow>,
-    ...allCols
-      .filter(({ type }) => type === 'TABLE')
-      .map(({ id }) => <CollapsedRow open rows={row[id]} />),
-  ]);
-
-/**
  * A table with column sorting and other features
  */
 const Table = ({
@@ -198,8 +83,6 @@ const Table = ({
 }: TableProps): ReactElement => {
   const cols = sortBy(columns || getColumns(rows), 'listOrder');
   const showCols = cols.filter((col) => !col.editOnly && col.type !== 'TABLE');
-  const history = useHistory();
-  const goTo = (url) => history.push(url);
 
   return (
     <TableContainer {...containerProps} component={component || Paper}>
@@ -213,15 +96,17 @@ const Table = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {renderRows(
-            rows,
-            showCols,
-            cols,
-            readOne,
-            mutation,
-            deleteMutation,
-            goTo,
-          )}
+          {rows.map((row) => (
+            <Row
+              allCols={cols}
+              cols={showCols}
+              deleteMutation={deleteMutation}
+              key={row.id}
+              mutation={mutation}
+              read={readOne}
+              row={row}
+            />
+          ))}
         </TableBody>
       </MaterialTable>
       {allowAdds && mutation && (

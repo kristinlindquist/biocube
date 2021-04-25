@@ -28,7 +28,6 @@ const Chip = ({ id, name, url, ...props }: ChipProps): ReactElement => (
     clickable={Boolean(url)}
     color={url ? 'primary' : undefined}
     component={url ? Link : undefined}
-    key={`${id}-${name}`}
     label={name}
     onClick={(e) => e.stopPropagation()}
     size="small"

@@ -1,11 +1,18 @@
 import { ReactElement } from 'react';
-import { Box, Collapse, TableCell, TableRow } from '@material-ui/core';
+import {
+  Box,
+  Collapse,
+  TableCell,
+  TableRow,
+  Typography,
+} from '@material-ui/core';
 
 import { Table } from 'components/Table';
 import { RowType } from 'types';
 
 export interface CollapsedRowProps {
   colSpan?: number;
+  name?: string;
   open?: boolean;
   /**
    * rows
@@ -15,13 +22,15 @@ export interface CollapsedRowProps {
 
 const CollapsedRow = ({
   colSpan = 6,
+  name,
   open,
   rows,
 }: CollapsedRowProps): ReactElement => (
   <TableRow>
-    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={colSpan}>
+    <TableCell colSpan={colSpan}>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <Box margin={1}>
+        <Box margin={2}>
+          {name && <Typography variant="h5">{name}</Typography>}
           <Table component="div" rows={rows} size="small" />
         </Box>
       </Collapse>

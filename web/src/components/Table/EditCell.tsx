@@ -4,7 +4,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import { IconButton } from 'components/Button';
 import { FormDialog as Dialog } from 'components/Dialog';
-import { ColumnType } from 'types';
+import { ColumnType, RowType } from 'types';
 import { undefOrTrue } from 'utils';
 
 export interface EditCellProps {
@@ -27,7 +27,7 @@ export interface EditCellProps {
   /**
    * Values for modal
    */
-  values?: { [key: string]: string | number | Date };
+  values?: RowType;
 }
 
 const EditCell = ({
