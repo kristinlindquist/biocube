@@ -1,4 +1,4 @@
-cube(`State`, {
+cube(`ConcurrentState`, {
   sql: `SELECT * FROM public."Datum" where state is not null`,
   
   dimensions: {

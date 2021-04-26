@@ -55,10 +55,10 @@ asyncModule(async () => {
         relationship: `belongsTo`,
       },
 
-      State: {
-        sql: `${CUBE}."startedAt" > ${State}."startedAt"
-          AND ${CUBE}."startedAt" < ${State}."startedAt" + interval '1 hour'
-          * ${State}.duration / (1000 * 60 * 60)`,
+      ConcurrentState: {
+        sql: `${CUBE}."startedAt" > ${ConcurrentState}."startedAt"
+          AND ${CUBE}."startedAt" < ${ConcurrentState}."startedAt" + interval '1 hour'
+          * ${ConcurrentState}.duration / (1000 * 60 * 60)`,
         relationship: `belongsTo`,
       },
     },
@@ -73,7 +73,7 @@ asyncModule(async () => {
               ...(m.components || [])
                 .flatMap(c => c.filters || [])
                 .map(({ dimension, operator, values }) => ({
-                  sql: `${State}.${dimension} ${operator} (${values
+                  sql: `${ConcurrentState}.${dimension} ${operator} (${values
                     .map(v => `'${v}'`)
                     .join(',')})`,
                 })),
@@ -128,7 +128,7 @@ asyncModule(async () => {
 
     dimensions: {
       concurrentState: {
-        sql: `${State}.state`,
+        sql: `${ConcurrentState}.state`,
         type: `string`,
       },
 
