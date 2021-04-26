@@ -23,7 +23,7 @@ export type ChipProps = {
 } & Partial<MaterialChipProps> &
   Partial<LinkProps>;
 
-const Chip = ({ id, name, url, ...props }: ChipProps): ReactElement => (
+const Chip = ({ name, url, ...props }: ChipProps): ReactElement => (
   <MaterialChip
     clickable={Boolean(url)}
     color={url ? 'primary' : undefined}

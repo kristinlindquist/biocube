@@ -27,7 +27,7 @@ const CollapsedRow = ({
   rows,
 }: CollapsedRowProps): ReactElement => (
   <TableRow>
-    <TableCell colSpan={colSpan}>
+    <TableCell colSpan={colSpan} sx={{ py: 0 }}>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <Box margin={2}>
           {name && <Typography variant="h5">{name}</Typography>}

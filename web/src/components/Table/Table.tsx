@@ -13,7 +13,7 @@ import { capitalize, isEmpty, sortBy } from 'lodash';
 
 import { Fab } from 'components/Button';
 import { FormDialog as Dialog } from 'components/Dialog';
-import { ColumnType, RowType } from 'types';
+import { ColumnType, IdType, RowType } from 'types';
 import { undefOrTrue } from 'utils';
 
 import Row from './Row';
@@ -39,6 +39,10 @@ export interface TableProps {
    * Delete mutation
    */
   deleteMutation?: (input: { [key: string]: unknown }) => void;
+  /**
+   * Id for table (used for keys)
+   */
+  id?: IdType;
   /**
    * Mutation function
    */
@@ -76,6 +80,7 @@ const Table = ({
   component,
   containerProps,
   deleteMutation,
+  id = 'a table',
   mutation,
   readOne,
   rows,
@@ -83,15 +88,17 @@ const Table = ({
 }: TableProps): ReactElement => {
   const cols = sortBy(columns || getColumns(rows), 'listOrder');
   const showCols = cols.filter((col) => !col.editOnly && col.type !== 'TABLE');
+  const collapseCol = cols.find(({ type }) => type === 'TABLE');
 
   return (
     <TableContainer {...containerProps} component={component || Paper}>
-      <MaterialTable aria-label="simple table" {...props}>
+      <MaterialTable aria-label={`table ${id}`} {...props}>
         <TableHead>
           <TableRow>
-            {showCols.map(({ id, name }) => (
-              <TableCell key={id}>{name}</TableCell>
+            {showCols.map(({ id: colId, name }) => (
+              <TableCell key={colId}>{name}</TableCell>
             ))}
+            {collapseCol && <TableCell id="collapseCol" />}
             {mutation && deleteMutation && <TableCell id="edit" />}
           </TableRow>
         </TableHead>
@@ -99,9 +106,10 @@ const Table = ({
           {rows.map((row) => (
             <Row
               allCols={cols}
+              collapseCol={collapseCol}
               cols={showCols}
               deleteMutation={deleteMutation}
-              key={row.id}
+              key={`${row.id}-${id}`}
               mutation={mutation}
               read={readOne}
               row={row}

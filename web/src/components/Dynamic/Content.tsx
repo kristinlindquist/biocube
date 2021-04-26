@@ -7,8 +7,19 @@ import { Chip } from 'components/Chip';
 import { FormDialog as Dialog } from 'components/Dialog';
 import { IconButton } from 'components/Button';
 import { DataGrid, Table } from 'components/Table';
-import { ContentDefType, KeyValuePairs, TypographyVariant } from 'types';
-import { fieldFromContentType, sortByColumn, undefOrTrue } from 'utils';
+import {
+  ContentDefType,
+  IdType,
+  KeyValuePairs,
+  RowType,
+  TypographyVariant,
+} from 'types';
+import {
+  asArray,
+  fieldFromContentType,
+  sortByColumn,
+  undefOrTrue,
+} from 'utils';
 
 export interface ContentProps {
   /**
@@ -29,9 +40,10 @@ export interface ContentProps {
   mutation?: (input: { [key: string]: unknown }) => void;
 }
 
-const asArray = (value) => (Array.isArray(value) ? value : [value]);
-
-const addTitle = (
+/**
+ * Add a title to a sub-component
+ */
+const withTitle = (
   component: ReactElement | ReactElement[],
   title: string,
   variant: TypographyVariant = 'h6',
@@ -44,23 +56,29 @@ const addTitle = (
   </>
 );
 
-const getElement = (
-  value,
-  id,
+/**
+ * Get sub-component by type
+ */
+const subComponent = (
+  id: IdType,
+  value: KeyValuePairs,
   { name = null, type = '', props = {} },
 ): ReactElement | ReactElement[] => {
-  const elements = {
-    CHIPS: addTitle(
+  const components = {
+    CHIPS: withTitle(
       asArray(value).map((v) => (
         <Chip key={`${id}-${v.name}`} sx={{ mr: 0.5 }} {...v} />
       )),
       name,
     ),
-    DATAGRID: addTitle(<DataGrid {...props} hideFooter rows={value} />, name),
-    TABLE: <Table {...props} rows={value} />,
+    DATAGRID: withTitle(
+      <DataGrid {...props} hideFooter rows={value as RowType[]} />,
+      name,
+    ),
+    TABLE: <Table {...props} rows={value as RowType[]} />,
     TYPOGRAPHY: <Typography {...props}>{value}</Typography>,
   };
-  return elements[type];
+  return components[type];
 };
 
 /**
@@ -105,7 +123,7 @@ const Content = ({ data, dataMap, mutation }: ContentProps): ReactElement => {
               key={k}
               sx={{ mb: 1 }}
               {...(col && col.props ? col.props.sx : {})}>
-              {getElement(v, k, col || {})}
+              {subComponent(k, v, col || {})}
             </Box>
           ) : null;
         })

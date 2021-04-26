@@ -3,10 +3,13 @@ import { useHistory } from 'react-router-dom';
 import { Box, TableCell, TableRow, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { get, omitBy } from 'lodash';
+import ArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import ArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
+import { IconButton } from 'components/Button';
 import { Chip } from 'components/Chip';
 import { ColumnType, RowType, isSelectFieldType as isSelectType } from 'types';
-import { sortByColumn } from 'utils';
+import { asArray, sortByColumn } from 'utils';
 
 import CollapsedRow from './CollapsedRow';
 import EditCell from './EditCell';
@@ -16,6 +19,10 @@ export interface RowProps {
    * All columns, even those not showing
    */
   allCols: ColumnType[];
+  /**
+   * Column definition for collapsible content
+   */
+  collapseCol: ColumnType;
   /**
    * Columns that are showing
    */
@@ -51,13 +58,13 @@ const useStyles = makeStyles({
  */
 const renderChips = (chips) => (
   <Box sx={{ mt: -0.5 }}>
-    {(Array.isArray(chips) ? chips : [chips]).map((cell) => (
-      <Chip
-        key={cell.id || cell}
-        name={typeof cell === 'string' ? cell : undefined}
-        {...cell}
-      />
-    ))}
+    {asArray(chips)
+      .map((cell) =>
+        typeof cell === 'string' ? { id: cell, name: cell } : cell,
+      )
+      .map((cell) => (
+        <Chip key={cell.id} {...cell} />
+      ))}
   </Box>
 );
 
@@ -117,19 +124,12 @@ const processRow = (row, cols) => {
   return sortByColumn(myRow, cols);
 };
 
-const getOnClick = (goTo, setOpen, collapsible) => {
-  if (goTo) {
-    return goTo;
-  }
-
-  return collapsible ? () => setOpen() : undefined;
-};
-
 /**
  * Rows with add edit/delete buttons & expandable section
  */
 const Row = ({
   allCols,
+  collapseCol,
   cols,
   deleteMutation,
   mutation,
@@ -140,12 +140,7 @@ const Row = ({
   const [open, setOpen] = useState(false);
   const { id, url } = row;
   const history = useHistory();
-  const collapsible = allCols.find(({ type }) => type === 'TABLE');
-  const onClick = getOnClick(
-    url ? () => history.push(url) : undefined,
-    () => setOpen(!open),
-    collapsible,
-  );
+  const onClick = url ? () => history.push(url) : undefined;
 
   return (
     <>
@@ -155,6 +150,14 @@ const Row = ({
         sx={url ? { cursor: 'pointer' } : undefined}>
         {processRow(row, cols).map(([cellId, cellValue]) =>
           renderCell({ id: cellId, value: cellValue }, cols, onClick),
+        )}
+        {collapseCol && (
+          <TableCell scope="row" sx={{ width: '1px' }}>
+            <IconButton
+              icon={open ? <ArrowUpIcon /> : <ArrowDownIcon />}
+              onClick={() => setOpen(!open)}
+            />
+          </TableCell>
         )}
         {mutation && deleteMutation && (
           <TableCell scope="row" sx={{ width: '1px' }}>
@@ -168,11 +171,11 @@ const Row = ({
           </TableCell>
         )}
       </TableRow>
-      {collapsible && (
+      {collapseCol && (
         <CollapsedRow
           open={open}
-          name={collapsible.name}
-          rows={row[collapsible.id] as RowType[]}
+          name={collapseCol.name}
+          rows={row[collapseCol.id] as RowType[]}
         />
       )}
     </>

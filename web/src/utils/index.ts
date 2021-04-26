@@ -2,13 +2,19 @@ import moment from 'moment';
 import { camelCase, get, sortBy } from 'lodash';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
-import { ContentType, DynamicDefType, FieldType, KeyValuePairs } from 'types';
+import {
+  ContentType,
+  DynamicDefType,
+  FieldType,
+  IdType,
+  KeyValuePairs,
+} from 'types';
 import * as gql from 'gql';
 
 export const sortByColumn = (
   row: KeyValuePairs,
   cols: Partial<DynamicDefType>[],
-): Array<Array<string | KeyValuePairs>> =>
+): Array<[IdType, KeyValuePairs]> =>
   sortBy(
     Object.entries(row),
     ([id]) =>
@@ -90,3 +96,10 @@ export const fieldFromContentType = (type: ContentType): FieldType => {
       return 'string';
   }
 };
+
+/**
+ * Get as array, even if single value
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const asArray = (value: Array<any> | any): Array<any> =>
+  Array.isArray(value) ? value : [value];
