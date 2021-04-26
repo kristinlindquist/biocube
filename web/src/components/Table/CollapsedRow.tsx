@@ -11,15 +11,27 @@ import { Table } from 'components/Table';
 import { RowType } from 'types';
 
 export interface CollapsedRowProps {
+  /**
+   * How wide (in terms of cols)
+   */
   colSpan?: number;
+  /**
+   * Name / title
+   */
   name?: string;
+  /**
+   * Is row open vs collapsed?
+   */
   open?: boolean;
   /**
-   * rows
+   * The rows
    */
   rows: RowType[];
 }
 
+/**
+ * The collapsed portion of a row
+ */
 const CollapsedRow = ({
   colSpan = 6,
   name,

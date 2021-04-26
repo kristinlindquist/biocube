@@ -23,6 +23,9 @@ export type ChipProps = {
 } & Partial<MaterialChipProps> &
   Partial<LinkProps>;
 
+/**
+ * A linkable chip with sensible defaults
+ */
 const Chip = ({ name, url, ...props }: ChipProps): ReactElement => (
   <MaterialChip
     clickable={Boolean(url)}
