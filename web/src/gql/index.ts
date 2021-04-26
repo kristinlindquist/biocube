@@ -66,6 +66,7 @@ const getApolloClient = (): ApolloClient<NormalizedCacheObject> => {
               );
             },
           );
+          return;
         }
 
         if (networkError) {

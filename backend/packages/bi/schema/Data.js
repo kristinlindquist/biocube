@@ -37,7 +37,7 @@ asyncModule(async () => {
 
   cube(`Data`, {
     sql: `SELECT * FROM public."Datum"`,
-    title: `Data - `,
+    title: `D -`,
 
     joins: {
       DataType: {
@@ -91,7 +91,8 @@ asyncModule(async () => {
       },
 
       duration: {
-        sql: `duration`,
+        sql: `duration / (1000 * 60 * 60)`, // hour
+        title: `Hours`,
         type: `sum`,
       },
 
@@ -119,14 +120,6 @@ asyncModule(async () => {
         },
       },
 
-      rollingMonth: {
-        sql: `value`,
-        type: `avg`,
-        rollingWindow: {
-          trailing: `1 month`,
-        },
-      },
-
       sum: {
         sql: `value`,
         type: `sum`,
@@ -134,6 +127,11 @@ asyncModule(async () => {
     },
 
     dimensions: {
+      concurrentState: {
+        sql: `${State}.state`,
+        type: `string`,
+      },
+
       id: {
         sql: `id`,
         type: `number`,
@@ -147,7 +145,7 @@ asyncModule(async () => {
       },
 
       state: {
-        sql: `${State}.state`,
+        sql: `${CUBE}.state`,
         type: `string`,
       },
     },
