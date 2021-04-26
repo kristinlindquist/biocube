@@ -6,6 +6,8 @@ type Measure {
   components: [Component!]
   dataTypes: [DataType!]
   indications: [Indication!]
+  aggregation: String # Why not AggregationType? https://github.com/prisma-labs/graphqlgen/issues/213
+  sql: String
   status: String # Why not MeasureStatus? https://github.com/prisma-labs/graphqlgen/issues/213
   url: String
 }
@@ -26,6 +28,7 @@ type Component {
 type Filter {
   id: Int!
   dimension: String!
+  join: String
   operator: String!
   values: [String!]
 }

@@ -9,19 +9,25 @@ const mQuery = {
     getMeasures(input: $input) {
       measures {
         id
-        name
+        aggregation
         components {
           filters {
             dimension
+            join
             operator
             values
           }
         }
+        name
+        sql
         status
       }
     }
   }`,
 };
+
+const getFilter = ({ dimension, operator, values }) =>
+  `${dimension} ${operator} (${values.map(v => `'${v}'`).join(',')})`;
 
 asyncModule(async () => {
   const measures = get(
@@ -59,7 +65,7 @@ asyncModule(async () => {
         sql: `${CUBE}."startedAt" > ${ConcurrentState}."startedAt"
           AND ${CUBE}."startedAt" < ${ConcurrentState}."startedAt" + interval '1 hour'
           * ${ConcurrentState}.duration / (1000 * 60 * 60)`,
-        relationship: `belongsTo`,
+        relationship: `hasOne`,
       },
     },
 
@@ -72,15 +78,18 @@ asyncModule(async () => {
               { sql: `${MeasureComponent}."measureId" = ${m.id}` },
               ...(m.components || [])
                 .flatMap(c => c.filters || [])
-                .map(({ dimension, operator, values }) => ({
-                  sql: `${ConcurrentState}.${dimension} ${operator} (${values
-                    .map(v => `'${v}'`)
-                    .join(',')})`,
+                .map(f => ({
+                  sql:
+                    (f.join || 'ConcurrentState') === 'ConcurrentState'
+                      ? `${ConcurrentState}.${getFilter(f)}`
+                      : `${CUBE}.${getFilter(f)}`,
                 })),
             ],
-            sql: `value`,
-            title: `${m.name}`,
-            type: `avg`,
+            sql: m.sql ? `${CUBE}.${m.sql}` : `value`,
+            title: m.name,
+            type: m.aggregation
+              ? camelCase(m.aggregation.toLowerCase())
+              : `avg`,
           },
         }))
         .reduce((a, b) => Object.assign(a, b)),

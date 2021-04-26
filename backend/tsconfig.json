@@ -32,7 +32,10 @@
       ],
       "@backend/config": [
         "config"
-      ]
+      ],
+      "@backend/bi": [
+        "packages/bi"
+      ],
     },
   },
   "include": [

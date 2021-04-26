@@ -8,6 +8,19 @@ type Activity {
   state: String
 }
 
+enum AggregationType {
+  AVG
+  COUNT
+  COUNT_DISTINCT
+  COUNT_DISTINCT_APPROX
+  MAX
+  MIN
+  NUMBER
+  RUNNING_TOTAL
+  VALUE
+  SUM
+}
+
 type Component {
   dataType: DataType!
   delete: DataQuery
@@ -136,6 +149,7 @@ input DeviceTypeInput {
 type Filter {
   id: Int!
   dimension: String!
+  join: String
   operator: String!
   values: [String!]
 }
@@ -306,6 +320,7 @@ input IndicationInput {
 scalar JSON
 
 type Measure {
+  aggregation: String
   components: [Component!]
   conceptsOfInterest: [ConceptOfInterest!]
   dataTypes: [DataType!]
@@ -313,6 +328,7 @@ type Measure {
   id: Int!
   indications: [Indication!]
   name: String!
+  sql: String
   status: String
   url: String
 }
@@ -438,13 +454,15 @@ type UpsertIndicationResult {
 
 input UpsertMeasureInput {
   id: Int
+  aggregation: AggregationType
   description: String
   name: String!
   conceptsOfInterest: [ConceptOfInterestInput!]
   components: [ComponentInput!]
   dataTypes: [DataTypeInput!]
   indications: [IndicationInput!]
-  status: MeasureStatus!
+  status: MeasureStatus
+  sql: String
   url: String
 }
 

@@ -24,6 +24,19 @@ export type Activity = {
   state?: Maybe<Scalars['String']>;
 };
 
+export enum AggregationType {
+  Avg = 'AVG',
+  Count = 'COUNT',
+  CountDistinct = 'COUNT_DISTINCT',
+  CountDistinctApprox = 'COUNT_DISTINCT_APPROX',
+  Max = 'MAX',
+  Min = 'MIN',
+  Number = 'NUMBER',
+  RunningTotal = 'RUNNING_TOTAL',
+  Value = 'VALUE',
+  Sum = 'SUM'
+}
+
 export type Component = {
   __typename?: 'Component';
   dataType: DataType;
@@ -164,6 +177,7 @@ export type Filter = {
   __typename?: 'Filter';
   id: Scalars['Int'];
   dimension: Scalars['String'];
+  join?: Maybe<Scalars['String']>;
   operator: Scalars['String'];
   values?: Maybe<Array<Scalars['String']>>;
 };
@@ -353,6 +367,7 @@ export type IndicationInput = {
 
 export type Measure = {
   __typename?: 'Measure';
+  aggregation?: Maybe<Scalars['String']>;
   components?: Maybe<Array<Component>>;
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   dataTypes?: Maybe<Array<DataType>>;
@@ -360,6 +375,7 @@ export type Measure = {
   id: Scalars['Int'];
   indications?: Maybe<Array<Indication>>;
   name: Scalars['String'];
+  sql?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -624,13 +640,15 @@ export type UpsertIndicationResult = {
 
 export type UpsertMeasureInput = {
   id?: Maybe<Scalars['Int']>;
+  aggregation?: Maybe<AggregationType>;
   description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   conceptsOfInterest?: Maybe<Array<ConceptOfInterestInput>>;
   components?: Maybe<Array<ComponentInput>>;
   dataTypes?: Maybe<Array<DataTypeInput>>;
   indications?: Maybe<Array<IndicationInput>>;
-  status: MeasureStatus;
+  status?: Maybe<MeasureStatus>;
+  sql?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
 

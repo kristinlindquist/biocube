@@ -59,32 +59,6 @@ model DataType {
   relatedStudies    Study[]
 }
 
-model MeasureComponent {
-  id          Int       @id @default(autoincrement())
-  dataTypeId  Int
-  measureId   Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
-  description String?
-  dataType    DataType  @relation(fields: [dataTypeId], references: [id])
-  measure     Measure   @relation(fields: [measureId], references: [id])
-  filters     Filter[]
-
-  @@unique([measureId, dataTypeId], name: "measure_data_type_key")
-}
-
-model Filter {
-  id                Int                @id @default(autoincrement())
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime?          @updatedAt
-  description       String?
-  dimension         String
-  operator          String
-  numberValues      Float[]
-  stringValues      String[]
-  measureComponents MeasureComponent[]
-}
-
 model Datum {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
@@ -143,7 +117,36 @@ model Measure {
   components         MeasureComponent[]
   indications        Indication[]
   validationStudies  Study[]
-  status             MeasureStatus       @default(DRAFT)
+  aggregation        AggregationType? /// cubejs
+  status             MeasureStatus?      @default(value: DRAFT)
+  sql                String? /// cubejs
+}
+
+model MeasureComponent {
+  id          Int       @id @default(autoincrement())
+  dataTypeId  Int
+  measureId   Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  description String?
+  dataType    DataType  @relation(fields: [dataTypeId], references: [id])
+  measure     Measure   @relation(fields: [measureId], references: [id])
+  filters     Filter[]
+
+  @@unique([measureId, dataTypeId], name: "measure_data_type_key")
+}
+
+model Filter {
+  id                Int                @id @default(autoincrement())
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime?          @updatedAt
+  description       String?
+  dimension         String
+  join              String?
+  operator          String
+  numberValues      Float[]
+  stringValues      String[]
+  measureComponents MeasureComponent[]
 }
 
 model Study {
@@ -224,6 +227,19 @@ model Template {
 }
 
 // end: dynamic web components
+
+enum AggregationType {
+  AVG
+  COUNT
+  COUNT_DISTINCT
+  COUNT_DISTINCT_APPROX
+  MAX
+  MIN
+  NUMBER
+  RUNNING_TOTAL
+  VALUE
+  SUM
+}
 
 enum ComponentType {
   CONTENT

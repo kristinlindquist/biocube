@@ -5,14 +5,29 @@ type Mutation {
 
 input UpsertMeasureInput {
   id: Int
+  aggregation: AggregationType
   description: String
   name: String!
   conceptsOfInterest: [ConceptOfInterestInput!]
   components: [ComponentInput!]
   dataTypes: [DataTypeInput!]
   indications: [IndicationInput!]
-  status: MeasureStatus!
+  status: MeasureStatus
+  sql: String
   url: String
+}
+
+enum AggregationType {
+  AVG
+  COUNT
+  COUNT_DISTINCT
+  COUNT_DISTINCT_APPROX
+  MAX
+  MIN
+  NUMBER
+  RUNNING_TOTAL
+  VALUE
+  SUM
 }
 
 enum MeasureStatus {

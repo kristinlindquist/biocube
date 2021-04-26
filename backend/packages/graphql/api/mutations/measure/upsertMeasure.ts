@@ -5,6 +5,7 @@ const upsertMeasure = gql`
     upsertMeasure(input: $input) {
       measure {
         id
+        aggregation
         conceptsOfInterest {
           id
           name
@@ -25,6 +26,7 @@ const upsertMeasure = gql`
         }
         name
         status
+        sql
         url
       }
     }

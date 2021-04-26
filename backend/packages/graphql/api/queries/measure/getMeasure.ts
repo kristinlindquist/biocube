@@ -5,6 +5,7 @@ const getMeasure = gql`
     getMeasure(input: $input) {
       measure {
         id
+        aggregation
         conceptsOfInterest {
           id
           name
@@ -18,6 +19,7 @@ const getMeasure = gql`
           description
           filters {
             dimension
+            join
             operator
             values
           }
@@ -36,6 +38,7 @@ const getMeasure = gql`
         }
         name
         status
+        sql
         url
       }
     }
