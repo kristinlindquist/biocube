@@ -9,14 +9,21 @@ import {
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { onError } from '@apollo/client/link/error';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { useCookies } from 'react-cookie';
 
 import Logger from 'logger';
 
+const COOKIE_NAME = process.env.REACT_APP_COOKIE_ID;
+const HOST = 'localhost:4000';
+const PATH = 'graphql';
+const LOGOUT_CODES = ['FORBIDDEN'];
+
 const getApolloClient = (): ApolloClient<NormalizedCacheObject> => {
-  const httpLink = new HttpLink({ uri: 'http://localhost:4000/graphql' });
+  const [, , removeCookie] = useCookies();
+  const httpLink = new HttpLink({ uri: `http://${HOST}/${PATH}` });
 
   const wsLink = new WebSocketLink({
-    uri: 'ws://localhost:4000/graphql',
+    uri: `ws://${HOST}/${PATH}`,
     options: { reconnect: true },
   });
 
@@ -43,16 +50,22 @@ const getApolloClient = (): ApolloClient<NormalizedCacheObject> => {
     httpLink,
   );
 
+  const logout = () => removeCookie(COOKIE_NAME);
+
   const client = new ApolloClient({
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors) {
-          graphQLErrors.forEach(({ message, locations, path }) =>
-            Logger.error(
-              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-            ),
+          graphQLErrors.forEach(
+            ({ extensions: { code }, locations, message, path }) => {
+              if (LOGOUT_CODES.includes(code)) {
+                logout();
+              }
+              Logger.error(
+                `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+              );
+            },
           );
-          return;
         }
 
         if (networkError) {

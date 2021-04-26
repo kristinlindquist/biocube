@@ -26,11 +26,11 @@ const Login = (): ReactElement => {
 
   const { loaded, signIn } = useGoogleLogin({
     clientId: CLIENT_ID,
-    onFailure: () => Logger.info('Login failure'),
-    onSuccess: login,
     cookiePolicy: 'single_host_origin',
     isSignedIn: true,
-    responseType: 'code,token',
+    onFailure: () => Logger.info('Login failure'),
+    onSuccess: login,
+    responseType: 'token',
     scope: SCOPES.join(' '),
   });
 
@@ -44,7 +44,7 @@ const Login = (): ReactElement => {
       )}
     />
   ) : (
-    <Button color="inherit" loading={loaded} label="Log In" onClick={signIn} />
+    <Button color="inherit" loading={!loaded} label="Log In" onClick={signIn} />
   );
 };
 
