@@ -75,7 +75,7 @@ const subComponent = (
       <DataGrid {...props} hideFooter rows={value as RowType[]} />,
       name,
     ),
-    TABLE: <Table {...props} rows={value as RowType[]} />,
+    TABLE: <Table {...props} id={id} rows={value as RowType[]} />,
     TYPOGRAPHY: <Typography {...props}>{value}</Typography>,
   };
   return components[type];
