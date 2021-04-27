@@ -329,13 +329,14 @@ scalar JSON
 
 type Measure {
   aggregation: String
+  chartType: String
   components: [Component!]
   conceptsOfInterest: [ConceptOfInterest!]
   dataTypes: [DataType!]
-  defaultChartType: String
   description: String
   id: Int!
   indications: [Indication!]
+  meta: JSON
   name: String!
   sql: String
   status: String
@@ -464,8 +465,9 @@ type UpsertIndicationResult {
 input UpsertMeasureInput {
   id: Int
   aggregation: AggregationType
-  defaultChartType: ChartType
+  chartType: ChartType
   description: String
+  meta: JSON
   name: String!
   conceptsOfInterest: [ConceptOfInterestInput!]
   components: [ComponentInput!]

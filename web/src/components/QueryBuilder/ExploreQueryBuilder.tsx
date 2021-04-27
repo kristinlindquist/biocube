@@ -124,7 +124,6 @@ const ExploreQueryBuilder = ({
           <Grid item xs={12}>
             {isQueryPresent && (
               <ChartRenderer
-                cubejsApi={cubejsApi}
                 vizState={{ query: validatedQuery, chartType }}
                 updateChartType={updateChartType}
               />

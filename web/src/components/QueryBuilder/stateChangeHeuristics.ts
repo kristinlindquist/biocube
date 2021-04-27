@@ -138,7 +138,8 @@ export default (oldState: Props, state: Props): Props => {
         ...newState,
         query: {
           ...oldQuery,
-          timeDimensions: [{ ...td, granularity: undefined }],
+          // timeDimensions: [{ ...td, granularity: undefined }],
+          timeDimensions: [td],
         },
       };
     }

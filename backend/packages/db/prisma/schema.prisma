@@ -111,8 +111,9 @@ model Measure {
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
   abbreviation       String?             @db.VarChar(10)
-  defaultChartType   ChartType?
+  chartType          ChartType?
   description        String?
+  meta               Json?
   name               String              @db.VarChar(255)
   conceptsOfInterest ConceptOfInterest[]
   components         MeasureComponent[]

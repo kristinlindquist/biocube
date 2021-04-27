@@ -376,13 +376,14 @@ export type IndicationInput = {
 export type Measure = {
   __typename?: 'Measure';
   aggregation?: Maybe<Scalars['String']>;
+  chartType?: Maybe<Scalars['String']>;
   components?: Maybe<Array<Component>>;
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   dataTypes?: Maybe<Array<DataType>>;
-  defaultChartType?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   indications?: Maybe<Array<Indication>>;
+  meta?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   sql?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
@@ -650,8 +651,9 @@ export type UpsertIndicationResult = {
 export type UpsertMeasureInput = {
   id?: Maybe<Scalars['Int']>;
   aggregation?: Maybe<AggregationType>;
-  defaultChartType?: Maybe<ChartType>;
+  chartType?: Maybe<ChartType>;
   description?: Maybe<Scalars['String']>;
+  meta?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
   conceptsOfInterest?: Maybe<Array<ConceptOfInterestInput>>;
   components?: Maybe<Array<ComponentInput>>;

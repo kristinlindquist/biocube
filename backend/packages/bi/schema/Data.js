@@ -10,6 +10,7 @@ const mQuery = {
       measures {
         id
         aggregation
+        chartType
         components {
           filters {
             dimension
@@ -18,7 +19,7 @@ const mQuery = {
             values
           }
         }
-        defaultChartType
+        meta
         name
         sql
         status
@@ -88,7 +89,7 @@ asyncModule(async () => {
                       : `${CUBE}.${getFilter(f)}`,
                 })),
             ],
-            meta: { chartType: m.defaultChartType },
+            meta: { ...(m.meta || {}), chartType: m.chartType },
             sql: m.sql ? `${CUBE}.${m.sql}` : `value`, // TODO: "CUBE" is fragile
             title: m.name,
             type: m.aggregation

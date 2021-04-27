@@ -6,8 +6,9 @@ type Mutation {
 input UpsertMeasureInput {
   id: Int
   aggregation: AggregationType
-  defaultChartType: ChartType
+  chartType: ChartType
   description: String
+  meta: JSON
   name: String!
   conceptsOfInterest: [ConceptOfInterestInput!]
   components: [ComponentInput!]

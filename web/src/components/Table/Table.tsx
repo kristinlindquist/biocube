@@ -9,7 +9,7 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import { capitalize, isEmpty, sortBy } from 'lodash';
+import { isEmpty, sortBy, startCase } from 'lodash';
 
 import { Fab } from 'components/Button';
 import { FormDialog as Dialog } from 'components/Dialog';
@@ -67,8 +67,13 @@ export interface TableProps {
 const getColumns = (rows: RowType[]): ColumnType[] =>
   !isEmpty(rows)
     ? Object.keys(rows[0])
-        .filter((k) => !k.startsWith('_'))
-        .map((k) => ({ create: k !== 'id', id: k, name: capitalize(k) }))
+        .filter((k) => !k.startsWith('_') && k !== 'key')
+        .map((k) => ({
+          create: k !== 'id',
+          id: k,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          name: startCase(k.split('.').slice(-1) as any),
+        }))
     : [];
 
 /**
@@ -109,7 +114,7 @@ const Table = ({
               collapseCol={collapseCol}
               cols={showCols}
               deleteMutation={deleteMutation}
-              key={`${row.id}-${id}`}
+              key={`${row.id || row.key}-${id}`}
               mutation={mutation}
               read={readOne}
               row={row}

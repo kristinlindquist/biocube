@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { Theme, useTheme } from '@material-ui/core/styles';
 import { ChartType, useCubeQuery } from '@cubejs-client/react';
-import { CubejsApi, Query } from '@cubejs-client/core';
+import { Query } from '@cubejs-client/core';
 import moment from 'moment';
 import numeral from 'numeral';
 import {
@@ -19,32 +19,17 @@ import {
   YAxis,
   Tooltip,
 } from 'recharts';
-import {
-  Skeleton,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from '@material-ui/core';
+import { Skeleton } from '@material-ui/core';
 import { get, isEmpty } from 'lodash';
 
 import { Card } from 'components/Card';
+import { getMonthDay, getLongDate } from 'components/Date';
+import { Table } from 'components/Table';
+import { RowType } from 'types';
 import SelectChartType from '../QueryBuilder/SelectChartType';
 import { zeroToNull } from './utils';
 
-const numberFormatter = (item) => numeral(item).format('0,0');
-const dateFormatter = (item) => moment(item).format('MMM DD');
-const resolveFormatter = (type) => {
-  const formatters = {
-    number: numberFormatter,
-  };
-  return formatters[type] || ((item) => item);
-};
-
-const xAxisFormatter = (item) =>
-  moment(item).isValid() ? dateFormatter(item) : item;
-
+export type LayoutType = 'horizontal' | 'vertical' | 'centric' | 'radial';
 type ResultSet<Type> = {
   chartPivot: (any?) => Array<Type>;
   loadResponse?: {
@@ -62,24 +47,50 @@ type ResultSet<Type> = {
 };
 
 const annotationBase = 'loadResponse.results[0].annotation';
+const defaultHeight = 300;
+const measuresBase = `${annotationBase}.measures`;
+
+const getMeta = (resultSet, key) =>
+  ((get(resultSet, measuresBase) || {})[key] || {}).meta || {
+    uom: '',
+  };
+
+const numberFormatter = (item, key, resultSet = null) => {
+  const { uom } = getMeta(resultSet, key);
+  return `${numeral(item).format('0,0')} ${uom || ''}`;
+};
+
+const resolveFormatter = (type) => {
+  const formatters = {
+    number: numberFormatter,
+  };
+  return formatters[type] || ((item) => item);
+};
+
+const xAxisFormatter = (item) =>
+  moment(item).isValid() ? getMonthDay(item) : item;
+
+const getAxisProps = (resultSet = null) => ({
+  axisLine: false,
+  tickFormatter: (value, key) => numberFormatter(value, key, resultSet),
+  tickLine: false,
+});
 
 /**
  * default chart type from meta on cubejs
  */
 const getChartType = (resultSet, key) => {
-  const measures = get(resultSet, `${annotationBase}.measures`);
-  const ct = get(measures[key], 'meta.chartType');
-  return ct ? ct.toLowerCase() : 'line';
+  const meta = getMeta(resultSet, key);
+  return meta && meta.chartType ? meta.chartType.toLowerCase() : 'line';
 };
 
 const getType = (resultSet, key) =>
-  (
-    get(resultSet, `${annotationBase}.measures.${key}`) ||
-    get(resultSet, `${annotationBase}.dimensions.${key}`) ||
-    {}
-  ).type;
-
-export type LayoutType = 'horizontal' | 'vertical' | 'centric' | 'radial';
+  get(
+    (get(resultSet, measuresBase) || {})[key] ||
+      (get(resultSet, `${annotationBase}.dimensions`) || {})[key] ||
+      {},
+    'type',
+  );
 
 export interface ChartProps {
   /**
@@ -105,13 +116,6 @@ export interface ChartProps {
   resultSet: ResultSet<string>;
 }
 
-const defaultHeight = 300;
-
-const axisProps = {
-  axisLine: false,
-  tickLine: false,
-};
-
 /**
  * Chart with axes, grid and legend
  */
@@ -132,22 +136,23 @@ const CartesianChart = ({
         left: 16,
       }}>
       <XAxis
-        {...axisProps}
+        {...getAxisProps()}
         dataKey="x"
         minTickGap={20}
         tickFormatter={xAxisFormatter}
       />
-      <YAxis {...axisProps} tickFormatter={numberFormatter} yAxisId="left" />
-      <YAxis
-        {...axisProps}
-        tickFormatter={numberFormatter}
-        yAxisId="right"
-        orientation="right"
-      />
+      <YAxis {...getAxisProps(resultSet)} yAxisId="left" />
+      <YAxis {...getAxisProps(resultSet)} orientation="right" yAxisId="right" />
       <CartesianGrid vertical={false} />
       {children}
       {legendLayout && <Legend />}
-      <Tooltip labelFormatter={dateFormatter} formatter={numberFormatter} />
+      <Tooltip
+        formatter={(value, key) => [
+          numberFormatter(value, key, resultSet),
+          key,
+        ]}
+        labelFormatter={getLongDate}
+      />
     </ChartComponent>
   </ResponsiveContainer>
 );
@@ -185,7 +190,13 @@ const getSubChart = ({
     yAxisId,
   };
   const LineType = (
-    <Line {...props} connectNulls stroke={color} strokeWidth={1.5} />
+    <Line
+      {...props}
+      connectNulls
+      isAnimationActive={false}
+      stroke={color}
+      strokeWidth={1.5}
+    />
   );
   const chartTypes = {
     area: <Area {...props} fill={color} stroke={color} />,
@@ -238,32 +249,20 @@ const TypeToChartComponent = {
     );
   },
   table: ({ resultSet }: ChartProps) => (
-    <Table aria-label="table" size="small">
-      <TableHead>
-        <TableRow>
-          {resultSet.tableColumns().map(({ key, shortTitle }) => (
-            <TableCell
-              align={getType(resultSet, key) === 'number' ? 'right' : 'left'}
-              key={`header-${key}`}>
-              {shortTitle}
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {resultSet.tablePivot().map((row) => (
-          <TableRow key={Object.values(row)[0] as string}>
-            {resultSet.tableColumns().map(({ key }) => (
-              <TableCell
-                align={getType(resultSet, key) === 'number' ? 'right' : 'left'}
-                key={key}>
-                {resolveFormatter(getType(resultSet, key))(row[key])}
-              </TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <Table
+      size="small"
+      rows={
+        resultSet.tablePivot().map((row) =>
+          resultSet
+            .tableColumns()
+            .map(({ key }) => ({
+              key: Object.values(row)[0] as string,
+              [key]: resolveFormatter(getType(resultSet, key))(row[key]),
+            }))
+            .reduce((a, b) => ({ ...a, ...b })),
+        ) as RowType[]
+      }
+    />
   ),
 };
 
@@ -274,10 +273,6 @@ const TypeToMemoChartComponent = Object.keys(TypeToChartComponent)
   .reduce((a, b) => ({ ...a, ...b }));
 
 export interface ChartRendererProps {
-  /**
-   * cube API
-   */
-  cubejsApi?: CubejsApi;
   /**
    * chart height
    */

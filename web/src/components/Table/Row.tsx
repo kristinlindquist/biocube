@@ -117,7 +117,8 @@ const processRow = (row, cols) => {
     row,
     (_, key) =>
       !cols.some(
-        ({ id, type }) => id.split('.')[0] === key || type === 'TABLE',
+        ({ id, type }) =>
+          id.split('.')[0] === key || id === key || type === 'TABLE',
       ),
   );
 

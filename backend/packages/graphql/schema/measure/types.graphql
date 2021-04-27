@@ -1,8 +1,9 @@
 type Measure {
   id: Int
   aggregation: String  # Why not AggregationType? https://github.com/prisma-labs/graphqlgen/issues/213
-  defaultChartType: String  # ChartType
+  chartType: String  # ChartType
   description: String
+  meta: JSON
   name: String!
   conceptsOfInterest: [ConceptOfInterest!]
   components: [Component!]
