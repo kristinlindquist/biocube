@@ -3,7 +3,7 @@ import { get, isEmpty } from 'lodash';
 import { DropdownProps } from 'components/Button/Dropdown';
 import { SelectProps } from 'components/Inputs/Select';
 import { SelectOptionType } from 'types';
-import { Member, UpdateMethods } from './types';
+import { Member, SelectInputProps } from './types';
 
 /**
  * Get CubeJs Members
@@ -32,13 +32,23 @@ export const getMember = (
 };
 
 /**
+ * Get count of occurrences of value in an array
+ */
+const getInstanceCount = (array, value: string | number): number =>
+  array.reduce((n, val) => n + (val === value), 0);
+
+/**
  * Turn CubeJs members into select box options
  */
-export const getMemberOptions = (members: Member[]): SelectOptionType[] =>
-  members.map((m) => ({
-    id: m.name,
-    name: m.title,
+export const getMemberOptions = (members: Member[]): SelectOptionType[] => {
+  const titles = members.map(({ shortTitle }) => shortTitle);
+
+  return members.map(({ name, shortTitle, title }) => ({
+    id: name,
+    name:
+      getInstanceCount(titles, shortTitle) < 2 ? shortTitle : title || title,
   }));
+};
 
 const onSelect = ({
   selections,
@@ -83,14 +93,7 @@ export const getSelectProps = ({
   key,
   keyPath,
   m = null,
-}: {
-  availableMembers: Member[];
-  members: Member[];
-  updateMethods: UpdateMethods;
-  key?: string;
-  keyPath?: string;
-  m?: Member;
-}): SelectProps => ({
+}: SelectInputProps): SelectProps => ({
   defaultValue: m && key && m[key] ? [m[key].name || m[key]] : null,
   fullWidth: true,
   label: null,
@@ -125,14 +128,7 @@ export const getDropdownProps = ({
   key,
   keyPath,
   m,
-}: {
-  availableMembers: Member[];
-  members: Member[];
-  updateMethods: UpdateMethods;
-  key?: string;
-  keyPath?: string;
-  m?: Member;
-}): DropdownProps => ({
+}: SelectInputProps): DropdownProps => ({
   label: null,
   options: getMemberOptions(availableMembers),
   onSelect: (selections) => [

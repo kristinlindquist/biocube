@@ -1,3 +1,5 @@
+import { TCubeMember } from '@cubejs-client/core';
+
 export interface GroupProps {
   /**
    * Options
@@ -16,9 +18,15 @@ export interface UpdateMethods {
   remove: (member: { index: number }) => void;
 }
 
-export interface Member {
-  dimension?: any;
+export type Member = {
   index?: number;
-  name: string;
-  title?: string;
+} & Partial<TCubeMember>;
+
+export interface SelectInputProps {
+  availableMembers: Member[];
+  members: Member[];
+  updateMethods: UpdateMethods;
+  key?: string;
+  keyPath?: string;
+  m?: Member;
 }
