@@ -5,14 +5,12 @@ import { CubejsApi, Query } from '@cubejs-client/core';
 import moment from 'moment';
 import numeral from 'numeral';
 import {
-  AreaChart,
   Area,
-  BarChart,
   Bar,
   CartesianGrid,
   Cell,
+  ComposedChart,
   Legend,
-  LineChart,
   Line,
   Pie,
   PieChart,
@@ -29,9 +27,10 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import { isEmpty } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 import { Card } from 'components/Card';
+import SelectChartType from '../QueryBuilder/SelectChartType';
 import { zeroToNull } from './utils';
 
 const numberFormatter = (item) => numeral(item).format('0,0');
@@ -53,7 +52,7 @@ type ResultSet<Type> = {
       annotation: { measures: Array<{ [key: string]: string }> };
     }>;
   };
-  seriesNames: () => Array<{ key: string; title: string }>;
+  seriesNames: () => Array<{ key: string; shortTitle: string }>;
   tableColumns: () => Array<{ key: string; shortTitle: string }>;
   tablePivot: () => Array<{
     id?: string;
@@ -62,10 +61,21 @@ type ResultSet<Type> = {
   totalRow: () => { x: string; xValues: string[] };
 };
 
+const annotationBase = 'loadResponse.results[0].annotation';
+
+/**
+ * default chart type from meta on cubejs
+ */
+const getChartType = (resultSet, key) => {
+  const measures = get(resultSet, `${annotationBase}.measures`);
+  const ct = get(measures[key], 'meta.chartType');
+  return ct ? ct.toLowerCase() : 'line';
+};
+
 const getType = (resultSet, key) =>
   (
-    resultSet.loadResponse.results[0].annotation.measures[key] ||
-    resultSet.loadResponse.results[0].annotation.dimensions[key] ||
+    get(resultSet, `${annotationBase}.measures.${key}`) ||
+    get(resultSet, `${annotationBase}.dimensions.${key}`) ||
     {}
   ).type;
 
@@ -102,6 +112,9 @@ const axisProps = {
   tickLine: false,
 };
 
+/**
+ * Chart with axes, grid and legend
+ */
 const CartesianChart = ({
   children,
   ChartComponent,
@@ -124,7 +137,13 @@ const CartesianChart = ({
         minTickGap={20}
         tickFormatter={xAxisFormatter}
       />
-      <YAxis {...axisProps} tickFormatter={numberFormatter} />
+      <YAxis {...axisProps} tickFormatter={numberFormatter} yAxisId="left" />
+      <YAxis
+        {...axisProps}
+        tickFormatter={numberFormatter}
+        yAxisId="right"
+        orientation="right"
+      />
       <CartesianGrid vertical={false} />
       {children}
       {legendLayout && <Legend />}
@@ -146,57 +165,53 @@ const getColors = (theme: Theme): Array<string> =>
       ]
     : [];
 
+const getSubChart = ({
+  color,
+  key,
+  name,
+  type,
+  yAxisId,
+}: {
+  color: string;
+  key: string;
+  name: string;
+  type: string;
+  yAxisId: string;
+}) => {
+  const props = {
+    dataKey: key,
+    key,
+    name,
+    yAxisId,
+  };
+  const LineType = (
+    <Line {...props} connectNulls stroke={color} strokeWidth={1.5} />
+  );
+  const chartTypes = {
+    area: <Area {...props} fill={color} stroke={color} />,
+    bar: <Bar {...props} fill={color} stroke={color} />,
+    line: LineType,
+  };
+
+  return chartTypes[type] || LineType;
+};
+
 const TypeToChartComponent = {
-  area: ({ resultSet }: ChartProps) => {
+  combo: ({ resultSet }: ChartProps) => {
     const theme = useTheme();
     const colors = getColors(theme);
 
     return (
-      <CartesianChart resultSet={resultSet} ChartComponent={AreaChart}>
-        {resultSet.seriesNames().map(({ key, title }, i) => (
-          <Area
-            dataKey={key}
-            fill={colors[i]}
-            key={key}
-            name={title}
-            stroke={colors[i]}
-          />
-        ))}
-      </CartesianChart>
-    );
-  },
-  bar: ({ resultSet }: ChartProps) => {
-    const theme = useTheme();
-    const colors = getColors(theme);
-
-    return (
-      <CartesianChart ChartComponent={BarChart} resultSet={resultSet}>
-        {resultSet.seriesNames().map(({ key, title }, i) => (
-          <Bar dataKey={key} fill={colors[i]} key={key} name={title} />
-        ))}
-      </CartesianChart>
-    );
-  },
-  line: ({ resultSet, ...props }: ChartProps) => {
-    const theme = useTheme();
-    const colors = getColors(theme);
-
-    return (
-      <CartesianChart
-        {...props}
-        ChartComponent={LineChart}
-        resultSet={resultSet}>
-        {resultSet.seriesNames().map(({ key, title }, i) => (
-          <Line
-            connectNulls
-            dataKey={key}
-            key={key}
-            name={title}
-            stroke={colors[i]}
-            strokeWidth={1.5}
-            type="monotone"
-          />
-        ))}
+      <CartesianChart ChartComponent={ComposedChart} resultSet={resultSet}>
+        {resultSet.seriesNames().map(({ key, shortTitle }, i) =>
+          getSubChart({
+            color: colors[i],
+            key,
+            name: shortTitle,
+            type: getChartType(resultSet, key),
+            yAxisId: i === 0 ? 'left' : 'right',
+          }),
+        )}
       </CartesianChart>
     );
   },
@@ -264,10 +279,6 @@ export interface ChartRendererProps {
    */
   cubejsApi?: CubejsApi;
   /**
-   * component to change chart type
-   */
-  changeChartType?: ReactElement;
-  /**
    * chart height
    */
   height?: number;
@@ -278,22 +289,36 @@ export interface ChartRendererProps {
     query: Query | Query[];
     chartType: ChartType;
   };
+  /**
+   * function to update chart type
+   */
+  updateChartType?: (chartType: ChartType) => void;
 }
 
+const comboTypes = ['area', 'bar', 'line'];
+
 const ChartRenderer = ({
-  changeChartType,
   height = defaultHeight,
+  updateChartType,
   vizState,
 }: ChartRendererProps): ReactElement => {
   const { chartType, query, ...options } = vizState;
-  const Component = TypeToMemoChartComponent[chartType];
   const { error, isLoading, resultSet, ...chartProps } = useCubeQuery(query);
+  const Component =
+    TypeToMemoChartComponent[
+      comboTypes.includes(chartType) ? 'combo' : chartType
+    ];
 
   return Component ? (
     <Card
       error={error ? { message: error.toString() } : null}
       loading={isLoading}
-      headerAction={changeChartType}
+      headerAction={
+        <SelectChartType
+          chartType={chartType}
+          updateChartType={updateChartType}
+        />
+      }
       title="A Chart">
       {!isEmpty(resultSet) && (
         <Component {...chartProps} {...options} resultSet={resultSet} />

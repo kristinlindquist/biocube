@@ -10,7 +10,6 @@ import { ChartRenderer } from 'components/Chart';
 import MemberGroup from './MemberGroup';
 import FilterGroup from './FilterGroup';
 import TimeGroup from './TimeGroup';
-import SelectChartType from './SelectChartType';
 import stateChangeHeuristics from './stateChangeHeuristics';
 
 export interface QbProps {
@@ -126,13 +125,8 @@ const ExploreQueryBuilder = ({
             {isQueryPresent && (
               <ChartRenderer
                 cubejsApi={cubejsApi}
-                changeChartType={
-                  <SelectChartType
-                    chartType={chartType}
-                    updateChartType={updateChartType}
-                  />
-                }
                 vizState={{ query: validatedQuery, chartType }}
+                updateChartType={updateChartType}
               />
             )}
           </Grid>

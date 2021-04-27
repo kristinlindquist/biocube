@@ -52,9 +52,9 @@ export default (oldState: Props, state: Props): Props => {
           timeDimensions: defaultTd
             ? [
                 {
+                  dateRange: 'last 7 days',
                   dimension: defaultTd,
                   granularity: defaultGranularity,
-                  dateRange: 'last 7 days',
                 },
               ]
             : [],
@@ -66,8 +66,8 @@ export default (oldState: Props, state: Props): Props => {
     if ((oldDims || []).length === 0 && (newDims || []).length > 0) {
       return {
         ...newState,
-        query: newQuery,
         chartType: 'line',
+        query: newQuery,
       };
     }
 
@@ -88,8 +88,8 @@ export default (oldState: Props, state: Props): Props => {
     if ((oldDims || []).length > 0 && (newDims || []).length === 0) {
       return {
         ...newState,
-        query: newQuery,
         chartType: (newDims || []).length ? 'line' : 'table',
+        query: newQuery,
       };
     }
 
@@ -102,8 +102,8 @@ export default (oldState: Props, state: Props): Props => {
         ...newState,
         query: {
           ...newQuery,
-          timeDimensions: [],
           filters: [],
+          timeDimensions: [],
         },
         sessionGranularity: null,
       };

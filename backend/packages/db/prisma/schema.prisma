@@ -111,6 +111,7 @@ model Measure {
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
   abbreviation       String?             @db.VarChar(10)
+  defaultChartType   ChartType?
   description        String?
   name               String              @db.VarChar(255)
   conceptsOfInterest ConceptOfInterest[]
@@ -239,6 +240,14 @@ enum AggregationType {
   RUNNING_TOTAL
   VALUE
   SUM
+}
+
+enum ChartType {
+  AREA
+  BAR
+  LINE
+  PIE
+  TABLE
 }
 
 enum ComponentType {

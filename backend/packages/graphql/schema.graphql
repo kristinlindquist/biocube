@@ -21,6 +21,14 @@ enum AggregationType {
   SUM
 }
 
+enum ChartType {
+  AREA
+  BAR
+  LINE
+  PIE
+  TABLE
+}
+
 type Component {
   dataType: DataType!
   delete: DataQuery
@@ -324,6 +332,7 @@ type Measure {
   components: [Component!]
   conceptsOfInterest: [ConceptOfInterest!]
   dataTypes: [DataType!]
+  defaultChartType: String
   description: String
   id: Int!
   indications: [Indication!]
@@ -455,6 +464,7 @@ type UpsertIndicationResult {
 input UpsertMeasureInput {
   id: Int
   aggregation: AggregationType
+  defaultChartType: ChartType
   description: String
   name: String!
   conceptsOfInterest: [ConceptOfInterestInput!]

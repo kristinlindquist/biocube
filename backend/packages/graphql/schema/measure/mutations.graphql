@@ -6,6 +6,7 @@ type Mutation {
 input UpsertMeasureInput {
   id: Int
   aggregation: AggregationType
+  defaultChartType: ChartType
   description: String
   name: String!
   conceptsOfInterest: [ConceptOfInterestInput!]
@@ -28,6 +29,14 @@ enum AggregationType {
   RUNNING_TOTAL
   VALUE
   SUM
+}
+
+enum ChartType {
+  AREA
+  BAR
+  LINE
+  PIE
+  TABLE
 }
 
 enum MeasureStatus {

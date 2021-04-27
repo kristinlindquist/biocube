@@ -37,6 +37,14 @@ export enum AggregationType {
   Sum = 'SUM'
 }
 
+export enum ChartType {
+  Area = 'AREA',
+  Bar = 'BAR',
+  Line = 'LINE',
+  Pie = 'PIE',
+  Table = 'TABLE'
+}
+
 export type Component = {
   __typename?: 'Component';
   dataType: DataType;
@@ -371,6 +379,7 @@ export type Measure = {
   components?: Maybe<Array<Component>>;
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   dataTypes?: Maybe<Array<DataType>>;
+  defaultChartType?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   indications?: Maybe<Array<Indication>>;
@@ -641,6 +650,7 @@ export type UpsertIndicationResult = {
 export type UpsertMeasureInput = {
   id?: Maybe<Scalars['Int']>;
   aggregation?: Maybe<AggregationType>;
+  defaultChartType?: Maybe<ChartType>;
   description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   conceptsOfInterest?: Maybe<Array<ConceptOfInterestInput>>;

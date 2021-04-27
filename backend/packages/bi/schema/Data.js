@@ -18,6 +18,7 @@ const mQuery = {
             values
           }
         }
+        defaultChartType
         name
         sql
         status
@@ -25,6 +26,8 @@ const mQuery = {
     }
   }`,
 };
+
+const HOUR = '(1000 * 60 * 60)';
 
 const getFilter = ({ dimension, operator, values }) =>
   `${dimension} ${operator} (${values.map(v => `'${v}'`).join(',')})`;
@@ -64,7 +67,7 @@ asyncModule(async () => {
       ConcurrentState: {
         sql: `${CUBE}."startedAt" > ${ConcurrentState}."startedAt"
           AND ${CUBE}."startedAt" < ${ConcurrentState}."startedAt" + interval '1 hour'
-          * ${ConcurrentState}.duration / (1000 * 60 * 60)`,
+          * ${ConcurrentState}.duration / ${HOUR}`,
         relationship: `hasOne`,
       },
     },
@@ -85,7 +88,8 @@ asyncModule(async () => {
                       : `${CUBE}.${getFilter(f)}`,
                 })),
             ],
-            sql: m.sql ? `${CUBE}.${m.sql}` : `value`,
+            meta: { chartType: m.defaultChartType },
+            sql: m.sql ? `${CUBE}.${m.sql}` : `value`, // TODO: "CUBE" is fragile
             title: m.name,
             type: m.aggregation
               ? camelCase(m.aggregation.toLowerCase())
@@ -100,7 +104,7 @@ asyncModule(async () => {
       },
 
       duration: {
-        sql: `duration / (1000 * 60 * 60)`, // hour
+        sql: `duration / ${HOUR}`,
         title: `Hours`,
         type: `sum`,
       },

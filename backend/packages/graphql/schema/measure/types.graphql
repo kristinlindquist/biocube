@@ -1,14 +1,15 @@
 type Measure {
   id: Int
+  aggregation: String  # Why not AggregationType? https://github.com/prisma-labs/graphqlgen/issues/213
+  defaultChartType: String  # ChartType
   description: String
   name: String!
   conceptsOfInterest: [ConceptOfInterest!]
   components: [Component!]
   dataTypes: [DataType!]
   indications: [Indication!]
-  aggregation: String # Why not AggregationType? https://github.com/prisma-labs/graphqlgen/issues/213
   sql: String
-  status: String # Why not MeasureStatus? https://github.com/prisma-labs/graphqlgen/issues/213
+  status: String # MeasureStatus
   url: String
 }
 
