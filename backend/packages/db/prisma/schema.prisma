@@ -228,6 +228,15 @@ model Template {
   pages     Page[]
 }
 
+model DashboardGraph {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  name      String    @db.VarChar(255)
+  layout    Json
+  vizState  Json
+}
+
 // end: dynamic web components
 
 enum AggregationType {

@@ -1,0 +1,6 @@
+type DashboardGraph {
+  id: Int!
+  name: String!
+  layout: JSON!
+  vizState: JSON!
+}

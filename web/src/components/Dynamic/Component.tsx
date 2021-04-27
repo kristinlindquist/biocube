@@ -7,7 +7,12 @@ import { Alert } from '@material-ui/core';
 import ErrorBoundary from 'ErrorBoundary';
 import { DataGrid, Table } from 'components/Table';
 import { JSONObject } from 'types';
-import { getFirstNonString, getQueryAndEntity, getStartsWith } from 'utils';
+import {
+  getFirstNonString,
+  getQueryAndEntity,
+  getStartsWith,
+  unwrapGqlData,
+} from 'utils';
 import {
   GetDataTypeDocument,
   GetDataTypesDocument,
@@ -34,17 +39,6 @@ const DocumentMap = {
   GetIndicationsDocument,
   UpsertIndicationDocument,
   DeleteIndicationDocument,
-};
-
-// TODO: fix this cheesy mess.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const unwrapData = (data): any => {
-  try {
-    return getFirstNonString(getFirstNonString(data));
-  } catch (e) {
-    Logger.warn(e);
-  }
-  return [];
 };
 
 const getReturnObj = (
@@ -179,7 +173,7 @@ const Component = ({
     CONTENT: (
       <Content
         {...props}
-        data={unwrapData(data)}
+        data={unwrapGqlData(data)}
         deleteMutation={deleteMutation}
         mutation={mutate}
       />
@@ -189,7 +183,7 @@ const Component = ({
         {...props}
         deleteMutation={deleteMutation}
         mutation={mutate}
-        rows={unwrapData(data)}
+        rows={unwrapGqlData(data)}
       />
     ),
     TABLE: (
@@ -198,7 +192,7 @@ const Component = ({
         deleteMutation={deleteMutation}
         mutation={mutate}
         readOne={readOneFunc}
-        rows={unwrapData(data)}
+        rows={unwrapGqlData(data)}
       />
     ),
   };

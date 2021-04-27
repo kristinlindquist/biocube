@@ -87,6 +87,14 @@ export type Daily = {
   heartRate?: Maybe<HeartRateSummary>;
 };
 
+export type DashboardGraph = {
+  __typename?: 'DashboardGraph';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  layout: Scalars['JSON'];
+  vizState: Scalars['JSON'];
+};
+
 export type DataQuery = {
   __typename?: 'DataQuery';
   id: Scalars['Int'];
@@ -119,6 +127,15 @@ export type DeleteConceptOfInterestInput = {
 export type DeleteConceptOfInterestResult = {
   __typename?: 'DeleteConceptOfInterestResult';
   conceptOfInterest: ConceptOfInterest;
+};
+
+export type DeleteDashboardGraphInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteDashboardGraphResult = {
+  __typename?: 'DeleteDashboardGraphResult';
+  dashboardGraph: DashboardGraph;
 };
 
 export type DeleteDataTypeInput = {
@@ -226,6 +243,24 @@ export type GetDailyInput = {
 export type GetDailyResult = {
   __typename?: 'GetDailyResult';
   daily?: Maybe<Array<Maybe<Daily>>>;
+};
+
+export type GetDashboardGraphInput = {
+  id: Scalars['Int'];
+};
+
+export type GetDashboardGraphResult = {
+  __typename?: 'GetDashboardGraphResult';
+  dashboardGraph?: Maybe<DashboardGraph>;
+};
+
+export type GetDashboardGraphsInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetDashboardGraphsResult = {
+  __typename?: 'GetDashboardGraphsResult';
+  dashboardGraphs?: Maybe<Array<Maybe<DashboardGraph>>>;
 };
 
 export type GetDataTypeInput = {
@@ -404,11 +439,13 @@ export enum MeasureStatus {
 export type Mutation = {
   __typename?: 'Mutation';
   deleteConceptOfInterest: DeleteConceptOfInterestResult;
+  deleteDashboardGraph: DeleteDashboardGraphResult;
   deleteDataType: DeleteDataTypeResult;
   deleteIndication: DeleteIndicationResult;
   deleteMeasure: DeleteMeasureResult;
   deleteTemplate: DeleteTemplateResult;
   upsertConceptOfInterest: UpsertConceptOfInterestResult;
+  upsertDashboardGraph: UpsertDashboardGraphResult;
   upsertDataType: UpsertDataTypeResult;
   upsertIndication: UpsertIndicationResult;
   upsertMeasure: UpsertMeasureResult;
@@ -418,6 +455,11 @@ export type Mutation = {
 
 export type MutationDeleteConceptOfInterestArgs = {
   input: DeleteConceptOfInterestInput;
+};
+
+
+export type MutationDeleteDashboardGraphArgs = {
+  input: DeleteDashboardGraphInput;
 };
 
 
@@ -443,6 +485,11 @@ export type MutationDeleteTemplateArgs = {
 
 export type MutationUpsertConceptOfInterestArgs = {
   input: UpsertConceptOfInterestInput;
+};
+
+
+export type MutationUpsertDashboardGraphArgs = {
+  input: UpsertDashboardGraphInput;
 };
 
 
@@ -486,6 +533,8 @@ export type Query = {
   getConceptOfInterest: GetConceptOfInterestResult;
   getConceptsOfInterest: GetConceptsOfInterestResult;
   getDaily: GetDailyResult;
+  getDashboardGraph: GetDashboardGraphResult;
+  getDashboardGraphs: GetDashboardGraphsResult;
   getDataType: GetDataTypeResult;
   getDataTypes: GetDataTypesResult;
   getDevice: GetDeviceResult;
@@ -518,6 +567,16 @@ export type QueryGetConceptsOfInterestArgs = {
 
 export type QueryGetDailyArgs = {
   input: GetDailyInput;
+};
+
+
+export type QueryGetDashboardGraphArgs = {
+  input: GetDashboardGraphInput;
+};
+
+
+export type QueryGetDashboardGraphsArgs = {
+  input: GetDashboardGraphsInput;
 };
 
 
@@ -619,6 +678,18 @@ export type UpsertConceptOfInterestResult = {
   conceptOfInterest: ConceptOfInterest;
 };
 
+export type UpsertDashboardGraphInput = {
+  id?: Maybe<Scalars['Int']>;
+  name: Scalars['String'];
+  layout: Scalars['JSON'];
+  vizState: Scalars['JSON'];
+};
+
+export type UpsertDashboardGraphResult = {
+  __typename?: 'UpsertDashboardGraphResult';
+  dashboardGraph: DashboardGraph;
+};
+
 export type UpsertDataTypeInput = {
   id?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
@@ -714,6 +785,38 @@ export type UpsertConceptOfInterestMutation = (
     & { conceptOfInterest: (
       { __typename?: 'ConceptOfInterest' }
       & Pick<ConceptOfInterest, 'id' | 'description' | 'name'>
+    ) }
+  ) }
+);
+
+export type DeleteDashboardGraphMutationVariables = Exact<{
+  input: DeleteDashboardGraphInput;
+}>;
+
+
+export type DeleteDashboardGraphMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteDashboardGraph: (
+    { __typename?: 'DeleteDashboardGraphResult' }
+    & { dashboardGraph: (
+      { __typename?: 'DashboardGraph' }
+      & Pick<DashboardGraph, 'id'>
+    ) }
+  ) }
+);
+
+export type UpsertDashboardGraphMutationVariables = Exact<{
+  input: UpsertDashboardGraphInput;
+}>;
+
+
+export type UpsertDashboardGraphMutation = (
+  { __typename?: 'Mutation' }
+  & { upsertDashboardGraph: (
+    { __typename?: 'UpsertDashboardGraphResult' }
+    & { dashboardGraph: (
+      { __typename?: 'DashboardGraph' }
+      & Pick<DashboardGraph, 'id' | 'name' | 'layout' | 'vizState'>
     ) }
   ) }
 );
@@ -902,6 +1005,38 @@ export type GetConceptsOfInterestQuery = (
     & { conceptsOfInterest?: Maybe<Array<Maybe<(
       { __typename?: 'ConceptOfInterest' }
       & Pick<ConceptOfInterest, 'id' | 'description' | 'name'>
+    )>>> }
+  ) }
+);
+
+export type GetDashboardGraphQueryVariables = Exact<{
+  input: GetDashboardGraphInput;
+}>;
+
+
+export type GetDashboardGraphQuery = (
+  { __typename?: 'Query' }
+  & { getDashboardGraph: (
+    { __typename?: 'GetDashboardGraphResult' }
+    & { dashboardGraph?: Maybe<(
+      { __typename?: 'DashboardGraph' }
+      & Pick<DashboardGraph, 'id' | 'name' | 'layout' | 'vizState'>
+    )> }
+  ) }
+);
+
+export type GetDashboardGraphsQueryVariables = Exact<{
+  input: GetDashboardGraphsInput;
+}>;
+
+
+export type GetDashboardGraphsQuery = (
+  { __typename?: 'Query' }
+  & { getDashboardGraphs: (
+    { __typename?: 'GetDashboardGraphsResult' }
+    & { dashboardGraphs?: Maybe<Array<Maybe<(
+      { __typename?: 'DashboardGraph' }
+      & Pick<DashboardGraph, 'id' | 'name' | 'layout' | 'vizState'>
     )>>> }
   ) }
 );
@@ -1224,6 +1359,8 @@ export type GetUserQuery = (
 
 export const DeleteConceptOfInterestDocument: DocumentNode<DeleteConceptOfInterestMutation, DeleteConceptOfInterestMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteConceptOfInterest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteConceptOfInterestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteConceptOfInterest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"conceptOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]};
 export const UpsertConceptOfInterestDocument: DocumentNode<UpsertConceptOfInterestMutation, UpsertConceptOfInterestMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"upsertConceptOfInterest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpsertConceptOfInterestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertConceptOfInterest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"conceptOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
+export const DeleteDashboardGraphDocument: DocumentNode<DeleteDashboardGraphMutation, DeleteDashboardGraphMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteDashboardGraph"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteDashboardGraphInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteDashboardGraph"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dashboardGraph"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]};
+export const UpsertDashboardGraphDocument: DocumentNode<UpsertDashboardGraphMutation, UpsertDashboardGraphMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"upsertDashboardGraph"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpsertDashboardGraphInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertDashboardGraph"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dashboardGraph"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"layout"}},{"kind":"Field","name":{"kind":"Name","value":"vizState"}}]}}]}}]}}]};
 export const DeleteDataTypeDocument: DocumentNode<DeleteDataTypeMutation, DeleteDataTypeMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteDataType"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteDataTypeInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteDataType"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dataType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]};
 export const UpsertDataTypeDocument: DocumentNode<UpsertDataTypeMutation, UpsertDataTypeMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"upsertDataType"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpsertDataTypeInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertDataType"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dataType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"deviceTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"measures"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
 export const DeleteIndicationDocument: DocumentNode<DeleteIndicationMutation, DeleteIndicationMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteIndication"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteIndicationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteIndication"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"indication"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]};
@@ -1234,6 +1371,8 @@ export const DeleteTemplateDocument: DocumentNode<DeleteTemplateMutation, Delete
 export const UpsertTemplateDocument: DocumentNode<UpsertTemplateMutation, UpsertTemplateMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"upsertTemplate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpsertTemplateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertTemplate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"template"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"pages"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]}}]};
 export const GetConceptOfInterestDocument: DocumentNode<GetConceptOfInterestQuery, GetConceptOfInterestQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getConceptOfInterest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetConceptOfInterestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getConceptOfInterest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"conceptOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};
 export const GetConceptsOfInterestDocument: DocumentNode<GetConceptsOfInterestQuery, GetConceptsOfInterestQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getConceptsOfInterest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetConceptsOfInterestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getConceptsOfInterest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"conceptsOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
+export const GetDashboardGraphDocument: DocumentNode<GetDashboardGraphQuery, GetDashboardGraphQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDashboardGraph"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetDashboardGraphInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDashboardGraph"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dashboardGraph"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"layout"}},{"kind":"Field","name":{"kind":"Name","value":"vizState"}}]}}]}}]}}]};
+export const GetDashboardGraphsDocument: DocumentNode<GetDashboardGraphsQuery, GetDashboardGraphsQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDashboardGraphs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetDashboardGraphsInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDashboardGraphs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dashboardGraphs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"layout"}},{"kind":"Field","name":{"kind":"Name","value":"vizState"}}]}}]}}]}}]};
 export const GetDataTypeDocument: DocumentNode<GetDataTypeQuery, GetDataTypeQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDataType"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetDataTypeInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDataType"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dataType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"deviceTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"measures"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};
 export const GetDataTypesDocument: DocumentNode<GetDataTypesQuery, GetDataTypesQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDataTypes"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetDataTypesInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDataTypes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dataTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};
 export const GetDeviceDocument: DocumentNode<GetDeviceQuery, GetDeviceQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDevice"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetDeviceInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDevice"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"device"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};

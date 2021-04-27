@@ -9,6 +9,7 @@ import {
 } from 'graphql-tools';
 
 import { conceptOfInterestResolvers } from './conceptOfInterest';
+import { dashboardGraphResolvers } from './dashboardGraph';
 import { dataTypeResolvers } from './dataType';
 import { deviceResolvers } from './device';
 import { heartRateResolvers } from './googlefit';
@@ -19,6 +20,7 @@ import { userResolvers } from './user';
 
 const resolvers = mergeResolvers([
   conceptOfInterestResolvers,
+  dashboardGraphResolvers,
   dataTypeResolvers,
   deviceResolvers,
   heartRateResolvers,

@@ -9,6 +9,7 @@ import {
   getConceptOfInterest,
   getConceptsOfInterest,
 } from './queries/conceptOfInterest';
+import { getDashboardGraph, getDashboardGraphs } from './queries/dashboardGraph';
 import { getDataType, getDataTypes } from './queries/dataType';
 import { getMeasure, getMeasures } from './queries/measure';
 import { getIndication, getIndications } from './queries/indication';
@@ -18,6 +19,8 @@ import { getHeartRate } from './queries/googlefit';
 const allQueries = {
   getConceptOfInterest,
   getConceptsOfInterest,
+  getDashboardGraph,
+  getDashboardGraphs,
   getDataType,
   getDataTypes,
   getDevice,
@@ -39,6 +42,10 @@ import {
   GetConceptOfInterestResult,
   GetConceptsOfInterestInput,
   GetConceptsOfInterestResult,
+  GetDashboardGraphInput,
+  GetDashboardGraphResult,
+  GetDashboardGraphsInput,
+  GetDashboardGraphsResult,
   GetDataTypeInput,
   GetDataTypeResult,
   GetDataTypesInput,
@@ -81,19 +88,6 @@ class GraphQLApi {
     this.context = context;
   }
 
-  async getUser(
-    input: GetUserInput,
-    context?: Context,
-  ): Promise<GetUserResult> {
-    const operationName = 'getUser';
-    const variables = { input };
-    return this.graphqlRequest({
-      operationName,
-      variables,
-      context,
-    });
-  }
-
   async getConceptsOfInterest(
     input: GetConceptsOfInterestInput,
     context?: Context,
@@ -112,6 +106,32 @@ class GraphQLApi {
     context?: Context,
   ): Promise<GetConceptOfInterestResult> {
     const operationName = 'getMeasure';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context,
+    });
+  }
+
+  async getDashboardGraph(
+    input: GetDashboardGraphInput,
+    context?: Context,
+  ): Promise<GetDashboardGraphResult> {
+    const operationName = 'getDashboardGraph';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context,
+    });
+  }
+
+  async getDashboardGraphs(
+    input: GetDashboardGraphsInput,
+    context?: Context,
+  ): Promise<GetDashboardGraphsResult> {
+    const operationName = 'getDashboardGraphs';
     const variables = { input };
     return this.graphqlRequest({
       operationName,
@@ -242,6 +262,19 @@ class GraphQLApi {
     context?: Context,
   ): Promise<GetTemplateResult> {
     const operationName = 'getTemplate';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context,
+    });
+  }
+
+  async getUser(
+    input: GetUserInput,
+    context?: Context,
+  ): Promise<GetUserResult> {
+    const operationName = 'getUser';
     const variables = { input };
     return this.graphqlRequest({
       operationName,

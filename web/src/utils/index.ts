@@ -2,6 +2,7 @@ import moment from 'moment';
 import { camelCase, get, sortBy } from 'lodash';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
+import { Logger } from 'logger';
 import {
   ContentType,
   DynamicDefType,
@@ -103,3 +104,17 @@ export const fieldFromContentType = (type: ContentType): FieldType => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const asArray = (value: Array<any> | any): Array<any> =>
   Array.isArray(value) ? value : [value];
+
+/**
+ * Unwrap graphql data
+ */
+// TODO: fix this cheesy mess.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const unwrapGqlData = (data): any => {
+  try {
+    return getFirstNonString(getFirstNonString(data));
+  } catch (e) {
+    Logger.warn(e);
+  }
+  return [];
+};

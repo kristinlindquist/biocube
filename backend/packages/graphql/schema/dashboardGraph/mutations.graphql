@@ -1,0 +1,23 @@
+type Mutation {
+  upsertDashboardGraph(input: UpsertDashboardGraphInput!): UpsertDashboardGraphResult!,
+  deleteDashboardGraph(input: DeleteDashboardGraphInput!): DeleteDashboardGraphResult!,
+}
+
+input UpsertDashboardGraphInput {
+  id: Int
+  name: String!
+  layout: JSON!
+  vizState: JSON!
+}
+
+type UpsertDashboardGraphResult {
+  dashboardGraph: DashboardGraph!
+}
+
+input DeleteDashboardGraphInput {
+  id: Int!
+}
+
+type DeleteDashboardGraphResult {
+  dashboardGraph: DashboardGraph!
+}

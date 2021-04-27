@@ -1,14 +1,26 @@
 import { ConceptOfInterest } from '@prisma/client';
-import { Parent, Context, QueryGetConceptOfInterestArgs, GetConceptOfInterestInput, GetConceptOfInterestResult } from '../../../../types';
+import {
+  Parent,
+  Context,
+  QueryGetConceptOfInterestArgs,
+  GetConceptOfInterestInput,
+  GetConceptOfInterestResult,
+} from '../../../../types';
 
-async function getConceptOfInterest(_: Parent, args: QueryGetConceptOfInterestArgs, context: Context): Promise<GetConceptOfInterestResult> {
-	const { prisma } = context;
-	const { input } = args;
-	const { id }: GetConceptOfInterestInput = input;
+async function getConceptOfInterest(
+  _: Parent,
+  args: QueryGetConceptOfInterestArgs,
+  context: Context,
+): Promise<GetConceptOfInterestResult> {
+  const { prisma } = context;
+  const { input } = args;
+  const { id }: GetConceptOfInterestInput = input;
 
-	const conceptOfInterest: ConceptOfInterest | null = await prisma.conceptOfInterest.findUnique({ where: { id } })
+  const conceptOfInterest: ConceptOfInterest | null = await prisma.conceptOfInterest.findUnique(
+    { where: { id } },
+  );
 
-	return { conceptOfInterest };
+  return { conceptOfInterest };
 }
 
 export default getConceptOfInterest;

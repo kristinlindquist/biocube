@@ -70,6 +70,13 @@ type Daily {
   heartRate: HeartRateSummary
 }
 
+type DashboardGraph {
+  id: Int!
+  name: String!
+  layout: JSON!
+  vizState: JSON!
+}
+
 type DataQuery {
   id: Int!
   document: QueryDocumentType!
@@ -100,6 +107,14 @@ input DeleteConceptOfInterestInput {
 
 type DeleteConceptOfInterestResult {
   conceptOfInterest: ConceptOfInterest!
+}
+
+input DeleteDashboardGraphInput {
+  id: Int!
+}
+
+type DeleteDashboardGraphResult {
+  dashboardGraph: DashboardGraph!
 }
 
 input DeleteDataTypeInput {
@@ -196,6 +211,22 @@ input GetDailyInput {
 
 type GetDailyResult {
   daily: [Daily]
+}
+
+input GetDashboardGraphInput {
+  id: Int!
+}
+
+type GetDashboardGraphResult {
+  dashboardGraph: DashboardGraph
+}
+
+input GetDashboardGraphsInput {
+  test: Boolean
+}
+
+type GetDashboardGraphsResult {
+  dashboardGraphs: [DashboardGraph]
 }
 
 input GetDataTypeInput {
@@ -358,11 +389,13 @@ enum MeasureStatus {
 
 type Mutation {
   deleteConceptOfInterest(input: DeleteConceptOfInterestInput!): DeleteConceptOfInterestResult!
+  deleteDashboardGraph(input: DeleteDashboardGraphInput!): DeleteDashboardGraphResult!
   deleteDataType(input: DeleteDataTypeInput!): DeleteDataTypeResult!
   deleteIndication(input: DeleteIndicationInput!): DeleteIndicationResult!
   deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
   deleteTemplate(input: DeleteTemplateInput!): DeleteTemplateResult!
   upsertConceptOfInterest(input: UpsertConceptOfInterestInput!): UpsertConceptOfInterestResult!
+  upsertDashboardGraph(input: UpsertDashboardGraphInput!): UpsertDashboardGraphResult!
   upsertDataType(input: UpsertDataTypeInput!): UpsertDataTypeResult!
   upsertIndication(input: UpsertIndicationInput!): UpsertIndicationResult!
   upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
@@ -387,6 +420,8 @@ type Query {
   getConceptOfInterest(input: GetConceptOfInterestInput!): GetConceptOfInterestResult!
   getConceptsOfInterest(input: GetConceptsOfInterestInput!): GetConceptsOfInterestResult!
   getDaily(input: GetDailyInput!): GetDailyResult!
+  getDashboardGraph(input: GetDashboardGraphInput!): GetDashboardGraphResult!
+  getDashboardGraphs(input: GetDashboardGraphsInput!): GetDashboardGraphsResult!
   getDataType(input: GetDataTypeInput!): GetDataTypeResult!
   getDataTypes(input: GetDataTypesInput!): GetDataTypesResult!
   getDevice(input: GetDeviceInput!): GetDeviceResult!
@@ -435,6 +470,17 @@ input UpsertConceptOfInterestInput {
 
 type UpsertConceptOfInterestResult {
   conceptOfInterest: ConceptOfInterest!
+}
+
+input UpsertDashboardGraphInput {
+  id: Int
+  name: String!
+  layout: JSON!
+  vizState: JSON!
+}
+
+type UpsertDashboardGraphResult {
+  dashboardGraph: DashboardGraph!
 }
 
 input UpsertDataTypeInput {

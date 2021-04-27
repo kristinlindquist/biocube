@@ -89,6 +89,14 @@ export type Daily = {
   heartRate?: Maybe<HeartRateSummary>;
 };
 
+export type DashboardGraph = {
+  __typename?: 'DashboardGraph';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  layout: Scalars['JSON'];
+  vizState: Scalars['JSON'];
+};
+
 export type DataQuery = {
   __typename?: 'DataQuery';
   id: Scalars['Int'];
@@ -121,6 +129,15 @@ export type DeleteConceptOfInterestInput = {
 export type DeleteConceptOfInterestResult = {
   __typename?: 'DeleteConceptOfInterestResult';
   conceptOfInterest: ConceptOfInterest;
+};
+
+export type DeleteDashboardGraphInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteDashboardGraphResult = {
+  __typename?: 'DeleteDashboardGraphResult';
+  dashboardGraph: DashboardGraph;
 };
 
 export type DeleteDataTypeInput = {
@@ -228,6 +245,24 @@ export type GetDailyInput = {
 export type GetDailyResult = {
   __typename?: 'GetDailyResult';
   daily?: Maybe<Array<Maybe<Daily>>>;
+};
+
+export type GetDashboardGraphInput = {
+  id: Scalars['Int'];
+};
+
+export type GetDashboardGraphResult = {
+  __typename?: 'GetDashboardGraphResult';
+  dashboardGraph?: Maybe<DashboardGraph>;
+};
+
+export type GetDashboardGraphsInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetDashboardGraphsResult = {
+  __typename?: 'GetDashboardGraphsResult';
+  dashboardGraphs?: Maybe<Array<Maybe<DashboardGraph>>>;
 };
 
 export type GetDataTypeInput = {
@@ -406,11 +441,13 @@ export enum MeasureStatus {
 export type Mutation = {
   __typename?: 'Mutation';
   deleteConceptOfInterest: DeleteConceptOfInterestResult;
+  deleteDashboardGraph: DeleteDashboardGraphResult;
   deleteDataType: DeleteDataTypeResult;
   deleteIndication: DeleteIndicationResult;
   deleteMeasure: DeleteMeasureResult;
   deleteTemplate: DeleteTemplateResult;
   upsertConceptOfInterest: UpsertConceptOfInterestResult;
+  upsertDashboardGraph: UpsertDashboardGraphResult;
   upsertDataType: UpsertDataTypeResult;
   upsertIndication: UpsertIndicationResult;
   upsertMeasure: UpsertMeasureResult;
@@ -420,6 +457,11 @@ export type Mutation = {
 
 export type MutationDeleteConceptOfInterestArgs = {
   input: DeleteConceptOfInterestInput;
+};
+
+
+export type MutationDeleteDashboardGraphArgs = {
+  input: DeleteDashboardGraphInput;
 };
 
 
@@ -445,6 +487,11 @@ export type MutationDeleteTemplateArgs = {
 
 export type MutationUpsertConceptOfInterestArgs = {
   input: UpsertConceptOfInterestInput;
+};
+
+
+export type MutationUpsertDashboardGraphArgs = {
+  input: UpsertDashboardGraphInput;
 };
 
 
@@ -488,6 +535,8 @@ export type Query = {
   getConceptOfInterest: GetConceptOfInterestResult;
   getConceptsOfInterest: GetConceptsOfInterestResult;
   getDaily: GetDailyResult;
+  getDashboardGraph: GetDashboardGraphResult;
+  getDashboardGraphs: GetDashboardGraphsResult;
   getDataType: GetDataTypeResult;
   getDataTypes: GetDataTypesResult;
   getDevice: GetDeviceResult;
@@ -520,6 +569,16 @@ export type QueryGetConceptsOfInterestArgs = {
 
 export type QueryGetDailyArgs = {
   input: GetDailyInput;
+};
+
+
+export type QueryGetDashboardGraphArgs = {
+  input: GetDashboardGraphInput;
+};
+
+
+export type QueryGetDashboardGraphsArgs = {
+  input: GetDashboardGraphsInput;
 };
 
 
@@ -619,6 +678,18 @@ export type UpsertConceptOfInterestInput = {
 export type UpsertConceptOfInterestResult = {
   __typename?: 'UpsertConceptOfInterestResult';
   conceptOfInterest: ConceptOfInterest;
+};
+
+export type UpsertDashboardGraphInput = {
+  id?: Maybe<Scalars['Int']>;
+  name: Scalars['String'];
+  layout: Scalars['JSON'];
+  vizState: Scalars['JSON'];
+};
+
+export type UpsertDashboardGraphResult = {
+  __typename?: 'UpsertDashboardGraphResult';
+  dashboardGraph: DashboardGraph;
 };
 
 export type UpsertDataTypeInput = {
