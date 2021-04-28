@@ -7,12 +7,7 @@ import { Alert } from '@material-ui/core';
 import ErrorBoundary from 'ErrorBoundary';
 import { DataGrid, Table } from 'components/Table';
 import { JSONObject } from 'types';
-import {
-  getFirstNonString,
-  getQueryAndEntity,
-  getStartsWith,
-  unwrapGqlData,
-} from 'utils';
+import { getReturnObj, getQueryAndEntity, unwrapGqlData } from 'utils';
 import {
   GetDataTypeDocument,
   GetDataTypesDocument,
@@ -40,11 +35,6 @@ const DocumentMap = {
   UpsertIndicationDocument,
   DeleteIndicationDocument,
 };
-
-const getReturnObj = (
-  data: { [any: string]: { [any: string]: string | number } },
-  str: string,
-) => getFirstNonString(getStartsWith(data, str));
 
 export interface ComponentProps {
   /**

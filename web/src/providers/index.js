@@ -1,3 +1,4 @@
 import { DateRangeProvider } from './DateRangeProvider';
+import { DialogProvider } from './DialogProvider';
 
-export { DateRangeProvider };
+export { DateRangeProvider, DialogProvider };

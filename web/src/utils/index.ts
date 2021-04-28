@@ -118,3 +118,9 @@ export const unwrapGqlData = (data): any => {
   }
   return [];
 };
+
+/**
+ * Object to return in gql (?)
+ */
+export const getReturnObj = (data: KeyValuePairs, str: string) =>
+  getFirstNonString(getStartsWith(data, str));

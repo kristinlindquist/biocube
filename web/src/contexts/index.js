@@ -1,3 +1,4 @@
-import { useDateRange } from './useDateRange';
+import useDateRange from './useDateRange';
+import useDialog from './useDialog';
 
-export { useDateRange };
+export { useDateRange, useDialog };

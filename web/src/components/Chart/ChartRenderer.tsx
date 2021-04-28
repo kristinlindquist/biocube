@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { Theme, useTheme } from '@material-ui/core/styles';
 import { ChartType, useCubeQuery } from '@cubejs-client/react';
 import { Query } from '@cubejs-client/core';
+import { useMutation } from '@apollo/client';
 import numeral from 'numeral';
 import {
   Area,
@@ -18,29 +19,44 @@ import {
 import { Skeleton } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 
+import { MenuButton } from 'components/Button';
 import { Card } from 'components/Card';
+import { useDialog } from 'contexts';
+
+import {
+  DeleteDashboardGraphDocument as DeleteGraph,
+  UpsertDashboardGraphDocument as UpsertGraph,
+} from 'gql';
 import { Table } from 'components/Table';
 import { RowType } from 'types';
+import { getReturnObj } from 'utils';
 
 import CartesianChart from './CartesianChart';
-import SelectChartType from '../QueryBuilder/SelectChartType';
 import { ChartProps } from './types';
 import { getChartType, getDataType, resolveFormatter } from './utils';
 
 export interface ChartRendererProps {
   /**
-   * chart height
+   * Chart Id, if saved
+   */
+  id?: number;
+  /**
+   * Chart height
    */
   height?: number;
   /**
-   * viz state
+   * Chart Name
+   */
+  name?: string;
+  /**
+   * Vizstate (cubejs)
    */
   vizState: {
-    query: Query | Query[];
     chartType: ChartType;
+    query: Query | Query[];
   };
   /**
-   * function to update chart type
+   * Function to update chart type
    */
   updateChartType?: (chartType: ChartType) => void;
 }
@@ -137,7 +153,6 @@ const TypeToChartComponent = {
   },
   table: ({ resultSet }: ChartProps) => (
     <Table
-      size="small"
       rows={
         resultSet.tablePivot().map((row) =>
           resultSet
@@ -149,6 +164,7 @@ const TypeToChartComponent = {
             .reduce((a, b) => ({ ...a, ...b })),
         ) as RowType[]
       }
+      size="small"
     />
   ),
 };
@@ -161,11 +177,22 @@ const TypeToMemoChartComponent = Object.keys(TypeToChartComponent)
 
 const ChartRenderer = ({
   height = defaultHeight,
+  id,
+  name = 'A Chart',
   updateChartType,
   vizState,
 }: ChartRendererProps): ReactElement => {
   const { chartType, query, ...options } = vizState;
+  const [, { open }] = useDialog();
   const { error, isLoading, resultSet, ...chartProps } = useCubeQuery(query);
+  const [mutate] = useMutation(UpsertGraph);
+  const [deleteMutation] = useMutation(DeleteGraph, {
+    update(cache, { data: d }) {
+      cache.evict({
+        id: cache.identify(getReturnObj(d, 'delete')),
+      });
+    },
+  });
   const Component =
     TypeToMemoChartComponent[
       comboTypes.includes(chartType) ? 'combo' : chartType
@@ -176,12 +203,28 @@ const ChartRenderer = ({
       error={error ? { message: error.toString() } : null}
       loading={isLoading}
       headerAction={
-        <SelectChartType
-          chartType={chartType}
-          updateChartType={updateChartType}
+        <MenuButton
+          options={[
+            { name: 'Change Type', onClick: () => updateChartType('line') },
+            {
+              name: 'Edit',
+              onClick: () =>
+                open({
+                  fields: [{ id: 'name', name: 'Name', type: 'string' }],
+                  onSubmit: (values) => mutate(values),
+                  title: 'Save',
+                  values: { layout: {}, name, vizState },
+                }),
+            },
+            {
+              name: 'Delete',
+              onClick: () => deleteMutation({ variables: { input: { id } } }),
+            },
+            { name: 'Save', onClick: () => {} },
+          ]}
         />
       }
-      title="A Chart">
+      title={name}>
       {!isEmpty(resultSet) && Component && (
         <Component {...chartProps} {...options} resultSet={resultSet} />
       )}

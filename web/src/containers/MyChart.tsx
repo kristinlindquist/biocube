@@ -35,9 +35,15 @@ const MyChart = (): ReactElement => {
     variables: { input: {} },
   });
 
+  const charts = unwrapGqlData(data) || {};
+
   return (
-    <Grid item xs={12}>
-      <ChartRenderer vizState={unwrapGqlData(data).vizState} />
+    <Grid container spacing={2}>
+      {charts.map(({ id, name, vizState }) => (
+        <Grid item xs={12}>
+          <ChartRenderer id={id} key={name} name={name} vizState={vizState} />
+        </Grid>
+      ))}
     </Grid>
   );
 };

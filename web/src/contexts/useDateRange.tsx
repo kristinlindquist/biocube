@@ -54,4 +54,4 @@ const useDateRange = (): Array<any> => {
   return [useStateContext(), useDispatchContext()];
 };
 
-export { useDateRange };
+export default useDateRange;

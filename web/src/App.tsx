@@ -6,6 +6,7 @@ import { CubeProvider } from '@cubejs-client/react';
 import { ThemeProvider } from '@material-ui/core';
 import { CookiesProvider } from 'react-cookie';
 
+import { DialogProvider } from 'providers';
 import ErrorBoundary from 'ErrorBoundary';
 import Home from 'containers/Home';
 import DynamicPages from 'containers/DynamicPages';
@@ -25,19 +26,21 @@ const App = (): ReactElement => {
         <CubeProvider cubejsApi={cubejsApi}>
           <ApolloProvider client={client}>
             <ErrorBoundary>
-              <Router>
-                <Switch>
-                  <Route path="/qb">
-                    <QueryBuilder />
-                  </Route>
-                  <Route path="/" exact>
-                    <Home />
-                  </Route>
-                  <Route path="/">
-                    <DynamicPages />
-                  </Route>
-                </Switch>
-              </Router>
+              <DialogProvider>
+                <Router>
+                  <Switch>
+                    <Route path="/qb">
+                      <QueryBuilder />
+                    </Route>
+                    <Route path="/" exact>
+                      <Home />
+                    </Route>
+                    <Route path="/">
+                      <DynamicPages />
+                    </Route>
+                  </Switch>
+                </Router>
+              </DialogProvider>
             </ErrorBoundary>
           </ApolloProvider>
         </CubeProvider>

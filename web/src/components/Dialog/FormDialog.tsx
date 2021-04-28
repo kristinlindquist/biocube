@@ -33,6 +33,7 @@ export type FormDialogProps = {
     options?: SelectOptionType[];
     type?: FieldType;
   }>;
+  open?: boolean;
   /**
    * Save/update/upsert function
    */
@@ -70,6 +71,7 @@ const FormDialog = ({
   containerProps,
   content,
   fields,
+  open: defaultOpen = false,
   onSubmit,
   openButton,
   read,
@@ -79,7 +81,7 @@ const FormDialog = ({
   variant,
   ...props
 }: FormDialogProps & Partial<DialogProps>): ReactElement => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(defaultOpen);
   const [form, setForm] = React.useState(values);
 
   useDeepCompareEffect(() => {
@@ -116,7 +118,7 @@ const FormDialog = ({
 
   return (
     <Box {...containerProps}>
-      {OpenButton}
+      {!defaultOpen && OpenButton}
       <Dialog
         {...props}
         aria-labelledby="title"
