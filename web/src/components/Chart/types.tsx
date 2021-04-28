@@ -2,6 +2,8 @@ import { ReactElement, ReactNode } from 'react';
 
 export type LayoutType = 'horizontal' | 'vertical' | 'centric' | 'radial';
 
+export type PrimitiveType = string | number | boolean;
+
 export type ResultSet<Type> = {
   chartPivot: (any?) => Array<Type>;
   loadResponse?: {
@@ -13,7 +15,7 @@ export type ResultSet<Type> = {
   tableColumns: () => Array<{ key: string; shortTitle: string }>;
   tablePivot: () => Array<{
     id?: string;
-    [key: string]: string | number | boolean;
+    [key: string]: PrimitiveType;
   }>;
   totalRow: () => { x: string; xValues: string[] };
 };

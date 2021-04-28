@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import { DispatchContext, StateContext } from 'providers/DialogProvider';
 
+import { DialogProps } from 'components/Dialog';
+
 const useDispatchContext = () => {
   const { dispatch } = useContext(DispatchContext);
   const { state } = useContext(StateContext);
@@ -17,10 +19,6 @@ const useDispatchContext = () => {
   const close = () => {
     const latestDialog = state.dialogs.pop();
 
-    if (latestDialog.onClose) {
-      latestDialog.onClose();
-    }
-
     dispatch({
       dialogs: !latestDialog
         ? state.dialogs
@@ -31,7 +29,7 @@ const useDispatchContext = () => {
   return { open, close };
 };
 
-const useStateContext = (): { dialogs: Array<any> } => {
+const useStateContext = (): { dialogs: Array<DialogProps> } => {
   const { state } = useContext(StateContext);
 
   if (state === undefined) {

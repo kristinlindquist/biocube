@@ -15,7 +15,7 @@ import useDeepCompareEffect from 'use-deep-compare-effect';
 import { FormField } from 'components/Inputs';
 import { FieldType, KeyValuePairs, SelectOptionType } from 'types';
 
-export type FormDialogProps = {
+export interface FormDialogProps {
   /**
    * Props for the container (Box)
    */
@@ -62,7 +62,7 @@ export type FormDialogProps = {
    * Default variant for fields
    */
   variant?: 'standard' | 'outlined' | 'filled';
-};
+}
 
 /**
  * A dialog box with a form

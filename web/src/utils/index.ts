@@ -110,7 +110,7 @@ export const asArray = (value: Array<any> | any): Array<any> =>
  */
 // TODO: fix this cheesy mess.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const unwrapGqlData = (data): any => {
+export const unwrapGqlData = (data: KeyValuePairs): any => {
   try {
     return getFirstNonString(getFirstNonString(data));
   } catch (e) {
@@ -122,5 +122,6 @@ export const unwrapGqlData = (data): any => {
 /**
  * Object to return in gql (?)
  */
-export const getReturnObj = (data: KeyValuePairs, str: string) =>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getReturnObj = (data: KeyValuePairs, str: string): any =>
   getFirstNonString(getStartsWith(data, str));

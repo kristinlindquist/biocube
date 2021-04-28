@@ -5,7 +5,7 @@ import { get } from 'lodash';
 
 import { getMonthDay } from 'components/Date';
 import { KeyValuePairs } from 'types';
-import { ResultSet } from './types';
+import { PrimitiveType, ResultSet } from './types';
 
 export enum AggType {
   AVG = 'average',
@@ -124,7 +124,9 @@ export const numberFormatter = (
   return `${numeral(item).format('0,0')} ${uom || ''}`;
 };
 
-export const resolveFormatter = (type: string) => {
+export const resolveFormatter = (
+  type: string,
+): ((value: PrimitiveType) => string | number | boolean) => {
   const formatters = {
     number: numberFormatter,
   };

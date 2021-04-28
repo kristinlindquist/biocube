@@ -7,14 +7,14 @@ import {
   useState,
 } from 'react';
 
-import { FormDialog as Dialog } from 'components/Dialog';
+import { FormDialog as Dialog, DialogProps } from 'components/Dialog';
 
 interface IStateContextProps {
-  state: { dialogs: Array<any> };
+  state: { dialogs: Array<DialogProps> };
 }
 
 interface IDispatchContextProps {
-  dispatch: (state: { dialogs: Array<any> }) => void;
+  dispatch: (state: { dialogs: Array<DialogProps> }) => void;
 }
 
 const StateContext = createContext({} as IStateContextProps);
