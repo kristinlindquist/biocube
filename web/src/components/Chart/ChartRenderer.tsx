@@ -22,14 +22,14 @@ import { isEmpty } from 'lodash';
 import { MenuButton } from 'components/Button';
 import { Card } from 'components/Card';
 import { useDialog } from 'contexts';
-
 import {
   DeleteDashboardGraphDocument as DeleteGraph,
   UpsertDashboardGraphDocument as UpsertGraph,
+  modifyCacheOnDelete,
+  modifyCacheOnUpdate,
 } from 'gql';
 import { Table } from 'components/Table';
 import { RowType } from 'types';
-import { getReturnObj } from 'utils';
 
 import CartesianChart from './CartesianChart';
 import { ChartProps } from './types';
@@ -183,14 +183,21 @@ const ChartRenderer = ({
   vizState,
 }: ChartRendererProps): ReactElement => {
   const { chartType, query, ...options } = vizState;
-  const [, { open }] = useDialog();
+  const [, { close, open }] = useDialog();
   const { error, isLoading, resultSet, ...chartProps } = useCubeQuery(query);
-  const [mutate] = useMutation(UpsertGraph);
+  const [mutate] = useMutation(UpsertGraph, {
+    update(cache, { data }) {
+      modifyCacheOnUpdate(
+        cache,
+        data,
+        'GetDashboardGraphsQuery',
+        'DashboardGraphs',
+      );
+    },
+  });
   const [deleteMutation] = useMutation(DeleteGraph, {
-    update(cache, { data: d }) {
-      cache.evict({
-        id: cache.identify(getReturnObj(d, 'delete')),
-      });
+    update(cache, { data }) {
+      modifyCacheOnDelete(cache, data);
     },
   });
   const Component =
@@ -207,12 +214,13 @@ const ChartRenderer = ({
           options={[
             { name: 'Change Type', onClick: () => updateChartType('line') },
             {
-              name: 'Edit',
+              name: id ? 'Edit' : 'Save',
               onClick: () =>
                 open({
                   fields: [{ id: 'name', name: 'Name', type: 'string' }],
+                  onClose: () => close(),
                   onSubmit: (values) => mutate(values),
-                  title: 'Save',
+                  title: 'Edit',
                   values: { id, layout: {}, name, vizState },
                 }),
             },
@@ -220,7 +228,7 @@ const ChartRenderer = ({
               name: 'Delete',
               onClick: () => deleteMutation({ variables: { input: { id } } }),
             },
-            { name: 'Save', onClick: () => {} },
+            { name: 'Query Builder', onClick: () => {} },
           ]}
         />
       }

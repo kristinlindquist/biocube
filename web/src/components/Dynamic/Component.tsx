@@ -1,5 +1,4 @@
 import { ReactElement, useState } from 'react';
-import { uniqBy } from 'lodash';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import { Alert } from '@material-ui/core';
@@ -7,7 +6,7 @@ import { Alert } from '@material-ui/core';
 import ErrorBoundary from 'ErrorBoundary';
 import { DataGrid, Table } from 'components/Table';
 import { JSONObject } from 'types';
-import { getReturnObj, getQueryAndEntity, unwrapGqlData } from 'utils';
+import { getQueryAndEntity, unwrapGqlData } from 'utils';
 import {
   GetDataTypeDocument,
   GetDataTypesDocument,
@@ -19,6 +18,8 @@ import {
   GetIndicationsDocument,
   UpsertIndicationDocument,
   DeleteIndicationDocument,
+  modifyCacheOnDelete,
+  modifyCacheOnUpdate,
 } from 'gql';
 import { Logger } from 'logger';
 import Content from './Content';
@@ -108,35 +109,11 @@ const Component = ({
     ? useLazyQuery(DocumentMap[readOne.document])
     : [null];
 
-  /**
-   * Mutation with convoluted effort of adding to list if it doesn't already
-   * exist.
-   */
   const [mutate] = upsert
     ? useMutation(DocumentMap[upsert.document], {
         onError,
         update(cache, { data: d }) {
-          cache.modify({
-            fields: {
-              [queryName](existing = { [entityName]: [] }) {
-                return Array.isArray(existing[entityName])
-                  ? {
-                      [entityName]: uniqBy(
-                        [
-                          ...existing[entityName],
-                          { __ref: cache.identify(getReturnObj(d, 'upsert')) },
-                        ],
-                        '__ref',
-                      ),
-                    }
-                  : {
-                      [entityName]: {
-                        __ref: cache.identify(getReturnObj(d, 'upsert')),
-                      },
-                    };
-              },
-            },
-          });
+          modifyCacheOnUpdate(cache, d, queryName, entityName);
         },
       })
     : [undefined];
@@ -148,9 +125,7 @@ const Component = ({
     ? useMutation(DocumentMap[del.document], {
         onError,
         update(cache, { data: d }) {
-          cache.evict({
-            id: cache.identify(getReturnObj(d, 'delete')),
-          });
+          modifyCacheOnDelete(cache, d);
         },
       })
     : [undefined];

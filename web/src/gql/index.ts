@@ -84,3 +84,4 @@ const getApolloClient = (): ApolloClient<NormalizedCacheObject> => {
 
 export { getApolloClient };
 export * from './typed-document-nodes';
+export * from './Cache';

@@ -34,6 +34,7 @@ export interface FormDialogProps {
     type?: FieldType;
   }>;
   open?: boolean;
+  onClose?: () => void;
   /**
    * Save/update/upsert function
    */
@@ -72,10 +73,11 @@ const FormDialog = ({
   content,
   fields,
   open: defaultOpen = false,
+  onClose = () => {},
   onSubmit,
   openButton,
   read,
-  size,
+  size = 'sm',
   title,
   values = {},
   variant,
@@ -96,6 +98,7 @@ const FormDialog = ({
   };
 
   const handleClose = () => {
+    onClose();
     setOpen(false);
   };
 
