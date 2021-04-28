@@ -213,7 +213,7 @@ const ChartRenderer = ({
                   fields: [{ id: 'name', name: 'Name', type: 'string' }],
                   onSubmit: (values) => mutate(values),
                   title: 'Save',
-                  values: { layout: {}, name, vizState },
+                  values: { id, layout: {}, name, vizState },
                 }),
             },
             {

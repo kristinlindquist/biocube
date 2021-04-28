@@ -38,7 +38,7 @@ const DialogProvider = ({ children }: Props): ReactElement => {
       <StateContext.Provider value={{ state }}>
         {children}
         {state.dialogs.map((dialog) => (
-          <Dialog key={dialog.id} {...dialog} />
+          <Dialog key={dialog.title} {...dialog} />
         ))}
       </StateContext.Provider>
     </DispatchContext.Provider>

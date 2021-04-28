@@ -40,8 +40,8 @@ const MyChart = (): ReactElement => {
   return (
     <Grid container spacing={2}>
       {charts.map(({ id, name, vizState }) => (
-        <Grid item xs={12}>
-          <ChartRenderer id={id} key={name} name={name} vizState={vizState} />
+        <Grid item key={id} xs={12}>
+          <ChartRenderer id={id} name={name} vizState={vizState} />
         </Grid>
       ))}
     </Grid>
