@@ -9,6 +9,7 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { isEmpty, sortBy, startCase } from 'lodash';
 
 import { Fab } from 'components/Button';
@@ -65,6 +66,14 @@ export interface TableProps {
   size?: 'small' | 'medium';
 }
 
+const useStyles = makeStyles(() => ({
+  headerRow: {
+    '& th': {
+      textTransform: 'uppercase',
+    },
+  },
+}));
+
 /**
  * If no columns provided, make 'em up from the rows
  */
@@ -96,6 +105,7 @@ const Table = ({
   showEditOverride,
   ...props
 }: TableProps): ReactElement => {
+  const classes = useStyles();
   const cols = sortBy(columns || getColumns(rows), 'listOrder');
   const showCols = cols.filter((col) => !col.editOnly && col.type !== 'TABLE');
   const collapseCol = cols.find(({ type }) => type === 'TABLE');
@@ -104,7 +114,7 @@ const Table = ({
     <TableContainer {...containerProps} component={component || Paper}>
       <MaterialTable aria-label={`table ${id}`} {...props}>
         <TableHead>
-          <TableRow>
+          <TableRow className={classes.headerRow}>
             {showCols.map(({ id: colId, name }) => (
               <TableCell key={colId}>{name}</TableCell>
             ))}
