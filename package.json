@@ -19,6 +19,7 @@
   "scripts": {
     "start:web": "cd web && yarn start",
     "start:backend": "cd backend && yarn start",
+    "start:bi": "cd backend/packages/bi && yarn dev",
     "build:web": "cd web && yarn build",
     "build:backend": "cd backend && yarn build",
     "lint": "yarn eslint --ext .js,.jsx,.ts,.tsx .",
@@ -46,5 +47,8 @@
       "pre-commit": "yarn lint",
       "pre-push": "yarn lint:fix"
     }
+  },
+  "dependencies": {
+    "dotenv-defaults": "2.0.1"
   }
 }
