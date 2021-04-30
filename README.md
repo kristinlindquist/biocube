@@ -12,10 +12,10 @@ A no-code platform for ingesting, transforming, combining, analyzing and reporti
 * Configure local settings in backend/.env (DATABASE_URL) and web/.env (REACT_APP_ROLLBAR_ACCESS_TOKEN, REACT_APP_CLIENT_ID) 
 
 ### Running It
-* <code>yarn start:backend</code> for graphql API
+* <code>yarn start:backend</code> for graphql API (http://localhost:4000/graphql)
 * <code>yarn start:web</code> for React frontend (https://localhost:3000/)
 * <code>yarn start:bi</code> for cubejs / BI backend (http://localhost:4343)
-* <code>cd backend && yarn studio:prisma</code> to start Prisma data editing studio
+* <code>cd backend && yarn studio:prisma</code> to start Prisma data editing studio (http://localhost:5555/)
 
 ### Codegen
 * <code>cd backend && yarn generate:graphql</code> to generate graphql code (including client-side)
