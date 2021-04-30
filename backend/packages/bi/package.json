@@ -8,14 +8,14 @@
   "template": "docker",
   "templateVersion": "0.26.52",
   "devDependencies": {
-    "@cubejs-backend/cubestore-driver": "^0.26.52",
-    "@cubejs-backend/postgres-driver": "^0.26.45",
-    "@cubejs-backend/server": "^0.26.52",
+    "@cubejs-backend/cubestore-driver": "^0.27.4",
+    "@cubejs-backend/postgres-driver": "^0.27.4",
+    "@cubejs-backend/server": "^0.27.4",
     "typescript": "4.2.4"
   },
   "dependencies": {
-    "@types/node": "14.14.41",
-    "apollo-server-express": "2.23.0",
+    "@types/node": "15.0.1",
+    "apollo-server-express": "2.24.0",
     "ts-jest": "26.5.5"
   }
 }
