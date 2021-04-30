@@ -85,6 +85,9 @@ type SubChartProps = {
   yAxisId: string;
 };
 
+/**
+ * Get subcharts (multiple possible within a given chart)
+ */
 const getSubChart = ({ color, key, name, type, yAxisId }: SubChartProps) => {
   const props = {
     dataKey: key,
@@ -175,6 +178,9 @@ const TypeToMemoChartComponent = Object.keys(TypeToChartComponent)
   }))
   .reduce((a, b) => ({ ...a, ...b }));
 
+/**
+ * Render a chart by type
+ */
 const ChartRenderer = ({
   height = defaultHeight,
   id,
@@ -185,7 +191,7 @@ const ChartRenderer = ({
   const { chartType, query, ...options } = vizState;
   const [, { close, open }] = useDialog();
   const { error, isLoading, resultSet, ...chartProps } = useCubeQuery(query);
-  const [mutate] = useMutation(UpsertGraph, {
+  const [mutation] = useMutation(UpsertGraph, {
     update(cache, { data }) {
       modifyCacheOnUpdate(
         cache,
@@ -212,14 +218,19 @@ const ChartRenderer = ({
       headerAction={
         <MenuButton
           options={[
-            { name: 'Change Type', onClick: () => updateChartType('line') },
+            true
+              ? null
+              : {
+                  name: 'Change Type',
+                  onClick: () => updateChartType('line'),
+                },
             {
               name: id ? 'Edit' : 'Save',
               onClick: () =>
                 open({
                   fields: [{ id: 'name', name: 'Name', type: 'string' }],
                   onClose: () => close(),
-                  onSubmit: (values) => mutate(values),
+                  onSubmit: (values) => mutation(values),
                   title: 'Edit',
                   values: { id, layout: {}, name, vizState },
                 }),
@@ -228,8 +239,7 @@ const ChartRenderer = ({
               name: 'Delete',
               onClick: () => deleteMutation({ variables: { input: { id } } }),
             },
-            { name: 'Query Builder', onClick: () => {} },
-          ]}
+          ].filter((o) => o)}
         />
       }
       title={name}>

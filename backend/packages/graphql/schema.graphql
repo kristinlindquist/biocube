@@ -65,11 +65,6 @@ input ConceptOfInterestInput {
   name: String
 }
 
-type Daily {
-  date: Float
-  heartRate: HeartRateSummary
-}
-
 type DashboardGraph {
   id: Int!
   name: String!
@@ -177,16 +172,6 @@ type Filter {
   values: [String!]
 }
 
-input GetActivityInput {
-  start: DateTime!
-  end: DateTime!
-  token: String!
-}
-
-type GetActivityResult {
-  activity: [Activity]
-}
-
 input GetConceptOfInterestInput {
   id: Int!
 }
@@ -201,16 +186,6 @@ input GetConceptsOfInterestInput {
 
 type GetConceptsOfInterestResult {
   conceptsOfInterest: [ConceptOfInterest]
-}
-
-input GetDailyInput {
-  start: DateTime!
-  end: DateTime!
-  token: String!
-}
-
-type GetDailyResult {
-  daily: [Daily]
 }
 
 input GetDashboardGraphInput {
@@ -253,16 +228,6 @@ type GetDeviceResult {
   device: Device
 }
 
-input GetHeartRateInput {
-  start: DateTime!
-  end: DateTime!
-  token: String!
-}
-
-type GetHeartRateResult {
-  heartRate: [HeartRate]
-}
-
 input GetIndicationInput {
   id: Int!
 }
@@ -295,16 +260,6 @@ type GetMeasuresResult {
   measures: [Measure]
 }
 
-input GetSleepInput {
-  start: DateTime!
-  end: DateTime!
-  token: String!
-}
-
-type GetSleepResult {
-  sleep: [Sleep]
-}
-
 input GetTemplateInput {
   id: Int!
 }
@@ -332,12 +287,6 @@ type GetUserResult {
 type HeartRate {
   date: Float
   point: Float
-}
-
-type HeartRateSummary {
-  average: Float
-  min: Float
-  max: Float
 }
 
 type Indication {
@@ -416,21 +365,17 @@ type Page {
 }
 
 type Query {
-  getActivity(input: GetActivityInput!): GetActivityResult!
   getConceptOfInterest(input: GetConceptOfInterestInput!): GetConceptOfInterestResult!
   getConceptsOfInterest(input: GetConceptsOfInterestInput!): GetConceptsOfInterestResult!
-  getDaily(input: GetDailyInput!): GetDailyResult!
   getDashboardGraph(input: GetDashboardGraphInput!): GetDashboardGraphResult!
   getDashboardGraphs(input: GetDashboardGraphsInput!): GetDashboardGraphsResult!
   getDataType(input: GetDataTypeInput!): GetDataTypeResult!
   getDataTypes(input: GetDataTypesInput!): GetDataTypesResult!
   getDevice(input: GetDeviceInput!): GetDeviceResult!
-  getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
   getIndication(input: GetIndicationInput!): GetIndicationResult!
   getIndications(input: GetIndicationsInput!): GetIndicationsResult!
   getMeasure(input: GetMeasureInput!): GetMeasureResult!
   getMeasures(input: GetMeasuresInput!): GetMeasuresResult!
-  getSleep(input: GetSleepInput!): GetSleepResult!
   getTemplate(input: GetTemplateInput!): GetTemplateResult!
   getTemplates(input: GetTemplatesInput!): GetTemplatesResult!
   getUser(input: GetUserInput!): GetUserResult!

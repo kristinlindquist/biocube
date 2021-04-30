@@ -34,7 +34,6 @@ const syncGoogleFit = async (
   const sleep = await new GoogleFitnessAPI().getSleep(token, start, end, false);
 
   const createQueries = [] as Array<PrismaPromise<unknown>>;
-  console.log('hey');
 
   createQueries.push(prisma.datum.createMany({
     data: activity.map(({ start, end, state }) => ({

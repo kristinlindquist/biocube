@@ -81,12 +81,6 @@ export type ConceptOfInterestInput = {
   name?: Maybe<Scalars['String']>;
 };
 
-export type Daily = {
-  __typename?: 'Daily';
-  date?: Maybe<Scalars['Float']>;
-  heartRate?: Maybe<HeartRateSummary>;
-};
-
 export type DashboardGraph = {
   __typename?: 'DashboardGraph';
   id: Scalars['Int'];
@@ -205,17 +199,6 @@ export type Filter = {
   values?: Maybe<Array<Scalars['String']>>;
 };
 
-export type GetActivityInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-  token: Scalars['String'];
-};
-
-export type GetActivityResult = {
-  __typename?: 'GetActivityResult';
-  activity?: Maybe<Array<Maybe<Activity>>>;
-};
-
 export type GetConceptOfInterestInput = {
   id: Scalars['Int'];
 };
@@ -232,17 +215,6 @@ export type GetConceptsOfInterestInput = {
 export type GetConceptsOfInterestResult = {
   __typename?: 'GetConceptsOfInterestResult';
   conceptsOfInterest?: Maybe<Array<Maybe<ConceptOfInterest>>>;
-};
-
-export type GetDailyInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-  token: Scalars['String'];
-};
-
-export type GetDailyResult = {
-  __typename?: 'GetDailyResult';
-  daily?: Maybe<Array<Maybe<Daily>>>;
 };
 
 export type GetDashboardGraphInput = {
@@ -290,17 +262,6 @@ export type GetDeviceResult = {
   device?: Maybe<Device>;
 };
 
-export type GetHeartRateInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-  token: Scalars['String'];
-};
-
-export type GetHeartRateResult = {
-  __typename?: 'GetHeartRateResult';
-  heartRate?: Maybe<Array<Maybe<HeartRate>>>;
-};
-
 export type GetIndicationInput = {
   id: Scalars['Int'];
 };
@@ -337,17 +298,6 @@ export type GetMeasuresResult = {
   measures?: Maybe<Array<Maybe<Measure>>>;
 };
 
-export type GetSleepInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-  token: Scalars['String'];
-};
-
-export type GetSleepResult = {
-  __typename?: 'GetSleepResult';
-  sleep?: Maybe<Array<Maybe<Sleep>>>;
-};
-
 export type GetTemplateInput = {
   id: Scalars['Int'];
 };
@@ -379,13 +329,6 @@ export type HeartRate = {
   __typename?: 'HeartRate';
   date?: Maybe<Scalars['Float']>;
   point?: Maybe<Scalars['Float']>;
-};
-
-export type HeartRateSummary = {
-  __typename?: 'HeartRateSummary';
-  average?: Maybe<Scalars['Float']>;
-  min?: Maybe<Scalars['Float']>;
-  max?: Maybe<Scalars['Float']>;
 };
 
 export type Indication = {
@@ -529,30 +472,21 @@ export type Page = {
 
 export type Query = {
   __typename?: 'Query';
-  getActivity: GetActivityResult;
   getConceptOfInterest: GetConceptOfInterestResult;
   getConceptsOfInterest: GetConceptsOfInterestResult;
-  getDaily: GetDailyResult;
   getDashboardGraph: GetDashboardGraphResult;
   getDashboardGraphs: GetDashboardGraphsResult;
   getDataType: GetDataTypeResult;
   getDataTypes: GetDataTypesResult;
   getDevice: GetDeviceResult;
-  getHeartRate: GetHeartRateResult;
   getIndication: GetIndicationResult;
   getIndications: GetIndicationsResult;
   getMeasure: GetMeasureResult;
   getMeasures: GetMeasuresResult;
-  getSleep: GetSleepResult;
   getTemplate: GetTemplateResult;
   getTemplates: GetTemplatesResult;
   getUser: GetUserResult;
   syncGoogleFit: SyncGoogleFitResult;
-};
-
-
-export type QueryGetActivityArgs = {
-  input: GetActivityInput;
 };
 
 
@@ -563,11 +497,6 @@ export type QueryGetConceptOfInterestArgs = {
 
 export type QueryGetConceptsOfInterestArgs = {
   input: GetConceptsOfInterestInput;
-};
-
-
-export type QueryGetDailyArgs = {
-  input: GetDailyInput;
 };
 
 
@@ -596,11 +525,6 @@ export type QueryGetDeviceArgs = {
 };
 
 
-export type QueryGetHeartRateArgs = {
-  input: GetHeartRateInput;
-};
-
-
 export type QueryGetIndicationArgs = {
   input: GetIndicationInput;
 };
@@ -618,11 +542,6 @@ export type QueryGetMeasureArgs = {
 
 export type QueryGetMeasuresArgs = {
   input: GetMeasuresInput;
-};
-
-
-export type QueryGetSleepArgs = {
-  input: GetSleepInput;
 };
 
 
@@ -1113,74 +1032,6 @@ export type GetDeviceQuery = (
   ) }
 );
 
-export type GetActivityQueryVariables = Exact<{
-  input: GetActivityInput;
-}>;
-
-
-export type GetActivityQuery = (
-  { __typename?: 'Query' }
-  & { getActivity: (
-    { __typename?: 'GetActivityResult' }
-    & { activity?: Maybe<Array<Maybe<(
-      { __typename?: 'Activity' }
-      & Pick<Activity, 'start' | 'end' | 'duration' | 'state'>
-    )>>> }
-  ) }
-);
-
-export type GetDailyQueryVariables = Exact<{
-  input: GetDailyInput;
-}>;
-
-
-export type GetDailyQuery = (
-  { __typename?: 'Query' }
-  & { getDaily: (
-    { __typename?: 'GetDailyResult' }
-    & { daily?: Maybe<Array<Maybe<(
-      { __typename?: 'Daily' }
-      & Pick<Daily, 'date'>
-      & { heartRate?: Maybe<(
-        { __typename?: 'HeartRateSummary' }
-        & Pick<HeartRateSummary, 'average' | 'min' | 'max'>
-      )> }
-    )>>> }
-  ) }
-);
-
-export type GetHeartRateQueryVariables = Exact<{
-  input: GetHeartRateInput;
-}>;
-
-
-export type GetHeartRateQuery = (
-  { __typename?: 'Query' }
-  & { getHeartRate: (
-    { __typename?: 'GetHeartRateResult' }
-    & { heartRate?: Maybe<Array<Maybe<(
-      { __typename?: 'HeartRate' }
-      & Pick<HeartRate, 'date' | 'point'>
-    )>>> }
-  ) }
-);
-
-export type GetSleepQueryVariables = Exact<{
-  input: GetSleepInput;
-}>;
-
-
-export type GetSleepQuery = (
-  { __typename?: 'Query' }
-  & { getSleep: (
-    { __typename?: 'GetSleepResult' }
-    & { sleep?: Maybe<Array<Maybe<(
-      { __typename?: 'Sleep' }
-      & Pick<Sleep, 'start' | 'end' | 'state'>
-    )>>> }
-  ) }
-);
-
 export type SyncGoogleFitQueryVariables = Exact<{
   input: SyncGoogleFitInput;
 }>;
@@ -1406,10 +1257,6 @@ export const GetDashboardGraphsDocument: DocumentNode<GetDashboardGraphsQuery, G
 export const GetDataTypeDocument: DocumentNode<GetDataTypeQuery, GetDataTypeQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDataType"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetDataTypeInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDataType"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dataType"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"deviceTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"measures"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};
 export const GetDataTypesDocument: DocumentNode<GetDataTypesQuery, GetDataTypesQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDataTypes"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetDataTypesInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDataTypes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dataTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};
 export const GetDeviceDocument: DocumentNode<GetDeviceQuery, GetDeviceQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDevice"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetDeviceInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDevice"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"device"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};
-export const GetActivityDocument: DocumentNode<GetActivityQuery, GetActivityQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getActivity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetActivityInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getActivity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"activity"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"start"}},{"kind":"Field","name":{"kind":"Name","value":"end"}},{"kind":"Field","name":{"kind":"Name","value":"duration"}},{"kind":"Field","name":{"kind":"Name","value":"state"}}]}}]}}]}}]};
-export const GetDailyDocument: DocumentNode<GetDailyQuery, GetDailyQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDaily"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetDailyInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDaily"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"daily"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"heartRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"average"}},{"kind":"Field","name":{"kind":"Name","value":"min"}},{"kind":"Field","name":{"kind":"Name","value":"max"}}]}}]}}]}}]}}]};
-export const GetHeartRateDocument: DocumentNode<GetHeartRateQuery, GetHeartRateQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getHeartRate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetHeartRateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getHeartRate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heartRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"point"}}]}}]}}]}}]};
-export const GetSleepDocument: DocumentNode<GetSleepQuery, GetSleepQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getSleep"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetSleepInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getSleep"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sleep"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"start"}},{"kind":"Field","name":{"kind":"Name","value":"end"}},{"kind":"Field","name":{"kind":"Name","value":"state"}}]}}]}}]}}]};
 export const SyncGoogleFitDocument: DocumentNode<SyncGoogleFitQuery, SyncGoogleFitQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"syncGoogleFit"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SyncGoogleFitInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"syncGoogleFit"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"result"}}]}}]}}]};
 export const GetIndicationDocument: DocumentNode<GetIndicationQuery, GetIndicationQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getIndication"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetIndicationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getIndication"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"indication"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"measures"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};
 export const GetIndicationsDocument: DocumentNode<GetIndicationsQuery, GetIndicationsQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getIndications"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetIndicationsInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getIndications"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"indications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};

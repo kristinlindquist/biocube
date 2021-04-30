@@ -1,10 +1,6 @@
 scalar DateTime
 
 type Query {
-  getActivity(input: GetActivityInput!): GetActivityResult!
-  getDaily(input: GetDailyInput!): GetDailyResult!
-  getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
-  getSleep(input: GetSleepInput!): GetSleepResult!
   syncGoogleFit(input: SyncGoogleFitInput!): SyncGoogleFitResult!
 }
 
@@ -16,44 +12,4 @@ input SyncGoogleFitInput {
 
 type SyncGoogleFitResult {
   result: Boolean
-}
-
-input GetHeartRateInput {
-  start: DateTime!
-  end: DateTime!
-  token: String!
-}
-
-type GetHeartRateResult {
-  heartRate: [HeartRate]
-}
-
-input GetSleepInput {
-  start: DateTime!
-  end: DateTime!
-  token: String!
-}
-
-type GetSleepResult {
-  sleep: [Sleep]
-}
-
-input GetDailyInput {
-  start: DateTime!
-  end: DateTime!
-  token: String!
-}
-
-type GetDailyResult {
-  daily: [Daily]
-}
-
-input GetActivityInput {
-  start: DateTime!
-  end: DateTime!
-  token: String!
-}
-
-type GetActivityResult {
-  activity: [Activity]
 }

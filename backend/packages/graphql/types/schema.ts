@@ -83,12 +83,6 @@ export type ConceptOfInterestInput = {
   name?: Maybe<Scalars['String']>;
 };
 
-export type Daily = {
-  __typename?: 'Daily';
-  date?: Maybe<Scalars['Float']>;
-  heartRate?: Maybe<HeartRateSummary>;
-};
-
 export type DashboardGraph = {
   __typename?: 'DashboardGraph';
   id: Scalars['Int'];
@@ -207,17 +201,6 @@ export type Filter = {
   values?: Maybe<Array<Scalars['String']>>;
 };
 
-export type GetActivityInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-  token: Scalars['String'];
-};
-
-export type GetActivityResult = {
-  __typename?: 'GetActivityResult';
-  activity?: Maybe<Array<Maybe<Activity>>>;
-};
-
 export type GetConceptOfInterestInput = {
   id: Scalars['Int'];
 };
@@ -234,17 +217,6 @@ export type GetConceptsOfInterestInput = {
 export type GetConceptsOfInterestResult = {
   __typename?: 'GetConceptsOfInterestResult';
   conceptsOfInterest?: Maybe<Array<Maybe<ConceptOfInterest>>>;
-};
-
-export type GetDailyInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-  token: Scalars['String'];
-};
-
-export type GetDailyResult = {
-  __typename?: 'GetDailyResult';
-  daily?: Maybe<Array<Maybe<Daily>>>;
 };
 
 export type GetDashboardGraphInput = {
@@ -292,17 +264,6 @@ export type GetDeviceResult = {
   device?: Maybe<Device>;
 };
 
-export type GetHeartRateInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-  token: Scalars['String'];
-};
-
-export type GetHeartRateResult = {
-  __typename?: 'GetHeartRateResult';
-  heartRate?: Maybe<Array<Maybe<HeartRate>>>;
-};
-
 export type GetIndicationInput = {
   id: Scalars['Int'];
 };
@@ -339,17 +300,6 @@ export type GetMeasuresResult = {
   measures?: Maybe<Array<Maybe<Measure>>>;
 };
 
-export type GetSleepInput = {
-  start: Scalars['DateTime'];
-  end: Scalars['DateTime'];
-  token: Scalars['String'];
-};
-
-export type GetSleepResult = {
-  __typename?: 'GetSleepResult';
-  sleep?: Maybe<Array<Maybe<Sleep>>>;
-};
-
 export type GetTemplateInput = {
   id: Scalars['Int'];
 };
@@ -381,13 +331,6 @@ export type HeartRate = {
   __typename?: 'HeartRate';
   date?: Maybe<Scalars['Float']>;
   point?: Maybe<Scalars['Float']>;
-};
-
-export type HeartRateSummary = {
-  __typename?: 'HeartRateSummary';
-  average?: Maybe<Scalars['Float']>;
-  min?: Maybe<Scalars['Float']>;
-  max?: Maybe<Scalars['Float']>;
 };
 
 export type Indication = {
@@ -531,30 +474,21 @@ export type Page = {
 
 export type Query = {
   __typename?: 'Query';
-  getActivity: GetActivityResult;
   getConceptOfInterest: GetConceptOfInterestResult;
   getConceptsOfInterest: GetConceptsOfInterestResult;
-  getDaily: GetDailyResult;
   getDashboardGraph: GetDashboardGraphResult;
   getDashboardGraphs: GetDashboardGraphsResult;
   getDataType: GetDataTypeResult;
   getDataTypes: GetDataTypesResult;
   getDevice: GetDeviceResult;
-  getHeartRate: GetHeartRateResult;
   getIndication: GetIndicationResult;
   getIndications: GetIndicationsResult;
   getMeasure: GetMeasureResult;
   getMeasures: GetMeasuresResult;
-  getSleep: GetSleepResult;
   getTemplate: GetTemplateResult;
   getTemplates: GetTemplatesResult;
   getUser: GetUserResult;
   syncGoogleFit: SyncGoogleFitResult;
-};
-
-
-export type QueryGetActivityArgs = {
-  input: GetActivityInput;
 };
 
 
@@ -565,11 +499,6 @@ export type QueryGetConceptOfInterestArgs = {
 
 export type QueryGetConceptsOfInterestArgs = {
   input: GetConceptsOfInterestInput;
-};
-
-
-export type QueryGetDailyArgs = {
-  input: GetDailyInput;
 };
 
 
@@ -598,11 +527,6 @@ export type QueryGetDeviceArgs = {
 };
 
 
-export type QueryGetHeartRateArgs = {
-  input: GetHeartRateInput;
-};
-
-
 export type QueryGetIndicationArgs = {
   input: GetIndicationInput;
 };
@@ -620,11 +544,6 @@ export type QueryGetMeasureArgs = {
 
 export type QueryGetMeasuresArgs = {
   input: GetMeasuresInput;
-};
-
-
-export type QueryGetSleepArgs = {
-  input: GetSleepInput;
 };
 
 

@@ -1,19 +1,8 @@
-type HeartRateSummary {
-  average: Float
-  min: Float
-  max: Float
-}
-
 type Activity {
   start: Float
   end: Float
   duration: Float
   state: String
-}
-
-type Daily {
-  date: Float
-  heartRate: HeartRateSummary
 }
 
 type HeartRate {
