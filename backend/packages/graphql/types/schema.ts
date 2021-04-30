@@ -549,6 +549,7 @@ export type Query = {
   getTemplate: GetTemplateResult;
   getTemplates: GetTemplatesResult;
   getUser: GetUserResult;
+  syncGoogleFit: SyncGoogleFitResult;
 };
 
 
@@ -641,6 +642,11 @@ export type QueryGetUserArgs = {
   input: GetUserInput;
 };
 
+
+export type QuerySyncGoogleFitArgs = {
+  input: SyncGoogleFitInput;
+};
+
 export enum QueryDocumentType {
   GetDataTypeDocument = 'GetDataTypeDocument',
   GetDataTypesDocument = 'GetDataTypesDocument',
@@ -659,6 +665,17 @@ export type Sleep = {
   start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
   state?: Maybe<Scalars['String']>;
+};
+
+export type SyncGoogleFitInput = {
+  start: Scalars['DateTime'];
+  end: Scalars['DateTime'];
+  token: Scalars['String'];
+};
+
+export type SyncGoogleFitResult = {
+  __typename?: 'SyncGoogleFitResult';
+  result?: Maybe<Scalars['Boolean']>;
 };
 
 export type Template = {

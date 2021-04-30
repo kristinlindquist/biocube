@@ -434,6 +434,7 @@ type Query {
   getTemplate(input: GetTemplateInput!): GetTemplateResult!
   getTemplates(input: GetTemplatesInput!): GetTemplatesResult!
   getUser(input: GetUserInput!): GetUserResult!
+  syncGoogleFit(input: SyncGoogleFitInput!): SyncGoogleFitResult!
 }
 
 enum QueryDocumentType {
@@ -453,6 +454,16 @@ type Sleep {
   start: Float
   end: Float
   state: String
+}
+
+input SyncGoogleFitInput {
+  start: DateTime!
+  end: DateTime!
+  token: String!
+}
+
+type SyncGoogleFitResult {
+  result: Boolean
 }
 
 type Template {

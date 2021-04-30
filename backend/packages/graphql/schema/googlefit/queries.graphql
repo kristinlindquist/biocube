@@ -5,6 +5,17 @@ type Query {
   getDaily(input: GetDailyInput!): GetDailyResult!
   getHeartRate(input: GetHeartRateInput!): GetHeartRateResult!
   getSleep(input: GetSleepInput!): GetSleepResult!
+  syncGoogleFit(input: SyncGoogleFitInput!): SyncGoogleFitResult!
+}
+
+input SyncGoogleFitInput {
+  start: DateTime!
+  end: DateTime!
+  token: String!
+}
+
+type SyncGoogleFitResult {
+  result: Boolean
 }
 
 input GetHeartRateInput {

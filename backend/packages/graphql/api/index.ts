@@ -14,7 +14,7 @@ import { getDataType, getDataTypes } from './queries/dataType';
 import { getMeasure, getMeasures } from './queries/measure';
 import { getIndication, getIndications } from './queries/indication';
 import { getTemplate, getTemplates } from './queries/template';
-import { getHeartRate } from './queries/googlefit';
+import { getHeartRate, syncGoogleFit } from './queries/googlefit';
 
 const allQueries = {
   getConceptOfInterest,
@@ -32,6 +32,7 @@ const allQueries = {
   getTemplate,
   getTemplates,
   getUser,
+  syncGoogleFit,
 };
 
 import { Context } from '../types/resolvers';
@@ -68,6 +69,8 @@ import {
   GetTemplatesInput,
   GetUserInput,
   GetUserResult,
+  SyncGoogleFitInput,
+  SyncGoogleFitResult,
 } from '../types';
 
 type GraphQLApiArgs = {
@@ -275,6 +278,19 @@ class GraphQLApi {
     context?: Context,
   ): Promise<GetUserResult> {
     const operationName = 'getUser';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context,
+    });
+  }
+
+  async syncGoogleFit(
+    input: SyncGoogleFitInput,
+    context?: Context,
+  ): Promise<SyncGoogleFitResult> {
+    const operationName = 'syncGoogleFit';
     const variables = { input };
     return this.graphqlRequest({
       operationName,

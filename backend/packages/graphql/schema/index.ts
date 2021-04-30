@@ -12,7 +12,7 @@ import { conceptOfInterestResolvers } from './conceptOfInterest';
 import { dashboardGraphResolvers } from './dashboardGraph';
 import { dataTypeResolvers } from './dataType';
 import { deviceResolvers } from './device';
-import { heartRateResolvers } from './googlefit';
+import { googleFitResolvers } from './googlefit';
 import { indicationResolvers } from './indication';
 import { measureResolvers } from './measure';
 import { templateResolvers } from './template';
@@ -23,7 +23,7 @@ const resolvers = mergeResolvers([
   dashboardGraphResolvers,
   dataTypeResolvers,
   deviceResolvers,
-  heartRateResolvers,
+  googleFitResolvers,
   indicationResolvers,
   measureResolvers,
   userResolvers,

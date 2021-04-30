@@ -1,17 +1,24 @@
 import { Activity, Daily, HeartRate, Sleep } from './types';
-import { getActivity, getDaily, getHeartRate, getSleep } from './queries';
+import {
+  getActivity,
+  getDaily,
+  getHeartRate,
+  getSleep,
+  syncGoogleFit,
+} from './queries';
 
 const resolvers = {
   Query: {
     getActivity,
     getDaily,
     getHeartRate,
-    getSleep
+    getSleep,
+    syncGoogleFit,
   },
   Activity,
   Daily,
   HeartRate,
-  Sleep
+  Sleep,
 };
 
 export default resolvers;

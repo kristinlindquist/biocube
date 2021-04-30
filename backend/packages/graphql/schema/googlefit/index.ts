@@ -1,3 +1,3 @@
-import heartRateResolvers from './resolvers';
+import googleFitResolvers from './resolvers';
 
-export { heartRateResolvers };
+export { googleFitResolvers };
