@@ -1,6 +1,5 @@
 ## Biocube - An analysis platform for sensor and self-report health data (WIP!)
-Eventually... a no-code platform for ingesting, transforming, combining, analyzing and reporting on health data.
-Currently
+A no-code platform for ingesting, transforming, combining, analyzing and reporting on health data, as well as publishing measurement/endpoint "recipes." 
 
 ### Dependencies
 * Google developer setup
