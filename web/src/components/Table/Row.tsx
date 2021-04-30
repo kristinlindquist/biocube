@@ -43,6 +43,10 @@ export interface RowProps {
    * The row
    */
   row: RowType;
+  /**
+   * Mostly for storybook: shows edit/delete buttons
+   */
+  showEditOverride?: boolean;
 }
 
 const useStyles = makeStyles({
@@ -136,6 +140,7 @@ const Row = ({
   mutation,
   read,
   row,
+  showEditOverride,
 }: RowProps): ReactElement => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -160,7 +165,7 @@ const Row = ({
             />
           </TableCell>
         )}
-        {mutation && deleteMutation && (
+        {showEditOverride || (mutation && deleteMutation) ? (
           <TableCell scope="row" sx={{ width: '1px' }}>
             <EditCell
               columns={allCols}
@@ -170,7 +175,7 @@ const Row = ({
               values={row}
             />
           </TableCell>
-        )}
+        ) : null}
       </TableRow>
       {collapseCol && (
         <CollapsedRow

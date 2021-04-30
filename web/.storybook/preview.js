@@ -2,11 +2,16 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { addDecorator } from '@storybook/react';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
 
 import theme from 'theme';
 
-addDecorator((story) => <ThemeProvider theme={theme}>{story()}</ThemeProvider>);
+addDecorator((story) => (
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    {story()}
+  </ThemeProvider>
+));
 
 addDecorator((story) => <Router>{story()}</Router>);
 

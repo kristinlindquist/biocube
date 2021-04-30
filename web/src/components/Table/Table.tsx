@@ -56,6 +56,10 @@ export interface TableProps {
    */
   rows: RowType[];
   /**
+   * Mostly for storybook: shows edit/delete buttons
+   */
+  showEditOverride?: boolean;
+  /**
    * table size
    */
   size?: 'small' | 'medium';
@@ -77,7 +81,7 @@ const getColumns = (rows: RowType[]): ColumnType[] =>
     : [];
 
 /**
- * A table with column sorting and other features
+ * A table with linked rows, ability to add/edit, etc.
  */
 const Table = ({
   allowAdds,
@@ -89,6 +93,7 @@ const Table = ({
   mutation,
   readOne,
   rows,
+  showEditOverride,
   ...props
 }: TableProps): ReactElement => {
   const cols = sortBy(columns || getColumns(rows), 'listOrder');
@@ -104,7 +109,9 @@ const Table = ({
               <TableCell key={colId}>{name}</TableCell>
             ))}
             {collapseCol && <TableCell id="collapseCol" />}
-            {mutation && deleteMutation && <TableCell id="edit" />}
+            {showEditOverride || (mutation && deleteMutation) ? (
+              <TableCell id="edit" />
+            ) : null}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -118,6 +125,7 @@ const Table = ({
               mutation={mutation}
               read={readOne}
               row={row}
+              showEditOverride={showEditOverride}
             />
           ))}
         </TableBody>

@@ -42,7 +42,11 @@ const CollapsedRow = ({
     <TableCell colSpan={colSpan} sx={{ py: 0 }}>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <Box margin={2}>
-          {name && <Typography variant="h5">{name}</Typography>}
+          {name && (
+            <Typography gutterBottom variant="h5">
+              {name}
+            </Typography>
+          )}
           <Table component="div" rows={rows} size="small" />
         </Box>
       </Collapse>

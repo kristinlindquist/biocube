@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import cubejs from '@cubejs-client/core';
 import { CubeProvider } from '@cubejs-client/react';
-import { ThemeProvider } from '@material-ui/core';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { CookiesProvider } from 'react-cookie';
 
 import { DialogProvider } from 'providers';
@@ -22,6 +22,7 @@ const App = (): ReactElement => {
 
   return (
     <CookiesProvider>
+      <CssBaseline />
       <ThemeProvider theme={theme}>
         <CubeProvider cubejsApi={cubejsApi}>
           <ApolloProvider client={client}>

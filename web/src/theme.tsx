@@ -73,13 +73,13 @@ const theme = createMuiTheme({
     },
     h5: {
       fontSize: '1rem',
-      fontWeight: 500,
+      fontWeight: 600,
     },
     h6: {
       fontSize: '0.786rem',
       textTransform: 'uppercase',
     },
-    fontFamily: ['Montserrat', 'Arial'].join(','),
+    fontFamily: ['Open Sans', 'Arial'].join(','),
   },
 });
 
