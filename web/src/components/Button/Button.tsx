@@ -22,7 +22,7 @@ export type ButtonProps = {
 const Button = ({ label, loading, ...props }: ButtonProps): ReactElement => (
   <MaterialButton aria-label={label} color="primary" {...props}>
     {label}
-    {loading && <CircularProgress />}
+    {loading && <CircularProgress color="inherit" size={14} sx={{ ml: 1 }} />}
   </MaterialButton>
 );
 
