@@ -3,24 +3,14 @@ import { Theme, useTheme } from '@material-ui/core/styles';
 import { ChartType, useCubeQuery } from '@cubejs-client/react';
 import { Query } from '@cubejs-client/core';
 import { useMutation } from '@apollo/client';
-import numeral from 'numeral';
-import {
-  Area,
-  Bar,
-  Cell,
-  ComposedChart,
-  Legend,
-  Line,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from 'recharts';
+
+import ReactECharts from 'echarts-for-react';
 import { Skeleton } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 
 import { MenuButton } from 'components/Button';
 import { Card } from 'components/Card';
+import { getMonthDay } from 'components/Date';
 import { useDialog } from 'contexts';
 import {
   DeleteDashboardGraphDocument as DeleteGraph,
@@ -31,9 +21,13 @@ import {
 import { Table } from 'components/Table';
 import { RowType } from 'types';
 
-import CartesianChart from './CartesianChart';
 import { ChartProps } from './types';
-import { getChartType, getDataType, resolveFormatter } from './utils';
+import {
+  getChartType,
+  getDataType,
+  resolveFormatter,
+  zeroToNull,
+} from './utils';
 
 export interface ChartRendererProps {
   /**
@@ -77,81 +71,45 @@ const getColors = (theme: Theme): Array<string> =>
       ]
     : [];
 
-type SubChartProps = {
-  color: string;
-  key: string;
-  name: string;
-  type: string;
-  yAxisId: string;
-};
-
-/**
- * Get subcharts (multiple possible within a given chart)
- */
-const getSubChart = ({ color, key, name, type, yAxisId }: SubChartProps) => {
-  const props = {
-    dataKey: key,
-    key,
-    name,
-    yAxisId,
-  };
-  const LineType = (
-    <Line
-      {...props}
-      connectNulls
-      isAnimationActive={false}
-      stroke={color}
-      strokeWidth={1.5}
-    />
-  );
-  const chartTypes = {
-    area: <Area {...props} fill={color} stroke={color} />,
-    bar: <Bar {...props} fill={color} stroke={color} />,
-    line: LineType,
-  };
-
-  return chartTypes[type] || LineType;
-};
-
 const TypeToChartComponent = {
   combo: ({ resultSet }: ChartProps) => {
     const theme = useTheme();
     const colors = getColors(theme);
 
     return (
-      <CartesianChart ChartComponent={ComposedChart} resultSet={resultSet}>
-        {resultSet.seriesNames().map(({ key, shortTitle }, i) =>
-          getSubChart({
-            color: colors[i],
-            key,
+      <ReactECharts
+        option={{
+          dataset: {
+            dimensions: ['x', ...resultSet.seriesNames().map(({ key }) => key)],
+            source: zeroToNull(resultSet.chartPivot()),
+          },
+          series: resultSet.seriesNames().map(({ key, shortTitle }, i) => ({
+            lineStyle: {
+              color: colors[i],
+            },
+            connectNulls: true,
+            encode: {
+              x: 'x',
+              y: key,
+            },
             name: shortTitle,
+            seriesLayoutBy: 'row',
+            tooltip: [key],
             type: getChartType(resultSet, key),
-            yAxisId: i === 0 ? 'left' : 'right',
-          }),
-        )}
-      </CartesianChart>
-    );
-  },
-  pie: ({ resultSet, legendLayout, height }: ChartProps) => {
-    const theme = useTheme();
-    const colors = getColors(theme);
-
-    return (
-      <ResponsiveContainer width="100%" height={height}>
-        <PieChart>
-          <Pie
-            data={resultSet.chartPivot()}
-            dataKey={resultSet.seriesNames()[0].key}
-            label={(value) => numeral(value.percent).format('0.00%')}
-            nameKey="x">
-            {resultSet.chartPivot().map((e, index) => (
-              <Cell key={e} fill={colors[index % colors.length]} />
-            ))}
-          </Pie>
-          {legendLayout && <Legend align="right" layout={legendLayout} />}
-          <Tooltip />
-        </PieChart>
-      </ResponsiveContainer>
+            yAxisIndex: Math.min(i, 1),
+          })),
+          xAxis: {
+            axisLabel: {
+              formatter: (value) => getMonthDay(new Date(value)),
+            },
+            type: 'category',
+          },
+          yAxis: resultSet
+            .seriesNames()
+            .slice(0, 2)
+            .map(({ shortTitle }) => ({ name: shortTitle, type: 'value' })),
+        }}
+      />
     );
   },
   table: ({ resultSet }: ChartProps) => (

@@ -99,6 +99,11 @@ asyncModule(async () => {
         }))
         .reduce((a, b) => Object.assign(a, b)),
 
+      standardDeviation: {
+        sql: `stddev_samp(value)`,
+        type: `number`,
+      },
+
       average: {
         sql: `value`,
         type: `avg`,
