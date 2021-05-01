@@ -11,8 +11,8 @@ export type ResultSet<Type> = {
       annotation: { measures: Array<{ [key: string]: string }> };
     }>;
   };
-  seriesNames: () => Array<{ key: string; shortTitle: string }>;
-  tableColumns: () => Array<{ key: string; shortTitle: string }>;
+  seriesNames: () => Array<{ key: string; title: string }>;
+  tableColumns: () => Array<{ key: string; shortTitle: string; type: string }>;
   tablePivot: () => Array<{
     id?: string;
     [key: string]: PrimitiveType;

@@ -10,7 +10,7 @@ import { isEmpty } from 'lodash';
 
 import { MenuButton } from 'components/Button';
 import { Card } from 'components/Card';
-import { getMonthDay } from 'components/Date';
+import { getMonthDay, getLongDate } from 'components/Date';
 import { useDialog } from 'contexts';
 import {
   DeleteDashboardGraphDocument as DeleteGraph,
@@ -75,6 +75,7 @@ const TypeToChartComponent = {
   combo: ({ resultSet }: ChartProps) => {
     const theme = useTheme();
     const colors = getColors(theme);
+    const series = resultSet.tableColumns().filter((c) => c.type !== 'time');
 
     return (
       <ReactECharts
@@ -83,7 +84,7 @@ const TypeToChartComponent = {
             dimensions: ['x', ...resultSet.seriesNames().map(({ key }) => key)],
             source: zeroToNull(resultSet.chartPivot()),
           },
-          series: resultSet.seriesNames().map(({ key, shortTitle }, i) => ({
+          series: series.map(({ key, shortTitle }, i) => ({
             lineStyle: {
               color: colors[i],
             },
@@ -98,16 +99,28 @@ const TypeToChartComponent = {
             type: getChartType(resultSet, key),
             yAxisIndex: Math.min(i, 1),
           })),
+          tooltip: {
+            trigger: 'axis',
+            formatter: (params) => {
+              const { name, seriesName, value } = params[0] || {};
+              const values = series.map(({ key }) => key);
+              return `${getLongDate(
+                new Date(name),
+              )} <br /> ${seriesName}: ${values.map((v) =>
+                (value[v] || 0).toFixed(2),
+              )}`;
+            },
+          },
           xAxis: {
             axisLabel: {
               formatter: (value) => getMonthDay(new Date(value)),
             },
             type: 'category',
           },
-          yAxis: resultSet
-            .seriesNames()
-            .slice(0, 2)
-            .map(({ shortTitle }) => ({ name: shortTitle, type: 'value' })),
+          yAxis: series.map(({ shortTitle }) => ({
+            name: shortTitle,
+            type: 'value',
+          })),
         }}
       />
     );
