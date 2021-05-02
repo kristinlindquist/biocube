@@ -5,7 +5,7 @@ import { Query } from '@cubejs-client/core';
 import { useMutation } from '@apollo/client';
 
 import ReactECharts from 'echarts-for-react';
-import { Skeleton } from '@material-ui/core';
+import { Box, Skeleton } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 
 import { MenuButton } from 'components/Button';
@@ -72,57 +72,69 @@ const getColors = (theme: Theme): Array<string> =>
     : [];
 
 const TypeToChartComponent = {
-  combo: ({ resultSet }: ChartProps) => {
+  combo: ({ height, resultSet }: ChartProps) => {
     const theme = useTheme();
     const colors = getColors(theme);
     const series = resultSet.tableColumns().filter((c) => c.type !== 'time');
 
     return (
-      <ReactECharts
-        option={{
-          dataset: {
-            dimensions: ['x', ...resultSet.seriesNames().map(({ key }) => key)],
-            source: zeroToNull(resultSet.chartPivot()),
-          },
-          series: series.map(({ key, shortTitle }, i) => ({
-            lineStyle: {
-              color: colors[i],
+      <Box sx={{ height, width: '100%' }}>
+        <ReactECharts
+          option={{
+            dataset: {
+              dimensions: [
+                'x',
+                ...resultSet.seriesNames().map(({ key }) => key),
+              ],
+              source: zeroToNull(resultSet.chartPivot()),
             },
-            connectNulls: true,
-            encode: {
-              x: 'x',
-              y: key,
+            grid: {
+              top: 10,
+              bottom: 10,
+              left: 10,
+              right: 10,
+              containLabel: true,
             },
-            name: shortTitle,
-            seriesLayoutBy: 'row',
-            tooltip: [key],
-            type: getChartType(resultSet, key),
-            yAxisIndex: Math.min(i, 1),
-          })),
-          tooltip: {
-            trigger: 'axis',
-            formatter: (params) => {
-              const { name, seriesName, value } = params[0] || {};
-              const values = series.map(({ key }) => key);
-              return `${getLongDate(
-                new Date(name),
-              )} <br /> ${seriesName}: ${values.map((v) =>
-                (value[v] || 0).toFixed(2),
-              )}`;
+            series: series.map(({ key, shortTitle }, i) => ({
+              lineStyle: {
+                color: colors[i],
+              },
+              connectNulls: true,
+              encode: {
+                x: 'x',
+                y: key,
+              },
+              name: shortTitle,
+              seriesLayoutBy: 'row',
+              tooltip: [key],
+              type: getChartType(resultSet, key),
+              yAxisIndex: Math.min(i, 1),
+            })),
+            tooltip: {
+              trigger: 'axis',
+              formatter: (params) => {
+                const { name, seriesName, value } = params[0] || {};
+                const values = series.map(({ key }) => key);
+                return `${getLongDate(
+                  new Date(name),
+                )} <br /> ${seriesName}: ${values.map((v) =>
+                  (value[v] || 0).toFixed(2),
+                )}`;
+              },
             },
-          },
-          xAxis: {
-            axisLabel: {
-              formatter: (value) => getMonthDay(new Date(value)),
+            xAxis: {
+              axisLabel: {
+                formatter: (value) => getMonthDay(new Date(value)),
+              },
+              type: 'category',
             },
-            type: 'category',
-          },
-          yAxis: series.map(({ shortTitle }) => ({
-            name: shortTitle,
-            type: 'value',
-          })),
-        }}
-      />
+            yAxis: series.map(({ shortTitle }) => ({
+              name: shortTitle,
+              type: 'value',
+            })),
+          }}
+        />
+      </Box>
     );
   },
   table: ({ resultSet }: ChartProps) => (
@@ -215,7 +227,12 @@ const ChartRenderer = ({
       }
       title={name}>
       {!isEmpty(resultSet) && Component && (
-        <Component {...chartProps} {...options} resultSet={resultSet} />
+        <Component
+          {...chartProps}
+          {...options}
+          height={height}
+          resultSet={resultSet}
+        />
       )}
       {isEmpty(resultSet) && <Skeleton height={height} variant="rectangular" />}
     </Card>
