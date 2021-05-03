@@ -53,7 +53,7 @@ export class GoogleFitnessAPI extends RESTDataSource {
       { headers: { Authorization: `Bearer ${token}` } },
     );
 
-  getHeartRate = async (token, start, end, aggregate) => {
+  getHeartRate = async (token, start, end, aggregate = false) => {
     const data = await this.getData(
       token,
       new Date(start).getTime(),
@@ -64,13 +64,13 @@ export class GoogleFitnessAPI extends RESTDataSource {
 
     return data.bucket.flatMap(b =>
       b.dataset[0].point.map(p => ({
-        date: p.startTimeNanos / (1000 * 1000),
-        point: aggregate ? p.value.map(v => v.fpVal) : p.value[0].fpVal,
+        startedAt: new Date(p.startTimeNanos / (1000 * 1000)),
+        value: aggregate ? p.value.map(v => v.fpVal) : p.value[0].fpVal,
       })),
     );
   };
 
-  getSleep = async (token, start, end, aggregate) => {
+  getSleep = async (token, start, end, aggregate = false) => {
     const data = await this.getData(
       token,
       new Date(start).getTime(),
@@ -81,8 +81,8 @@ export class GoogleFitnessAPI extends RESTDataSource {
 
     return data.bucket.flatMap(b =>
       b.dataset[0].point.map(p => ({
-        start: p.startTimeNanos / (1000 * 1000),
-        end: p.endTimeNanos / (1000 * 1000),
+        startedAt: new Date(p.startTimeNanos / (1000 * 1000)),
+        duration: Math.round((p.endTimeNanos - p.startTimeNanos) / (1000 * 1000)),
         state: aggregate
           ? p.value.map(v => sleepMap[v.intVal])
           : sleepMap[p.value[0].intVal],
@@ -90,7 +90,7 @@ export class GoogleFitnessAPI extends RESTDataSource {
     );
   };
 
-  getActivity = async (token, start, end, aggregate = true) => {
+  getActivity = async (token, start, end, aggregate = false) => {
     const data = await this.getData(
       token,
       new Date(start).getTime(),
@@ -101,24 +101,10 @@ export class GoogleFitnessAPI extends RESTDataSource {
 
     return data.bucket.flatMap(b =>
       b.dataset[0].point.map(p => ({
-        start: p.startTimeNanos / (1000 * 1000),
-        end: p.endTimeNanos / (1000 * 1000),
-        duration: (p.endTimeNanos - p.startTimeNanos) / (1000 * 1000),
+        startedAt: new Date(p.startTimeNanos / (1000 * 1000)),
+        duration: Math.round((p.endTimeNanos - p.startTimeNanos) / (1000 * 1000)),
         state: activityMap[p.value[0].intVal],
       })),
     );
-  };
-
-  getDaily = async (token, start, end) => {
-    const hrData = await this.getHeartRate(token, start, end, true);
-
-    return hrData.map(({ date, point }) => ({
-      date,
-      heartRate: {
-        average: Math.round(point[0]),
-        min: point[2],
-        max: point[1],
-      },
-    }));
   };
 }

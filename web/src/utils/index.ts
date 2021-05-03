@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { camelCase, get, sortBy } from 'lodash';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
@@ -22,11 +21,6 @@ export const sortByColumn = (
       (cols.find(({ id: colId }) => colId.split('.')[0] === id) || {})
         .listOrder,
   );
-
-export const unixYearRange = {
-  start: new Date(moment().startOf('year').add(1, 'months').unix() * 1000),
-  end: new Date(moment().startOf('year').add(4, 'months').unix() * 1000), // TODO: make 1 year
-};
 
 /**
  * Is value undefined or true?

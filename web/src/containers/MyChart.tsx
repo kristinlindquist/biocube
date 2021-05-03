@@ -2,22 +2,33 @@ import { ReactElement } from 'react';
 import { Grid } from '@material-ui/core';
 import { useQuery } from '@apollo/client';
 import { useCookies } from 'react-cookie';
+import moment from 'moment';
 
 import { ChartRenderer } from 'components/Chart';
 import {
   GetDashboardGraphsDocument as GetGraphs,
   SyncGoogleFitDocument as SyncGoogleFit,
 } from 'gql';
-import { unixYearRange, unwrapGqlData } from 'utils';
+import { unwrapGqlData } from 'utils';
 
 const COOKIE_NAME = process.env.REACT_APP_COOKIE_ID;
+
+const dateRange = {
+  start: moment().subtract(30, 'days').startOf('days').toDate(),
+  end: moment().endOf('days').toDate(),
+};
 
 const MyChart = (): ReactElement => {
   const [{ [COOKIE_NAME]: cookie }] = useCookies();
   const { accessToken: token } = cookie || {};
 
   useQuery(SyncGoogleFit, {
-    variables: { input: { ...unixYearRange, token } },
+    variables: {
+      input: {
+        ...dateRange,
+        token,
+      },
+    },
   });
 
   const { data } = useQuery(GetGraphs, {

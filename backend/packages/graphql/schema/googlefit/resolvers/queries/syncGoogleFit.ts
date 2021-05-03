@@ -1,3 +1,6 @@
+import moment from 'moment';
+import { getRangeOfDates, logger } from '@backend/utils';
+
 import { GoogleFitnessAPI } from '../../datasource';
 import {
   Context,
@@ -7,7 +10,8 @@ import {
   SyncGoogleFitResult,
 } from '../../../../types';
 
-import { PrismaPromise } from '@prisma/client';
+const addDataType = (array, dataTypeId) =>
+  array.map((i) => ({ ...i, dataTypeId }));
 
 const syncGoogleFit = async (
   _: Parent,
@@ -17,57 +21,38 @@ const syncGoogleFit = async (
   const { prisma } = context;
   const { input } = args;
   const { start, end, token }: SyncGoogleFitInput = input;
-  const activity = await new GoogleFitnessAPI().getActivity(
-    token,
-    start,
-    end,
-    false,
-  );
+  const api = new GoogleFitnessAPI();
 
-  const heartRate = await new GoogleFitnessAPI().getHeartRate(
-    token,
-    start,
-    end,
-    false,
-  );
+  console.log(getRangeOfDates(start, end));
+  getRangeOfDates(start, end).forEach(async (date) => {
+    const dayStart = date;
+    const dayEnd = moment(date).endOf('days').toDate();
 
-  const sleep = await new GoogleFitnessAPI().getSleep(token, start, end, false);
+    const activity = await api.getActivity(token, dayStart, dayEnd);
+    const heartRate = await api.getHeartRate(token, dayStart, dayEnd);
+    const sleep = await api.getSleep(token, dayStart, dayEnd, false);
 
-  const createQueries = [] as Array<PrismaPromise<unknown>>;
-
-  createQueries.push(prisma.datum.createMany({
-    data: activity.map(({ start, end, state }) => ({
-      startedAt: new Date(start),
-      duration: Math.round(end - start),
-      state: state ? state.toUpperCase().replace(' ', '_') : undefined,
+    const data = [
+      ...addDataType(activity, 6),
+      ...addDataType(heartRate, 1),
+      ...addDataType(sleep, 5),
+    ].map((d) => ({
+      ...d,
       deviceId: 1,
-      dataTypeId: 6,
-    })),
-    skipDuplicates: true,
-  }));
+      state: d.state ? d.state.toUpperCase().replace(' ', '_') : undefined,
+    }));
 
-  createQueries.push(prisma.datum.createMany({
-    data: heartRate.map(({ date, point }) => ({
-      startedAt: new Date(date),
-      value: point,
-      deviceId: 1,
-      dataTypeId: 1,
-    })),
-    skipDuplicates: true,
-  }));
-
-  createQueries.push(prisma.datum.createMany({
-    data: sleep.map(({ start, end, state }) => ({
-      startedAt: new Date(start),
-      duration: end - start,
-      state: state.toUpperCase().replace(' ', '_'),
-      deviceId: 1,
-      dataTypeId: 5,
-    })),
-    skipDuplicates: true,
-  }));
-
-  // const results = await Promise.all(createQueries);
+    if (data.length > 0) {
+      prisma.datum.createMany({ data, skipDuplicates: true }).then((result) =>
+        logger.log({
+          level: 'info',
+          message: `Create result: ${JSON.stringify(result)} for ${date}.`,
+        }),
+      );
+    } else {
+      logger.log({ level: 'info', message: `Nothing to create for ${date}.` });
+    }
+  });
 
   return { result: true };
 };
