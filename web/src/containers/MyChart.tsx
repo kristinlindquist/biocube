@@ -22,6 +22,7 @@ const MyChart = (): ReactElement => {
   const [{ [COOKIE_NAME]: cookie }] = useCookies();
   const { accessToken: token } = cookie || {};
 
+  // TODO: move
   useQuery(SyncGoogleFit, {
     variables: {
       input: {

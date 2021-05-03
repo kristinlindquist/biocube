@@ -37,6 +37,16 @@ export enum AggregationType {
   Sum = 'SUM'
 }
 
+export type AspectOfHealth = {
+  __typename?: 'AspectOfHealth';
+  id: Scalars['Int'];
+  conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
+  description?: Maybe<Scalars['String']>;
+  indications?: Maybe<Array<Indication>>;
+  name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
+};
+
 export enum ChartType {
   Area = 'AREA',
   Bar = 'BAR',
@@ -78,9 +88,9 @@ export type ConceptOfInterest = {
 };
 
 export type ConceptOfInterestInput = {
-  id: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 export type DashboardGraph = {
@@ -115,6 +125,15 @@ export type DataTypeInput = {
   url?: Maybe<Scalars['String']>;
 };
 
+
+export type DeleteAspectOfHealthInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteAspectOfHealthResult = {
+  __typename?: 'DeleteAspectOfHealthResult';
+  aspectOfHealth: AspectOfHealth;
+};
 
 export type DeleteConceptOfInterestInput = {
   id: Scalars['Int'];
@@ -199,6 +218,24 @@ export type Filter = {
   join?: Maybe<Scalars['String']>;
   operator: Scalars['String'];
   values?: Maybe<Array<Scalars['String']>>;
+};
+
+export type GetAspectOfHealthInput = {
+  id: Scalars['Int'];
+};
+
+export type GetAspectOfHealthResult = {
+  __typename?: 'GetAspectOfHealthResult';
+  aspectOfHealth?: Maybe<AspectOfHealth>;
+};
+
+export type GetAspectsOfHealthInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetAspectsOfHealthResult = {
+  __typename?: 'GetAspectsOfHealthResult';
+  aspectsOfHealth?: Maybe<Array<Maybe<AspectOfHealth>>>;
 };
 
 export type GetConceptOfInterestInput = {
@@ -344,9 +381,9 @@ export type Indication = {
 };
 
 export type IndicationInput = {
-  id: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
 };
 
@@ -383,18 +420,25 @@ export enum MeasureStatus {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteAspectOfHealth: DeleteAspectOfHealthResult;
   deleteConceptOfInterest: DeleteConceptOfInterestResult;
   deleteDashboardGraph: DeleteDashboardGraphResult;
   deleteDataType: DeleteDataTypeResult;
   deleteIndication: DeleteIndicationResult;
   deleteMeasure: DeleteMeasureResult;
   deleteTemplate: DeleteTemplateResult;
+  upsertAspectOfHealth: UpsertAspectOfHealthResult;
   upsertConceptOfInterest: UpsertConceptOfInterestResult;
   upsertDashboardGraph: UpsertDashboardGraphResult;
   upsertDataType: UpsertDataTypeResult;
   upsertIndication: UpsertIndicationResult;
   upsertMeasure: UpsertMeasureResult;
   upsertTemplate: UpsertTemplateResult;
+};
+
+
+export type MutationDeleteAspectOfHealthArgs = {
+  input: DeleteAspectOfHealthInput;
 };
 
 
@@ -425,6 +469,11 @@ export type MutationDeleteMeasureArgs = {
 
 export type MutationDeleteTemplateArgs = {
   input: DeleteTemplateInput;
+};
+
+
+export type MutationUpsertAspectOfHealthArgs = {
+  input: UpsertAspectOfHealthInput;
 };
 
 
@@ -474,6 +523,8 @@ export type Page = {
 
 export type Query = {
   __typename?: 'Query';
+  getAspectOfHealth: GetAspectOfHealthResult;
+  getAspectsOfHealth: GetAspectsOfHealthResult;
   getConceptOfInterest: GetConceptOfInterestResult;
   getConceptsOfInterest: GetConceptsOfInterestResult;
   getDashboardGraph: GetDashboardGraphResult;
@@ -489,6 +540,16 @@ export type Query = {
   getTemplates: GetTemplatesResult;
   getUser: GetUserResult;
   syncGoogleFit: SyncGoogleFitResult;
+};
+
+
+export type QueryGetAspectOfHealthArgs = {
+  input: GetAspectOfHealthInput;
+};
+
+
+export type QueryGetAspectsOfHealthArgs = {
+  input: GetAspectsOfHealthInput;
 };
 
 
@@ -567,6 +628,14 @@ export type QuerySyncGoogleFitArgs = {
 };
 
 export enum QueryDocumentType {
+  GetAspectOfHealthDocument = 'GetAspectOfHealthDocument',
+  GetAspectsOfHealthDocument = 'GetAspectsOfHealthDocument',
+  UpsertAspectOfHealthDocument = 'UpsertAspectOfHealthDocument',
+  DeleteAspectOfHealthDocument = 'DeleteAspectOfHealthDocument',
+  GetConceptOfInterestDocument = 'GetConceptOfInterestDocument',
+  GetConceptsOfInterestDocument = 'GetConceptsOfInterestDocument',
+  UpsertConceptOfInterestDocument = 'UpsertConceptOfInterestDocument',
+  DeleteConceptOfInterestDocument = 'DeleteConceptOfInterestDocument',
   GetDataTypeDocument = 'GetDataTypeDocument',
   GetDataTypesDocument = 'GetDataTypesDocument',
   GetMeasureDocument = 'GetMeasureDocument',
@@ -602,6 +671,20 @@ export type Template = {
   id: Scalars['Int'];
   name: Scalars['String'];
   pages?: Maybe<Array<Page>>;
+};
+
+export type UpsertAspectOfHealthInput = {
+  id?: Maybe<Scalars['Int']>;
+  conceptsOfInterest?: Maybe<Array<ConceptOfInterestInput>>;
+  description?: Maybe<Scalars['String']>;
+  indications?: Maybe<Array<IndicationInput>>;
+  name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
+};
+
+export type UpsertAspectOfHealthResult = {
+  __typename?: 'UpsertAspectOfHealthResult';
+  aspectOfHealth: AspectOfHealth;
 };
 
 export type UpsertConceptOfInterestInput = {

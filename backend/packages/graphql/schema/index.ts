@@ -8,6 +8,7 @@ import {
   mergeTypeDefs,
 } from 'graphql-tools';
 
+import { aspectOfHealthResolvers } from './aspectOfHealth';
 import { conceptOfInterestResolvers } from './conceptOfInterest';
 import { dashboardGraphResolvers } from './dashboardGraph';
 import { dataTypeResolvers } from './dataType';
@@ -19,6 +20,7 @@ import { templateResolvers } from './template';
 import { userResolvers } from './user';
 
 const resolvers = mergeResolvers([
+  aspectOfHealthResolvers,
   conceptOfInterestResolvers,
   dashboardGraphResolvers,
   dataTypeResolvers,

@@ -1,5 +1,6 @@
 overwrite: true
 schema:
+  - 'schema/aspectOfHealth/**/*.graphql'
   - 'schema/conceptOfInterest/**/*.graphql'
   - 'schema/dashboardGraph/**/*.graphql'
   - 'schema/dataType/**/*.graphql'

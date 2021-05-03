@@ -76,7 +76,7 @@ const renderChips = (chips) => (
  * Render cell by type
  */
 const renderCellType = (value, column) => {
-  if (Array.isArray(value) || isSelectType(column.type)) {
+  if (value && (Array.isArray(value) || isSelectType(column.type))) {
     return renderChips(value);
   }
 

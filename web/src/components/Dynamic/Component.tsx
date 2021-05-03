@@ -6,36 +6,10 @@ import { Alert } from '@material-ui/core';
 import ErrorBoundary from 'ErrorBoundary';
 import { DataGrid, Table } from 'components/Table';
 import { JSONObject } from 'types';
-import { getQueryAndEntity, unwrapGqlData } from 'utils';
-import {
-  GetDataTypeDocument,
-  GetDataTypesDocument,
-  GetMeasureDocument,
-  GetMeasuresDocument,
-  UpsertMeasureDocument,
-  DeleteMeasureDocument,
-  GetIndicationDocument,
-  GetIndicationsDocument,
-  UpsertIndicationDocument,
-  DeleteIndicationDocument,
-  modifyCacheOnDelete,
-  modifyCacheOnUpdate,
-} from 'gql';
+import { getDocument, getQueryAndEntity, unwrapGqlData } from 'utils';
+import { modifyCacheOnDelete, modifyCacheOnUpdate } from 'gql';
 import { Logger } from 'logger';
 import Content from './Content';
-
-const DocumentMap = {
-  GetDataTypeDocument,
-  GetDataTypesDocument,
-  GetMeasureDocument,
-  GetMeasuresDocument,
-  UpsertMeasureDocument,
-  DeleteMeasureDocument,
-  GetIndicationDocument,
-  GetIndicationsDocument,
-  UpsertIndicationDocument,
-  DeleteIndicationDocument,
-};
 
 export interface ComponentProps {
   /**
@@ -95,7 +69,7 @@ const Component = ({
     Logger.error(e);
   };
 
-  const { data } = useQuery(DocumentMap[read.document], {
+  const { data } = useQuery(getDocument(read.document), {
     onError,
     variables: {
       input: {
@@ -106,11 +80,11 @@ const Component = ({
   });
 
   const [readOneFunc] = readOne
-    ? useLazyQuery(DocumentMap[readOne.document])
+    ? useLazyQuery(getDocument(readOne.document))
     : [null];
 
   const [mutate] = upsert
-    ? useMutation(DocumentMap[upsert.document], {
+    ? useMutation(getDocument(upsert.document), {
         onError,
         update(cache, { data: d }) {
           modifyCacheOnUpdate(cache, d, queryName, entityName);
@@ -122,7 +96,7 @@ const Component = ({
    * Delete mutation with cache eviction.
    */
   const [deleteMutation] = del
-    ? useMutation(DocumentMap[del.document], {
+    ? useMutation(getDocument(del.document), {
         onError,
         update(cache, { data: d }) {
           modifyCacheOnDelete(cache, d);

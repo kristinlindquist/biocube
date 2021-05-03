@@ -60,7 +60,7 @@ export const getQueryAndEntity = (
     ),
     'name.value',
   );
-  const entityName = camelCase(queryName.split('get')[1]);
+  const entityName = queryName ? camelCase(queryName.split('get')[1]) : null;
 
   return { queryName, entityName };
 };

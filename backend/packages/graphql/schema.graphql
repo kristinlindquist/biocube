@@ -21,6 +21,15 @@ enum AggregationType {
   SUM
 }
 
+type AspectOfHealth {
+  id: Int!
+  conceptsOfInterest: [ConceptOfInterest!]
+  description: String
+  indications: [Indication!]
+  name: String!
+  url: String
+}
+
 enum ChartType {
   AREA
   BAR
@@ -60,9 +69,9 @@ type ConceptOfInterest {
 }
 
 input ConceptOfInterestInput {
-  id: Int!
   description: String
-  name: String
+  id: Int!
+  name: String!
 }
 
 type DashboardGraph {
@@ -95,6 +104,14 @@ input DataTypeInput {
 }
 
 scalar DateTime
+
+input DeleteAspectOfHealthInput {
+  id: Int!
+}
+
+type DeleteAspectOfHealthResult {
+  aspectOfHealth: AspectOfHealth!
+}
 
 input DeleteConceptOfInterestInput {
   id: Int!
@@ -170,6 +187,22 @@ type Filter {
   join: String
   operator: String!
   values: [String!]
+}
+
+input GetAspectOfHealthInput {
+  id: Int!
+}
+
+type GetAspectOfHealthResult {
+  aspectOfHealth: AspectOfHealth
+}
+
+input GetAspectsOfHealthInput {
+  test: Boolean
+}
+
+type GetAspectsOfHealthResult {
+  aspectsOfHealth: [AspectOfHealth]
 }
 
 input GetConceptOfInterestInput {
@@ -299,9 +332,9 @@ type Indication {
 }
 
 input IndicationInput {
-  id: Int!
   description: String
-  name: String
+  id: Int!
+  name: String!
   url: String
 }
 
@@ -337,12 +370,14 @@ enum MeasureStatus {
 }
 
 type Mutation {
+  deleteAspectOfHealth(input: DeleteAspectOfHealthInput!): DeleteAspectOfHealthResult!
   deleteConceptOfInterest(input: DeleteConceptOfInterestInput!): DeleteConceptOfInterestResult!
   deleteDashboardGraph(input: DeleteDashboardGraphInput!): DeleteDashboardGraphResult!
   deleteDataType(input: DeleteDataTypeInput!): DeleteDataTypeResult!
   deleteIndication(input: DeleteIndicationInput!): DeleteIndicationResult!
   deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
   deleteTemplate(input: DeleteTemplateInput!): DeleteTemplateResult!
+  upsertAspectOfHealth(input: UpsertAspectOfHealthInput!): UpsertAspectOfHealthResult!
   upsertConceptOfInterest(input: UpsertConceptOfInterestInput!): UpsertConceptOfInterestResult!
   upsertDashboardGraph(input: UpsertDashboardGraphInput!): UpsertDashboardGraphResult!
   upsertDataType(input: UpsertDataTypeInput!): UpsertDataTypeResult!
@@ -365,6 +400,8 @@ type Page {
 }
 
 type Query {
+  getAspectOfHealth(input: GetAspectOfHealthInput!): GetAspectOfHealthResult!
+  getAspectsOfHealth(input: GetAspectsOfHealthInput!): GetAspectsOfHealthResult!
   getConceptOfInterest(input: GetConceptOfInterestInput!): GetConceptOfInterestResult!
   getConceptsOfInterest(input: GetConceptsOfInterestInput!): GetConceptsOfInterestResult!
   getDashboardGraph(input: GetDashboardGraphInput!): GetDashboardGraphResult!
@@ -383,6 +420,14 @@ type Query {
 }
 
 enum QueryDocumentType {
+  GetAspectOfHealthDocument
+  GetAspectsOfHealthDocument
+  UpsertAspectOfHealthDocument
+  DeleteAspectOfHealthDocument
+  GetConceptOfInterestDocument
+  GetConceptsOfInterestDocument
+  UpsertConceptOfInterestDocument
+  DeleteConceptOfInterestDocument
   GetDataTypeDocument
   GetDataTypesDocument
   GetMeasureDocument
@@ -415,6 +460,19 @@ type Template {
   id: Int!
   name: String!
   pages: [Page!]
+}
+
+input UpsertAspectOfHealthInput {
+  id: Int
+  conceptsOfInterest: [ConceptOfInterestInput!]
+  description: String
+  indications: [IndicationInput!]
+  name: String!
+  url: String
+}
+
+type UpsertAspectOfHealthResult {
+  aspectOfHealth: AspectOfHealth!
 }
 
 input UpsertConceptOfInterestInput {

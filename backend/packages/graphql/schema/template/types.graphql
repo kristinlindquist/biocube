@@ -37,6 +37,14 @@ enum ComponentType {
 }
 
 enum QueryDocumentType {
+  GetAspectOfHealthDocument
+  GetAspectsOfHealthDocument
+  UpsertAspectOfHealthDocument
+  DeleteAspectOfHealthDocument
+  GetConceptOfInterestDocument
+  GetConceptsOfInterestDocument
+  UpsertConceptOfInterestDocument
+  DeleteConceptOfInterestDocument
   GetDataTypeDocument
   GetDataTypesDocument
   GetMeasureDocument

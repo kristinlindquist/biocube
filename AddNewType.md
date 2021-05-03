@@ -1,47 +1,47 @@
 Schema:
 cd schema
-cp -Rp conceptOfInterest/ dashboardGraph
-cd dashboardGraph/
+cp -Rp conceptOfInterest/ aspectOfHealth
+cd aspectOfHealth/
 cd resolvers/mutations/
-mv deleteConceptOfInterest.ts deleteDashboardGraph.ts
-mv upsertConceptOfInterest.ts upsertDashboardGraph.ts
+mv deleteConceptOfInterest.ts deleteAspectOfHealth.ts
+mv upsertConceptOfInterest.ts upsertAspectOfHealth.ts
 cd ../queries/
-mv getConceptOfInterest.ts getDashboardGraph.ts
-mv getConceptsOfInterest.ts getDashboardGraphs.ts
+mv getConceptOfInterest.ts getAspectOfHealth.ts
+mv getConceptsOfInterest.ts getAspectsOfHealth.ts
 cd ../types
-mv ConceptOfInterest.ts DashboardGraph.ts
+mv ConceptOfInterest.ts AspectOfHealth.ts
 cd ../..
 
-find . -type f -exec sed -i '' -e 's/conceptsOfInterest/dashboardGraphs/g' {} \;
-find . -type f -exec sed -i '' -e 's/conceptOfInterest/dashboardGraph/g' {} \;
-find . -type f -exec sed -i '' -e 's/ConceptsOfInterest/DashboardGraphs/g' {} \;
-find . -type f -exec sed -i '' -e 's/ConceptOfInterest/DashboardGraph/g' {} \;
+find . -type f -exec sed -i '' -e 's/conceptsOfInterest/aspectsOfHealth/g' {} \;
+find . -type f -exec sed -i '' -e 's/conceptOfInterest/aspectOfHealth/g' {} \;
+find . -type f -exec sed -i '' -e 's/ConceptsOfInterest/AspectsOfHealth/g' {} \;
+find . -type f -exec sed -i '' -e 's/ConceptOfInterest/AspectOfHealth/g' {} \;
 
 Fix types in types.graphql and mutations.graphql
 
 
 Api:
 cd api/mutations/
-cp -Rp conceptOfInterest/ dashboardGraph
-cd dashboardGraph
-mv deleteConceptOfInterest.ts deleteDashboardGraph.ts
-mv upsertConceptOfInterest.ts upsertDashboardGraph.ts
-find . -type f -exec sed -i '' -e 's/conceptsOfInterest/dashboardGraphs/g' {} \;
-find . -type f -exec sed -i '' -e 's/conceptOfInterest/dashboardGraph/g' {} \;
-find . -type f -exec sed -i '' -e 's/ConceptsOfInterest/DashboardGraphs/g' {} \;
-find . -type f -exec sed -i '' -e 's/ConceptOfInterest/DashboardGraph/g' {} \;
+cp -Rp conceptOfInterest/ aspectOfHealth
+cd aspectOfHealth
+mv deleteConceptOfInterest.ts deleteAspectOfHealth.ts
+mv upsertConceptOfInterest.ts upsertAspectOfHealth.ts
+find . -type f -exec sed -i '' -e 's/conceptsOfInterest/aspectsOfHealth/g' {} \;
+find . -type f -exec sed -i '' -e 's/conceptOfInterest/aspectOfHealth/g' {} \;
+find . -type f -exec sed -i '' -e 's/ConceptsOfInterest/AspectsOfHealth/g' {} \;
+find . -type f -exec sed -i '' -e 's/ConceptOfInterest/AspectOfHealth/g' {} \;
 
 cd ../../queries/
-cp -Rp conceptOfInterest/ dashboardGraph
-cd dashboardGraph
-mv getConceptOfInterest.ts getDashboardGraph.ts
-mv getConceptsOfInterest.ts getDashboardGraphs.ts
-find . -type f -exec sed -i '' -e 's/conceptsOfInterest/dashboardGraphs/g' {} \;
-find . -type f -exec sed -i '' -e 's/conceptOfInterest/dashboardGraph/g' {} \;
-find . -type f -exec sed -i '' -e 's/ConceptsOfInterest/DashboardGraphs/g' {} \;
-find . -type f -exec sed -i '' -e 's/ConceptOfInterest/DashboardGraph/g' {} \;
+cp -Rp conceptOfInterest/ aspectOfHealth
+cd aspectOfHealth
+mv getConceptOfInterest.ts getAspectOfHealth.ts
+mv getConceptsOfInterest.ts getAspectsOfHealth.ts
+find . -type f -exec sed -i '' -e 's/conceptsOfInterest/aspectsOfHealth/g' {} \;
+find . -type f -exec sed -i '' -e 's/conceptOfInterest/aspectOfHealth/g' {} \;
+find . -type f -exec sed -i '' -e 's/ConceptsOfInterest/AspectsOfHealth/g' {} \;
+find . -type f -exec sed -i '' -e 's/ConceptOfInterest/AspectOfHealth/g' {} \;
 
-Fix types in api/mutations/dashboardGraph/* and api/queries/dashboardGraph/*
+Fix types in api/mutations/aspectOfHealth/* and api/queries/aspectOfHealth/*
 
 Add to:
 codegen.yml

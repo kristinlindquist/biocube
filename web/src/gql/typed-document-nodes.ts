@@ -35,6 +35,16 @@ export enum AggregationType {
   Sum = 'SUM'
 }
 
+export type AspectOfHealth = {
+  __typename?: 'AspectOfHealth';
+  id: Scalars['Int'];
+  conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
+  description?: Maybe<Scalars['String']>;
+  indications?: Maybe<Array<Indication>>;
+  name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
+};
+
 export enum ChartType {
   Area = 'AREA',
   Bar = 'BAR',
@@ -76,9 +86,9 @@ export type ConceptOfInterest = {
 };
 
 export type ConceptOfInterestInput = {
-  id: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 export type DashboardGraph = {
@@ -113,6 +123,15 @@ export type DataTypeInput = {
   url?: Maybe<Scalars['String']>;
 };
 
+
+export type DeleteAspectOfHealthInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteAspectOfHealthResult = {
+  __typename?: 'DeleteAspectOfHealthResult';
+  aspectOfHealth: AspectOfHealth;
+};
 
 export type DeleteConceptOfInterestInput = {
   id: Scalars['Int'];
@@ -197,6 +216,24 @@ export type Filter = {
   join?: Maybe<Scalars['String']>;
   operator: Scalars['String'];
   values?: Maybe<Array<Scalars['String']>>;
+};
+
+export type GetAspectOfHealthInput = {
+  id: Scalars['Int'];
+};
+
+export type GetAspectOfHealthResult = {
+  __typename?: 'GetAspectOfHealthResult';
+  aspectOfHealth?: Maybe<AspectOfHealth>;
+};
+
+export type GetAspectsOfHealthInput = {
+  test?: Maybe<Scalars['Boolean']>;
+};
+
+export type GetAspectsOfHealthResult = {
+  __typename?: 'GetAspectsOfHealthResult';
+  aspectsOfHealth?: Maybe<Array<Maybe<AspectOfHealth>>>;
 };
 
 export type GetConceptOfInterestInput = {
@@ -342,9 +379,9 @@ export type Indication = {
 };
 
 export type IndicationInput = {
-  id: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
 };
 
@@ -381,18 +418,25 @@ export enum MeasureStatus {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteAspectOfHealth: DeleteAspectOfHealthResult;
   deleteConceptOfInterest: DeleteConceptOfInterestResult;
   deleteDashboardGraph: DeleteDashboardGraphResult;
   deleteDataType: DeleteDataTypeResult;
   deleteIndication: DeleteIndicationResult;
   deleteMeasure: DeleteMeasureResult;
   deleteTemplate: DeleteTemplateResult;
+  upsertAspectOfHealth: UpsertAspectOfHealthResult;
   upsertConceptOfInterest: UpsertConceptOfInterestResult;
   upsertDashboardGraph: UpsertDashboardGraphResult;
   upsertDataType: UpsertDataTypeResult;
   upsertIndication: UpsertIndicationResult;
   upsertMeasure: UpsertMeasureResult;
   upsertTemplate: UpsertTemplateResult;
+};
+
+
+export type MutationDeleteAspectOfHealthArgs = {
+  input: DeleteAspectOfHealthInput;
 };
 
 
@@ -423,6 +467,11 @@ export type MutationDeleteMeasureArgs = {
 
 export type MutationDeleteTemplateArgs = {
   input: DeleteTemplateInput;
+};
+
+
+export type MutationUpsertAspectOfHealthArgs = {
+  input: UpsertAspectOfHealthInput;
 };
 
 
@@ -472,6 +521,8 @@ export type Page = {
 
 export type Query = {
   __typename?: 'Query';
+  getAspectOfHealth: GetAspectOfHealthResult;
+  getAspectsOfHealth: GetAspectsOfHealthResult;
   getConceptOfInterest: GetConceptOfInterestResult;
   getConceptsOfInterest: GetConceptsOfInterestResult;
   getDashboardGraph: GetDashboardGraphResult;
@@ -487,6 +538,16 @@ export type Query = {
   getTemplates: GetTemplatesResult;
   getUser: GetUserResult;
   syncGoogleFit: SyncGoogleFitResult;
+};
+
+
+export type QueryGetAspectOfHealthArgs = {
+  input: GetAspectOfHealthInput;
+};
+
+
+export type QueryGetAspectsOfHealthArgs = {
+  input: GetAspectsOfHealthInput;
 };
 
 
@@ -565,6 +626,14 @@ export type QuerySyncGoogleFitArgs = {
 };
 
 export enum QueryDocumentType {
+  GetAspectOfHealthDocument = 'GetAspectOfHealthDocument',
+  GetAspectsOfHealthDocument = 'GetAspectsOfHealthDocument',
+  UpsertAspectOfHealthDocument = 'UpsertAspectOfHealthDocument',
+  DeleteAspectOfHealthDocument = 'DeleteAspectOfHealthDocument',
+  GetConceptOfInterestDocument = 'GetConceptOfInterestDocument',
+  GetConceptsOfInterestDocument = 'GetConceptsOfInterestDocument',
+  UpsertConceptOfInterestDocument = 'UpsertConceptOfInterestDocument',
+  DeleteConceptOfInterestDocument = 'DeleteConceptOfInterestDocument',
   GetDataTypeDocument = 'GetDataTypeDocument',
   GetDataTypesDocument = 'GetDataTypesDocument',
   GetMeasureDocument = 'GetMeasureDocument',
@@ -600,6 +669,20 @@ export type Template = {
   id: Scalars['Int'];
   name: Scalars['String'];
   pages?: Maybe<Array<Page>>;
+};
+
+export type UpsertAspectOfHealthInput = {
+  id?: Maybe<Scalars['Int']>;
+  conceptsOfInterest?: Maybe<Array<ConceptOfInterestInput>>;
+  description?: Maybe<Scalars['String']>;
+  indications?: Maybe<Array<IndicationInput>>;
+  name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
+};
+
+export type UpsertAspectOfHealthResult = {
+  __typename?: 'UpsertAspectOfHealthResult';
+  aspectOfHealth: AspectOfHealth;
 };
 
 export type UpsertConceptOfInterestInput = {
@@ -692,6 +775,45 @@ export type User = {
   name: Scalars['String'];
   devices?: Maybe<Array<Maybe<Device>>>;
 };
+
+export type DeleteAspectOfHealthMutationVariables = Exact<{
+  input: DeleteAspectOfHealthInput;
+}>;
+
+
+export type DeleteAspectOfHealthMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteAspectOfHealth: (
+    { __typename?: 'DeleteAspectOfHealthResult' }
+    & { aspectOfHealth: (
+      { __typename?: 'AspectOfHealth' }
+      & Pick<AspectOfHealth, 'id'>
+    ) }
+  ) }
+);
+
+export type UpsertAspectOfHealthMutationVariables = Exact<{
+  input: UpsertAspectOfHealthInput;
+}>;
+
+
+export type UpsertAspectOfHealthMutation = (
+  { __typename?: 'Mutation' }
+  & { upsertAspectOfHealth: (
+    { __typename?: 'UpsertAspectOfHealthResult' }
+    & { aspectOfHealth: (
+      { __typename?: 'AspectOfHealth' }
+      & Pick<AspectOfHealth, 'id' | 'description' | 'name'>
+      & { conceptsOfInterest?: Maybe<Array<(
+        { __typename?: 'ConceptOfInterest' }
+        & Pick<ConceptOfInterest, 'id' | 'description' | 'name'>
+      )>>, indications?: Maybe<Array<(
+        { __typename?: 'Indication' }
+        & Pick<Indication, 'id' | 'description' | 'name'>
+      )>> }
+    ) }
+  ) }
+);
 
 export type DeleteConceptOfInterestMutationVariables = Exact<{
   input: DeleteConceptOfInterestInput;
@@ -910,6 +1032,52 @@ export type UpsertTemplateMutation = (
         & Pick<Page, 'id' | 'name' | 'title' | 'url'>
       )>> }
     )> }
+  ) }
+);
+
+export type GetAspectOfHealthQueryVariables = Exact<{
+  input: GetAspectOfHealthInput;
+}>;
+
+
+export type GetAspectOfHealthQuery = (
+  { __typename?: 'Query' }
+  & { getAspectOfHealth: (
+    { __typename?: 'GetAspectOfHealthResult' }
+    & { aspectOfHealth?: Maybe<(
+      { __typename?: 'AspectOfHealth' }
+      & Pick<AspectOfHealth, 'id' | 'description' | 'name' | 'url'>
+      & { conceptsOfInterest?: Maybe<Array<(
+        { __typename?: 'ConceptOfInterest' }
+        & Pick<ConceptOfInterest, 'id' | 'name' | 'description'>
+      )>>, indications?: Maybe<Array<(
+        { __typename?: 'Indication' }
+        & Pick<Indication, 'id' | 'name' | 'description'>
+      )>> }
+    )> }
+  ) }
+);
+
+export type GetAspectsOfHealthQueryVariables = Exact<{
+  input: GetAspectsOfHealthInput;
+}>;
+
+
+export type GetAspectsOfHealthQuery = (
+  { __typename?: 'Query' }
+  & { getAspectsOfHealth: (
+    { __typename?: 'GetAspectsOfHealthResult' }
+    & { aspectsOfHealth?: Maybe<Array<Maybe<(
+      { __typename?: 'AspectOfHealth' }
+      & Pick<AspectOfHealth, 'id' | 'description' | 'name'>
+      & { conceptsOfInterest?: Maybe<Array<(
+        { __typename?: 'ConceptOfInterest' }
+        & Pick<ConceptOfInterest, 'id' | 'description' | 'name'>
+      )>>, indications?: Maybe<Array<(
+        { __typename?: 'Indication' }
+        & Pick<Indication, 'id' | 'name' | 'description'>
+      )>> }
+    )>>> }
   ) }
 );
 
@@ -1238,6 +1406,8 @@ export type GetUserQuery = (
 );
 
 
+export const DeleteAspectOfHealthDocument: DocumentNode<DeleteAspectOfHealthMutation, DeleteAspectOfHealthMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteAspectOfHealth"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteAspectOfHealthInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteAspectOfHealth"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aspectOfHealth"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]};
+export const UpsertAspectOfHealthDocument: DocumentNode<UpsertAspectOfHealthMutation, UpsertAspectOfHealthMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"upsertAspectOfHealth"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpsertAspectOfHealthInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertAspectOfHealth"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aspectOfHealth"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"conceptsOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"indications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
 export const DeleteConceptOfInterestDocument: DocumentNode<DeleteConceptOfInterestMutation, DeleteConceptOfInterestMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteConceptOfInterest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteConceptOfInterestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteConceptOfInterest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"conceptOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]};
 export const UpsertConceptOfInterestDocument: DocumentNode<UpsertConceptOfInterestMutation, UpsertConceptOfInterestMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"upsertConceptOfInterest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpsertConceptOfInterestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertConceptOfInterest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"conceptOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
 export const DeleteDashboardGraphDocument: DocumentNode<DeleteDashboardGraphMutation, DeleteDashboardGraphMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteDashboardGraph"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteDashboardGraphInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteDashboardGraph"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dashboardGraph"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]};
@@ -1250,6 +1420,8 @@ export const DeleteMeasureDocument: DocumentNode<DeleteMeasureMutation, DeleteMe
 export const UpsertMeasureDocument: DocumentNode<UpsertMeasureMutation, UpsertMeasureMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"upsertMeasure"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpsertMeasureInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertMeasure"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"measure"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"aggregation"}},{"kind":"Field","name":{"kind":"Name","value":"conceptsOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"components"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dataTypes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"indications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"sql"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};
 export const DeleteTemplateDocument: DocumentNode<DeleteTemplateMutation, DeleteTemplateMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteTemplate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DeleteTemplateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteTemplate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"template"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
 export const UpsertTemplateDocument: DocumentNode<UpsertTemplateMutation, UpsertTemplateMutationVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"upsertTemplate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpsertTemplateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upsertTemplate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"template"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"pages"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]}}]};
+export const GetAspectOfHealthDocument: DocumentNode<GetAspectOfHealthQuery, GetAspectOfHealthQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAspectOfHealth"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetAspectOfHealthInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAspectOfHealth"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aspectOfHealth"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"conceptsOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"indications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};
+export const GetAspectsOfHealthDocument: DocumentNode<GetAspectsOfHealthQuery, GetAspectsOfHealthQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAspectsOfHealth"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetAspectsOfHealthInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAspectsOfHealth"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"aspectsOfHealth"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"conceptsOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"indications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
 export const GetConceptOfInterestDocument: DocumentNode<GetConceptOfInterestQuery, GetConceptOfInterestQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getConceptOfInterest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetConceptOfInterestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getConceptOfInterest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"conceptOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]};
 export const GetConceptsOfInterestDocument: DocumentNode<GetConceptsOfInterestQuery, GetConceptsOfInterestQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getConceptsOfInterest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetConceptsOfInterestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getConceptsOfInterest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"conceptsOfInterest"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]};
 export const GetDashboardGraphDocument: DocumentNode<GetDashboardGraphQuery, GetDashboardGraphQueryVariables> = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getDashboardGraph"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetDashboardGraphInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getDashboardGraph"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dashboardGraph"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"layout"}},{"kind":"Field","name":{"kind":"Name","value":"vizState"}}]}}]}}]}}]};

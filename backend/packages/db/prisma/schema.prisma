@@ -239,6 +239,10 @@ model DashboardGraph {
 
 // end: dynamic web components
 
+// start: ePRO
+
+// end: ePRO
+
 enum AggregationType {
   AVG
   COUNT
@@ -273,6 +277,14 @@ enum MeasureStatus {
 }
 
 enum QueryDocumentType {
+  GetAspectOfHealthDocument
+  GetAspectsOfHealthDocument
+  UpsertAspectOfHealthDocument
+  DeleteAspectOfHealthDocument
+  GetConceptOfInterestDocument
+  GetConceptsOfInterestDocument
+  UpsertConceptOfInterestDocument
+  DeleteConceptOfInterestDocument
   GetDataTypeDocument
   GetDataTypesDocument
   GetMeasureDocument

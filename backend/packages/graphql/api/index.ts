@@ -3,20 +3,24 @@
  * This helps with seamless access to GraphQL api in a non-graphql
  * context such as custom REST routes or testing environments
  */
-import getUser from './queries/user/getUser';
-import getDevice from './queries/device/getDevice';
+import { getAspectOfHealth, getAspectsOfHealth } from './queries/aspectOfHealth';
 import {
   getConceptOfInterest,
   getConceptsOfInterest,
 } from './queries/conceptOfInterest';
+import { getDevice } from './queries/device';
+
 import { getDashboardGraph, getDashboardGraphs } from './queries/dashboardGraph';
 import { getDataType, getDataTypes } from './queries/dataType';
 import { getMeasure, getMeasures } from './queries/measure';
 import { getIndication, getIndications } from './queries/indication';
 import { getTemplate, getTemplates } from './queries/template';
+import { getUser } from './queries/user';
 import { syncGoogleFit } from './queries/googlefit';
 
 const allQueries = {
+  getAspectOfHealth,
+  getAspectsOfHealth,
   getConceptOfInterest,
   getConceptsOfInterest,
   getDashboardGraph,
@@ -38,6 +42,10 @@ import { Context } from '../types/resolvers';
 import schema from '../schema';
 import { graphql, print, DocumentNode } from 'graphql';
 import {
+  GetAspectOfHealthInput,
+  GetAspectOfHealthResult,
+  GetAspectsOfHealthInput,
+  GetAspectsOfHealthResult,
   GetConceptOfInterestInput,
   GetConceptOfInterestResult,
   GetConceptsOfInterestInput,
@@ -86,6 +94,32 @@ class GraphQLApi {
 
   constructor({ context }: GraphQLApiArgs) {
     this.context = context;
+  }
+
+  async getAspectOfHealth(
+    input: GetAspectOfHealthInput,
+    context?: Context,
+  ): Promise<GetAspectOfHealthResult> {
+    const operationName = 'getAspectOfHealth';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context,
+    });
+  }
+
+  async getAspectsOfHealth(
+    input: GetAspectsOfHealthInput,
+    context?: Context,
+  ): Promise<GetAspectsOfHealthResult> {
+    const operationName = 'getAspectsOfHealth';
+    const variables = { input };
+    return this.graphqlRequest({
+      operationName,
+      variables,
+      context,
+    });
   }
 
   async getConceptsOfInterest(
