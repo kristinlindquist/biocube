@@ -23,7 +23,6 @@ const syncGoogleFit = async (
   const { start, end, token }: SyncGoogleFitInput = input;
   const api = new GoogleFitnessAPI();
 
-  console.log(getRangeOfDates(start, end));
   getRangeOfDates(start, end).forEach(async (date) => {
     const dayStart = date;
     const dayEnd = moment(date).endOf('days').toDate();

@@ -75,17 +75,14 @@ const TypeToChartComponent = {
   combo: ({ height, resultSet }: ChartProps) => {
     const theme = useTheme();
     const colors = getColors(theme);
-    const series = resultSet.tableColumns().filter((c) => c.type !== 'time');
+    const series = resultSet.seriesNames();
 
     return (
       <Box sx={{ height, width: '100%' }}>
         <ReactECharts
           option={{
             dataset: {
-              dimensions: [
-                'x',
-                ...resultSet.seriesNames().map(({ key }) => key),
-              ],
+              // dimensions: series.map((d) => d.key),
               source: zeroToNull(resultSet.chartPivot()),
             },
             grid: {
@@ -95,7 +92,7 @@ const TypeToChartComponent = {
               right: 10,
               containLabel: true,
             },
-            series: series.map(({ key, shortTitle }, i) => ({
+            series: series.map(({ key, title }, i) => ({
               lineStyle: {
                 color: colors[i],
               },
@@ -104,7 +101,7 @@ const TypeToChartComponent = {
                 x: 'x',
                 y: key,
               },
-              name: shortTitle,
+              name: title,
               seriesLayoutBy: 'row',
               tooltip: [key],
               type: getChartType(resultSet, key),
@@ -113,13 +110,11 @@ const TypeToChartComponent = {
             tooltip: {
               trigger: 'axis',
               formatter: (params) => {
-                const { name, seriesName, value } = params[0] || {};
+                const { name, value } = params[0] || {};
                 const values = series.map(({ key }) => key);
-                return `${getLongDate(
-                  new Date(name),
-                )} <br /> ${seriesName}: ${values.map((v) =>
-                  (value[v] || 0).toFixed(2),
-                )}`;
+                return `${getLongDate(new Date(name))} <br /> ${values
+                  .map((v) => `${v}: ${(value[v] || 0).toFixed(2)}`)
+                  .join('<br />')}`;
               },
             },
             xAxis: {
@@ -128,8 +123,8 @@ const TypeToChartComponent = {
               },
               type: 'category',
             },
-            yAxis: series.map(({ shortTitle }) => ({
-              name: shortTitle,
+            yAxis: series.map(({ title }) => ({
+              name: title,
               type: 'value',
             })),
           }}

@@ -41,7 +41,7 @@ const Header = ({ title }: HeaderProps): ReactElement => {
           <MenuIcon />
         </IconButton>
         <Typography className={classes.title} variant="h4">
-          Biocube {title}
+          Biocube - {title}
         </Typography>
         <Login />
       </Toolbar>

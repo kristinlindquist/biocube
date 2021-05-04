@@ -110,8 +110,8 @@ asyncModule(async () => {
       },
 
       duration: {
-        sql: `duration / ${HOUR}`,
-        title: `Hours`,
+        sql: `${CUBE}.duration / ${HOUR}`,
+        title: `Duration (hours)`,
         type: `sum`,
       },
 

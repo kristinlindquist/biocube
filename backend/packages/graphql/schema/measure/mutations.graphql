@@ -49,7 +49,7 @@ enum MeasureStatus {
 input ConceptOfInterestInput {
   id: Int!
   description: String
-  name: String
+  name: String!
 }
 
 input ComponentInput {
@@ -74,7 +74,7 @@ type DeleteMeasureResult {
 input IndicationInput {
   id: Int!
   description: String
-  name: String
+  name: String!
   url: String
 }
 

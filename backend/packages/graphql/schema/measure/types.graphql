@@ -18,6 +18,7 @@ type ConceptOfInterest {
   id: Int!
   description: String
   name: String!
+  url: String
 }
 
 type Component {
