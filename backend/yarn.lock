@@ -891,11 +891,11 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cubejs-backend/api-gateway@^0.27.4":
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/api-gateway/-/api-gateway-0.27.4.tgz#5d2bd4708c43726833b64c09582c02280cb325b7"
+"@cubejs-backend/api-gateway@^0.27.5":
+  version "0.27.5"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/api-gateway/-/api-gateway-0.27.5.tgz#de3ce07b18dbbf461612385e56abf592f5a415f7"
   dependencies:
-    "@cubejs-backend/shared" "^0.27.4"
+    "@cubejs-backend/shared" "^0.27.5"
     "@hapi/joi" "^15.1.1"
     body-parser "^1.19.0"
     chrono-node "^2.2.6"
@@ -908,12 +908,12 @@
     ramda "^0.27.0"
     uuid "^3.3.3"
 
-"@cubejs-backend/cloud@^0.27.4":
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/cloud/-/cloud-0.27.4.tgz#01464657884e13c1ecd9051ce2b0226b91cca243"
+"@cubejs-backend/cloud@^0.27.5":
+  version "0.27.5"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/cloud/-/cloud-0.27.5.tgz#6e818ec914bc5db73da368e91ea42ad79a8948dc"
   dependencies:
     "@cubejs-backend/dotenv" "^9.0.2"
-    "@cubejs-backend/shared" "^0.27.4"
+    "@cubejs-backend/shared" "^0.27.5"
     chokidar "^3.5.1"
     env-var "^6.3.0"
     fs-extra "^9.1.0"
@@ -921,14 +921,14 @@
     request "^2.88.2"
     request-promise "^4.2.5"
 
-"@cubejs-backend/cubestore-driver@^0.27.4":
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/cubestore-driver/-/cubestore-driver-0.27.4.tgz#38e74c74f46a6f98542370765df5a2f0c6737e01"
+"@cubejs-backend/cubestore-driver@^0.27.7":
+  version "0.27.7"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/cubestore-driver/-/cubestore-driver-0.27.7.tgz#8441ff1c52ce3749fde83fe04ab20de59d23e2cc"
   dependencies:
-    "@cubejs-backend/cubestore" "^0.27.4"
-    "@cubejs-backend/query-orchestrator" "^0.27.4"
-    "@cubejs-backend/schema-compiler" "^0.27.4"
-    "@cubejs-backend/shared" "^0.27.4"
+    "@cubejs-backend/cubestore" "^0.27.5"
+    "@cubejs-backend/query-orchestrator" "^0.27.5"
+    "@cubejs-backend/schema-compiler" "^0.27.7"
+    "@cubejs-backend/shared" "^0.27.5"
     csv-write-stream "^2.0.0"
     flatbuffers "^1.12.0"
     fs-extra "^9.1.0"
@@ -940,11 +940,11 @@
     tempy "^1.0.1"
     ws "^7.4.3"
 
-"@cubejs-backend/cubestore@^0.27.4":
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/cubestore/-/cubestore-0.27.4.tgz#5a030b68cfb14b1f20a0dcb7e1ce75f9ae3d933b"
+"@cubejs-backend/cubestore@^0.27.5":
+  version "0.27.5"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/cubestore/-/cubestore-0.27.5.tgz#30e749ae9fe0c99dfd49588818cd2d05ddbc188e"
   dependencies:
-    "@cubejs-backend/shared" "^0.27.4"
+    "@cubejs-backend/shared" "^0.27.5"
     "@octokit/core" "^3.2.5"
     source-map-support "^0.5.19"
 
@@ -952,29 +952,29 @@
   version "9.0.2"
   resolved "https://registry.npmjs.org/@cubejs-backend/dotenv/-/dotenv-9.0.2.tgz"
 
-"@cubejs-backend/postgres-driver@^0.27.4":
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/postgres-driver/-/postgres-driver-0.27.4.tgz#e325b18312157d299d560603dc2ea350d1a18d4d"
+"@cubejs-backend/postgres-driver@^0.27.5":
+  version "0.27.5"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/postgres-driver/-/postgres-driver-0.27.5.tgz#697386878fdd04a946737aa59024ef619d0bec87"
   dependencies:
-    "@cubejs-backend/query-orchestrator" "^0.27.4"
+    "@cubejs-backend/query-orchestrator" "^0.27.5"
     "@types/pg" "^7.14.5"
     moment "^2.24.0"
     pg "^8.2.1"
 
-"@cubejs-backend/query-orchestrator@^0.27.4":
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/query-orchestrator/-/query-orchestrator-0.27.4.tgz#4eaaacc3c60381bd53bc474b2164d9d08c124375"
+"@cubejs-backend/query-orchestrator@^0.27.5":
+  version "0.27.5"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/query-orchestrator/-/query-orchestrator-0.27.5.tgz#61c57c9a03f73e785815438b12d1c510fd6385b3"
   dependencies:
-    "@cubejs-backend/shared" "^0.27.4"
+    "@cubejs-backend/shared" "^0.27.5"
     generic-pool "^3.7.1"
     ioredis "^4.19.4"
     lru-cache "^6.0.0"
     ramda "^0.27.0"
     redis "^3.0.2"
 
-"@cubejs-backend/schema-compiler@^0.27.4":
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/schema-compiler/-/schema-compiler-0.27.4.tgz#aac341759274b8ee6c76f90b6ad31d9ac14dabc4"
+"@cubejs-backend/schema-compiler@^0.27.7":
+  version "0.27.7"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/schema-compiler/-/schema-compiler-0.27.7.tgz#d35abe7ab47bd333bbd27abf57d90a2db1cc6090"
   dependencies:
     "@babel/code-frame" "^7.12.11"
     "@babel/core" "^7.12.10"
@@ -996,16 +996,16 @@
     ramda "^0.27.0"
     syntax-error "^1.3.0"
 
-"@cubejs-backend/server-core@^0.27.4":
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/server-core/-/server-core-0.27.4.tgz#7cef4c9eb08f29562a36376941848050e7de72d2"
+"@cubejs-backend/server-core@^0.27.7":
+  version "0.27.7"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/server-core/-/server-core-0.27.7.tgz#72b41079dda3906e40b38495d852989573623906"
   dependencies:
-    "@cubejs-backend/api-gateway" "^0.27.4"
-    "@cubejs-backend/cloud" "^0.27.4"
+    "@cubejs-backend/api-gateway" "^0.27.5"
+    "@cubejs-backend/cloud" "^0.27.5"
     "@cubejs-backend/dotenv" "^9.0.2"
-    "@cubejs-backend/query-orchestrator" "^0.27.4"
-    "@cubejs-backend/schema-compiler" "^0.27.4"
-    "@cubejs-backend/shared" "^0.27.4"
+    "@cubejs-backend/query-orchestrator" "^0.27.5"
+    "@cubejs-backend/schema-compiler" "^0.27.7"
+    "@cubejs-backend/shared" "^0.27.5"
     "@cubejs-backend/templates" "^0.27.0"
     "@hapi/joi" "^15.1.1"
     codesandbox-import-utils "^2.1.12"
@@ -1023,13 +1023,14 @@
     sqlstring "^2.3.1"
     uuid "^3.3.3"
 
-"@cubejs-backend/server@^0.27.4":
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/server/-/server-0.27.4.tgz#629b96fdfb140aaed4fd0f4dcb6c6c9ab6ba8904"
+"@cubejs-backend/server@^0.27.7":
+  version "0.27.7"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/server/-/server-0.27.7.tgz#fd8c8350ecbd2b793c1b7b651d3aed84411e1d62"
   dependencies:
+    "@cubejs-backend/cubestore-driver" "^0.27.7"
     "@cubejs-backend/dotenv" "^9.0.2"
-    "@cubejs-backend/server-core" "^0.27.4"
-    "@cubejs-backend/shared" "^0.27.4"
+    "@cubejs-backend/server-core" "^0.27.7"
+    "@cubejs-backend/shared" "^0.27.5"
     "@oclif/color" "^0.1.2"
     "@oclif/command" "^1.8.0"
     "@oclif/config" "^1.17.0"
@@ -1045,9 +1046,9 @@
     source-map-support "^0.5.19"
     ws "^7.1.2"
 
-"@cubejs-backend/shared@^0.27.4":
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/shared/-/shared-0.27.4.tgz#93b689db6f1941714c0b7b004a65a5ecdaf0837a"
+"@cubejs-backend/shared@^0.27.5":
+  version "0.27.5"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/shared/-/shared-0.27.5.tgz#9a18584d05dcd6b5ddbed55e2e936977d230a380"
   dependencies:
     "@oclif/color" "^0.1.2"
     bytes "^3.1.0"
@@ -1864,19 +1865,19 @@
   dependencies:
     "@octokit/openapi-types" "^6.0.0"
 
-"@prisma/client@2.21.2":
-  version "2.21.2"
-  resolved "https://registry.npmjs.org/@prisma/client/-/client-2.21.2.tgz"
+"@prisma/client@2.22.0":
+  version "2.22.0"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.22.0.tgz#ca028025b648fdca0dda415809ea309cc7c3bcc7"
   dependencies:
-    "@prisma/engines-version" "2.21.0-36.e421996c87d5f3c8f7eeadd502d4ad402c89464d"
+    "@prisma/engines-version" "2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c"
 
-"@prisma/engines-version@2.21.0-36.e421996c87d5f3c8f7eeadd502d4ad402c89464d":
-  version "2.21.0-36.e421996c87d5f3c8f7eeadd502d4ad402c89464d"
-  resolved "https://registry.npmjs.org/@prisma/engines-version/-/engines-version-2.21.0-36.e421996c87d5f3c8f7eeadd502d4ad402c89464d.tgz"
+"@prisma/engines-version@2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c":
+  version "2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c"
+  resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c.tgz#e98ee17217a0ebb54f2f9314fbbfd610b05e6e31"
 
-"@prisma/engines@2.21.0-36.e421996c87d5f3c8f7eeadd502d4ad402c89464d":
-  version "2.21.0-36.e421996c87d5f3c8f7eeadd502d4ad402c89464d"
-  resolved "https://registry.npmjs.org/@prisma/engines/-/engines-2.21.0-36.e421996c87d5f3c8f7eeadd502d4ad402c89464d.tgz"
+"@prisma/engines@2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c":
+  version "2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c"
+  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c.tgz#4ccd255e0823605db3d8387a5195b6fdabe3b0c0"
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -6784,11 +6785,11 @@ pretty-format@^26.6.2:
     ansi-styles "^4.0.0"
     react-is "^17.0.1"
 
-prisma@2.21.2:
-  version "2.21.2"
-  resolved "https://registry.npmjs.org/prisma/-/prisma-2.21.2.tgz"
+prisma@2.22.0:
+  version "2.22.0"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-2.22.0.tgz#69063fa95cdcaaf660b61017d79c6a6dda054517"
   dependencies:
-    "@prisma/engines" "2.21.0-36.e421996c87d5f3c8f7eeadd502d4ad402c89464d"
+    "@prisma/engines" "2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c"
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
