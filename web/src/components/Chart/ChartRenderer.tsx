@@ -72,21 +72,42 @@ const getColors = (theme: Theme): Array<string> =>
     : [];
 
 const getColDetail = (resultSet, key) =>
-  resultSet.tableColumns().find((t) => t.key === key);
+  resultSet.tableColumns().find((t) => t.key === key) || {};
 
-const getUom = (resultSet, v) =>
-  (getColDetail(resultSet, v).meta || {}).uom || v;
+const getUom = (resultSet, v) => (getColDetail(resultSet, v).meta || {}).uom;
+
+const getAxisIndex = (resultSet, currKey, prevKey, index) =>
+  getUom(resultSet, currKey) !== getUom(resultSet, prevKey)
+    ? Math.min(index, 1)
+    : 0;
 
 const TypeToChartComponent = {
   combo: ({ height, resultSet }: ChartProps) => {
     const theme = useTheme();
     const colors = getColors(theme);
     const series = resultSet.seriesNames();
+    const augSeries = series.map((s, i) => ({
+      ...s,
+      encode: {
+        x: 'x',
+        y: s.key,
+      },
+      name: getColDetail(resultSet, s.key).subtitle,
+      tooltip: [s.key],
+      type: getChartType(resultSet, s.key),
+      yAxisIndex: getAxisIndex(
+        resultSet,
+        s.key,
+        i > 0 ? series[i - 1].key : null,
+        i,
+      ),
+    }));
 
     return (
       <Box sx={{ height, width: '100%' }}>
         <ReactECharts
           option={{
+            color: colors,
             dataset: {
               source: zeroToNull(resultSet.chartPivot()),
             },
@@ -97,20 +118,15 @@ const TypeToChartComponent = {
               right: 10,
               containLabel: true,
             },
-            series: series.map(({ key }, i) => ({
+            series: augSeries.map((s) => ({
+              ...s,
+              barMaxWidth: '30%',
               connectNulls: true,
-              encode: {
-                x: 'x',
-                y: key,
-              },
               lineStyle: {
-                color: colors[i],
+                width: 2,
               },
-              name: getColDetail(resultSet, key).subtitle,
               seriesLayoutBy: 'row',
-              tooltip: [key],
-              type: getChartType(resultSet, key),
-              yAxisIndex: Math.min(i, 1),
+              symbolSize: 7,
             })),
             tooltip: {
               trigger: 'axis',
@@ -120,7 +136,9 @@ const TypeToChartComponent = {
                 return `${getLongDate(new Date(name))} <br /> ${values
                   .map(
                     (v) =>
-                      `${(value[v] || 0).toFixed(2)} ${getUom(resultSet, v)}`,
+                      `${(value[v] || 0).toFixed(2)} ${
+                        getUom(resultSet, v) || v
+                      }`,
                   )
                   .join('<br />')}`;
               },
@@ -131,10 +149,12 @@ const TypeToChartComponent = {
               },
               type: 'category',
             },
-            yAxis: series.map(({ title }) => ({
-              name: title,
-              type: 'value',
-            })),
+            yAxis: augSeries
+              .filter((s, i) => s.yAxisIndex > 0 || i === 0)
+              .map(({ title }) => ({
+                name: title,
+                type: 'value',
+              })),
           }}
         />
       </Box>

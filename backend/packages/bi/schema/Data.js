@@ -28,7 +28,7 @@ const mQuery = {
   }`,
 };
 
-const HOUR = '(1000 * 60 * 60)';
+const HOUR = '(1000.0 * 60.0 * 60.0)';
 
 const getFilter = ({ dimension, operator, values }) =>
   `${dimension} ${operator} (${values.map(v => `'${v}'`).join(',')})`;
@@ -66,10 +66,11 @@ asyncModule(async () => {
       },
 
       ConcurrentState: {
-        sql: `${CUBE}."startedAt" > ${ConcurrentState}."startedAt"
+        sql: `${CUBE}.id <> ${ConcurrentState}.id
+          AND ${CUBE}."startedAt" >= ${ConcurrentState}."startedAt"
           AND ${CUBE}."startedAt" < ${ConcurrentState}."startedAt" + interval '1 hour'
           * ${ConcurrentState}.duration / ${HOUR}`,
-        relationship: `hasOne`,
+        relationship: `belongsTo`,
       },
     },
 
@@ -146,11 +147,6 @@ asyncModule(async () => {
     },
 
     dimensions: {
-      concurrentState: {
-        sql: `${ConcurrentState}.state`,
-        type: `string`,
-      },
-
       id: {
         sql: `id`,
         type: `number`,
@@ -161,11 +157,6 @@ asyncModule(async () => {
         sql: `${CUBE}."startedAt"`,
         type: `time`,
         title: `Starting Time`,
-      },
-
-      state: {
-        sql: `${CUBE}.state`,
-        type: `string`,
       },
     },
 
