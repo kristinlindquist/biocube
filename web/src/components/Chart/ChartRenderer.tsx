@@ -71,6 +71,12 @@ const getColors = (theme: Theme): Array<string> =>
       ]
     : [];
 
+const getColDetail = (resultSet, key) =>
+  resultSet.tableColumns().find((t) => t.key === key);
+
+const getUom = (resultSet, v) =>
+  (getColDetail(resultSet, v).meta || {}).uom || v;
+
 const TypeToChartComponent = {
   combo: ({ height, resultSet }: ChartProps) => {
     const theme = useTheme();
@@ -82,7 +88,6 @@ const TypeToChartComponent = {
         <ReactECharts
           option={{
             dataset: {
-              // dimensions: series.map((d) => d.key),
               source: zeroToNull(resultSet.chartPivot()),
             },
             grid: {
@@ -92,16 +97,16 @@ const TypeToChartComponent = {
               right: 10,
               containLabel: true,
             },
-            series: series.map(({ key, title }, i) => ({
-              lineStyle: {
-                color: colors[i],
-              },
+            series: series.map(({ key }, i) => ({
               connectNulls: true,
               encode: {
                 x: 'x',
                 y: key,
               },
-              name: title,
+              lineStyle: {
+                color: colors[i],
+              },
+              name: getColDetail(resultSet, key).subtitle,
               seriesLayoutBy: 'row',
               tooltip: [key],
               type: getChartType(resultSet, key),
@@ -113,7 +118,10 @@ const TypeToChartComponent = {
                 const { name, value } = params[0] || {};
                 const values = series.map(({ key }) => key);
                 return `${getLongDate(new Date(name))} <br /> ${values
-                  .map((v) => `${v}: ${(value[v] || 0).toFixed(2)}`)
+                  .map(
+                    (v) =>
+                      `${(value[v] || 0).toFixed(2)} ${getUom(resultSet, v)}`,
+                  )
                   .join('<br />')}`;
               },
             },
