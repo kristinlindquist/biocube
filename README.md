@@ -25,3 +25,6 @@ A no-code platform for ingesting, transforming, combining, analyzing and reporti
 
 ### Notes
 * Update packages with <code>yarn upgrade-interactive --latest</code>
+
+### Screenshots
+![screencap 1](https://github.com/llamallamagirl/biocube/blob/master/web/public/screenshot1.png)
