@@ -39,10 +39,17 @@ export enum AggregationType {
 
 export type AspectOfHealth = {
   __typename?: 'AspectOfHealth';
-  id: Scalars['Int'];
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
   description?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
   indications?: Maybe<Array<Indication>>;
+  name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
+};
+
+export type AspectOfHealthInput = {
+  id: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
 };
@@ -81,8 +88,10 @@ export enum ComponentType {
 
 export type ConceptOfInterest = {
   __typename?: 'ConceptOfInterest';
+  aspectsOfHealth?: Maybe<Array<AspectOfHealth>>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  measures?: Maybe<Array<Measure>>;
   name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
 };
@@ -408,7 +417,7 @@ export type Measure = {
 export type MeasureInput = {
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
 };
 
@@ -689,7 +698,9 @@ export type UpsertAspectOfHealthResult = {
 
 export type UpsertConceptOfInterestInput = {
   id?: Maybe<Scalars['Int']>;
+  aspectsOfHealth?: Maybe<Array<AspectOfHealthInput>>;
   description?: Maybe<Scalars['String']>;
+  measures?: Maybe<Array<MeasureInput>>;
   name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
 };

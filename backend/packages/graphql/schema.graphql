@@ -22,10 +22,17 @@ enum AggregationType {
 }
 
 type AspectOfHealth {
-  id: Int!
   conceptsOfInterest: [ConceptOfInterest!]
   description: String
+  id: Int!
   indications: [Indication!]
+  name: String!
+  url: String
+}
+
+input AspectOfHealthInput {
+  id: Int!
+  description: String
   name: String!
   url: String
 }
@@ -62,8 +69,10 @@ enum ComponentType {
 }
 
 type ConceptOfInterest {
+  aspectsOfHealth: [AspectOfHealth!]
   description: String
   id: Int!
+  measures: [Measure!]
   name: String!
   url: String
 }
@@ -359,7 +368,7 @@ type Measure {
 input MeasureInput {
   description: String
   id: Int!
-  name: String
+  name: String!
   url: String
 }
 
@@ -477,7 +486,9 @@ type UpsertAspectOfHealthResult {
 
 input UpsertConceptOfInterestInput {
   id: Int
+  aspectsOfHealth: [AspectOfHealthInput!]
   description: String
+  measures: [MeasureInput!]
   name: String!
   url: String
 }

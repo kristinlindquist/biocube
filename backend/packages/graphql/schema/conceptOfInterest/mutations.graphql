@@ -5,13 +5,29 @@ type Mutation {
 
 input UpsertConceptOfInterestInput {
   id: Int
+  aspectsOfHealth: [AspectOfHealthInput!]
   description: String
+  measures: [MeasureInput!]
   name: String!
   url: String
 }
 
 type UpsertConceptOfInterestResult {
   conceptOfInterest: ConceptOfInterest!
+}
+
+input AspectOfHealthInput {
+  id: Int!
+  description: String
+  name: String!
+  url: String
+}
+
+input MeasureInput {
+  id: Int!
+  description: String
+  name: String!
+  url: String
 }
 
 input DeleteConceptOfInterestInput {

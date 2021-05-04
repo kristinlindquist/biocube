@@ -5,8 +5,21 @@ const getConceptsOfInterest = gql`
     getConceptsOfInterest(input: $input) {
       conceptsOfInterest {
         id
+        aspectsOfHealth {
+          id
+          description
+          name
+          url
+        }
         description
+        measures {
+          id
+          description
+          name
+          url
+        }
         name
+        url
       }
     }
   }

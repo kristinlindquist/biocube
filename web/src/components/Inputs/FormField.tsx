@@ -63,7 +63,10 @@ const FormField = ({
       const { data: d } = useQuery(doc, {
         variables: { input: {} },
       });
-      myOptions = get(d, getEntityPath(docName)) || [];
+      myOptions = (get(d, getEntityPath(docName)) || []).map((o) => ({
+        id: o.id,
+        name: o.name,
+      }));
     }
   }
 

@@ -1,0 +1,37 @@
+type Mutation {
+  upsertAspectOfHealth(input: UpsertAspectOfHealthInput!): UpsertAspectOfHealthResult!,
+  deleteAspectOfHealth(input: DeleteAspectOfHealthInput!): DeleteAspectOfHealthResult!,
+}
+
+input UpsertAspectOfHealthInput {
+  id: Int
+  conceptsOfInterest: [ConceptOfInterestInput!]
+  description: String
+  indications: [IndicationInput!]
+  name: String!
+  url: String
+}
+
+input ConceptOfInterestInput {
+  id: Int!
+  description: String
+  name: String!
+}
+
+input IndicationInput {
+  id: Int!
+  description: String
+  name: String!
+}
+
+type UpsertAspectOfHealthResult {
+  aspectOfHealth: AspectOfHealth!
+}
+
+input DeleteAspectOfHealthInput {
+  id: Int!
+}
+
+type DeleteAspectOfHealthResult {
+  aspectOfHealth: AspectOfHealth!
+}
