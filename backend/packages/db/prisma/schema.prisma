@@ -21,12 +21,12 @@ model Device {
   id           Int        @id @default(autoincrement())
   createdAt    DateTime   @default(now())
   updatedAt    DateTime?  @updatedAt
-  deviceTypeId Int
-  name         String     @db.VarChar(255)
-  userId       Int
-  deviceType   DeviceType @relation(fields: [deviceTypeId], references: [id])
-  user         User       @relation(fields: [userId], references: [id])
   data         Datum[]
+  deviceTypeId Int
+  deviceType   DeviceType @relation(fields: [deviceTypeId], references: [id])
+  name         String     @db.VarChar(255)
+  user         User       @relation(fields: [userId], references: [id])
+  userId       Int
 }
 
 model DeviceType {
@@ -34,45 +34,32 @@ model DeviceType {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime?    @updatedAt
   abbreviation String?      @db.VarChar(10)
-  description  String?
-  name         String       @db.VarChar(255)
-  parentId     Int?
-  parent       DeviceType?  @relation(fields: [parentId], references: [id])
   children     DeviceType[] @relation("DeviceTypeToDeviceType")
-  dataTypes    DataType[]
-  devices      Device[]
-}
-
-model DataType {
-  id                Int                @id @default(autoincrement())
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime?          @updatedAt
-  abbreviation      String?            @db.VarChar(10)
-  description       String?
-  name              String             @db.VarChar(255)
-  parentId          Int?
-  parent            DataType?          @relation(fields: [parentId], references: [id])
-  children          DataType[]         @relation("DataTypeToDataType")
-  data              Datum[]
-  deviceTypes       DeviceType[]
-  measureComponents MeasureComponent[]
-  relatedStudies    Study[]
+  description String?
+  devices     Device[]
+  measures    Measure[]
+  name     String      @db.VarChar(255)
+  parentId Int?
+  parent   DeviceType? @relation(fields: [parentId], references: [id])
 }
 
 model Datum {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  startedAt  DateTime
-  dataTypeId Int
-  deviceId   Int
-  duration   BigInt   @default(0)
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  startedAt DateTime
+  answerId  Int?
+  answer    Answer?  @relation(fields: [answerId], references: [id])
+  deviceId  Int
+  device    Device   @relation(fields: [deviceId], references: [id])
+  duration  BigInt   @default(0)
+  measure   Measure  @relation(fields: [measureId], references: [id])
+  measureId Int
+  meta  Json?
+  state StateType?
+  value Float?
+  text  String?
 
-  dataType DataType   @relation(fields: [dataTypeId], references: [id])
-  device   Device     @relation(fields: [deviceId], references: [id])
-  state    StateType?
-  value    Float?
-
-  @@unique([startedAt, deviceId, dataTypeId], name: "time_device_data_key")
+  @@unique([startedAt, deviceId, measureId], name: "time_device_measure_key")
 }
 
 /// "A meaningful aspect of health (MAH) broadly defines an aspect of a disease that patients
@@ -83,11 +70,13 @@ model AspectOfHealth {
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
   abbreviation       String?             @db.VarChar(10)
-  description        String?
-  name               String              @db.VarChar(255)
   conceptsOfInterest ConceptOfInterest[]
-  indications        Indication[]
-  relatedStudies     Study[]
+
+  description String?
+  indications Indication[]
+
+  name           String  @db.VarChar(255)
+  relatedStudies Study[]
 }
 
 /// "The COI is a simplified or narrowed element of a MAH that can be practically measured."
@@ -97,11 +86,11 @@ model ConceptOfInterest {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
   abbreviation    String?          @db.VarChar(10)
-  description     String?
-  name            String           @db.VarChar(255)
   aspectsOfHealth AspectOfHealth[]
-  measures        Measure[]
-  relatedStudies  Study[]
+  description    String?
+  measures       Measure[]
+  name           String    @db.VarChar(255)
+  relatedStudies Study[]
 }
 
 /// "The outcome to be measured.""
@@ -111,44 +100,73 @@ model Measure {
   createdAt          DateTime            @default(now())
   updatedAt          DateTime?           @updatedAt
   abbreviation       String?             @db.VarChar(10)
-  chartType          ChartType?
-  description        String?
-  meta               Json?
-  name               String              @db.VarChar(255)
+  components         Measure[]           @relation("MeasureToMeasure")
   conceptsOfInterest ConceptOfInterest[]
-  components         MeasureComponent[]
+  data               Datum[]
+  description        String?
+  deviceTypes        DeviceType[]
   indications        Indication[]
-  validationStudies  Study[]
-  aggregation        AggregationType? /// cubejs
+  name               String              @db.VarChar(255)
+  parentId           Int?
+  parent             Measure?            @relation(fields: [parentId], references: [id])
+  recipeId           Int?
+  recipe             MeasureRecipe?      @relation(fields: [recipeId], references: [id])
+  reports            ReportRecipe[]
+  questions          Question[]
   status             MeasureStatus?      @default(value: DRAFT)
-  sql                String? /// cubejs
+  type               MeasureType?
+  validationStudies  Study[]
 }
 
-model MeasureComponent {
-  id          Int       @id @default(autoincrement())
-  dataTypeId  Int
-  measureId   Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
-  description String?
-  dataType    DataType  @relation(fields: [dataTypeId], references: [id])
-  measure     Measure   @relation(fields: [measureId], references: [id])
+model MeasureRecipe {
+  id          Int              @id @default(autoincrement())
+  aggregation AggregationType? /// cubejs
   filters     Filter[]
+  measureId   Int?
+  measure     Measure?
+  sql         String? /// cubejs
+}
 
-  @@unique([measureId, dataTypeId], name: "measure_data_type_key")
+model ReportRecipe {
+  id        Int        @id @default(autoincrement())
+  chartType ChartType?
+  measures  Measure[]
+  meta      Json?
 }
 
 model Filter {
-  id                Int                @id @default(autoincrement())
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime?          @updatedAt
-  description       String?
-  dimension         String
-  join              String?
-  operator          String
-  numberValues      Float[]
-  stringValues      String[]
-  measureComponents MeasureComponent[]
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime?     @updatedAt
+  description  String?
+  dimension    String
+  join         String?
+  operator     String
+  numberValues Float[]
+  recipe       MeasureRecipe @relation(fields: [recipeId], references: [id])
+  recipeId     Int
+  stringValues String[]
+}
+
+model Question {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  answers   Answer[]
+  measureId Int
+  measure   Measure   @relation(fields: [measureId], references: [id])
+  name      String    @db.VarChar(255)
+}
+
+model Answer {
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  data       Datum[]
+  questionId Int
+  question   Question  @relation(fields: [questionId], references: [id])
+  text       String
+  value      Float?
 }
 
 model Study {
@@ -157,13 +175,12 @@ model Study {
   updatedAt          DateTime?           @updatedAt
   abbreviation       String?             @db.VarChar(10)
   abstract           String?
-  authors            String
-  externalUrl        String
-  title              String
   aspectsOfHealth    AspectOfHealth[]
+  authors            String
   conceptsOfInterest ConceptOfInterest[]
-  dataTypes          DataType[]
+  externalUrl        String
   measures           Measure[]
+  title              String
 }
 
 model Indication {
@@ -171,10 +188,10 @@ model Indication {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime?        @updatedAt
   abbreviation    String?          @db.VarChar(10)
-  description     String?
-  name            String           @db.VarChar(255)
   aspectsOfHealth AspectOfHealth[]
+  description     String?
   measures        Measure[]
+  name            String           @db.VarChar(255)
   users           User[]
 }
 
@@ -190,20 +207,20 @@ model Component {
   props     Json?
   upsertId  Int?
   delete    DataQuery?    @relation("deleteMutation", fields: [deleteId], references: [id])
+  pages     Page[]
   read      DataQuery?    @relation("readQuery", fields: [readId], references: [id])
   readOne   DataQuery?    @relation("readOneQuery", fields: [readOneId], references: [id])
   type      ComponentType
   upsert    DataQuery?    @relation("upsertMutation", fields: [upsertId], references: [id])
-  pages     Page[]
 }
 
 model DataQuery {
   id                Int               @id @default(autoincrement())
   createdAt         DateTime          @default(now())
   updatedAt         DateTime?         @updatedAt
+  deleteComponents  Component[]       @relation("deleteMutation")
   document          QueryDocumentType
   parameters        Json
-  deleteComponents  Component[]       @relation("deleteMutation")
   readComponents    Component[]       @relation("readQuery")
   readOneComponents Component[]       @relation("readOneQuery")
   upsertComponents  Component[]       @relation("upsertMutation")
@@ -213,27 +230,27 @@ model Page {
   id         Int         @id @default(autoincrement())
   createdAt  DateTime    @default(now())
   updatedAt  DateTime?   @updatedAt
+  components Component[]
   name       String      @db.VarChar(255)
+  templates  Template[]
   title      String
   url        String      @db.VarChar(255)
-  components Component[]
-  templates  Template[]
 }
 
 model Template {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  name      String    @db.VarChar(255)
   pages     Page[]
+  name      String    @db.VarChar(255)
 }
 
 model DashboardGraph {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  name      String    @db.VarChar(255)
   layout    Json
+  name      String    @db.VarChar(255)
   vizState  Json
 }
 
@@ -274,6 +291,15 @@ enum MeasureStatus {
   VALIDATED
   EXPLORATORY
   DRAFT
+}
+
+enum MeasureType {
+  BIOMARKER
+  SURROGATE
+  PRO
+  CLINRO
+  OBSRO
+  PERFO
 }
 
 enum QueryDocumentType {
