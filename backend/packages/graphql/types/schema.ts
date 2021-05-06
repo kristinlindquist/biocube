@@ -37,6 +37,19 @@ export enum AggregationType {
   Sum = 'SUM'
 }
 
+export type Answer = {
+  __typename?: 'Answer';
+  id?: Maybe<Scalars['Int']>;
+  text?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
+export type AnswerInput = {
+  id: Scalars['Int'];
+  text?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
+};
+
 export type AspectOfHealth = {
   __typename?: 'AspectOfHealth';
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
@@ -64,20 +77,13 @@ export enum ChartType {
 
 export type Component = {
   __typename?: 'Component';
-  dataType: DataType;
-  delete?: Maybe<DataQuery>;
-  description?: Maybe<Scalars['String']>;
-  filters?: Maybe<Array<Filter>>;
   id: Scalars['Int'];
   props?: Maybe<Scalars['JSON']>;
+  type: ComponentType;
   read?: Maybe<DataQuery>;
   readOne?: Maybe<DataQuery>;
-  type: ComponentType;
   upsert?: Maybe<DataQuery>;
-};
-
-export type ComponentInput = {
-  id: Scalars['Int'];
+  delete?: Maybe<DataQuery>;
 };
 
 export enum ComponentType {
@@ -117,23 +123,6 @@ export type DataQuery = {
   parameters: Scalars['JSON'];
 };
 
-export type DataType = {
-  __typename?: 'DataType';
-  description?: Maybe<Scalars['String']>;
-  deviceTypes?: Maybe<Array<DeviceType>>;
-  id: Scalars['Int'];
-  measures?: Maybe<Array<Measure>>;
-  name: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
-};
-
-export type DataTypeInput = {
-  id: Scalars['Int'];
-  description?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-};
-
 
 export type DeleteAspectOfHealthInput = {
   id: Scalars['Int'];
@@ -160,15 +149,6 @@ export type DeleteDashboardGraphInput = {
 export type DeleteDashboardGraphResult = {
   __typename?: 'DeleteDashboardGraphResult';
   dashboardGraph: DashboardGraph;
-};
-
-export type DeleteDataTypeInput = {
-  id: Scalars['Int'];
-};
-
-export type DeleteDataTypeResult = {
-  __typename?: 'DeleteDataTypeResult';
-  dataType?: Maybe<DataType>;
 };
 
 export type DeleteIndicationInput = {
@@ -206,23 +186,17 @@ export type Device = {
   url?: Maybe<Scalars['String']>;
 };
 
-export type DeviceType = {
-  __typename?: 'DeviceType';
-  id: Scalars['Int'];
-  description?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
-};
-
-export type DeviceTypeInput = {
-  id: Scalars['Int'];
-  description?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-};
-
 export type Filter = {
   __typename?: 'Filter';
   id: Scalars['Int'];
+  dimension: Scalars['String'];
+  join?: Maybe<Scalars['String']>;
+  operator: Scalars['String'];
+  values?: Maybe<Array<Scalars['String']>>;
+};
+
+export type FilterInput = {
+  id?: Maybe<Scalars['Int']>;
   dimension: Scalars['String'];
   join?: Maybe<Scalars['String']>;
   operator: Scalars['String'];
@@ -281,24 +255,6 @@ export type GetDashboardGraphsInput = {
 export type GetDashboardGraphsResult = {
   __typename?: 'GetDashboardGraphsResult';
   dashboardGraphs?: Maybe<Array<Maybe<DashboardGraph>>>;
-};
-
-export type GetDataTypeInput = {
-  id: Scalars['Int'];
-};
-
-export type GetDataTypeResult = {
-  __typename?: 'GetDataTypeResult';
-  dataType?: Maybe<DataType>;
-};
-
-export type GetDataTypesInput = {
-  test?: Maybe<Scalars['Boolean']>;
-};
-
-export type GetDataTypesResult = {
-  __typename?: 'GetDataTypesResult';
-  dataTypes?: Maybe<Array<Maybe<DataType>>>;
 };
 
 export type GetDeviceInput = {
@@ -399,17 +355,16 @@ export type IndicationInput = {
 
 export type Measure = {
   __typename?: 'Measure';
-  aggregation?: Maybe<Scalars['String']>;
-  chartType?: Maybe<Scalars['String']>;
-  components?: Maybe<Array<Component>>;
+  abbreviation?: Maybe<Scalars['String']>;
+  components?: Maybe<Array<Measure>>;
   conceptsOfInterest?: Maybe<Array<ConceptOfInterest>>;
-  dataTypes?: Maybe<Array<DataType>>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   indications?: Maybe<Array<Indication>>;
-  meta?: Maybe<Scalars['JSON']>;
   name: Scalars['String'];
-  sql?: Maybe<Scalars['String']>;
+  questions?: Maybe<Array<Question>>;
+  recipe?: Maybe<MeasureRecipe>;
+  reports?: Maybe<Array<ReportRecipe>>;
   status?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -419,6 +374,23 @@ export type MeasureInput = {
   id: Scalars['Int'];
   name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
+};
+
+export type MeasureRecipe = {
+  __typename?: 'MeasureRecipe';
+  id: Scalars['Int'];
+  aggregation?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  filters?: Maybe<Array<Filter>>;
+  sql: Scalars['String'];
+};
+
+export type MeasureRecipeInput = {
+  id: Scalars['Int'];
+  aggregation?: Maybe<AggregationType>;
+  description?: Maybe<Scalars['String']>;
+  filters?: Maybe<Array<FilterInput>>;
+  sql: Scalars['String'];
 };
 
 export enum MeasureStatus {
@@ -432,14 +404,12 @@ export type Mutation = {
   deleteAspectOfHealth: DeleteAspectOfHealthResult;
   deleteConceptOfInterest: DeleteConceptOfInterestResult;
   deleteDashboardGraph: DeleteDashboardGraphResult;
-  deleteDataType: DeleteDataTypeResult;
   deleteIndication: DeleteIndicationResult;
   deleteMeasure: DeleteMeasureResult;
   deleteTemplate: DeleteTemplateResult;
   upsertAspectOfHealth: UpsertAspectOfHealthResult;
   upsertConceptOfInterest: UpsertConceptOfInterestResult;
   upsertDashboardGraph: UpsertDashboardGraphResult;
-  upsertDataType: UpsertDataTypeResult;
   upsertIndication: UpsertIndicationResult;
   upsertMeasure: UpsertMeasureResult;
   upsertTemplate: UpsertTemplateResult;
@@ -458,11 +428,6 @@ export type MutationDeleteConceptOfInterestArgs = {
 
 export type MutationDeleteDashboardGraphArgs = {
   input: DeleteDashboardGraphInput;
-};
-
-
-export type MutationDeleteDataTypeArgs = {
-  input: DeleteDataTypeInput;
 };
 
 
@@ -493,11 +458,6 @@ export type MutationUpsertConceptOfInterestArgs = {
 
 export type MutationUpsertDashboardGraphArgs = {
   input: UpsertDashboardGraphInput;
-};
-
-
-export type MutationUpsertDataTypeArgs = {
-  input: UpsertDataTypeInput;
 };
 
 
@@ -538,8 +498,6 @@ export type Query = {
   getConceptsOfInterest: GetConceptsOfInterestResult;
   getDashboardGraph: GetDashboardGraphResult;
   getDashboardGraphs: GetDashboardGraphsResult;
-  getDataType: GetDataTypeResult;
-  getDataTypes: GetDataTypesResult;
   getDevice: GetDeviceResult;
   getIndication: GetIndicationResult;
   getIndications: GetIndicationsResult;
@@ -579,16 +537,6 @@ export type QueryGetDashboardGraphArgs = {
 
 export type QueryGetDashboardGraphsArgs = {
   input: GetDashboardGraphsInput;
-};
-
-
-export type QueryGetDataTypeArgs = {
-  input: GetDataTypeInput;
-};
-
-
-export type QueryGetDataTypesArgs = {
-  input: GetDataTypesInput;
 };
 
 
@@ -657,6 +605,34 @@ export enum QueryDocumentType {
   DeleteIndicationDocument = 'DeleteIndicationDocument'
 }
 
+export type Question = {
+  __typename?: 'Question';
+  id?: Maybe<Scalars['Int']>;
+  answers?: Maybe<Array<Answer>>;
+  description?: Maybe<Scalars['String']>;
+  text: Scalars['String'];
+};
+
+export type QuestionInput = {
+  id: Scalars['Int'];
+  answers?: Maybe<Array<AnswerInput>>;
+  description?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+};
+
+export type ReportRecipe = {
+  __typename?: 'ReportRecipe';
+  id?: Maybe<Scalars['Int']>;
+  chartType?: Maybe<Scalars['String']>;
+  meta?: Maybe<Scalars['JSON']>;
+};
+
+export type ReportRecipeInput = {
+  id: Scalars['Int'];
+  chartType?: Maybe<ChartType>;
+  meta?: Maybe<Scalars['JSON']>;
+};
+
 export type Sleep = {
   __typename?: 'Sleep';
   start?: Maybe<Scalars['Float']>;
@@ -722,20 +698,6 @@ export type UpsertDashboardGraphResult = {
   dashboardGraph: DashboardGraph;
 };
 
-export type UpsertDataTypeInput = {
-  id?: Maybe<Scalars['Int']>;
-  description?: Maybe<Scalars['String']>;
-  deviceTypes?: Maybe<Array<DeviceTypeInput>>;
-  measures?: Maybe<Array<MeasureInput>>;
-  name: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
-};
-
-export type UpsertDataTypeResult = {
-  __typename?: 'UpsertDataTypeResult';
-  dataType?: Maybe<DataType>;
-};
-
 export type UpsertIndicationInput = {
   id?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
@@ -751,17 +713,16 @@ export type UpsertIndicationResult = {
 
 export type UpsertMeasureInput = {
   id?: Maybe<Scalars['Int']>;
-  aggregation?: Maybe<AggregationType>;
-  chartType?: Maybe<ChartType>;
-  description?: Maybe<Scalars['String']>;
-  meta?: Maybe<Scalars['JSON']>;
-  name: Scalars['String'];
+  abbreviation?: Maybe<Scalars['String']>;
+  components?: Maybe<Array<MeasureInput>>;
   conceptsOfInterest?: Maybe<Array<ConceptOfInterestInput>>;
-  components?: Maybe<Array<ComponentInput>>;
-  dataTypes?: Maybe<Array<DataTypeInput>>;
+  description?: Maybe<Scalars['String']>;
   indications?: Maybe<Array<IndicationInput>>;
+  name: Scalars['String'];
+  recipe?: Maybe<MeasureRecipeInput>;
+  reports?: Maybe<Array<ReportRecipeInput>>;
+  questions?: Maybe<Array<QuestionInput>>;
   status?: Maybe<MeasureStatus>;
-  sql?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
 

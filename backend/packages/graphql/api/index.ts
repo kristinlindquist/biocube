@@ -11,7 +11,6 @@ import {
 import { getDevice } from './queries/device';
 
 import { getDashboardGraph, getDashboardGraphs } from './queries/dashboardGraph';
-import { getDataType, getDataTypes } from './queries/dataType';
 import { getMeasure, getMeasures } from './queries/measure';
 import { getIndication, getIndications } from './queries/indication';
 import { getTemplate, getTemplates } from './queries/template';
@@ -25,8 +24,6 @@ const allQueries = {
   getConceptsOfInterest,
   getDashboardGraph,
   getDashboardGraphs,
-  getDataType,
-  getDataTypes,
   getDevice,
   getMeasures,
   getMeasure,
@@ -54,10 +51,6 @@ import {
   GetDashboardGraphResult,
   GetDashboardGraphsInput,
   GetDashboardGraphsResult,
-  GetDataTypeInput,
-  GetDataTypeResult,
-  GetDataTypesInput,
-  GetDataTypesResult,
   GetDeviceInput,
   GetDeviceResult,
   GetIndicationInput,
@@ -166,32 +159,6 @@ class GraphQLApi {
     context?: Context,
   ): Promise<GetDashboardGraphsResult> {
     const operationName = 'getDashboardGraphs';
-    const variables = { input };
-    return this.graphqlRequest({
-      operationName,
-      variables,
-      context,
-    });
-  }
-
-  async getDataType(
-    input: GetDataTypeInput,
-    context?: Context,
-  ): Promise<GetDataTypeResult> {
-    const operationName = 'getDataType';
-    const variables = { input };
-    return this.graphqlRequest({
-      operationName,
-      variables,
-      context,
-    });
-  }
-
-  async getDataTypes(
-    input: GetDataTypesInput,
-    context?: Context,
-  ): Promise<GetDataTypesResult> {
-    const operationName = 'getDataTypes';
     const variables = { input };
     return this.graphqlRequest({
       operationName,

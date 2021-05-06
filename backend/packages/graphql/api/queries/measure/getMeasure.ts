@@ -5,30 +5,15 @@ const getMeasure = gql`
     getMeasure(input: $input) {
       measure {
         id
-        aggregation
+        abbreviation
+        components {
+          id
+          description
+          name
+        }
         conceptsOfInterest {
           id
           name
-        }
-        components {
-          id
-          dataType {
-            id
-            name
-          }
-          description
-          filters {
-            dimension
-            join
-            operator
-            values
-          }
-        }
-        dataTypes {
-          id
-          description
-          name
-          url
         }
         description
         indications {
@@ -37,8 +22,34 @@ const getMeasure = gql`
           url
         }
         name
+        recipe {
+          id
+          aggregation
+          filters {
+            id
+            dimension
+            join
+            operator
+            values
+          }
+          sql
+        }
+        reports {
+          id
+          chartType
+          meta
+        }
+        questions {
+          id
+          answers {
+            id
+            text
+            value
+          }
+          description
+          text
+        }
         status
-        sql
         url
       }
     }

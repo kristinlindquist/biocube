@@ -5,18 +5,15 @@ const upsertMeasure = gql`
     upsertMeasure(input: $input) {
       measure {
         id
-        aggregation
+        abbreviation
+        components {
+          id
+          description
+          name
+        }
         conceptsOfInterest {
           id
           name
-        }
-        components {
-          id
-        }
-        dataTypes {
-          id
-          name
-          url
         }
         description
         indications {
@@ -25,8 +22,34 @@ const upsertMeasure = gql`
           url
         }
         name
+        recipe {
+          id
+          aggregation
+          filters {
+            id
+            dimension
+            join
+            operator
+            values
+          }
+          sql
+        }
+        reports {
+          id
+          chartType
+          meta
+        }
+        questions {
+          id
+          answers {
+            id
+            text
+            value
+          }
+          description
+          text
+        }
         status
-        sql
         url
       }
     }

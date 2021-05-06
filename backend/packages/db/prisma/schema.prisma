@@ -11,17 +11,17 @@ model User {
   id          Int          @id @default(autoincrement())
   createdAt   DateTime     @default(now())
   updatedAt   DateTime?    @updatedAt
-  email       String       @unique
-  name        String       @db.VarChar(255)
   devices     Device[]
+  email       String       @unique
   indications Indication[]
+  name        String       @db.VarChar(255)
 }
 
 model Device {
   id           Int        @id @default(autoincrement())
   createdAt    DateTime   @default(now())
   updatedAt    DateTime?  @updatedAt
-  data         Datum[]
+  data         Data[]
   deviceTypeId Int
   deviceType   DeviceType @relation(fields: [deviceTypeId], references: [id])
   name         String     @db.VarChar(255)
@@ -35,29 +35,29 @@ model DeviceType {
   updatedAt    DateTime?    @updatedAt
   abbreviation String?      @db.VarChar(10)
   children     DeviceType[] @relation("DeviceTypeToDeviceType")
-  description String?
-  devices     Device[]
-  measures    Measure[]
-  name     String      @db.VarChar(255)
-  parentId Int?
-  parent   DeviceType? @relation(fields: [parentId], references: [id])
+  description  String?
+  devices      Device[]
+  measures     Measure[]
+  name         String       @db.VarChar(255)
+  parentId     Int?
+  parent       DeviceType?  @relation(fields: [parentId], references: [id])
 }
 
-model Datum {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+model Data {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
   startedAt DateTime
   answerId  Int?
-  answer    Answer?  @relation(fields: [answerId], references: [id])
+  answer    Answer?    @relation(fields: [answerId], references: [id])
   deviceId  Int
-  device    Device   @relation(fields: [deviceId], references: [id])
-  duration  BigInt   @default(0)
-  measure   Measure  @relation(fields: [measureId], references: [id])
+  device    Device     @relation(fields: [deviceId], references: [id])
+  duration  BigInt     @default(0)
+  measure   Measure    @relation(fields: [measureId], references: [id])
   measureId Int
-  meta  Json?
-  state StateType?
-  value Float?
-  text  String?
+  meta      Json?
+  state     StateType?
+  value     Float?
+  text      String?
 
   @@unique([startedAt, deviceId, measureId], name: "time_device_measure_key")
 }
@@ -71,12 +71,10 @@ model AspectOfHealth {
   updatedAt          DateTime?           @updatedAt
   abbreviation       String?             @db.VarChar(10)
   conceptsOfInterest ConceptOfInterest[]
-
-  description String?
-  indications Indication[]
-
-  name           String  @db.VarChar(255)
-  relatedStudies Study[]
+  description        String?
+  indications        Indication[]
+  name               String              @db.VarChar(255)
+  relatedStudies     Study[]
 }
 
 /// "The COI is a simplified or narrowed element of a MAH that can be practically measured."
@@ -87,10 +85,10 @@ model ConceptOfInterest {
   updatedAt       DateTime?        @updatedAt
   abbreviation    String?          @db.VarChar(10)
   aspectsOfHealth AspectOfHealth[]
-  description    String?
-  measures       Measure[]
-  name           String    @db.VarChar(255)
-  relatedStudies Study[]
+  description     String?
+  measures        Measure[]
+  name            String           @db.VarChar(255)
+  relatedStudies  Study[]
 }
 
 /// "The outcome to be measured.""
@@ -102,15 +100,14 @@ model Measure {
   abbreviation       String?             @db.VarChar(10)
   components         Measure[]           @relation("MeasureToMeasure")
   conceptsOfInterest ConceptOfInterest[]
-  data               Datum[]
+  data               Data[]
   description        String?
   deviceTypes        DeviceType[]
   indications        Indication[]
   name               String              @db.VarChar(255)
   parentId           Int?
   parent             Measure?            @relation(fields: [parentId], references: [id])
-  recipeId           Int?
-  recipe             MeasureRecipe?      @relation(fields: [recipeId], references: [id])
+  recipe             MeasureRecipe?
   reports            ReportRecipe[]
   questions          Question[]
   status             MeasureStatus?      @default(value: DRAFT)
@@ -120,17 +117,22 @@ model Measure {
 
 model MeasureRecipe {
   id          Int              @id @default(autoincrement())
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime?        @updatedAt
   aggregation AggregationType? /// cubejs
   filters     Filter[]
-  measureId   Int?
-  measure     Measure?
+  measureId   Int
+  measure     Measure          @relation(fields: [measureId], references: [id])
   sql         String? /// cubejs
 }
 
 model ReportRecipe {
   id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
   chartType ChartType?
-  measures  Measure[]
+  measureId Int?
+  measure   Measure?   @relation(fields: [measureId], references: [id])
   meta      Json?
 }
 
@@ -141,28 +143,29 @@ model Filter {
   description  String?
   dimension    String
   join         String?
-  operator     String
   numberValues Float[]
+  operator     String
   recipe       MeasureRecipe @relation(fields: [recipeId], references: [id])
   recipeId     Int
   stringValues String[]
 }
 
 model Question {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  answers   Answer[]
-  measureId Int
-  measure   Measure   @relation(fields: [measureId], references: [id])
-  name      String    @db.VarChar(255)
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  answers     Answer[]
+  description String
+  measureId   Int
+  measure     Measure   @relation(fields: [measureId], references: [id])
+  text        String
 }
 
 model Answer {
   id         Int       @id @default(autoincrement())
   createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
-  data       Datum[]
+  data       Data[]
   questionId Int
   question   Question  @relation(fields: [questionId], references: [id])
   text       String
@@ -255,10 +258,6 @@ model DashboardGraph {
 }
 
 // end: dynamic web components
-
-// start: ePRO
-
-// end: ePRO
 
 enum AggregationType {
   AVG

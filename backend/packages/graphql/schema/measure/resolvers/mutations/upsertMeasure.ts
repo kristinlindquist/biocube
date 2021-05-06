@@ -16,52 +16,46 @@ async function upsertMeasure(
   const { prisma } = context;
   const { input } = args;
   const inputMeasure: UpsertMeasureInput = input;
-  const { conceptsOfInterest, dataTypes, id: mId, indications } = inputMeasure;
+  const {
+    components,
+    conceptsOfInterest,
+    id: mId,
+    indications,
+    questions,
+    recipe,
+    reports,
+  } = inputMeasure;
 
   // if we don't limit this to ids, prisma gets mad
   const coiIds = (conceptsOfInterest || []).map(({ id }) => ({ id }));
-  const dtIds = (dataTypes || []).map(({ id }) => id);
+  const cIds = (components || []).map(({ id }) => ({ id }));
   const iIds = (indications || []).map(({ id }) => ({ id }));
+  const qIds = (questions || []).map(({ id }) => ({ id }));
+  const rIds = (reports || []).map(({ id }) => ({ id }));
   let measure: Measure | null = null;
 
-  const getKey = isUpdate => (isUpdate ? 'set' : 'connect');
+  const getKey = (isUpdate) => (isUpdate ? 'set' : 'connect');
   const getData = (isUpdate = false) => {
     const key = getKey(isUpdate);
     return {
-      ...omit(inputMeasure, ['id', 'dataTypes', 'url']),
+      ...omit(inputMeasure, ['id', 'url']),
+      components: { [key]: cIds },
       conceptsOfInterest: { [key]: coiIds },
       indications: { [key]: iIds },
+      questions: { [key]: qIds },
+      recipe: recipe ? { [key]: { id: recipe.id } } : undefined,
+      reports: { [key]: rIds },
     };
   };
 
   if (!mId) {
     measure = await prisma.measure.create({
-      data: {
-        ...getData(),
-        components: {
-          createMany: {
-            data: dtIds.map(id => ({
-              dataTypeId: id,
-            })),
-          },
-        },
-      },
+      data: getData(),
     });
   } else {
-    await prisma.measureComponent.createMany({
-      data: dtIds.map(id => ({ dataTypeId: id, measureId: mId })),
-      skipDuplicates: true,
-    });
     measure = await prisma.measure.update({
       where: { id: mId },
-      data: {
-        ...getData(true),
-        components: {
-          deleteMany: {
-            dataTypeId: { notIn: dtIds },
-          },
-        },
-      },
+      data: getData(true),
     });
   }
 

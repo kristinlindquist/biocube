@@ -11,7 +11,6 @@ import {
 import { aspectOfHealthResolvers } from './aspectOfHealth';
 import { conceptOfInterestResolvers } from './conceptOfInterest';
 import { dashboardGraphResolvers } from './dashboardGraph';
-import { dataTypeResolvers } from './dataType';
 import { deviceResolvers } from './device';
 import { googleFitResolvers } from './googlefit';
 import { indicationResolvers } from './indication';
@@ -23,7 +22,6 @@ const resolvers = mergeResolvers([
   aspectOfHealthResolvers,
   conceptOfInterestResolvers,
   dashboardGraphResolvers,
-  dataTypeResolvers,
   deviceResolvers,
   googleFitResolvers,
   indicationResolvers,

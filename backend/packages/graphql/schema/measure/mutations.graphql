@@ -5,18 +5,77 @@ type Mutation {
 
 input UpsertMeasureInput {
   id: Int
-  aggregation: AggregationType
-  chartType: ChartType
-  description: String
-  meta: JSON
-  name: String!
+  abbreviation: String
+  components: [MeasureInput!]
   conceptsOfInterest: [ConceptOfInterestInput!]
-  components: [ComponentInput!]
-  dataTypes: [DataTypeInput!]
+  description: String
   indications: [IndicationInput!]
+  name: String!
+  recipe: MeasureRecipeInput
+  reports: [ReportRecipeInput!]
+  questions: [QuestionInput!]
   status: MeasureStatus
-  sql: String
   url: String
+}
+
+input AnswerInput {
+  id: Int!
+  text: String
+  value: Float
+}
+
+input ConceptOfInterestInput {
+  id: Int!
+  description: String
+  name: String!
+}
+
+input FilterInput {
+  id: Int
+  dimension: String!
+  join: String
+  operator: String!
+  values: [String!]
+}
+
+input IndicationInput {
+  id: Int!
+  description: String
+  name: String!
+  url: String
+}
+
+input MeasureRecipeInput {
+  id: Int
+  aggregation: AggregationType
+  description: String
+  filters: [FilterInput!]
+  sql: String!
+}
+
+input QuestionInput {
+  id: Int!
+  answers: [AnswerInput!]
+  description: String
+  text: String
+}
+
+input ReportRecipeInput {
+  id: Int!
+  chartType: ChartType
+  meta: JSON
+}
+
+input DeleteMeasureInput {
+  id: Int!
+}
+
+type DeleteMeasureResult {
+  measure: Measure
+}
+
+type UpsertMeasureResult {
+  measure: Measure
 }
 
 enum AggregationType {
@@ -44,40 +103,4 @@ enum MeasureStatus {
   VALIDATED
   EXPLORATORY
   DRAFT
-}
-
-input ConceptOfInterestInput {
-  id: Int!
-  description: String
-  name: String!
-}
-
-input ComponentInput {
-  id: Int!
-}
-
-input DataTypeInput {
-  id: Int!
-  description: String
-  name: String
-  url: String
-}
-
-input DeleteMeasureInput {
-  id: Int!
-}
-
-type DeleteMeasureResult {
-  measure: Measure
-}
-
-input IndicationInput {
-  id: Int!
-  description: String
-  name: String!
-  url: String
-}
-
-type UpsertMeasureResult {
-  measure: Measure
 }

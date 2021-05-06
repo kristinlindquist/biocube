@@ -5,14 +5,15 @@ const getMeasures = gql`
     getMeasures(input: $input) {
       measures {
         id
+        abbreviation
+        components {
+          id
+          description
+          name
+        }
         conceptsOfInterest {
           id
           name
-        }
-        dataTypes {
-          id
-          name
-          url
         }
         description
         indications {

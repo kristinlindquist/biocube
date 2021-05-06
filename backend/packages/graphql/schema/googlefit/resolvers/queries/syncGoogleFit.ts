@@ -42,7 +42,7 @@ const syncGoogleFit = async (
     }));
 
     if (data.length > 0) {
-      prisma.datum.createMany({ data, skipDuplicates: true }).then((result) =>
+      prisma.data.createMany({ data, skipDuplicates: true }).then((result) =>
         logger.log({
           level: 'info',
           message: `Create result: ${JSON.stringify(result)} for ${date}.`,

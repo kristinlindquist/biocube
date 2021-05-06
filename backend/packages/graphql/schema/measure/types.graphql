@@ -1,17 +1,22 @@
 type Measure {
   id: Int
-  aggregation: String  # Why not AggregationType? https://github.com/prisma-labs/graphqlgen/issues/213
-  chartType: String  # ChartType
-  description: String
-  meta: JSON
-  name: String!
+  abbreviation: String
+  components: [Measure!]
   conceptsOfInterest: [ConceptOfInterest!]
-  components: [Component!]
-  dataTypes: [DataType!]
+  description: String
   indications: [Indication!]
-  sql: String
+  name: String!
+  recipe: MeasureRecipe
+  reports: [ReportRecipe!]
+  questions: [Question!]
   status: String # MeasureStatus
   url: String
+}
+
+type Answer {
+  id: Int
+  text: String
+  value: Float
 }
 
 type ConceptOfInterest {
@@ -19,13 +24,6 @@ type ConceptOfInterest {
   description: String
   name: String!
   url: String
-}
-
-type Component {
-  id: Int!
-  dataType: DataType!
-  description: String
-  filters: [Filter!]
 }
 
 type Filter {
@@ -36,16 +34,30 @@ type Filter {
   values: [String!]
 }
 
-type DataType {
+type Indication {
   id: Int!
   description: String
   name: String!
   url: String
 }
 
-type Indication {
-  id: Int!
+type MeasureRecipe {
+  id: Int
+  aggregation: String  # Why not AggregationType? https://github.com/prisma-labs/graphqlgen/issues/213
   description: String
-  name: String!
-  url: String
+  filters: [Filter!]
+  sql: String!
+}
+
+type Question {
+  id: Int
+  answers: [Answer!]
+  description: String
+  text: String!
+}
+
+type ReportRecipe {
+  id: Int
+  chartType: String  # Why not ChartType? https://github.com/prisma-labs/graphqlgen/issues/213
+  meta: JSON
 }

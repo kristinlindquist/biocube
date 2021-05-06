@@ -21,6 +21,18 @@ enum AggregationType {
   SUM
 }
 
+type Answer {
+  id: Int
+  text: String
+  value: Float
+}
+
+input AnswerInput {
+  id: Int!
+  text: String
+  value: Float
+}
+
 type AspectOfHealth {
   conceptsOfInterest: [ConceptOfInterest!]
   description: String
@@ -46,20 +58,13 @@ enum ChartType {
 }
 
 type Component {
-  dataType: DataType!
-  delete: DataQuery
-  description: String
-  filters: [Filter!]
   id: Int!
   props: JSON
+  type: ComponentType!
   read: DataQuery
   readOne: DataQuery
-  type: ComponentType!
   upsert: DataQuery
-}
-
-input ComponentInput {
-  id: Int!
+  delete: DataQuery
 }
 
 enum ComponentType {
@@ -96,22 +101,6 @@ type DataQuery {
   parameters: JSON!
 }
 
-type DataType {
-  description: String
-  deviceTypes: [DeviceType!]
-  id: Int!
-  measures: [Measure!]
-  name: String!
-  url: String
-}
-
-input DataTypeInput {
-  id: Int!
-  description: String
-  name: String
-  url: String
-}
-
 scalar DateTime
 
 input DeleteAspectOfHealthInput {
@@ -136,14 +125,6 @@ input DeleteDashboardGraphInput {
 
 type DeleteDashboardGraphResult {
   dashboardGraph: DashboardGraph!
-}
-
-input DeleteDataTypeInput {
-  id: Int!
-}
-
-type DeleteDataTypeResult {
-  dataType: DataType
 }
 
 input DeleteIndicationInput {
@@ -177,21 +158,16 @@ type Device {
   url: String
 }
 
-type DeviceType {
-  id: Int!
-  description: String
-  name: String!
-  url: String
-}
-
-input DeviceTypeInput {
-  id: Int!
-  description: String
-  name: String
-}
-
 type Filter {
   id: Int!
+  dimension: String!
+  join: String
+  operator: String!
+  values: [String!]
+}
+
+input FilterInput {
+  id: Int
   dimension: String!
   join: String
   operator: String!
@@ -244,22 +220,6 @@ input GetDashboardGraphsInput {
 
 type GetDashboardGraphsResult {
   dashboardGraphs: [DashboardGraph]
-}
-
-input GetDataTypeInput {
-  id: Int!
-}
-
-type GetDataTypeResult {
-  dataType: DataType
-}
-
-input GetDataTypesInput {
-  test: Boolean
-}
-
-type GetDataTypesResult {
-  dataTypes: [DataType]
 }
 
 input GetDeviceInput {
@@ -350,17 +310,16 @@ input IndicationInput {
 scalar JSON
 
 type Measure {
-  aggregation: String
-  chartType: String
-  components: [Component!]
+  abbreviation: String
+  components: [Measure!]
   conceptsOfInterest: [ConceptOfInterest!]
-  dataTypes: [DataType!]
   description: String
   id: Int!
   indications: [Indication!]
-  meta: JSON
   name: String!
-  sql: String
+  questions: [Question!]
+  recipe: MeasureRecipe
+  reports: [ReportRecipe!]
   status: String
   url: String
 }
@@ -370,6 +329,22 @@ input MeasureInput {
   id: Int!
   name: String!
   url: String
+}
+
+type MeasureRecipe {
+  id: Int!
+  aggregation: String
+  description: String
+  filters: [Filter!]
+  sql: String!
+}
+
+input MeasureRecipeInput {
+  id: Int!
+  aggregation: AggregationType
+  description: String
+  filters: [FilterInput!]
+  sql: String!
 }
 
 enum MeasureStatus {
@@ -382,14 +357,12 @@ type Mutation {
   deleteAspectOfHealth(input: DeleteAspectOfHealthInput!): DeleteAspectOfHealthResult!
   deleteConceptOfInterest(input: DeleteConceptOfInterestInput!): DeleteConceptOfInterestResult!
   deleteDashboardGraph(input: DeleteDashboardGraphInput!): DeleteDashboardGraphResult!
-  deleteDataType(input: DeleteDataTypeInput!): DeleteDataTypeResult!
   deleteIndication(input: DeleteIndicationInput!): DeleteIndicationResult!
   deleteMeasure(input: DeleteMeasureInput!): DeleteMeasureResult!
   deleteTemplate(input: DeleteTemplateInput!): DeleteTemplateResult!
   upsertAspectOfHealth(input: UpsertAspectOfHealthInput!): UpsertAspectOfHealthResult!
   upsertConceptOfInterest(input: UpsertConceptOfInterestInput!): UpsertConceptOfInterestResult!
   upsertDashboardGraph(input: UpsertDashboardGraphInput!): UpsertDashboardGraphResult!
-  upsertDataType(input: UpsertDataTypeInput!): UpsertDataTypeResult!
   upsertIndication(input: UpsertIndicationInput!): UpsertIndicationResult!
   upsertMeasure(input: UpsertMeasureInput!): UpsertMeasureResult!
   upsertTemplate(input: UpsertTemplateInput!): UpsertTemplateResult!
@@ -415,8 +388,6 @@ type Query {
   getConceptsOfInterest(input: GetConceptsOfInterestInput!): GetConceptsOfInterestResult!
   getDashboardGraph(input: GetDashboardGraphInput!): GetDashboardGraphResult!
   getDashboardGraphs(input: GetDashboardGraphsInput!): GetDashboardGraphsResult!
-  getDataType(input: GetDataTypeInput!): GetDataTypeResult!
-  getDataTypes(input: GetDataTypesInput!): GetDataTypesResult!
   getDevice(input: GetDeviceInput!): GetDeviceResult!
   getIndication(input: GetIndicationInput!): GetIndicationResult!
   getIndications(input: GetIndicationsInput!): GetIndicationsResult!
@@ -447,6 +418,32 @@ enum QueryDocumentType {
   GetIndicationsDocument
   UpsertIndicationDocument
   DeleteIndicationDocument
+}
+
+type Question {
+  id: Int
+  answers: [Answer!]
+  description: String
+  text: String!
+}
+
+input QuestionInput {
+  id: Int!
+  answers: [AnswerInput!]
+  description: String
+  text: String
+}
+
+type ReportRecipe {
+  id: Int
+  chartType: String
+  meta: JSON
+}
+
+input ReportRecipeInput {
+  id: Int!
+  chartType: ChartType
+  meta: JSON
 }
 
 type Sleep {
@@ -508,19 +505,6 @@ type UpsertDashboardGraphResult {
   dashboardGraph: DashboardGraph!
 }
 
-input UpsertDataTypeInput {
-  id: Int
-  description: String
-  deviceTypes: [DeviceTypeInput!]
-  measures: [MeasureInput!]
-  name: String!
-  url: String
-}
-
-type UpsertDataTypeResult {
-  dataType: DataType
-}
-
 input UpsertIndicationInput {
   id: Int
   description: String
@@ -535,17 +519,16 @@ type UpsertIndicationResult {
 
 input UpsertMeasureInput {
   id: Int
-  aggregation: AggregationType
-  chartType: ChartType
-  description: String
-  meta: JSON
-  name: String!
+  abbreviation: String
+  components: [MeasureInput!]
   conceptsOfInterest: [ConceptOfInterestInput!]
-  components: [ComponentInput!]
-  dataTypes: [DataTypeInput!]
+  description: String
   indications: [IndicationInput!]
+  name: String!
+  recipe: MeasureRecipeInput
+  reports: [ReportRecipeInput!]
+  questions: [QuestionInput!]
   status: MeasureStatus
-  sql: String
   url: String
 }
 
