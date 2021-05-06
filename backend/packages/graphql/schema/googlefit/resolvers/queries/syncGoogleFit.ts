@@ -10,8 +10,8 @@ import {
   SyncGoogleFitResult,
 } from '../../../../types';
 
-const addDataType = (array, dataTypeId) =>
-  array.map((i) => ({ ...i, dataTypeId }));
+const addMeasure = (array, measureId) =>
+  array.map((i) => ({ ...i, measureId }));
 
 const syncGoogleFit = async (
   _: Parent,
@@ -32,9 +32,9 @@ const syncGoogleFit = async (
     const sleep = await api.getSleep(token, dayStart, dayEnd, false);
 
     const data = [
-      ...addDataType(activity, 6),
-      ...addDataType(heartRate, 1),
-      ...addDataType(sleep, 5),
+      ...addMeasure(activity, 35),
+      ...addMeasure(heartRate, 33),
+      ...addMeasure(sleep, 50),
     ].map((d) => ({
       ...d,
       deviceId: 1,

@@ -376,7 +376,7 @@ export type MeasureInput = {
 
 export type MeasureRecipe = {
   __typename?: 'MeasureRecipe';
-  id: Scalars['Int'];
+  id?: Maybe<Scalars['Int']>;
   aggregation?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   filters?: Maybe<Array<Filter>>;
@@ -384,7 +384,7 @@ export type MeasureRecipe = {
 };
 
 export type MeasureRecipeInput = {
-  id: Scalars['Int'];
+  id?: Maybe<Scalars['Int']>;
   aggregation?: Maybe<AggregationType>;
   description?: Maybe<Scalars['String']>;
   filters?: Maybe<Array<FilterInput>>;

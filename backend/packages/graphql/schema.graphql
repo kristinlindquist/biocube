@@ -332,7 +332,7 @@ input MeasureInput {
 }
 
 type MeasureRecipe {
-  id: Int!
+  id: Int
   aggregation: String
   description: String
   filters: [Filter!]
@@ -340,7 +340,7 @@ type MeasureRecipe {
 }
 
 input MeasureRecipeInput {
-  id: Int!
+  id: Int
   aggregation: AggregationType
   description: String
   filters: [FilterInput!]

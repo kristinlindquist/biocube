@@ -9,19 +9,24 @@ const mQuery = {
     getMeasures(input: $input) {
       measures {
         id
-        aggregation
-        chartType
         components {
+          id
+        }
+        recipe {
+          aggregation
           filters {
             dimension
             join
             operator
             values
           }
+          sql
         }
-        meta
+        reports {
+          chartType
+          meta
+        }
         name
-        sql
         status
       }
     }
@@ -31,7 +36,7 @@ const mQuery = {
 const HOUR = '(1000.0 * 60.0 * 60.0)';
 
 const getFilter = ({ dimension, operator, values }) =>
-  `${dimension} ${operator} (${values.map(v => `'${v}'`).join(',')})`;
+  `${dimension} ${operator} (${values.map((v) => `'${v}'`).join(',')})`;
 
 asyncModule(async () => {
   const measures = get(
@@ -46,8 +51,7 @@ asyncModule(async () => {
   );
 
   cube(`Data`, {
-    sql: `SELECT * FROM public."Datum"`,
-    title: `D -`,
+    sql: `SELECT * FROM public."Data"`,
 
     joins: {
       DataType: {
@@ -76,26 +80,40 @@ asyncModule(async () => {
 
     measures: {
       ...measures
-        .filter(m => m.status !== 'DRAFT')
-        .map(m => ({
+        .filter((m) => m.status !== 'DRAFT')
+        .map((m) => ({
           [camelCase(m.name)]: {
             filters: [
-              { sql: `${MeasureComponent}."measureId" = ${m.id}` },
-              ...(m.components || [])
-                .flatMap(c => c.filters || [])
-                .map(f => ({
-                  sql:
-                    (f.join || 'ConcurrentState') === 'ConcurrentState'
-                      ? `${ConcurrentState}.${getFilter(f)}`
-                      : `${CUBE}.${getFilter(f)}`,
-                })),
+              {
+                sql: `${CUBE}."measureId" in (${[
+                  m.id,
+                  ...(m.components || []).map((c) => c.id),
+                ].join(', ')})`,
+              },
+              ...(get(m, 'recipe.filters') || []).map((f) => ({
+                sql:
+                  (f.join || 'ConcurrentState') === 'ConcurrentState'
+                    ? `${ConcurrentState}.${getFilter(f)}`
+                    : `${CUBE}.${getFilter(f)}`,
+              })),
+              // ...(m.components || [])
+              //   .flatMap((c) => c.filters || [])
+              //   .map((f) => ({
+              //     sql:
+              //       (f.join || 'ConcurrentState') === 'ConcurrentState'
+              //         ? `${ConcurrentState}.${getFilter(f)}`
+              //         : `${CUBE}.${getFilter(f)}`,
+              //   })),
             ],
-            meta: { ...(m.meta || {}), chartType: m.chartType },
-            sql: m.sql ? `${CUBE}.${m.sql}` : `value`, // TODO: "CUBE" is fragile
+            meta: {
+              ...(m.meta || {}),
+              chartType: get(m, 'reports.0.chartType') || 'line',
+            },
+            sql: `${CUBE}.${get(m, 'recipe.sql') || 'value'}`, // TODO: "CUBE" is fragile
             title: m.name,
-            type: m.aggregation
-              ? camelCase(m.aggregation.toLowerCase())
-              : `avg`,
+            type: camelCase(
+              get(m, 'recipe.aggregation') || 'avg',
+            ).toLowerCase(),
           },
         }))
         .reduce((a, b) => Object.assign(a, b)),

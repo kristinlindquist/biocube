@@ -105,8 +105,7 @@ model Measure {
   deviceTypes        DeviceType[]
   indications        Indication[]
   name               String              @db.VarChar(255)
-  parentId           Int?
-  parent             Measure?            @relation(fields: [parentId], references: [id])
+  parents            Measure[]           @relation("MeasureToMeasure")
   recipe             MeasureRecipe?
   reports            ReportRecipe[]
   questions          Question[]
