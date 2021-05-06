@@ -10,6 +10,18 @@ const getMeasure = gql`
           id
           description
           name
+          recipe {
+            id
+            aggregation
+            filters {
+              id
+              dimension
+              join
+              operator
+              values
+            }
+            sql
+          }
         }
         conceptsOfInterest {
           id

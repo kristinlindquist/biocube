@@ -54,18 +54,13 @@ asyncModule(async () => {
     sql: `SELECT * FROM public."Data"`,
 
     joins: {
-      DataType: {
-        sql: `${CUBE}."dataTypeId" = ${DataType}.id`,
+      Measure: {
+        sql: `${CUBE}."dataTypeId" = ${Measure}.id`,
         relationship: `belongsTo`,
       },
 
       Device: {
         sql: `${CUBE}."deviceId" = ${Device}.id`,
-        relationship: `belongsTo`,
-      },
-
-      MeasureComponent: {
-        sql: `${CUBE}."dataTypeId" = ${MeasureComponent}."dataTypeId"`,
         relationship: `belongsTo`,
       },
 
@@ -80,7 +75,7 @@ asyncModule(async () => {
 
     measures: {
       ...measures
-        .filter((m) => m.status !== 'DRAFT')
+        .filter((m) => m.status !== 'DRAFT' && m.recipe)
         .map((m) => ({
           [camelCase(m.name)]: {
             filters: [
@@ -90,7 +85,7 @@ asyncModule(async () => {
                   ...(m.components || []).map((c) => c.id),
                 ].join(', ')})`,
               },
-              ...(get(m, 'recipe.filters') || []).map((f) => ({
+              ...(m.recipe.filters || []).map((f) => ({
                 sql:
                   (f.join || 'ConcurrentState') === 'ConcurrentState'
                     ? `${ConcurrentState}.${getFilter(f)}`
@@ -106,14 +101,12 @@ asyncModule(async () => {
               //   })),
             ],
             meta: {
-              ...(m.meta || {}),
+              ...(get(m, 'reports.0.meta') || {}),
               chartType: get(m, 'reports.0.chartType') || 'line',
             },
-            sql: `${CUBE}.${get(m, 'recipe.sql') || 'value'}`, // TODO: "CUBE" is fragile
+            sql: `${CUBE}.${m.recipe.sql || 'value'}`, // TODO: "CUBE" is fragile
             title: m.name,
-            type: camelCase(
-              get(m, 'recipe.aggregation') || 'avg',
-            ).toLowerCase(),
+            type: camelCase(m.recipe.aggregation || 'avg').toLowerCase(),
           },
         }))
         .reduce((a, b) => Object.assign(a, b)),

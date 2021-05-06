@@ -1,13 +1,6 @@
 cube(`Measure`, {
   sql: `SELECT * FROM public."Measure"`,
 
-  joins: {
-    MeasureComponent: {
-      sql: `${CUBE}."id" = ${MeasureComponent}.measureId`,
-      relationship: `hasMany`,
-    }
-  },
-
   measures: {},
 
   dimensions: {

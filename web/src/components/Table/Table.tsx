@@ -125,7 +125,7 @@ const Table = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {(rows || []).map((row) => (
             <Row
               allCols={cols}
               collapseCol={collapseCol}
