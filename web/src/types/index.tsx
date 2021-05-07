@@ -37,6 +37,7 @@ export interface ChartProps {
 
 export type DynamicDefType = {
   create?: boolean;
+  entityType?: string;
   id: string;
   listOrder?: number;
   name: string;

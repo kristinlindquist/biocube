@@ -12,6 +12,10 @@ import {
 
 export interface FormFieldProps {
   /**
+   * Entity type of object (used to retrieve select options)
+   */
+  entityType?: string;
+  /**
    * Form state
    */
   form: { [key: string]: unknown };
@@ -46,6 +50,7 @@ export interface FormFieldProps {
  * and dynamic pulling of options (if select).
  */
 const FormField = ({
+  entityType,
   form,
   id,
   name,
@@ -56,12 +61,11 @@ const FormField = ({
   let myOptions = options || [];
 
   if (isSelectType(type) && !options) {
-    const docName = `Get${id}Document`;
+    const docName = `Get${entityType || id}Document`;
     const doc = getDocument(docName);
 
     if (doc) {
       const { data: d } = useQuery(doc, {
-        fetchPolicy: 'standby',
         variables: { input: {} },
       });
       myOptions = (get(d, getEntityPath(docName)) || []).map((o) => ({
@@ -93,7 +97,7 @@ const FormField = ({
           margin="dense"
           multiline={type === 'text'}
           onChange={(val) => setForm({ ...form, [id]: val })}
-          value={form[id]}
+          value={form[id] ? form[id] : ''}
         />
       )}
     </React.Fragment>
