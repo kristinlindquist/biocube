@@ -85,20 +85,15 @@ asyncModule(async () => {
                   ...(m.components || []).map((c) => c.id),
                 ].join(', ')})`,
               },
-              ...(m.recipe.filters || []).map((f) => ({
+              ...[
+                ...(m.recipe.filters || []),
+                ...(m.components || []).flatMap((c) => c.filters || []),
+              ].map((f) => ({
                 sql:
                   (f.join || 'ConcurrentState') === 'ConcurrentState'
                     ? `${ConcurrentState}.${getFilter(f)}`
                     : `${CUBE}.${getFilter(f)}`,
               })),
-              // ...(m.components || [])
-              //   .flatMap((c) => c.filters || [])
-              //   .map((f) => ({
-              //     sql:
-              //       (f.join || 'ConcurrentState') === 'ConcurrentState'
-              //         ? `${ConcurrentState}.${getFilter(f)}`
-              //         : `${CUBE}.${getFilter(f)}`,
-              //   })),
             ],
             meta: {
               ...(get(m, 'reports.0.meta') || {}),
@@ -112,7 +107,7 @@ asyncModule(async () => {
         .reduce((a, b) => Object.assign(a, b)),
 
       standardDeviation: {
-        sql: `stddev_samp(value)`,
+        sql: `stddev_samp(${CUBE}.value) filter (where ${ConcurrentState}.state in ('ASLEEP'))`,
         type: `number`,
       },
 
