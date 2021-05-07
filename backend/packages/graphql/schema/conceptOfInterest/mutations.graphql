@@ -7,6 +7,7 @@ input UpsertConceptOfInterestInput {
   id: Int
   aspectsOfHealth: [AspectOfHealthInput!]
   description: String
+  indications: [IndicationInput!]
   measures: [MeasureInput!]
   name: String!
   url: String
@@ -17,6 +18,13 @@ type UpsertConceptOfInterestResult {
 }
 
 input AspectOfHealthInput {
+  id: Int!
+  description: String
+  name: String!
+  url: String
+}
+
+input IndicationInput {
   id: Int!
   description: String
   name: String!

@@ -97,6 +97,7 @@ export type ConceptOfInterest = {
   aspectsOfHealth?: Maybe<Array<AspectOfHealth>>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  indications?: Maybe<Array<Indication>>;
   measures?: Maybe<Array<Measure>>;
   name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
@@ -677,6 +678,7 @@ export type UpsertConceptOfInterestInput = {
   id?: Maybe<Scalars['Int']>;
   aspectsOfHealth?: Maybe<Array<AspectOfHealthInput>>;
   description?: Maybe<Scalars['String']>;
+  indications?: Maybe<Array<IndicationInput>>;
   measures?: Maybe<Array<MeasureInput>>;
   name: Scalars['String'];
   url?: Maybe<Scalars['String']>;

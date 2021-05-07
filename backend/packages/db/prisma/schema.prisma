@@ -86,6 +86,7 @@ model ConceptOfInterest {
   abbreviation    String?          @db.VarChar(10)
   aspectsOfHealth AspectOfHealth[]
   description     String?
+  indications     Indication[]
   measures        Measure[]
   name            String           @db.VarChar(255)
   relatedStudies  Study[]
@@ -186,15 +187,16 @@ model Study {
 }
 
 model Indication {
-  id              Int              @id @default(autoincrement())
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime?        @updatedAt
-  abbreviation    String?          @db.VarChar(10)
-  aspectsOfHealth AspectOfHealth[]
-  description     String?
-  measures        Measure[]
-  name            String           @db.VarChar(255)
-  users           User[]
+  id                 Int                 @id @default(autoincrement())
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime?           @updatedAt
+  abbreviation       String?             @db.VarChar(10)
+  aspectsOfHealth    AspectOfHealth[]
+  conceptsOfInterest ConceptOfInterest[]
+  description        String?
+  measures           Measure[]
+  name               String              @db.VarChar(255)
+  users              User[]
 }
 
 // start: dynamic web components

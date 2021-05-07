@@ -2,12 +2,20 @@ type ConceptOfInterest {
   id: Int!
   aspectsOfHealth: [AspectOfHealth!]
   description: String
+  indications: [Indication!]
   measures: [Measure!]
   name: String!
   url: String
 }
 
 type AspectOfHealth {
+  id: Int!
+  description: String
+  name: String!
+  url: String
+}
+
+type Indication {
   id: Int!
   description: String
   name: String!

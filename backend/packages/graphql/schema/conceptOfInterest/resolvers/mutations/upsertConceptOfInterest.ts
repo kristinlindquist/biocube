@@ -16,10 +16,11 @@ async function upsertConceptOfInterest(
   const { prisma } = context;
   const { input } = args;
   const inputConceptOfInterest: UpsertConceptOfInterestInput = input;
-  const { aspectsOfHealth, measures } = inputConceptOfInterest;
+  const { aspectsOfHealth, indications, measures } = inputConceptOfInterest;
 
   let conceptOfInterest: ConceptOfInterest | null = null;
   const aohIds = (aspectsOfHealth || []).map(({ id }) => ({ id }));
+  const iIds = (indications || []).map(({ id }) => ({ id }));
   const mIds = (measures || []).map(({ id }) => ({ id }));
 
   const getKey = isUpdate => (isUpdate ? 'set' : 'connect');
@@ -28,6 +29,7 @@ async function upsertConceptOfInterest(
     return {
       ...omit(inputConceptOfInterest, ['id', 'url']),
       aspectsOfHealth: { [key]: aohIds },
+      indications: { [key]: iIds },
       measures: { [key]: mIds },
     };
   };

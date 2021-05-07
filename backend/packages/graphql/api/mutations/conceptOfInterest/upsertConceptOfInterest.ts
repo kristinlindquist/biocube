@@ -12,6 +12,12 @@ const upsertConceptOfInterest = gql`
           url
         }
         description
+        indications {
+          id
+          description
+          name
+          url
+        }
         measures {
           id
           description
