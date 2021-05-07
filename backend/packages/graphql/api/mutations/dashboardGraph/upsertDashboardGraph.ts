@@ -5,6 +5,7 @@ const upsertDashboardGraph = gql`
     upsertDashboardGraph(input: $input) {
       dashboardGraph {
         id
+        description
         name
         layout
         vizState

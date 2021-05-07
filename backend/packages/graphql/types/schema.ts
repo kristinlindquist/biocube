@@ -113,6 +113,7 @@ export type ConceptOfInterestInput = {
 export type DashboardGraph = {
   __typename?: 'DashboardGraph';
   id: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   layout: Scalars['JSON'];
   vizState: Scalars['JSON'];
@@ -691,6 +692,7 @@ export type UpsertConceptOfInterestResult = {
 
 export type UpsertDashboardGraphInput = {
   id?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   layout: Scalars['JSON'];
   vizState: Scalars['JSON'];

@@ -250,12 +250,13 @@ model Template {
 }
 
 model DashboardGraph {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  layout    Json
-  name      String    @db.VarChar(255)
-  vizState  Json
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  description String?
+  layout      Json
+  name        String    @db.VarChar(255)
+  vizState    Json
 }
 
 // end: dynamic web components

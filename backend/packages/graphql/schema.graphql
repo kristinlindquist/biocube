@@ -92,6 +92,7 @@ input ConceptOfInterestInput {
 
 type DashboardGraph {
   id: Int!
+  description: String
   name: String!
   layout: JSON!
   vizState: JSON!
@@ -499,6 +500,7 @@ type UpsertConceptOfInterestResult {
 
 input UpsertDashboardGraphInput {
   id: Int
+  description: String
   name: String!
   layout: JSON!
   vizState: JSON!

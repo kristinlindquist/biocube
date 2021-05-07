@@ -5,6 +5,7 @@ type Mutation {
 
 input UpsertDashboardGraphInput {
   id: Int
+  description: String
   name: String!
   layout: JSON!
   vizState: JSON!

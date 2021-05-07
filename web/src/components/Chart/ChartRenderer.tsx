@@ -31,6 +31,10 @@ import {
 
 export interface ChartRendererProps {
   /**
+   * Chart description
+   */
+  description?: string;
+  /**
    * Chart Id, if saved
    */
   id?: number;
@@ -188,6 +192,7 @@ const TypeToMemoChartComponent = Object.keys(TypeToChartComponent)
  * Render a chart by type
  */
 const ChartRenderer = ({
+  description,
   height = defaultHeight,
   id,
   name = 'A Chart',
@@ -234,7 +239,10 @@ const ChartRenderer = ({
               name: id ? 'Edit' : 'Save',
               onClick: () =>
                 open({
-                  fields: [{ id: 'name', name: 'Name', type: 'string' }],
+                  fields: [
+                    { id: 'name', name: 'Name', type: 'string' },
+                    { id: 'description', name: 'Description', type: 'text' },
+                  ],
                   onClose: () => close(),
                   onSubmit: (values) => mutation(values),
                   title: 'Edit',
@@ -248,6 +256,7 @@ const ChartRenderer = ({
           ].filter((o) => o)}
         />
       }
+      subtitle={description}
       title={name}>
       {!isEmpty(resultSet) && Component && (
         <Component

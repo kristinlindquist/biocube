@@ -5,6 +5,7 @@ const getDashboardGraph = gql`
     getDashboardGraph(input: $input) {
       dashboardGraph {
         id
+        description
         name
         layout
         vizState
