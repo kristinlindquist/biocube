@@ -1156,9 +1156,9 @@
     ramda "^0.27.0"
     syntax-error "^1.3.0"
 
-"@cubejs-backend/server-core@^0.27.7":
-  version "0.27.7"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/server-core/-/server-core-0.27.7.tgz#72b41079dda3906e40b38495d852989573623906"
+"@cubejs-backend/server-core@^0.27.8":
+  version "0.27.8"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/server-core/-/server-core-0.27.8.tgz#d496c8fd1feee350f5d3adb28dd9c1f36216b2fc"
   dependencies:
     "@cubejs-backend/api-gateway" "^0.27.5"
     "@cubejs-backend/cloud" "^0.27.5"
@@ -1183,13 +1183,13 @@
     sqlstring "^2.3.1"
     uuid "^3.3.3"
 
-"@cubejs-backend/server@0.27.7":
-  version "0.27.7"
-  resolved "https://registry.yarnpkg.com/@cubejs-backend/server/-/server-0.27.7.tgz#fd8c8350ecbd2b793c1b7b651d3aed84411e1d62"
+"@cubejs-backend/server@0.27.8":
+  version "0.27.8"
+  resolved "https://registry.yarnpkg.com/@cubejs-backend/server/-/server-0.27.8.tgz#4980bd2dbd8c9fbfeec25afe368a22fdd4393184"
   dependencies:
     "@cubejs-backend/cubestore-driver" "^0.27.7"
     "@cubejs-backend/dotenv" "^9.0.2"
-    "@cubejs-backend/server-core" "^0.27.7"
+    "@cubejs-backend/server-core" "^0.27.8"
     "@cubejs-backend/shared" "^0.27.5"
     "@oclif/color" "^0.1.2"
     "@oclif/command" "^1.8.0"
@@ -2023,9 +2023,9 @@
   dependencies:
     "@octokit/openapi-types" "^7.0.0"
 
-"@prisma/client@2.22.0":
-  version "2.22.0"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.22.0.tgz#ca028025b648fdca0dda415809ea309cc7c3bcc7"
+"@prisma/client@2.22.1":
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.22.1.tgz#10fdcd1532a6baf46dd1c464cad9a54af0532bc8"
   dependencies:
     "@prisma/engines-version" "2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c"
 
@@ -2296,11 +2296,7 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@15.0.1":
-  version "15.0.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.0.1.tgz#ef34dea0881028d11398be5bf4e856743e3dc35a"
-
-"@types/node@15.0.2":
+"@types/node@*", "@types/node@15.0.2":
   version "15.0.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.0.2.tgz#51e9c0920d1b45936ea04341aa3e2e58d339fb67"
 
@@ -3047,7 +3043,7 @@ braces@^2.3.1:
 
 braces@^3.0.1, braces@~3.0.2:
   version "3.0.2"
-  resolved "https://registry.npmjs.org/braces/-/braces-3.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/braces/-/braces-3.0.2.tgz#3454e1a462ee8d599e236df336cd9ea4f8afe107"
   dependencies:
     fill-range "^7.0.1"
 
@@ -3459,7 +3455,7 @@ color-name@1.1.3:
 
 color-name@^1.0.0, color-name@~1.1.4:
   version "1.1.4"
-  resolved "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
+  resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
 
 color-string@^1.5.2:
   version "1.5.5"
@@ -4668,7 +4664,7 @@ got@^9.6.0:
 
 graceful-fs@^4.1.10, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4:
   version "4.2.6"
-  resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.6.tgz"
+  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
 
 graphql-config@^3.2.0:
   version "3.2.0"
@@ -6959,9 +6955,9 @@ pretty-format@^26.6.2:
     ansi-styles "^4.0.0"
     react-is "^17.0.1"
 
-prisma@2.22.0:
-  version "2.22.0"
-  resolved "https://registry.yarnpkg.com/prisma/-/prisma-2.22.0.tgz#69063fa95cdcaaf660b61017d79c6a6dda054517"
+prisma@2.22.1:
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-2.22.1.tgz#884687a90c7b797b34c6110ea413049078c8da6e"
   dependencies:
     "@prisma/engines" "2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c"
 
@@ -8131,21 +8127,6 @@ ts-invariant@^0.7.0:
   resolved "https://registry.npmjs.org/ts-invariant/-/ts-invariant-0.7.3.tgz"
   dependencies:
     tslib "^2.1.0"
-
-ts-jest@26.5.5:
-  version "26.5.5"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.5.5.tgz#e40481b6ee4dd162626ba481a2be05fa57160ea5"
-  dependencies:
-    bs-logger "0.x"
-    buffer-from "1.x"
-    fast-json-stable-stringify "2.x"
-    jest-util "^26.1.0"
-    json5 "2.x"
-    lodash "4.x"
-    make-error "1.x"
-    mkdirp "1.x"
-    semver "7.x"
-    yargs-parser "20.x"
 
 ts-jest@26.5.6:
   version "26.5.6"

@@ -10,7 +10,7 @@
   "devDependencies": {
     "@cubejs-backend/cubestore-driver": "0.27.7",
     "@cubejs-backend/postgres-driver": "0.27.5",
-    "@cubejs-backend/server": "0.27.7",
+    "@cubejs-backend/server": "0.27.8",
     "ts-jest": "26.5.6",
     "typescript": "4.2.4"
   },
