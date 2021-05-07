@@ -8,12 +8,13 @@ const getMeasures = gql`
         abbreviation
         components {
           id
-          description
           name
+          url
         }
         conceptsOfInterest {
           id
           name
+          url
         }
         description
         indications {
