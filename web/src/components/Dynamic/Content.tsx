@@ -76,7 +76,6 @@ const subComponent = (
       name,
     ),
     TABLE: <Table {...props} id={id} rows={value as RowType[]} />,
-    TYPOGRAPHY: <Typography {...props}>{value}</Typography>,
   };
   return components[type];
 };

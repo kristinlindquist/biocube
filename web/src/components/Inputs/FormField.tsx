@@ -61,6 +61,7 @@ const FormField = ({
 
     if (doc) {
       const { data: d } = useQuery(doc, {
+        fetchPolicy: 'standby',
         variables: { input: {} },
       });
       myOptions = (get(d, getEntityPath(docName)) || []).map((o) => ({

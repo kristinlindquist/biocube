@@ -86,6 +86,7 @@ input ConceptOfInterestInput {
   description: String
   id: Int!
   name: String!
+  url: String
 }
 
 type DashboardGraph {
@@ -520,7 +521,7 @@ type UpsertIndicationResult {
 input UpsertMeasureInput {
   id: Int
   abbreviation: String
-  components: [MeasureInput!]
+  components: [UpsertMeasureInput!]
   conceptsOfInterest: [ConceptOfInterestInput!]
   description: String
   indications: [IndicationInput!]

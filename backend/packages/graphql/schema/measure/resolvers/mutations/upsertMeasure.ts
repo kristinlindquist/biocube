@@ -43,7 +43,16 @@ async function upsertMeasure(
       conceptsOfInterest: { [key]: coiIds },
       indications: { [key]: iIds },
       questions: { [key]: qIds },
-      recipe: recipe ? { [key]: { id: recipe.id } } : undefined,
+      recipe: recipe
+        ? {
+            [recipe.id ? 'update' : 'create']: {
+              ...recipe,
+              filters: {
+                [key]: (recipe.filters || []).map(({ id }) => ({ id })),
+              },
+            },
+          }
+        : undefined,
       reports: { [key]: rIds },
     };
   };

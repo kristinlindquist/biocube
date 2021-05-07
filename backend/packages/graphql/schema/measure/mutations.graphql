@@ -6,7 +6,7 @@ type Mutation {
 input UpsertMeasureInput {
   id: Int
   abbreviation: String
-  components: [MeasureInput!]
+  components: [UpsertMeasureInput!]
   conceptsOfInterest: [ConceptOfInterestInput!]
   description: String
   indications: [IndicationInput!]
@@ -28,6 +28,7 @@ input ConceptOfInterestInput {
   id: Int!
   description: String
   name: String!
+  url: String
 }
 
 input FilterInput {

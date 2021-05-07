@@ -26,6 +26,7 @@ const getMeasure = gql`
         conceptsOfInterest {
           id
           name
+          url
         }
         description
         indications {

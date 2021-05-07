@@ -106,6 +106,7 @@ export type ConceptOfInterestInput = {
   description?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
 };
 
 export type DashboardGraph = {
@@ -714,7 +715,7 @@ export type UpsertIndicationResult = {
 export type UpsertMeasureInput = {
   id?: Maybe<Scalars['Int']>;
   abbreviation?: Maybe<Scalars['String']>;
-  components?: Maybe<Array<MeasureInput>>;
+  components?: Maybe<Array<UpsertMeasureInput>>;
   conceptsOfInterest?: Maybe<Array<ConceptOfInterestInput>>;
   description?: Maybe<Scalars['String']>;
   indications?: Maybe<Array<IndicationInput>>;

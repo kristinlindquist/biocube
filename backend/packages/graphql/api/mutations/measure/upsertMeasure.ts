@@ -13,13 +13,14 @@ const upsertMeasure = gql`
         }
         conceptsOfInterest {
           id
+          description
           name
         }
         description
         indications {
           id
+          description
           name
-          url
         }
         name
         recipe {
