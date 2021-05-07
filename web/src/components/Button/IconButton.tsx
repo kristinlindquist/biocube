@@ -31,7 +31,7 @@ const IconButton = ({
   ...props
 }: IconButtonProps): ReactElement => (
   <MaterialIconButton aria-label={label} color="primary" size={size} {...props}>
-    {icon || <EditIcon fontSize={size === 'small' ? size : undefined} />}
+    {icon || <EditIcon />}
   </MaterialIconButton>
 );
 
