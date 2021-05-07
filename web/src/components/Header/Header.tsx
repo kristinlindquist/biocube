@@ -49,9 +49,14 @@ const Header = ({ title }: HeaderProps): ReactElement => {
         <SubNav
           tabs={[
             { id: 'home', label: 'My Data', to: '/' },
+            { id: 'querybuilder', label: 'Query Builder', to: '/qb' },
             { id: 'measures', label: 'Measures', to: '/measures' },
             { id: 'indications', label: 'Indications', to: '/indications' },
-            { id: 'querybuilder', label: 'Query Builder', to: '/qb' },
+            {
+              id: 'conceptsofinterest',
+              label: 'Concepts',
+              to: '/conceptsofinterest',
+            },
           ]}
         />
       </Box>
