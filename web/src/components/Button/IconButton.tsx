@@ -27,10 +27,9 @@ export type IconButtonProps = {
 const IconButton = ({
   icon,
   label = 'add',
-  size,
   ...props
 }: IconButtonProps): ReactElement => (
-  <MaterialIconButton aria-label={label} color="primary" size={size} {...props}>
+  <MaterialIconButton aria-label={label} color="primary" {...props}>
     {icon || <EditIcon />}
   </MaterialIconButton>
 );
