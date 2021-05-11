@@ -1,6 +1,8 @@
 import { camelCase, get } from 'lodash';
 import fetch from 'node-fetch';
 
+import { getMeasures } from './utils';
+
 const mQuery = {
   variables: {
     input: {},
@@ -34,9 +36,6 @@ const mQuery = {
 };
 
 const HOUR = '(1000.0 * 60.0 * 60.0)';
-
-const getFilter = ({ dimension, operator, values }) =>
-  `${dimension} ${operator} (${values.map((v) => `'${v}'`).join(',')})`;
 
 asyncModule(async () => {
   const measures = get(
@@ -74,42 +73,8 @@ asyncModule(async () => {
     },
 
     measures: {
-      ...measures
-        .filter((m) => m.status !== 'DRAFT' && m.recipe)
-        .map((m) => ({
-          [camelCase(m.name)]: {
-            filters: [
-              {
-                sql: `${CUBE}."measureId" in (${[
-                  m.id,
-                  ...(m.components || []).map((c) => c.id),
-                ].join(', ')})`,
-              },
-              ...[
-                ...(m.recipe.filters || []),
-                ...(m.components || []).flatMap((c) => c.filters || []),
-              ].map((f) => ({
-                sql:
-                  (f.join || 'ConcurrentState') === 'ConcurrentState'
-                    ? `${ConcurrentState}.${getFilter(f)}`
-                    : `${CUBE}.${getFilter(f)}`,
-              })),
-            ],
-            meta: {
-              ...(get(m, 'reports.0.meta') || {}),
-              chartType: get(m, 'reports.0.chartType') || 'line',
-            },
-            sql: `${CUBE}.${m.recipe.sql || 'value'}`, // TODO: "CUBE" is fragile
-            title: m.name,
-            type: camelCase(m.recipe.aggregation || 'avg').toLowerCase(),
-          },
-        }))
-        .reduce((a, b) => Object.assign(a, b)),
-
-      standardDeviation: {
-        sql: `stddev_samp(${CUBE}.value) filter (where ${ConcurrentState}.state in ('ASLEEP'))`,
-        type: `number`,
-      },
+      ...getMeasures(measures),
+      ...getMeasures(measures, 'std'),
 
       average: {
         sql: `value`,
