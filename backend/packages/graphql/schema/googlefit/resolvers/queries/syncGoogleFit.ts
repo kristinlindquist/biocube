@@ -42,12 +42,15 @@ const syncGoogleFit = async (
     }));
 
     if (data.length > 0) {
-      prisma.data.createMany({ data, skipDuplicates: true }).then((result) =>
-        logger.log({
-          level: 'info',
-          message: `Create result: ${JSON.stringify(result)} for ${date}.`,
-        }),
-      );
+      prisma.data
+        .createMany({ data, skipDuplicates: true })
+        .then((result) =>
+          logger.log({
+            level: 'info',
+            message: `Create result: ${JSON.stringify(result)} for ${date}.`,
+          }),
+        )
+        .catch((error) => logger.log({ level: 'error', message: error }));
     } else {
       logger.log({ level: 'info', message: `Nothing to create for ${date}.` });
     }

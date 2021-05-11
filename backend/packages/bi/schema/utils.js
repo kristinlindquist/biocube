@@ -1,11 +1,16 @@
 import { camelCase, get } from 'lodash';
 
+/**
+ * Get filter in cubejs / sql expected format
+ */
 const getFilter = ({ dimension, operator, values }) =>
   `${dimension} ${operator} (${values.map((v) => `'${v}'`).join(',')})`;
 
-// handling the aggregation instead of via cubejs 'type', so as to avoid
-// the syntax error cubejs generates when filters are used.
-// example output: avg(value)
+/**
+ * handling the aggregation instead of via cubejs 'type', so as to avoid
+ * the syntax error cubejs generates when filters are used
+ * example output: avg(value)
+ */
 const getValue = (recipe, CUBE, type) =>
   type
     ? `stddev_samp(${CUBE}.value)`
@@ -24,7 +29,9 @@ const getFilters = (rFilters, components) => [
   ...(components || []).flatMap((c) => c.filters || []),
 ];
 
-// Get the filtering part of the sql query
+/**
+ * Get the filtering part of the sql query
+ */
 const getFilterSql = (
   { components, id, recipe: { filters } },
   CUBE,
@@ -38,10 +45,15 @@ const getFilterSql = (
     )
     .join(' AND ')}`;
 
-// Get the entire sql string (or rather, what cubejs wants for 'sql')
+/**
+ * Get the entire sql string (or rather, what cubejs wants for 'sql')
+ */
 const getSql = (m, CUBE, ConcurrentState, type) =>
   `${getMainSql(m, CUBE ,type)} AND ${getFilterSql(m, CUBE, ConcurrentState)})`;
 
+/**
+ * Get cubejs 'measures'
+ */
 export const getMeasures = (measures, type = null) =>
   measures
     .filter((m) => m.status !== 'DRAFT' && m.recipe)

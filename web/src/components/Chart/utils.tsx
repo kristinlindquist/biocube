@@ -1,5 +1,5 @@
 import numeral from 'numeral';
-import { get, meanBy } from 'lodash';
+import { get, mean } from 'lodash';
 import { EChartOption } from 'echarts';
 import { SeriesNamesColumn } from '@cubejs-client/core';
 
@@ -26,6 +26,21 @@ export const zeroToNull = (
       )
     : data;
 
+const nullFactor = 0.1;
+
+const getStdValue = (d, key, avg, baseValue = null) =>
+  baseValue
+    ? {
+        ...d,
+        [`${key}-U`]: d[key] * 4,
+        [`${key}-L`]: baseValue - d[key] * 2,
+      }
+    : {
+        ...d,
+        [`${key}-U`]: avg * nullFactor,
+        [`${key}-L`]: (1 - nullFactor) * avg,
+      };
+
 /**
  * Adds std to base
  */
@@ -33,8 +48,6 @@ export const processStds = (
   data: Array<KeyValuePairs | string>,
   keyType = 'std',
 ): Array<KeyValuePairs | string> => {
-  const nullFactor = 0.1;
-
   if (typeof data[0] === 'string') {
     return data;
   }
@@ -45,17 +58,8 @@ export const processStds = (
   keys.forEach((key) => {
     const baseKey = key.split(`_${keyType}`)[0];
     if (key !== baseKey && keys.includes(baseKey)) {
-      const mean = meanBy(
-        data.filter((d2) => d2[baseKey]),
-        baseKey,
-      );
-      newData = newData.map((d) => ({
-        ...d,
-        [`${key}-U`]: d[baseKey] ? d[key] * 2 : mean * nullFactor,
-        [`${key}-L`]: d[baseKey]
-          ? d[baseKey] - d[key]
-          : (1 - nullFactor) * mean,
-      }));
+      const avg = mean(data.map((d2) => d2[baseKey]).filter((d2) => d2));
+      newData = newData.map((d) => getStdValue(d, key, avg, d[baseKey]));
     }
   });
 
@@ -110,6 +114,7 @@ export const getIntervalObj = (
     side === 'U'
       ? {
           color: '#ccc',
+          opacity: 0.3,
         }
       : undefined,
   encode: { x: 'x', y: `${obj.key}-${side}` },
