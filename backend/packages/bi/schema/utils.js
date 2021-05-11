@@ -5,32 +5,49 @@ const getFilter = ({ dimension, operator, values }) =>
 
 // handling the aggregation instead of via cubejs 'type', so as to avoid
 // the syntax error cubejs generates when filters are used.
-const getValue = (m, CUBE, type) =>
+// example output: avg(value)
+const getValue = (recipe, CUBE, type) =>
   type
     ? `stddev_samp(${CUBE}.value)`
-    : `${camelCase(m.recipe.aggregation || 'avg').toLowerCase()}(${CUBE}.${
-        m.recipe.sql || 'value'
+    : `${camelCase(recipe.aggregation || 'avg').toLowerCase()}(${CUBE}.${
+        recipe.sql || 'value'
       })`;
+
+const getMainSql = ({ components, id, recipe, type }, CUBE) =>
+  `${getValue(recipe, CUBE, type)} filter (where ${CUBE}."measureId" in (${[
+    id,
+    ...(components || []).map((c) => c.id),
+  ].join(', ')})`;
+
+const getFilters = (rFilters, components) => [
+  ...(rFilters || []),
+  ...(components || []).flatMap((c) => c.filters || []),
+];
+
+// Get the filtering part of the sql query
+const getFilterSql = (
+  { components, id, recipe: { filters }, type },
+  CUBE,
+  ConcurrentState,
+) =>
+  `${getFilters(filters, components)
+    .map((f) =>
+      !f.join || f.join === 'ConcurrentState'
+        ? `${ConcurrentState}.${getFilter(f)}`
+        : `${CUBE}.${getFilter(f)}`,
+    )
+    .join(' AND ')}`;
+
+// Get the entire sql string (or rather, what cubejs wants for 'sql')
+const getSql = (m, CUBE, ConcurrentState) =>
+  `${getMainSql(m, CUBE)} AND ${getFilterSql(m, CUBE, ConcurrentState)})`;
 
 export const getMeasures = (measures, type = null) =>
   measures
     .filter((m) => m.status !== 'DRAFT' && m.recipe)
     .map((m) => ({
       [`${camelCase(m.name)}${type ? type : ''}`]: {
-        sql: (CUBE, ConcurrentState) =>
-          `${getValue(m, CUBE, type)} filter (where ${CUBE}."measureId" in (${[
-            m.id,
-            ...(m.components || []).map((c) => c.id),
-          ].join(', ')}) AND ${[
-            ...(m.recipe.filters || []),
-            ...(m.components || []).flatMap((c) => c.filters || []),
-          ]
-            .map((f) =>
-              !f.join || f.join === 'ConcurrentState'
-                ? `${ConcurrentState}.${getFilter(f)}`
-                : `${CUBE}.${getFilter(f)}`,
-            )
-            .join(' AND ')})`,
+        sql: (CUBE, ConcurrentState) => getSql(m, CUBE, ConcurrentState),
         meta: type
           ? {
               ...(get(m, 'reports.0.meta') || {}),
