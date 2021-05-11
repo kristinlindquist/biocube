@@ -24,7 +24,7 @@ const Login = (): ReactElement => {
 
   const logout = () => removeCookie(COOKIE_NAME);
 
-  const { loaded, signIn } = useGoogleLogin({
+  const { signIn } = useGoogleLogin({
     clientId: CLIENT_ID,
     cookiePolicy: 'single_host_origin',
     isSignedIn: true,
@@ -44,7 +44,7 @@ const Login = (): ReactElement => {
       )}
     />
   ) : (
-    <Button color="inherit" loading={!loaded} label="Log In" onClick={signIn} />
+    <Button color="inherit" label="Log In" onClick={signIn} />
   );
 };
 
