@@ -10,7 +10,7 @@ import { isEmpty } from 'lodash';
 
 import { MenuButton } from 'components/Button';
 import { Card } from 'components/Card';
-import { getMonthDay, getLongDate } from 'components/Date';
+import { getMonthDay } from 'components/Date';
 import { useDialog } from 'contexts';
 import {
   DeleteDashboardGraphDocument as DeleteGraph,
@@ -23,9 +23,11 @@ import { RowType } from 'types';
 
 import { ChartProps } from './types';
 import {
-  getChartType,
+  formatTooltip,
   getDataType,
+  getSeries,
   resolveFormatter,
+  processStds,
   zeroToNull,
 } from './utils';
 
@@ -75,37 +77,11 @@ const getColors = (theme: Theme): Array<string> =>
       ]
     : [];
 
-const getColDetail = (resultSet, key) =>
-  resultSet.tableColumns().find((t) => t.key === key) || {};
-
-const getUom = (resultSet, v) => (getColDetail(resultSet, v).meta || {}).uom;
-
-const getAxisIndex = (resultSet, currKey, prevKey, index) =>
-  getUom(resultSet, currKey) !== getUom(resultSet, prevKey)
-    ? Math.min(index, 1)
-    : 0;
-
 const TypeToChartComponent = {
   combo: ({ height, resultSet }: ChartProps) => {
     const theme = useTheme();
     const colors = getColors(theme);
-    const series = resultSet.seriesNames();
-    const augSeries = series.map((s, i) => ({
-      ...s,
-      encode: {
-        x: 'x',
-        y: s.key,
-      },
-      name: getColDetail(resultSet, s.key).subtitle,
-      tooltip: [s.key],
-      type: getChartType(resultSet, s.key),
-      yAxisIndex: getAxisIndex(
-        resultSet,
-        s.key,
-        i > 0 ? series[i - 1].key : null,
-        i,
-      ),
-    }));
+    const series = getSeries(resultSet.seriesNames(), resultSet);
 
     return (
       <Box sx={{ height, width: '100%' }}>
@@ -113,39 +89,19 @@ const TypeToChartComponent = {
           option={{
             color: colors,
             dataset: {
-              source: zeroToNull(resultSet.chartPivot()),
+              source: zeroToNull(processStds(resultSet.chartPivot())),
             },
             grid: {
+              containLabel: true,
               top: 10,
               bottom: 10,
               left: 10,
               right: 10,
-              containLabel: true,
             },
-            series: augSeries.map((s) => ({
-              ...s,
-              barMaxWidth: '30%',
-              connectNulls: true,
-              lineStyle: {
-                width: 2,
-              },
-              seriesLayoutBy: 'row',
-              symbolSize: 7,
-            })),
+            series,
             tooltip: {
               trigger: 'axis',
-              formatter: (params) => {
-                const { name, value } = params[0] || {};
-                const values = series.map(({ key }) => key);
-                return `${getLongDate(new Date(name))} <br /> ${values
-                  .map(
-                    (v) =>
-                      `${(value[v] || 0).toFixed(2)} ${
-                        getUom(resultSet, v) || v
-                      }`,
-                  )
-                  .join('<br />')}`;
-              },
+              formatter: (params) => formatTooltip(params, series, resultSet),
             },
             xAxis: {
               axisLabel: {
@@ -153,7 +109,7 @@ const TypeToChartComponent = {
               },
               type: 'category',
             },
-            yAxis: augSeries
+            yAxis: series
               .filter((s, i) => s.yAxisIndex > 0 || i === 0)
               .map(({ title }) => ({
                 name: title,
@@ -212,11 +168,13 @@ const ChartRenderer = ({
       );
     },
   });
+
   const [deleteMutation] = useMutation(DeleteGraph, {
     update(cache, { data }) {
       modifyCacheOnDelete(cache, data);
     },
   });
+
   const Component =
     TypeToMemoChartComponent[
       comboTypes.includes(chartType) ? 'combo' : chartType

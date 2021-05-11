@@ -13,7 +13,7 @@ const getValue = (recipe, CUBE, type) =>
         recipe.sql || 'value'
       })`;
 
-const getMainSql = ({ components, id, recipe, type }, CUBE) =>
+const getMainSql = ({ components, id, recipe }, CUBE, type) =>
   `${getValue(recipe, CUBE, type)} filter (where ${CUBE}."measureId" in (${[
     id,
     ...(components || []).map((c) => c.id),
@@ -26,7 +26,7 @@ const getFilters = (rFilters, components) => [
 
 // Get the filtering part of the sql query
 const getFilterSql = (
-  { components, id, recipe: { filters }, type },
+  { components, id, recipe: { filters } },
   CUBE,
   ConcurrentState,
 ) =>
@@ -39,21 +39,24 @@ const getFilterSql = (
     .join(' AND ')}`;
 
 // Get the entire sql string (or rather, what cubejs wants for 'sql')
-const getSql = (m, CUBE, ConcurrentState) =>
-  `${getMainSql(m, CUBE)} AND ${getFilterSql(m, CUBE, ConcurrentState)})`;
+const getSql = (m, CUBE, ConcurrentState, type) =>
+  `${getMainSql(m, CUBE ,type)} AND ${getFilterSql(m, CUBE, ConcurrentState)})`;
 
 export const getMeasures = (measures, type = null) =>
   measures
     .filter((m) => m.status !== 'DRAFT' && m.recipe)
     .map((m) => ({
-      [`${camelCase(m.name)}${type ? type : ''}`]: {
-        sql: (CUBE, ConcurrentState) => getSql(m, CUBE, ConcurrentState),
-        meta: type
+      [`${camelCase(m.name)}${type ? `_${type}` : ''}`]: {
+        sql: (CUBE, ConcurrentState) => getSql(m, CUBE, ConcurrentState, type),
+        meta: !type
           ? {
               ...(get(m, 'reports.0.meta') || {}),
               chartType: get(m, 'reports.0.chartType') || 'line',
             }
-          : undefined,
+          : {
+            chartType: type,
+            uom: get(m, 'reports.0.meta.uom'),
+          },
         title: `${m.name}${type ? ` ${type}` : ''}`,
         type: `number`,
       },
