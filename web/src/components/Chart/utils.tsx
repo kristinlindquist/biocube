@@ -154,7 +154,7 @@ export const getSeries = (
 ): EChartSeries[] =>
   series.flatMap((s, i) => {
     const type = getChartType(resultSet, s.key);
-    const isInterval = type.includes('std');
+    const isInterval = s.key.includes('std');
 
     const obj = {
       ...s,
@@ -172,7 +172,7 @@ export const getSeries = (
       symbolSize: isInterval ? 0 : 7,
       name: getColDetail(resultSet, s.key).subtitle,
       tooltip: !isInterval ? [s.key] : undefined,
-      type: isInterval ? 'line' : type,
+      type,
       yAxisIndex: getAxisIndex(
         resultSet,
         s.key,
