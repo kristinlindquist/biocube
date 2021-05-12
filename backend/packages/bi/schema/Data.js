@@ -124,6 +124,11 @@ asyncModule(async () => {
         primaryKey: true,
       },
 
+      myState: {
+        sql: `state`,
+        type: `string`,
+      },
+
       startedAt: {
         sql: `${CUBE}."startedAt"`,
         type: `time`,
