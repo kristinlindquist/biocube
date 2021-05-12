@@ -72,10 +72,16 @@ export const processStds = (
 const getMeta = (
   resultSet: ResultSet<string>,
   key,
-): { chartType: string; uom: string } =>
-  ((get(resultSet, measuresBase) || {})[key] || {}).meta || {
-    uom: '',
-  };
+): { chartType: string; uom: string } => {
+  const obj = get(resultSet, measuresBase) || {};
+  const actualKey = Object.keys(obj).find((k) => key.includes(k));
+
+  return (
+    (obj[actualKey] || {}).meta || {
+      uom: '',
+    }
+  );
+};
 
 /**
  * default chart type from meta on cubejs
@@ -188,7 +194,8 @@ export const formatTooltip = (
   const { name, value } = params[0] || {};
   const values = series.filter(({ tooltip }) => tooltip).map(({ key }) => key);
   return `${getLongDate(new Date(name))} <br /> ${values
-    .map((v) => `${(value[v] || 0).toFixed(2)} ${getUom(resultSet, v) || v}`)
+    .filter((v) => value[v])
+    .map((v) => `${value[v].toFixed(2)} ${getUom(resultSet, v) || v}`)
     .join('<br />')}`;
 };
 
