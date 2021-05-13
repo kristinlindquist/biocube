@@ -11,9 +11,9 @@ const DateRanges = [
   { title: 'Yesterday', name: 'Yesterday' },
   { title: 'This week', name: 'This week' },
   { title: 'This month', name: 'This month' },
-  { title: 'This year', name: 'From 364 days ago to now' },
   { title: 'Last 7 days', name: 'From 6 days ago to now' },
   { title: 'Last 30 days', name: 'From 29 days ago to now' },
+  { title: 'Last 365 days', name: 'From 364 days ago to now' },
 ];
 
 const TimeGroup = ({
