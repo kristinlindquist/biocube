@@ -1,3 +1,3 @@
-import ExploreQueryBuilder from './ExploreQueryBuilder';
+import QueryBuilder from './QueryBuilder';
 
-export { ExploreQueryBuilder };
+export { QueryBuilder };

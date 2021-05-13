@@ -52,7 +52,7 @@ export default (oldState: Props, state: Props): Props => {
           timeDimensions: defaultTd
             ? [
                 {
-                  dateRange: 'last 7 days',
+                  dateRange: 'From 6 days ago to now',
                   dimension: defaultTd,
                   granularity: defaultGranularity,
                 },

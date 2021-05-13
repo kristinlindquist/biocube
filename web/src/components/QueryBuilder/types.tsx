@@ -8,8 +8,9 @@ export interface GroupProps {
   defaults?: any;
   name?: string;
   members?: any[];
-  updateMethods: UpdateMethods;
+  query?: any;
   title?: string;
+  updateMethods: UpdateMethods;
 }
 
 export interface UpdateMethods {
@@ -24,9 +25,10 @@ export type Member = {
 
 export interface SelectInputProps {
   availableMembers: Member[];
-  members: Member[];
-  updateMethods: UpdateMethods;
   key?: string;
   keyPath?: string;
+  members: Member[];
   m?: Member;
+  selection?: string;
+  updateMethods: UpdateMethods;
 }

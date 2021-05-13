@@ -83,6 +83,13 @@ const onSelect = ({
   });
 };
 
+const getDefault = (m, key, selection) => {
+  if (selection) {
+    return Array.isArray(selection) ? selection : [selection];
+  }
+  return m && key && m[key] ? [m[key].name || m[key]] : null;
+};
+
 /**
  * Get properties for query builder select boxes
  */
@@ -92,9 +99,10 @@ export const getSelectProps = ({
   updateMethods,
   key,
   keyPath,
+  selection,
   m = null,
 }: SelectInputProps): SelectProps => ({
-  defaultValue: m && key && m[key] ? [m[key].name || m[key]] : null,
+  defaultValue: getDefault(m, key, selection),
   fullWidth: true,
   label: null,
   options: getMemberOptions(availableMembers),

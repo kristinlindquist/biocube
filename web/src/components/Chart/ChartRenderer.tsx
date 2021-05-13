@@ -49,6 +49,10 @@ export interface ChartRendererProps {
    */
   name?: string;
   /**
+   * Show query builder
+   */
+  open?: () => void;
+  /**
    * Vizstate (cubejs)
    */
   vizState: {
@@ -152,12 +156,14 @@ const ChartRenderer = ({
   height = defaultHeight,
   id,
   name = 'A Chart',
+  open,
   updateChartType,
   vizState,
 }: ChartRendererProps): ReactElement => {
   const { chartType, query, ...options } = vizState;
-  const [, { close, open }] = useDialog();
+  const [, { close: closeDialog, open: openDialog }] = useDialog();
   const { error, isLoading, resultSet, ...chartProps } = useCubeQuery(query);
+
   const [mutation] = useMutation(UpsertGraph, {
     update(cache, { data }) {
       modifyCacheOnUpdate(
@@ -183,7 +189,7 @@ const ChartRenderer = ({
   return (
     <Card
       error={error ? { message: error.toString() } : null}
-      loading={isLoading}
+      loading={isLoading && isEmpty(resultSet)}
       headerAction={
         <MenuButton
           options={[
@@ -193,15 +199,21 @@ const ChartRenderer = ({
                   name: 'Change Type',
                   onClick: () => updateChartType('line'),
                 },
+            open
+              ? {
+                  name: 'Change Settings',
+                  onClick: () => open(),
+                }
+              : null,
             {
               name: id ? 'Edit' : 'Save',
               onClick: () =>
-                open({
+                openDialog({
                   fields: [
                     { id: 'name', name: 'Name', type: 'string' },
                     { id: 'description', name: 'Description', type: 'text' },
                   ],
-                  onClose: () => close(),
+                  onClose: () => closeDialog(),
                   onSubmit: (values) => mutation(values),
                   title: 'Edit',
                   values: { id, layout: {}, name, vizState },

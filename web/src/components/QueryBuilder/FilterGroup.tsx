@@ -10,50 +10,55 @@ import { getDropdownProps, getSelectProps } from './utils';
 
 const FilterGroup = ({
   members,
+  query,
   updateMethods,
   ...props
 }: GroupProps): ReactElement => (
   <>
-    {members.map((m) => [
-      <Grid item xs={1} key={`delete-${m.index}`}>
-        <IconButton
-          icon={<ClearIcon />}
-          onClick={() => updateMethods.remove({ index: m.index })}
-        />
-      </Grid>,
-      <Grid item sm={4} xs={11} key={`dimension-${m.index}`}>
-        <Select
-          {...getSelectProps({
-            ...props,
-            key: 'dimension',
-            m,
-            members,
-            updateMethods,
-          })}
-          disabled
-          defaultValue={[m.dimension.name]}
-          label="Filter Dimension"
-        />
-      </Grid>,
-      <Grid item xs={12} sm={3} key={`operator-${m.index}`}>
-        <Select
-          {...getSelectProps({
-            ...props,
-            availableMembers: m.operators,
-            key: 'operator',
-            keyPath: 'name',
-            m,
-            members,
-            updateMethods,
-          })}
-          defaultValue={[m.operator || m.operators[0]]}
-          label="Operator"
-        />
-      </Grid>,
-      <Grid item xs={12} sm={4} key={`filterInput-${m.index}`}>
-        <FilterInput {...props} member={m} updateMethods={updateMethods} />
-      </Grid>,
-    ])}
+    {members.map((m) => {
+      const selection = query.filters.find((td) => td.member === m.name) || {};
+
+      return [
+        <Grid item xs={1} key={`delete-${m.index}`}>
+          <IconButton
+            icon={<ClearIcon />}
+            onClick={() => updateMethods.remove({ index: m.index })}
+          />
+        </Grid>,
+        <Grid item sm={4} xs={11} key={`dimension-${m.index}`}>
+          <Select
+            {...getSelectProps({
+              ...props,
+              key: 'dimension',
+              m,
+              members,
+              updateMethods,
+            })}
+            disabled
+            defaultValue={[m.dimension.name || selection.dimension]}
+            label="Filter Dimension"
+          />
+        </Grid>,
+        <Grid item xs={12} sm={3} key={`operator-${m.index}`}>
+          <Select
+            {...getSelectProps({
+              ...props,
+              availableMembers: m.operators,
+              key: 'operator',
+              keyPath: 'name',
+              m,
+              members,
+              updateMethods,
+            })}
+            defaultValue={[m.operator || m.operators[0] || selection.operator]}
+            label="Operator"
+          />
+        </Grid>,
+        <Grid item xs={12} sm={4} key={`filterInput-${m.index}`}>
+          <FilterInput {...props} member={m} updateMethods={updateMethods} />
+        </Grid>,
+      ];
+    })}
     <Grid item xs={12}>
       <Dropdown
         {...getDropdownProps({

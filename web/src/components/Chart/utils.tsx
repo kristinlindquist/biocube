@@ -1,5 +1,5 @@
 import numeral from 'numeral';
-import { get, mean } from 'lodash';
+import { get, mean, startCase } from 'lodash';
 import { EChartOption } from 'echarts';
 import { SeriesNamesColumn } from '@cubejs-client/core';
 
@@ -72,8 +72,10 @@ export const processStds = (
 const getMeta = (
   resultSet: ResultSet<string>,
   key,
-): { chartType: string; uom: string } => {
+): { chartType: string; stack?: string; uom: string } => {
   const obj = get(resultSet, measuresBase) || {};
+
+  // accounts for interval keys (e.g. myval_std -> myval)
   const actualKey = Object.keys(obj).find((k) => key.includes(k));
 
   return (
@@ -86,12 +88,17 @@ const getMeta = (
 /**
  * default chart type from meta on cubejs
  */
-export const getChartType = (
+export const getChartDetails = (
   resultSet: ResultSet<string>,
   key: string,
-): string => {
+): { stack?: string; type?: string } => {
   const meta = getMeta(resultSet, key);
-  return meta && meta.chartType ? meta.chartType.toLowerCase() : 'line';
+  return meta
+    ? {
+        stack: meta.stack,
+        type: (meta.chartType || 'line').toLowerCase(),
+      }
+    : {};
 };
 
 /**
@@ -125,11 +132,13 @@ export const getIntervalObj = (
       : undefined,
   encode: { x: 'x', y: `${obj.key}-${side}` },
   key: `${obj.key}-${side}`,
-  stack: `${obj.key} confidence-band`,
+  stack: `${obj.key} interval-band`,
 });
 
 const getColDetail = (resultSet, key) =>
-  resultSet.tableColumns().find((t) => t.key === key) || {};
+  resultSet.tableColumns().find((t) => t.key === key) ||
+  resultSet.tableColumns().find((t) => key && key.includes(t.key)) ||
+  {};
 
 /**
  * Get axis unit of measure
@@ -153,11 +162,11 @@ export const getSeries = (
   resultSet: ResultSet<string>,
 ): EChartSeries[] =>
   series.flatMap((s, i) => {
-    const type = getChartType(resultSet, s.key);
     const isInterval = s.key.includes('std');
 
     const obj = {
       ...s,
+      ...getChartDetails(resultSet, s.key),
       barMaxWidth: '30%',
       connectNulls: true,
       encode: {
@@ -172,7 +181,6 @@ export const getSeries = (
       symbolSize: isInterval ? 0 : 7,
       name: getColDetail(resultSet, s.key).subtitle,
       tooltip: !isInterval ? [s.key] : undefined,
-      type,
       yAxisIndex: getAxisIndex(
         resultSet,
         s.key,
@@ -186,6 +194,16 @@ export const getSeries = (
       : [obj];
   });
 
+const getDisplayName = (name) => {
+  let n = '';
+  if (name.includes(',')) {
+    [n] = name.split(',');
+  } else if (name.includes('.')) {
+    [, n] = name.split('.');
+  }
+  return startCase(n);
+};
+
 export const formatTooltip = (
   params: Array<{ name: string; value: string }>,
   series: EChartSeries[],
@@ -195,7 +213,12 @@ export const formatTooltip = (
   const values = series.filter(({ tooltip }) => tooltip).map(({ key }) => key);
   return `${getLongDate(new Date(name))} <br /> ${values
     .filter((v) => value[v])
-    .map((v) => `${value[v].toFixed(2)} ${getUom(resultSet, v) || v}`)
+    .map(
+      (v) =>
+        `${getDisplayName(v)}: ${value[v].toFixed(2)} ${
+          getUom(resultSet, v) || v
+        }`,
+    )
     .join('<br />')}`;
 };
 
