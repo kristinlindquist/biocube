@@ -212,7 +212,7 @@ const ChartRenderer = ({
                   onSubmit: (values) =>
                     mutation(values).then(() => goTo('/dashboard')),
                   title: 'Edit',
-                  values: { id, layout: {}, name, vizState },
+                  values: { description, id, layout: {}, name, vizState },
                 }),
             },
             {
