@@ -58,11 +58,6 @@ asyncModule(async () => {
         relationship: `belongsTo`,
       },
 
-      Device: {
-        sql: `${CUBE}."deviceId" = ${Device}.id`,
-        relationship: `belongsTo`,
-      },
-
       ConcurrentState: {
         sql: `${CUBE}.id <> ${ConcurrentState}.id
           AND ${CUBE}."startedAt" >= ${ConcurrentState}."startedAt"
@@ -92,22 +87,6 @@ asyncModule(async () => {
         type: `avg`,
         rollingWindow: {
           trailing: `1 hour`,
-        },
-      },
-
-      rollingDay: {
-        sql: `value`,
-        type: `avg`,
-        rollingWindow: {
-          trailing: `1 day`,
-        },
-      },
-
-      rollingWeek: {
-        sql: `value`,
-        type: `avg`,
-        rollingWindow: {
-          trailing: `1 week`,
         },
       },
 

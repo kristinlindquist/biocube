@@ -7,7 +7,8 @@ cube(`ConcurrentState`, {
       type: `number`,
       primaryKey: true
     },
-    state: {
+
+    concurrentState: {
       sql: `state`,
       type: `string`,
       // subQuery: true,
