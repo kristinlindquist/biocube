@@ -6,7 +6,7 @@ import {
   QueryBuilder as CubeJsQueryBuilder,
   VizState,
 } from '@cubejs-client/react';
-import { CubejsApi } from '@cubejs-client/core';
+import { CubejsApi, Query } from '@cubejs-client/core';
 import { uniq } from 'lodash';
 
 import { IconButton } from 'components/Button';
@@ -35,8 +35,14 @@ export interface QbProps {
    * Chart Name
    */
   name?: string;
+  /**
+   * Open query builder
+   */
   open?: () => void;
-  query?: any;
+  /**
+   * Saved query
+   */
+  query?: Query;
   /**
    * viz state, whatever that is
    */
@@ -132,7 +138,7 @@ const QueryBuilder = ({
                 title={name ? `Edit ${name} Query` : 'Build a Query'}>
                 <Grid container spacing={2}>
                   {memberGroups.map((mg) => (
-                    <Grid item xs={12} sm={4}>
+                    <Grid item key={mg.name} sm={4} xs={12}>
                       <MemberGroup {...mg} query={query} />
                     </Grid>
                   ))}

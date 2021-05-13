@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Theme, useTheme } from '@material-ui/core/styles';
-import { ChartType, useCubeQuery } from '@cubejs-client/react';
-import { Query } from '@cubejs-client/core';
+import { ChartType, useCubeQuery, VizState } from '@cubejs-client/react';
 import { useMutation } from '@apollo/client';
 
 import ReactECharts from 'echarts-for-react';
@@ -55,10 +54,7 @@ export interface ChartRendererProps {
   /**
    * Vizstate (cubejs)
    */
-  vizState: {
-    chartType: ChartType;
-    query: Query | Query[];
-  };
+  vizState: VizState;
   /**
    * Function to update chart type
    */
@@ -201,12 +197,12 @@ const ChartRenderer = ({
                 },
             open
               ? {
-                  name: 'Change Settings',
+                  name: 'Edit',
                   onClick: () => open(),
                 }
               : null,
             {
-              name: id ? 'Edit' : 'Save',
+              name: 'Save',
               onClick: () =>
                 openDialog({
                   fields: [
