@@ -5,7 +5,13 @@ import { SeriesNamesColumn } from '@cubejs-client/core';
 
 import { getLongDate } from 'components/Date';
 import { KeyValuePairs } from 'types';
-import { PrimitiveType, ResultSet } from './types';
+import {
+  EchartsApi,
+  EchartsParam,
+  EchartsRenderItemProps,
+  PrimitiveType,
+  ResultSet,
+} from './types';
 
 const annotationBase = 'loadResponse.results[0].annotation';
 const measuresBase = `${annotationBase}.measures`;
@@ -41,6 +47,8 @@ const getStdValue = (d, key, avg, baseValue = null) =>
         [`${key}-L`]: (1 - nullFactor) * avg,
       };
 
+const getMainKey = (key, keyType = '') => key.split(`_${keyType}`)[0];
+
 /**
  * Adds std to base
  */
@@ -56,7 +64,7 @@ export const processStds = (
   const keys = Object.keys(data[0]);
 
   keys.forEach((key) => {
-    const baseKey = key.split(`_${keyType}`)[0];
+    const baseKey = getMainKey(key, keyType);
     if (key !== baseKey && keys.includes(baseKey)) {
       const avg = mean(data.map((d2) => d2[baseKey]).filter((d2) => d2));
       newData = newData.map((d) => getStdValue(d, key, avg, d[baseKey]));
@@ -66,6 +74,55 @@ export const processStds = (
   return newData;
 };
 
+export const renderErrorBar = (
+  params: EchartsParam,
+  api: EchartsApi,
+  relatedIndex: number,
+): EchartsRenderItemProps => {
+  const yValue = api.value(relatedIndex) || 0;
+  const yStd = api.value(params.encode.y[0]);
+  const highPoint = api.coord([params.dataIndex, yValue + yStd * 2]);
+  const lowPoint = api.coord([params.dataIndex, yValue - yStd * 2]);
+  const halfWidth = api.size([1, 0])[0] * 0.1;
+
+  const options = {
+    transition: ['shape'],
+    type: 'line',
+  };
+
+  return {
+    children: [
+      {
+        ...options,
+        shape: {
+          x1: highPoint[0] - halfWidth,
+          y1: highPoint[1],
+          x2: highPoint[0] + halfWidth,
+          y2: highPoint[1],
+        },
+      },
+      {
+        ...options,
+        shape: {
+          x1: highPoint[0],
+          y1: highPoint[1],
+          x2: lowPoint[0],
+          y2: lowPoint[1],
+        },
+      },
+      {
+        ...options,
+        shape: {
+          x1: lowPoint[0] - halfWidth,
+          y1: lowPoint[1],
+          x2: lowPoint[0] + halfWidth,
+          y2: lowPoint[1],
+        },
+      },
+    ],
+    type: 'group',
+  };
+};
 /**
  * Get cubejs meta obj
  */
@@ -75,7 +132,8 @@ const getMeta = (
 ): { chartType: string; stack?: string; uom: string } => {
   const obj = get(resultSet, measuresBase) || {};
 
-  // accounts for interval keys (e.g. myval_std -> myval)
+  // accounts for interval keys (e.g. myval_std -> myval) AND
+  // dimensional keys (e.g. RUNNING, Data.Exercise -> Data.exercise)
   const actualKey = Object.keys(obj).find((k) => key.includes(k));
 
   return (
@@ -93,6 +151,7 @@ export const getChartDetails = (
   key: string,
 ): { stack?: string; type?: string } => {
   const meta = getMeta(resultSet, key);
+
   return meta
     ? {
         stack: meta.stack,
@@ -140,6 +199,9 @@ const getColDetail = (resultSet, key) =>
   resultSet.tableColumns().find((t) => key && key.includes(t.key)) ||
   {};
 
+const getColIndex = (resultSet, key) =>
+  Object.keys(resultSet.chartPivot()[0]).indexOf(key);
+
 /**
  * Get axis unit of measure
  */
@@ -162,25 +224,37 @@ export const getSeries = (
   resultSet: ResultSet<string>,
 ): EChartSeries[] =>
   series.flatMap((s, i) => {
-    const isInterval = s.key.includes('std');
+    const { stack, type } = getChartDetails(resultSet, s.key);
+    const isInterval = s.key.includes('std') && type !== 'bar';
+    const isBarInterval = s.key.includes('std') && type === 'bar';
+    const relatedIndex = getColIndex(resultSet, getMainKey(s.key));
 
     const obj = {
       ...s,
-      ...getChartDetails(resultSet, s.key),
       barMaxWidth: '30%',
       connectNulls: true,
       encode: {
         x: 'x',
         y: s.key,
       },
+      itemStyle: {
+        normal: {
+          borderWidth: 2,
+        },
+      },
       lineStyle: {
         opacity: isInterval ? 0 : 1,
         width: 2,
       },
-      seriesLayoutBy: 'row',
-      symbolSize: isInterval ? 0 : 7,
       name: getColDetail(resultSet, s.key).subtitle,
+      renderItem: isBarInterval
+        ? (params, api) => renderErrorBar(params, api, relatedIndex)
+        : undefined,
+      seriesLayoutBy: 'row',
+      stack,
+      symbolSize: isInterval ? 0 : 7,
       tooltip: !isInterval ? [s.key] : undefined,
+      type: isBarInterval ? 'custom' : type,
       yAxisIndex: getAxisIndex(
         resultSet,
         s.key,

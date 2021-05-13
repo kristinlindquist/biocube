@@ -20,6 +20,23 @@ export type ResultSet<Type> = {
   totalRow: () => { x: string; xValues: string[] };
 };
 
+export type EchartsParam = { dataIndex: number; encode: { y: number[] } };
+
+export type EchartsApi = {
+  coord: (arr: [number, number]) => Array<number>;
+  size: (arr: [number, number]) => number;
+  value: (number) => number;
+};
+
+export type EchartsRenderItemProps = {
+  children: Array<{
+    shape: { x1: number; x2: number; y1: number; y2: number };
+    transition: string[];
+    type: string;
+  }>;
+  type: string;
+};
+
 export interface ChartProps {
   /**
    * children

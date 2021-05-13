@@ -13,7 +13,7 @@ const getFilter = ({ dimension, operator, values }) =>
  */
 const getValue = (recipe, CUBE, type) =>
   type
-    ? `stddev_samp(${CUBE}.value)`
+    ? `stddev_samp(${CUBE}.${recipe.sql || 'value'})`
     : `${camelCase(recipe.aggregation || 'avg').toLowerCase()}(${CUBE}.${
         recipe.sql || 'value'
       })`;
