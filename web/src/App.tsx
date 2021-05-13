@@ -1,5 +1,10 @@
 import { ReactElement } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import cubejs from '@cubejs-client/core';
 import { CubeProvider } from '@cubejs-client/react';
@@ -35,6 +40,9 @@ const App = (): ReactElement => {
                     </Route>
                     <Route path="/" exact>
                       <Home />
+                    </Route>
+                    <Route path="/dashboard" exact>
+                      <Redirect to="/" />
                     </Route>
                     <Route path="/">
                       <DynamicPages />

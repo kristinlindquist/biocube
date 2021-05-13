@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { Theme, useTheme } from '@material-ui/core/styles';
 import { ChartType, useCubeQuery, VizState } from '@cubejs-client/react';
 import { useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 import ReactECharts from 'echarts-for-react';
 import { Box, Skeleton } from '@material-ui/core';
@@ -160,14 +161,12 @@ const ChartRenderer = ({
   const [, { close: closeDialog, open: openDialog }] = useDialog();
   const { error, isLoading, resultSet, ...chartProps } = useCubeQuery(query);
 
+  const history = useHistory();
+  const goTo = (url: string) => history.push(url);
+
   const [mutation] = useMutation(UpsertGraph, {
     update(cache, { data }) {
-      modifyCacheOnUpdate(
-        cache,
-        data,
-        'GetDashboardGraphsQuery',
-        'DashboardGraphs',
-      );
+      modifyCacheOnUpdate(cache, data, 'getDashboardGraphs', 'DashboardGraphs');
     },
   });
 
@@ -210,7 +209,8 @@ const ChartRenderer = ({
                     { id: 'description', name: 'Description', type: 'text' },
                   ],
                   onClose: () => closeDialog(),
-                  onSubmit: (values) => mutation(values),
+                  onSubmit: (values) =>
+                    mutation(values).then(() => goTo('/dashboard')),
                   title: 'Edit',
                   values: { id, layout: {}, name, vizState },
                 }),
