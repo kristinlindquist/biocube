@@ -79,9 +79,11 @@ const FormField = ({
     <React.Fragment key={id}>
       {isSelectType(type) && (
         <Select
-          defaultValue={((form[id] || []) as Array<{
-            id: string | number;
-          }>).map(({ id: sId }) => sId)}
+          defaultValue={(
+            (form[id] || []) as Array<{
+              id: string | number;
+            }>
+          ).map(({ id: sId }) => sId)}
           fullWidth
           label={name}
           multiple={type === 'multiple'}
