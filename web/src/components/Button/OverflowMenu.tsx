@@ -4,14 +4,17 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 
 import { IconButton } from 'components/Button';
 
-export interface MenuButtonProps {
+export interface OverflowMenuProps {
   /**
    * Options
    */
   options: Array<{ onClick: () => void; name: string }>;
 }
 
-const MenuButton = ({ options }: MenuButtonProps): ReactElement => {
+/**
+ * For showing additional options/actions. Not for important or common actions.
+ */
+const OverflowMenu = ({ options }: OverflowMenuProps): ReactElement => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -51,4 +54,4 @@ const MenuButton = ({ options }: MenuButtonProps): ReactElement => {
   );
 };
 
-export default MenuButton;
+export default OverflowMenu;

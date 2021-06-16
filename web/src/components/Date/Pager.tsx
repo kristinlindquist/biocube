@@ -53,7 +53,7 @@ const Pager = ({ type = 'date' }: PagerProps): ReactElement => {
   const [{ start, end }, { set }] = useDateRange();
 
   return (
-    <Box display="flex">
+    <Box display="flex" alignContent="center">
       {getButton(start, end, set, 'prev')}
       <Range type={type} />
       {getButton(start, end, set, 'next')}

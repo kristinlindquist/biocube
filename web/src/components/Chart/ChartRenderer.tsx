@@ -8,7 +8,7 @@ import ReactECharts from 'echarts-for-react';
 import { Box, Skeleton } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 
-import { MenuButton } from 'components/Button';
+import { OverflowMenu } from 'components/Button';
 import { Card } from 'components/Card';
 import { getMonthDay } from 'components/Date';
 import { useDialog } from 'contexts';
@@ -186,7 +186,7 @@ const ChartRenderer = ({
       error={error ? { message: error.toString() } : null}
       loading={isLoading && isEmpty(resultSet)}
       headerAction={
-        <MenuButton
+        <OverflowMenu
           options={[
             true
               ? null

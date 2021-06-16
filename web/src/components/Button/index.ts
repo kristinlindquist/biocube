@@ -3,6 +3,6 @@ import Dropdown from './Dropdown';
 import Fab from './Fab';
 import Group from './Group';
 import IconButton from './IconButton';
-import MenuButton from './MenuButton';
+import OverflowMenu from './OverflowMenu';
 
-export { Button, Dropdown, Fab, Group, IconButton, MenuButton };
+export { Button, Dropdown, Fab, Group, IconButton, OverflowMenu };

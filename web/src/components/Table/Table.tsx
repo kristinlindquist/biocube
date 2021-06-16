@@ -110,6 +110,9 @@ const Table = ({
   const showCols = cols.filter((col) => !col.editOnly && col.type !== 'TABLE');
   const collapseCol = cols.find(({ type }) => type === 'TABLE');
 
+  const showEdit = showEditOverride || (mutation && deleteMutation);
+  const showAdd = showEditOverride || (mutation && deleteMutation);
+
   return (
     <TableContainer {...containerProps} component={component || Paper}>
       <MaterialTable aria-label={`table ${id}`} {...props}>
@@ -119,9 +122,7 @@ const Table = ({
               <TableCell key={colId}>{name}</TableCell>
             ))}
             {collapseCol && <TableCell id="collapseCol" />}
-            {showEditOverride || (mutation && deleteMutation) ? (
-              <TableCell id="edit" />
-            ) : null}
+            {showEdit && <TableCell id="edit" />}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -140,7 +141,7 @@ const Table = ({
           ))}
         </TableBody>
       </MaterialTable>
-      {allowAdds && mutation && (
+      {showAdd && (
         <Dialog
           containerProps={{ sx: { ml: 'auto' } }}
           fields={cols.filter((c) => undefOrTrue(c.create))}
