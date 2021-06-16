@@ -49,7 +49,6 @@ const Group = ({
     aria-label={label}
     color={color}
     size="small"
-    value={selected}
     variant={variant}>
     {buttons.map(({ label: bLabel, onClick }) => (
       <Button key={bLabel} onClick={onClick} value={bLabel.toLowerCase()}>

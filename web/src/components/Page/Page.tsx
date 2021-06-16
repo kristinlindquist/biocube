@@ -1,6 +1,6 @@
 import { ReactChild, ReactElement, ReactFragment, ReactPortal } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Container, CssBaseline, LinearProgress } from '@material-ui/core';
+import { Alert, Box, Container, LinearProgress } from '@material-ui/core';
 
 import { Header } from 'components/Header';
 import { ErrorMessage } from 'types';
@@ -17,7 +17,7 @@ export interface PageProps {
   /**
    * error
    */
-  error?: string | ErrorMessage | null;
+  error?: ErrorMessage | null;
   /**
    * Is page loading?
    */
@@ -33,16 +33,17 @@ export interface PageProps {
  */
 const Page = ({
   children,
-  loading,
+  error,
+  loading = false,
   title = 'Biocube',
 }: PageProps): ReactElement => {
   const classes = useStyles();
 
   return (
     <Box mb={10}>
-      <CssBaseline />
       {loading && <LinearProgress />}
       <Header title={title} />
+      {error && <Alert severity="error">{error.message}</Alert>}
       <div className={classes.offset} />
       <Container>{children}</Container>
     </Box>
