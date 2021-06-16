@@ -11,4 +11,4 @@ const Template: Story<ButtonProps> = (args) => <Button {...args} />;
 
 export const Default = Template.bind({});
 
-Default.args = { label: 'A Button' };
+Default.args = { label: 'A Button', variant: 'outlined' };

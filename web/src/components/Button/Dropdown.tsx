@@ -34,8 +34,8 @@ const defaultOptions = [
 
 /**
  * A button that triggers a dropdown. Upon selection,
- * onSelect is triggered. Good for adding, say,
- * filters on the query builder.
+ * onSelect is triggered. Good for adding filters on
+ * the query builder.
  */
 const Dropdown = ({
   label = 'Select...',

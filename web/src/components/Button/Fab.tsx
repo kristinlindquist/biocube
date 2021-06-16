@@ -22,7 +22,13 @@ export interface FabProps {
 }
 
 /**
- * Floating action button!
+ * Floating action button.
+ *
+ * "A floating action button (FAB) performs the primary, or most common,
+ * action on a screen. It appears in front of all screen content, typically
+ * as a circular shape with an icon in its center."
+ *
+ * https://material.io/components/buttons-floating-action-button
  */
 const Fab = ({
   icon,

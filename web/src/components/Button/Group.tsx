@@ -1,8 +1,5 @@
 import { ReactElement } from 'react';
-import {
-  ToggleButton as Button,
-  ToggleButtonGroup as ButtonGroup,
-} from '@material-ui/core';
+import { Button, ButtonGroup } from '@material-ui/core';
 
 export interface GroupProps {
   /**
@@ -16,7 +13,7 @@ export interface GroupProps {
   /**
    * Button color
    */
-  color?: 'primary' | 'secondary' | 'standard';
+  color?: 'primary' | 'secondary';
   /**
    * Button label
    */
@@ -29,16 +26,22 @@ export interface GroupProps {
    * which button is selected, if any
    */
   selected: string;
+  /**
+   * Button variant
+   */
+  variant?: 'contained' | 'outlined' | 'text';
 }
 
 /**
- * A group of buttons.
+ * A group of buttons, appropriate when multiple
+ * related actions can be taken.
  */
 const Group = ({
   buttons,
   color = 'primary',
   label = 'button group',
   selected,
+  variant = 'outlined',
   ...props
 }: GroupProps): ReactElement => (
   <ButtonGroup
@@ -46,7 +49,8 @@ const Group = ({
     aria-label={label}
     color={color}
     size="small"
-    value={selected}>
+    value={selected}
+    variant={variant}>
     {buttons.map(({ label: bLabel, onClick }) => (
       <Button key={bLabel} onClick={onClick} value={bLabel.toLowerCase()}>
         {bLabel}

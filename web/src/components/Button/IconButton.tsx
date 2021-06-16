@@ -22,7 +22,7 @@ export type IconButtonProps = {
 };
 
 /**
- * An Icon Button
+ * An icon button. Appropriate for common/familiar actions.
  */
 const IconButton = ({
   icon,
