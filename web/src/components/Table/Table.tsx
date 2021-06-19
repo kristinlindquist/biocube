@@ -9,7 +9,7 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { isEmpty, sortBy, startCase } from 'lodash';
 
 import { Fab } from 'components/Button';

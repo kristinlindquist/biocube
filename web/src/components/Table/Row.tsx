@@ -1,7 +1,7 @@
 import { ReactElement, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Box, TableCell, TableRow, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { get, omitBy } from 'lodash';
 import ArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import ArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
