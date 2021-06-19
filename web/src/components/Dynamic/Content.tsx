@@ -6,7 +6,7 @@ import { Card } from 'components/Card';
 import { Chip } from 'components/Chip';
 import { FormDialog as Dialog } from 'components/Dialog';
 import { IconButton } from 'components/Button';
-import { DataGrid, Table } from 'components/Table';
+import { Table } from 'components/Table';
 import {
   ContentDefType,
   IdType,
@@ -69,10 +69,6 @@ const subComponent = (
       asArray(value).map((v) => (
         <Chip key={`${id}-${v.name}`} sx={{ mr: 0.5 }} {...v} />
       )),
-      name,
-    ),
-    DATAGRID: withTitle(
-      <DataGrid {...props} hideFooter rows={value as RowType[]} />,
       name,
     ),
     TABLE: <Table {...props} id={id} rows={value as RowType[]} />,

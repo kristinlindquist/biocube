@@ -4,7 +4,7 @@ import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import { Alert } from '@material-ui/core';
 
 import ErrorBoundary from 'ErrorBoundary';
-import { DataGrid, Table } from 'components/Table';
+import { Table } from 'components/Table';
 import { JSONObject } from 'types';
 import { getDocument, getQueryAndEntity, unwrapGqlData } from 'utils';
 import { modifyCacheOnDelete, modifyCacheOnUpdate } from 'gql';
@@ -115,14 +115,6 @@ const Component = ({
         data={unwrapGqlData(data)}
         deleteMutation={deleteMutation}
         mutation={mutate}
-      />
-    ),
-    DATAGRID: (
-      <DataGrid
-        {...props}
-        deleteMutation={deleteMutation}
-        mutation={mutate}
-        rows={unwrapGqlData(data)}
       />
     ),
     TABLE: (
