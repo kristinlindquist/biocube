@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { Filter } from '@cubejs-client/core';
 import { Grid } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 
@@ -16,7 +17,9 @@ const FilterGroup = ({
 }: GroupProps): ReactElement => (
   <>
     {members.map((m) => {
-      const selection = query.filters.find((td) => td.member === m.name) || {};
+      const selection: Filter | null = query?.filters.find(
+        (td) => td.member === m.name,
+      );
 
       return [
         <Grid item xs={1} key={`delete-${m.index}`}>
@@ -35,7 +38,7 @@ const FilterGroup = ({
               updateMethods,
             })}
             disabled
-            defaultValue={[m.dimension.name || selection.dimension]}
+            defaultValue={[m.dimension?.name || selection?.dimension]}
             label="Filter Dimension"
           />
         </Grid>,
@@ -50,7 +53,7 @@ const FilterGroup = ({
               members,
               updateMethods,
             })}
-            defaultValue={[m.operator || m.operators[0] || selection.operator]}
+            defaultValue={[m.operator || m.operators[0] || selection?.operator]}
             label="Operator"
           />
         </Grid>,

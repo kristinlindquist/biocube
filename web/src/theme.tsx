@@ -1,5 +1,10 @@
 import { createTheme, Theme } from '@material-ui/core/styles';
 
+declare module '@material-ui/styles' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 declare module '@material-ui/core/styles/createPalette' {
   interface Palette {
     red: PaletteColor;
@@ -85,16 +90,6 @@ const theme: Theme = createTheme({
 export default {
   ...theme,
   components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          lineHeight: 0.5,
-        },
-        label: {
-          padding: theme.spacing(1),
-        },
-      },
-    },
     MuiFormControl: {
       styleOverrides: {
         root: {

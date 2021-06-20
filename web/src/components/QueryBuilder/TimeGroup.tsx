@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import { Grid } from '@material-ui/core';
+import { TimeDimension } from '@cubejs-client/core';
 
 import { Select } from 'components/Inputs';
 import { GroupProps } from './types';
@@ -24,9 +25,9 @@ const TimeGroup = ({
 }: GroupProps): ReactElement => (
   <>
     {members.map((m) => {
-      const selection = query
-        ? query.timeDimensions.find((td) => td.dimension === m.dimension) || {}
-        : {};
+      const selection: TimeDimension | null = query?.timeDimensions.find(
+        (td) => td.dimension === m.dimension,
+      );
 
       return [
         <Grid item xs={12} sm={4} key={name}>
@@ -36,7 +37,7 @@ const TimeGroup = ({
               key: 'dimension',
               m,
               members,
-              selection: selection.dimension,
+              selection: selection?.dimension,
             })}
             emptyOption={false}
             label={name}
@@ -51,7 +52,7 @@ const TimeGroup = ({
               keyPath: 'name',
               m,
               members,
-              selection: selection.dateRange,
+              selection: selection?.dateRange.toString(),
             })}
             emptyOption={false}
             label="Date Range"
@@ -61,12 +62,12 @@ const TimeGroup = ({
           <Select
             {...getSelectProps({
               ...props,
-              availableMembers: m.dimension.granularities,
+              availableMembers: m.dimension?.granularities,
               key: 'granularity',
               keyPath: 'name',
               m,
               members,
-              selection: selection.granularity,
+              selection: selection?.granularity,
             })}
             emptyOption={false}
             label="Granularity"

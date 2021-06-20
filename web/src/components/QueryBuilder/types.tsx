@@ -1,14 +1,14 @@
-import { TCubeMember } from '@cubejs-client/core';
+import { TCubeMember, Query } from '@cubejs-client/core';
 
 export interface GroupProps {
   /**
    * Options
    */
-  availableMembers: any[];
+  availableMembers: Member[];
   defaults?: any;
   name?: string;
-  members?: any[];
-  query?: any;
+  members?: Member[];
+  query?: Query;
   title?: string;
   updateMethods: UpdateMethods;
 }

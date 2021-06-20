@@ -8,6 +8,7 @@ import {
 import { ApolloProvider } from '@apollo/client';
 import cubejs from '@cubejs-client/core';
 import { CubeProvider } from '@cubejs-client/react';
+import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { CookiesProvider } from 'react-cookie';
 
@@ -17,7 +18,7 @@ import Home from 'containers/Home';
 import DynamicPages from 'containers/DynamicPages';
 import QueryBuilder from 'containers/QueryBuilder';
 import { getApolloClient } from 'gql';
-import theme from 'theme';
+import theme from './theme';
 
 const CUBE_API_URL = 'http://localhost:4343';
 const cubejsApi = cubejs({ apiUrl: `${CUBE_API_URL}/cubejs-api/v1` });
@@ -27,6 +28,7 @@ const App = (): ReactElement => {
 
   return (
     <CookiesProvider>
+      <CssBaseline />
       <ThemeProvider theme={theme}>
         <CubeProvider cubejsApi={cubejsApi}>
           <ApolloProvider client={client}>
