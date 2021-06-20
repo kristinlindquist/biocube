@@ -1,8 +1,9 @@
 import { ReactElement } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   divider: {
     margin: 'auto',
     paddingRight: theme.spacing(2),

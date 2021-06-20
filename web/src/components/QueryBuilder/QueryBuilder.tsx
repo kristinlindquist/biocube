@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import {
   QueryBuilder as CubeJsQueryBuilder,
@@ -53,7 +54,7 @@ export interface QbProps {
   setVizState?: (vizState: VizState) => void;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   query: {
     paddingBottom: theme.spacing(3),
   },

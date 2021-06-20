@@ -158,7 +158,10 @@ export class GoogleFitnessAPI extends RESTDataSource {
         endTimeMillis: end,
       },
       { headers: { Authorization: `Bearer ${token}` } },
-    ).catch((error) => logger.log({ level: 'error', message: error }));;
+    ).catch((error) => {
+      logger.log({ level: 'error', message: error });
+      throw Error(error);
+   });
 
   getHeartRate = async (token, start, end, aggregate = false) => {
     const data = await this.getData(

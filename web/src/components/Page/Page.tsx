@@ -1,11 +1,12 @@
 import { ReactChild, ReactElement, ReactFragment, ReactPortal } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
+import { Theme } from '@material-ui/core/styles';
 import { Alert, Box, Container, LinearProgress } from '@material-ui/core';
 
 import { Header } from 'components/Header';
 import { ErrorMessage } from 'types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   offset: theme.mixins.toolbar,
 }));
 

@@ -23,6 +23,7 @@
     "@material-ui/core": "5.0.0-alpha.37",
     "@material-ui/icons": "5.0.0-alpha.37",
     "@material-ui/lab": "5.0.0-alpha.37",
+    "@material-ui/styles": "5.0.0-alpha.37",
     "@material-ui/system": "5.0.0-alpha.37",
     "@material-ui/types": "5.1.7",
     "@nivo/calendar": "^0.70.1",

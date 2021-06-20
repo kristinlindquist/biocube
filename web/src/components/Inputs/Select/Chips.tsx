@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { Chip, ChipProps } from '@material-ui/core';
 import clsx from 'clsx';
 

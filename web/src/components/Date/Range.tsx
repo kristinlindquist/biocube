@@ -1,11 +1,12 @@
 import { ReactElement } from 'react';
 import { Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 
 import { useDateRange } from 'contexts';
 import Picker from './Picker';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   picker: {
     marginRight: theme.spacing(2),
     '&:last-child': {

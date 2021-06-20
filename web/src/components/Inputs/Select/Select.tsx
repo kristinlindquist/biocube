@@ -1,5 +1,7 @@
 import { ReactElement, useState } from 'react';
-import { makeStyles, useTheme, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
+import { Theme, useTheme } from '@material-ui/core/styles';
+
 import clsx from 'clsx';
 import {
   FormControl,

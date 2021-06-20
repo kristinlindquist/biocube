@@ -1,6 +1,6 @@
 import { ReactElement, useState } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import {
   TextField as MaterialTextField,
   TextFieldProps as MaterialTextFieldProps,

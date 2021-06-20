@@ -1,5 +1,4 @@
-// https://github.com/mui-org/material-ui/issues/13394
-import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
+import { createTheme, Theme } from '@material-ui/core/styles';
 
 declare module '@material-ui/core/styles/createPalette' {
   interface Palette {
@@ -23,7 +22,7 @@ declare module '@material-ui/core/styles/createPalette' {
   }
 }
 
-const theme = createMuiTheme({
+const theme: Theme = createTheme({
   palette: {
     primary: {
       main: '#546e7a',
