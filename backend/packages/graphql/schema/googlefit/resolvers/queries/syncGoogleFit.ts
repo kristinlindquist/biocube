@@ -27,32 +27,36 @@ const syncGoogleFit = async (
     const dayStart = date;
     const dayEnd = moment(date).endOf('days').toDate();
 
-    const activity = await api.getActivity(token, dayStart, dayEnd);
-    const heartRate = await api.getHeartRate(token, dayStart, dayEnd);
-    const sleep = await api.getSleep(token, dayStart, dayEnd, false);
+    try {
+      const activity = await api.getActivity(token, dayStart, dayEnd);
+      const heartRate = await api.getHeartRate(token, dayStart, dayEnd);
+      const sleep = await api.getSleep(token, dayStart, dayEnd, false);
 
-    const data = [
-      ...addMeasure(activity, 35),
-      ...addMeasure(heartRate, 33),
-      ...addMeasure(sleep, 50),
-    ].map((d) => ({
-      ...d,
-      deviceId: 1,
-      state: d.state ? d.state.toUpperCase().replace(' ', '_') : undefined,
-    }));
+      const data = [
+        ...addMeasure(activity, 35),
+        ...addMeasure(heartRate, 33),
+        ...addMeasure(sleep, 50),
+      ].map((d) => ({
+        ...d,
+        deviceId: 1,
+        state: d.state?.toUpperCase().replace(' ', '_'),
+      }));
 
-    if (data.length > 0) {
-      prisma.data
-        .createMany({ data, skipDuplicates: true })
-        .then((result) =>
+      if (data.length > 0) {
+        prisma.data.createMany({ data, skipDuplicates: true }).then((result) =>
           logger.log({
             level: 'info',
             message: `Create result: ${JSON.stringify(result)} for ${date}.`,
           }),
-        )
-        .catch((error) => logger.log({ level: 'error', message: error }));
-    } else {
-      logger.log({ level: 'info', message: `Nothing to create for ${date}.` });
+        );
+      } else {
+        logger.log({
+          level: 'info',
+          message: `Nothing to create for ${date}.`,
+        });
+      }
+    } catch (error) {
+      logger.log({ level: 'error', message: error });
     }
   });
 
