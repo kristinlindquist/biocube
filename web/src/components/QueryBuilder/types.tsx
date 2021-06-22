@@ -21,7 +21,7 @@ export interface UpdateMethods {
 
 export type Member = {
   index?: number;
-} & Partial<TCubeMember>;
+} & Partial<TCubeMember> & any;
 
 export interface SelectInputProps {
   availableMembers: Member[];

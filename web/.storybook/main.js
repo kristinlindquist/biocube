@@ -8,14 +8,26 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/preset-create-react-app',
   ],
-  webpackFinal: async (config, {configType}) => {
+  webpackFinal: async (config, { configType }) => {
     config.resolve.plugins = [
-        new TsconfigPathsPlugin({
-            configFile: path.resolve(__dirname, '../tsconfig.json')
-        }),
+      new TsconfigPathsPlugin({
+        configFile: path.resolve(__dirname, '../tsconfig.json'),
+      }),
     ];
 
-    return config;
+    // https://github.com/mui-org/material-ui/issues/24282
+    return {
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve.alias,
+          '@emotion/core': require.resolve('@emotion/react'),
+          'emotion-theming': require.resolve('@emotion/react'),
+          '@emotion/styled': require.resolve('@emotion/styled'),
+        },
+      },
+    };
   },
   typescript: {
     check: false,
